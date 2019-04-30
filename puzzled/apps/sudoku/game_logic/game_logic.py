@@ -35,7 +35,21 @@ class Sudoku:
         self.__puzzle = self.__validate(puzzle)
 
     def solve(self):
-        pass
+        i, j = self._find_next_empty_cell()
+
+        if i == -1:
+            return self
+
+        for rand_num in range(1, (self.type*self.type + 1)):
+            if self._is_valid(i, j, rand_num):
+                implications = self.generate_implications(i, j, rand_num)
+
+                if self.solve():
+                    return self
+
+                self.undo_implications(implications)
+
+        return False
 
     def generate(self):
         pass
@@ -155,12 +169,6 @@ class Sudoku:
         return [(x[0], x[1], y[0], y[1]) for x in sector for y in sector]
 
     def _find_next_empty_cell(self):
-        # gen = ((x, y) for x in range(self.type*self.type) for y in range(self.type*self.type) if not self.puzzle[x][y])
-
-        # try:
-        #     return next(self.empty_cells)
-        # except StopIteration:
-        #     return -1, -1
         for i in range(self.type*self.type):
             for j in range(self.type*self.type):
                 if not self.puzzle[i, j]:
