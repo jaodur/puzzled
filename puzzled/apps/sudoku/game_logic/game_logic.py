@@ -154,6 +154,60 @@ class Sudoku:
 
         return [(x[0], x[1], y[0], y[1]) for x in sector for y in sector]
 
+    def _find_next_empty_cell(self):
+        # gen = ((x, y) for x in range(self.type*self.type) for y in range(self.type*self.type) if not self.puzzle[x][y])
+
+        # try:
+        #     return next(self.empty_cells)
+        # except StopIteration:
+        #     return -1, -1
+        for i in range(self.type*self.type):
+            for j in range(self.type*self.type):
+                if not self.puzzle[i, j]:
+                    return i, j
+        return -1, -1
+
+    def _is_valid(self, i, j, num):
+        x0, x1, y0, y1 = [(x1, x2, y1, y2) for x1, x2, y1, y2 in self.sectors if x1 <= i < x2 and y1 <= j < y2][0]
+        return (
+                num not in self.puzzle[i, :] and
+                num not in self.puzzle[:, j] and
+                num not in self.puzzle[x0:x1, y0:y1].ravel()
+        )
+
+    def generate_implications(self, i, j, num):
+        self.puzzle[i, j] = num
+        impl = [(i, j, num)]
+
+        for position, coordinates in enumerate(self.sectors):
+            x0, x1, y0, y1 = coordinates
+            possible_values = set(range(1, self.type * self.type + 1))
+
+            for value in self.puzzle[x0:x1, y0:y1].ravel():
+                possible_values.discard(value) if value else None
+
+            for minor_pos, value in enumerate(self.puzzle[x0:x1, y0:y1].ravel()):
+                row, col = self.get_pos(position, minor_pos)
+
+                if not value:
+                    # values in ith row and jth col
+                    values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]))
+
+                    # remove values from possible values
+                    final_possible_values = possible_values.difference(values)
+
+                    if len(final_possible_values) == 1:
+                        val = final_possible_values.pop()
+                        if self._is_valid(row, col, val):
+                            self.puzzle[row, col] = val
+                            impl.append((row, col, val))
+
+        return impl
+
+    def undo_implications(self, impl):
+        for x, y, _ in impl:
+            self.puzzle[x, y] = 0
+
     def __str__(self):
 
         sep = '----'
