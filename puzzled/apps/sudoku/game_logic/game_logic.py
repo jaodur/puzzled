@@ -1,7 +1,16 @@
 import numpy as np
+import time
+from itertools import combinations
+from math import floor
 
 
 class Sudoku:
+
+    def timer(self):
+        return self.sptime - self.sttime
+
+    def t2(self):
+        return self.s - self.t
 
     def __init__(self, puzzle, type):
         self.puzzle_orig = puzzle
@@ -10,6 +19,13 @@ class Sudoku:
         self.main_axis_pos_mapper, self.minor_axis_pos_mapper = self.sector_position_mapper()
         self.position = [i for i in range(self.type * self.type)]
         self.puzzle = puzzle
+        self.singleton_mapper = self.row_col_mapper()
+
+        self.backtrack = 0
+        self.sttime = None
+        self.sptime = None
+        self.t = None
+        self.s = None
 
     @property
     def type(self):
@@ -34,20 +50,58 @@ class Sudoku:
     def puzzle(self, puzzle):
         self.__puzzle = self.__validate(puzzle)
 
-    def solve(self):
-        i, j = self._find_next_empty_cell()
+    def logic_solve(self):
+
+        # missing_values = self._get_missing_values()
+        #
+        # for row, col, possible_values in missing_values:
+        #     if len(possible_values) == 1:
+        #         self.puzzle[row, col] = possible_values.pop()
+        #         found = True
+        #         continue
+        #     if self._check_singletons(row, col, possible_values):
+        #         found = True
+
+        missing_values = self._get_missing_values()
+        self.t = time.time()
+        found = True
+        counter = 0
+        # missing_values = [
+        #     (i, j) for i in range(self.type*self.type - 1) for j in range(self.type*self.type - 1) if not self.puzzle[i, j]
+        # ]
+        while found:
+            missing_values = self._get_missing_values()
+            found = False
+            # counter += 1
+            # print('counter', counter)
+
+            for row, col, possible_values in missing_values:
+                if len(possible_values) == 1:
+                    self.puzzle[row, col] = possible_values.pop()
+                    found = True
+                    continue
+                if self._check_singletons(row, col, possible_values):
+                    found = True
+        self.s = time.time()
+
+    def brute_solve(self):
+        self.sttime = time.time() if not self.sttime else self.sttime
+
+        i, j, possible_values = self._find_next_empty_cell()
 
         if i == -1:
+            self.sptime = time.time()
             return self
 
-        for rand_num in range(1, (self.type*self.type + 1)):
-            if self._is_valid(i, j, rand_num):
-                implications = self.generate_implications(i, j, rand_num)
+        for num in possible_values:
+            implications = self.generate_implications(i, j, num)
 
-                if self.solve():
-                    return self
+            if self.brute_solve():
+                self.sptime = time.time()
+                return self
 
-                self.undo_implications(implications)
+            self.undo_implications(implications)
+            self.backtrack += 1
 
         return False
 
@@ -168,53 +222,164 @@ class Sudoku:
 
         return [(x[0], x[1], y[0], y[1]) for x in sector for y in sector]
 
-    def _find_next_empty_cell(self):
-        for i in range(self.type*self.type):
-            for j in range(self.type*self.type):
-                if not self.puzzle[i, j]:
-                    return i, j
-        return -1, -1
+    def _get_sector(self, row, col):
+        row = floor(row / self.type) * self.type
+        col = floor(col / self.type) * self.type
+        return self.puzzle[row:row + self.type, col:col + self.type].ravel()
 
-    def _is_valid(self, i, j, num):
-        x0, x1, y0, y1 = [(x1, x2, y1, y2) for x1, x2, y1, y2 in self.sectors if x1 <= i < x2 and y1 <= j < y2][0]
-        return (
-                num not in self.puzzle[i, :] and
-                num not in self.puzzle[:, j] and
-                num not in self.puzzle[x0:x1, y0:y1].ravel()
-        )
+    def _find_next_empty_cell(self):
+
+        empty_cells = self._get_missing_values()
+        return empty_cells[0] if empty_cells else (-1, -1, -1)
+
+    def _is_valid(self, i, j, num, sector=()):
+        if not len(sector):
+            sector = self._get_sector(i, j)
+
+        return num not in set(sector).union(set(self.puzzle[i, :]), set(self.puzzle[:, j]))
 
     def generate_implications(self, i, j, num):
         self.puzzle[i, j] = num
         impl = [(i, j, num)]
+        done = False
 
-        for position, coordinates in enumerate(self.sectors):
-            x0, x1, y0, y1 = coordinates
+        while not done:
+            done = True
             possible_values = set(range(1, self.type * self.type + 1))
 
-            for value in self.puzzle[x0:x1, y0:y1].ravel():
-                possible_values.discard(value) if value else None
+            for position, coordinates in enumerate(self.sectors):
+                x0, x1, y0, y1 = coordinates
+                sec_array = self.puzzle[x0:x1, y0:y1].ravel()
 
-            for minor_pos, value in enumerate(self.puzzle[x0:x1, y0:y1].ravel()):
-                row, col = self.get_pos(position, minor_pos)
+                for minor_pos, value in enumerate(sec_array):
 
-                if not value:
-                    # values in ith row and jth col
-                    values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]))
+                    if not value:
+                        row, col = self.get_pos(position, minor_pos)
+                        filled_values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]), sec_array)
+                        final_possible_values = possible_values.difference(filled_values)
 
-                    # remove values from possible values
-                    final_possible_values = possible_values.difference(values)
-
-                    if len(final_possible_values) == 1:
-                        val = final_possible_values.pop()
-                        if self._is_valid(row, col, val):
+                        val = final_possible_values.pop() if len(final_possible_values) == 1 else None
+                        if val and self._is_valid(row, col, val):
                             self.puzzle[row, col] = val
                             impl.append((row, col, val))
+                            done = False
 
         return impl
 
     def undo_implications(self, impl):
         for x, y, _ in impl:
             self.puzzle[x, y] = 0
+
+    def _get_missing_values(self):
+        possible_values = []
+        arr = set(range(1, self.type * self.type + 1))
+
+        for position, coordinates in enumerate(self.sectors):
+            x0, x1, y0, y1 = coordinates
+
+            sec_array = self.puzzle[x0:x1, y0:y1].ravel()
+
+            for minor_pos, value in enumerate(sec_array):
+
+                if not value:
+                    row, col = self.get_pos(position, minor_pos)
+                    filled_values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]), sec_array)
+                    missing_values = arr.difference(filled_values)
+                    possible_values.append((row, col, missing_values))
+
+        return sorted(possible_values, key=lambda val: len(val[2]))
+
+    def _check_singletons(self, row, col, possible_values):
+
+        sector_row = (row // self.type) * self.type
+        sector_col = (col // self.type) * self.type
+
+        sector = [
+            val for val in
+            self.puzzle[sector_row:sector_row+self.type, sector_col:sector_col+self.type].ravel()
+            if val
+            ]
+        perpen_rows = self.puzzle[self.singleton_mapper.get(row, []), :].ravel()
+        perpen_cols = self.puzzle[:, self.singleton_mapper.get(col, [])].ravel()
+
+        perpen_rows = [n for n in perpen_rows if n and n not in sector and n in possible_values]
+        perpen_cols = [n for n in perpen_cols if n and n not in sector and n in possible_values]
+
+        combined = np.bincount(np.array(np.concatenate([perpen_rows, perpen_cols]), dtype=np.int))
+
+        num = list(np.where(combined == 2*(self.type - 1))[0])
+
+        if num:
+            self.puzzle[row, col] = num[0]
+            return True
+
+        # num = list(np.where(combined == self.type)[0])
+        #
+        # row_sec = self.puzzle[row, sector_col:sector_col+self.type]; row_sec = row_sec[row_sec == 0]
+        # col_sec = self.puzzle[sector_row:sector_row+self.type, col]; col_sec = col_sec[col_sec == 0]
+        #
+        # if num:
+        #     print('*****************************')
+        #     print('coord', (row, col), 'num', num, 'pos values', possible_values, 'sector', sector)
+        #     print('row sec', row_sec, 'col sec', col_sec)
+        #     print('num', num)
+        #     print(self)
+
+
+        # row_sec = self.puzzle[row, sector_col:sector_col+self.type]; row_sec = row_sec[row_sec == 0]
+        # col_sec = self.puzzle[sector_row:sector_row+self.type, col]; col_sec = col_sec[col_sec == 0]
+        #
+        # num1 = np.where(combined == self.type)[0]
+        # num = [n for n in num1 if n in possible_values and n not in sector]
+        #
+        # print('*****************************')
+        # print('coord', (row, col), 'num', num, 'pos values', possible_values, 'sector', sector)
+        # print('row sec', row_sec, 'col sec', col_sec)
+        # print('num1', num1, 'num', num)
+        #
+        # if num and (len(row_sec) < self.type or len(col_sec) < self.type):
+        #     print(self)
+        #
+        # perpen_rows = [n for n in perpen_rows if n and n not in sector]
+        # perpen_cols = [n for n in perpen_cols if n and n not in sector]
+        # combined = np.bincount(np.concatenate([perpen_rows, perpen_cols]))
+        #
+        # if len
+        #
+        # # perpen_rows = self.puzzle[self.singleton_mapper.get(row, []), sector_row:].ravel()
+        # # perpen_cols = self.puzzle[sector_col:, self.singleton_mapper.get(row, [])].ravel()
+        #
+        # print('rows', perpen_rows, 'cols', perpen_cols)
+
+        # perpen_rows = np.bincount(self.puzzle[self.singleton_mapper.get(row, []), :].ravel())
+        # perpen_cols = np.bincount(self.puzzle[:, self.singleton_mapper.get(row, [])].ravel())
+
+        return False
+
+        # x0, x1, y0, y1 = coords
+        # row_sec = self.puzzle[row, y0:y1]; row_sec = row_sec[row_sec!=0]
+        # col_sec = self.puzzle[x0:x1, col]; col_sec = col_sec[col_sec!=0]
+        #
+        perpen_rows = np.bincount(self.puzzle[self.singleton_mapper.get(row, []), :].ravel())
+        perpen_cols = np.bincount(self.puzzle[:, self.singleton_mapper.get(row, [])].ravel())
+
+        # num_row = np.where(perpen_rows == (self.type - 1))[0]
+        # num_col = np.where(perpen_cols == (self.type - 1))[0]
+        #
+        # # if num_row and num_col and num_row == num_col and (len(row_sec) == 1 or len(col_sec) == 1):
+        # # if num_row and num_col and (len(row_sec) == 1 or len(col_sec) == 1):
+        # if len(num_row) and len(num_col):
+        #     return row, col, num_row[0]
+        # return False
+
+    def row_col_mapper(self):
+        mapper = {}
+        arr = np.array(range(self.type*self.type)).reshape(-1, self.type)
+        for lst in arr:
+            comb = combinations(lst, self.type - 1)
+            for key, value in zip(reversed(lst), comb):
+                mapper.__setitem__(key, value)
+        return mapper
 
     def __str__(self):
 
