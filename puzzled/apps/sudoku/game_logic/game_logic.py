@@ -2,6 +2,7 @@ import numpy as np
 import time
 from itertools import combinations
 from math import floor
+from bisect import insort
 
 
 class Sudoku:
@@ -50,6 +51,10 @@ class Sudoku:
     def puzzle(self, puzzle):
         self.__puzzle = self.__validate(puzzle)
 
+    def solve(self):
+        self.logic_solve()
+        return self.brute_solve()
+
     def logic_solve(self):
 
         # missing_values = self._get_missing_values()
@@ -62,7 +67,7 @@ class Sudoku:
         #     if self._check_singletons(row, col, possible_values):
         #         found = True
 
-        missing_values = self._get_missing_values()
+        # missing_values = self._get_missing_values()
         self.t = time.time()
         found = True
         counter = 0
@@ -76,12 +81,18 @@ class Sudoku:
             # print('counter', counter)
 
             for row, col, possible_values in missing_values:
+                # print('row col', row, col)
                 if len(possible_values) == 1:
                     self.puzzle[row, col] = possible_values.pop()
                     found = True
                     continue
                 if self._check_singletons(row, col, possible_values):
                     found = True
+
+            for row, col, possible_values in missing_values:
+                if self.check_sector_singleton(row, col, possible_values):
+                    found = True
+
         self.s = time.time()
 
     def brute_solve(self):
@@ -270,8 +281,9 @@ class Sudoku:
         for x, y, _ in impl:
             self.puzzle[x, y] = 0
 
-    def _get_missing_values(self):
+    def _get_missing_values(self, dict_output_format=False):
         possible_values = []
+        missing_val_dict = {}
         arr = set(range(1, self.type * self.type + 1))
 
         for position, coordinates in enumerate(self.sectors):
@@ -286,13 +298,17 @@ class Sudoku:
                     filled_values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]), sec_array)
                     missing_values = arr.difference(filled_values)
                     possible_values.append((row, col, missing_values))
+                    missing_val_dict[f'{row}-{col}'] = missing_values
 
-        return sorted(possible_values, key=lambda val: len(val[2]))
+        return missing_val_dict if dict_output_format else sorted(possible_values, key=lambda val: len(val[2]))
+
+    def _get_sector_start_coords(self, row, col):
+        start_row = (row // self.type) * self.type
+        start_col = (col // self.type) * self.type
+        return start_row, start_col
 
     def _check_singletons(self, row, col, possible_values):
-
-        sector_row = (row // self.type) * self.type
-        sector_col = (col // self.type) * self.type
+        sector_row, sector_col = self._get_sector_start_coords(row, col)
 
         sector = [
             val for val in
@@ -313,64 +329,84 @@ class Sudoku:
             self.puzzle[row, col] = num[0]
             return True
 
-        # num = list(np.where(combined == self.type)[0])
-        #
-        # row_sec = self.puzzle[row, sector_col:sector_col+self.type]; row_sec = row_sec[row_sec == 0]
-        # col_sec = self.puzzle[sector_row:sector_row+self.type, col]; col_sec = col_sec[col_sec == 0]
-        #
-        # if num:
-        #     print('*****************************')
-        #     print('coord', (row, col), 'num', num, 'pos values', possible_values, 'sector', sector)
-        #     print('row sec', row_sec, 'col sec', col_sec)
-        #     print('num', num)
-        #     print(self)
+        num = list(np.where(combined == self.type)[0])
+        row_sec = self.puzzle[row, sector_col:sector_col+self.type]; row_sec_filtered = row_sec[row_sec == 0]
+        col_sec = self.puzzle[sector_row:sector_row+self.type, col]; col_sec_filtered = col_sec[col_sec == 0]
 
-
-        # row_sec = self.puzzle[row, sector_col:sector_col+self.type]; row_sec = row_sec[row_sec == 0]
-        # col_sec = self.puzzle[sector_row:sector_row+self.type, col]; col_sec = col_sec[col_sec == 0]
-        #
-        # num1 = np.where(combined == self.type)[0]
-        # num = [n for n in num1 if n in possible_values and n not in sector]
-        #
-        # print('*****************************')
-        # print('coord', (row, col), 'num', num, 'pos values', possible_values, 'sector', sector)
-        # print('row sec', row_sec, 'col sec', col_sec)
-        # print('num1', num1, 'num', num)
-        #
-        # if num and (len(row_sec) < self.type or len(col_sec) < self.type):
-        #     print(self)
-        #
-        # perpen_rows = [n for n in perpen_rows if n and n not in sector]
-        # perpen_cols = [n for n in perpen_cols if n and n not in sector]
-        # combined = np.bincount(np.concatenate([perpen_rows, perpen_cols]))
-        #
-        # if len
-        #
-        # # perpen_rows = self.puzzle[self.singleton_mapper.get(row, []), sector_row:].ravel()
-        # # perpen_cols = self.puzzle[sector_col:, self.singleton_mapper.get(row, [])].ravel()
-        #
-        # print('rows', perpen_rows, 'cols', perpen_cols)
-
-        # perpen_rows = np.bincount(self.puzzle[self.singleton_mapper.get(row, []), :].ravel())
-        # perpen_cols = np.bincount(self.puzzle[:, self.singleton_mapper.get(row, [])].ravel())
+        if self._t(row, col, possible_values, sector, num, col_sec_filtered, row_sec, col_sec, row_axis=False):
+            return True
+        if self._t(row, col, possible_values, sector, num, row_sec_filtered, row_sec, col_sec):
+            return True
 
         return False
 
-        # x0, x1, y0, y1 = coords
-        # row_sec = self.puzzle[row, y0:y1]; row_sec = row_sec[row_sec!=0]
-        # col_sec = self.puzzle[x0:x1, col]; col_sec = col_sec[col_sec!=0]
-        #
-        perpen_rows = np.bincount(self.puzzle[self.singleton_mapper.get(row, []), :].ravel())
-        perpen_cols = np.bincount(self.puzzle[:, self.singleton_mapper.get(row, [])].ravel())
+    def _t(self, row, col, possible_values, sector, num, filtered_sec, row_sec, col_sec, row_axis=True):
+        rows = self.singleton_mapper.get(row); rows_unfiltered = rows[:]; insort(rows_unfiltered, row)
+        cols = self.singleton_mapper.get(col); cols_unfiltered = cols[:]; insort(cols_unfiltered, col)
 
-        # num_row = np.where(perpen_rows == (self.type - 1))[0]
-        # num_col = np.where(perpen_cols == (self.type - 1))[0]
-        #
-        # # if num_row and num_col and num_row == num_col and (len(row_sec) == 1 or len(col_sec) == 1):
-        # # if num_row and num_col and (len(row_sec) == 1 or len(col_sec) == 1):
-        # if len(num_row) and len(num_col):
-        #     return row, col, num_row[0]
-        # return False
+        if num and len(filtered_sec) == self.type - 1:
+            parallel_values = self.puzzle[:, cols].ravel() if not row_axis else self.puzzle[rows, :].ravel()
+            arr = list(np.where(np.bincount([n for n in parallel_values if n in possible_values and n not in sector])
+                                == self.type - 1)[0])
+
+            if arr:
+                if len(filtered_sec) == 1:
+                    self.puzzle[row, col] = arr[0]
+                    return True
+            #
+            #     row_col = col if row_axis else row
+            #     filter_zip = [row_sec, cols_unfiltered] if row_axis else [col_sec, rows_unfiltered]
+            #
+            #     filtered_rows_cols = [n[1] for n in zip(*filter_zip) if not n[0] and n[1] != row_col and n is not False]
+            #     values_filtered_rows_cols = self.puzzle[:, filtered_rows_cols].ravel() if row_axis \
+            #         else self.puzzle[filtered_rows_cols, :].ravel()
+            #
+            #     matched_indices = np.where(values_filtered_rows_cols == arr[0])[0]
+            #
+            #     if matched_indices:
+            #         self.puzzle[row, col] = arr[0]
+            #         return True
+
+        if len(filtered_sec) == 1:
+            filtered_rows_cols = self.singleton_mapper.get(row) if row_axis else self.singleton_mapper.get(col)
+            values_rows_cols = self.puzzle[filtered_rows_cols, :].ravel() if row_axis else \
+                self.puzzle[:, filtered_rows_cols].ravel()
+            filtered_values = np.bincount([n for n in values_rows_cols if n in possible_values and n not in sector])
+            matched_indices = list(np.where(filtered_values == self.type - 1)[0])
+
+            if matched_indices:
+                self.puzzle[row, col] = matched_indices[0]
+                return True
+
+    def check_sector_singleton(self, row, col, possible_values):
+
+        sector_row, sector_col = self._get_sector_start_coords(row, col)
+
+        found = False
+        unfilled_pos = self._get_unfilled_sector_pos(sector_row, sector_col)
+
+        for val in possible_values:
+            valid_ = []
+            for row, col in unfilled_pos:
+                if self._is_valid(row, col, val):
+                    valid_.append((row, col))
+
+            if len(valid_) == 1:
+                row, col = valid_[0]
+                self.puzzle[row, col] = val
+                found = True
+        return found
+
+    def _get_unfilled_sector_pos(self, first_coord_row, first_coord_col):
+        coords = []
+        sec = self.puzzle[first_coord_row:first_coord_row + self.type, first_coord_col:first_coord_col + self.type].ravel()
+        unfilled_pos = np.where(sec == 0)[0]
+
+        for pos in unfilled_pos:
+            x = first_coord_row + (pos // self.type)
+            y = first_coord_col + (pos % self.type)
+            coords.append((x, y))
+        return coords
 
     def row_col_mapper(self):
         mapper = {}
@@ -378,7 +414,7 @@ class Sudoku:
         for lst in arr:
             comb = combinations(lst, self.type - 1)
             for key, value in zip(reversed(lst), comb):
-                mapper.__setitem__(key, value)
+                mapper.__setitem__(key, list(value))
         return mapper
 
     def __str__(self):
