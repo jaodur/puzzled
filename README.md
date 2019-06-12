@@ -23,10 +23,9 @@ using this command `git clone -b develop https://github.com/ja-odur/puzzled.git`
 command above after installing and activating a `Python` virtual environment.
 
 ### __Installing virtual environment__
-Using pipenv, start the environment through command `pipenv shell`
-* Install the required dependencies through command `pipenv install`
-* Install the required dependencies through command `pipenv shell install -r requirements.txt`
-* $**`[sudo] pip install virtualenv`**
+* Using pipenv, start the environment and install requirements
+* $**`pipenv shell`**
+* >>>**`pipenv install`**
 
 Create a new virtual environment using the command shown below where`ENV` is a directory to place the new virtual 
 environment.
