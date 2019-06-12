@@ -16,14 +16,16 @@ The app is built with ___Python/Django___ and __graphene__ for its backend.
 
 ## __Cloning and installing dependencies__
 * After installing the **`prerequisites`** above, clone the repository Develop branch
-using this command `git clone -b Develop https://github.com/jaodur/Book-A-Meal_api.git`
-* Change into the newly cloned repo through `cd Book-A-Meal_api`
+using this command `git clone -b develop https://github.com/ja-odur/puzzled.git`
+* Change into the newly cloned repo through `cd puzzled`
 * Install the required dependencies through command `pip3 install -r requirements.txt`
  **`Note`** These dependencies can be installed in virtual environment, by running the same
 command above after installing and activating a `Python` virtual environment.
 
 ### __Installing virtual environment__
-Using pip install the virtualenv package in terminal as shown below
+Using pipenv, start the environment through command `pipenv shell`
+* Install the required dependencies through command `pipenv install`
+* Install the required dependencies through command `pipenv shell install -r requirements.txt`
 * $**`[sudo] pip install virtualenv`**
 
 Create a new virtual environment using the command shown below where`ENV` is a directory to place the new virtual 
