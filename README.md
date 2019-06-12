@@ -1,5 +1,5 @@
 ## __Puzzled__ 
-Is a web based gaming app. The app cuurent can crack any 2x2 or 3x3 Sudoku puzzles. 
+Is a web based gaming app. The app currently can crack any 2x2 or 3x3 Sudoku puzzles. 
 comming soon poker
 
 The app is built with ___Python/Django___ and __graphene__ for its backend.
