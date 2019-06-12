@@ -24,8 +24,8 @@ command above after installing and activating a `Python` virtual environment.
 
 ### __Installing virtual environment__
 * Using pipenv, start the environment and install requirements
-* $**`pipenv shell`**
-* >>>**`pipenv install`**
+* $ **`pipenv shell`**
+* $ **`pipenv install`**
 
 Create a new virtual environment using the command shown below where`ENV` is a directory to place the new virtual 
 environment.
