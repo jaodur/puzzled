@@ -1,0 +1,21 @@
+language: python
+python:
+- '3.6.5'
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - python manage.py makemigrations
+  - python manage.py migrate
+
+install:
+  - pip install pipenv
+  - pipenv install --skip-lock
+
+script:
+- coverage run --source='puzzled/apps' manage.py test && coverage report
+
+after_success:
+- coveralls
