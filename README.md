@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ja-odur/puzzled.svg?branch=develop)](https://travis-ci.org/ja-odur/puzzled)
 ## __Puzzled__ 
 Is a web based gaming app. The app currently can crack any 2x2 or 3x3 Sudoku puzzles. 
 comming soon poker
