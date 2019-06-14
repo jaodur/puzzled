@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/ja-odur/puzzled.svg?branch=develop)](https://travis-ci.org/ja-odur/puzzled)
-[![Coverage Status](https://coveralls.io/repos/github/ja-odur/puzzled/badge.svg?branch=develop)](https://coveralls.io/github/ja-odur/puzzled?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/ja-odur/puzzled/badge.svg?branch=develop)](https://coveralls.io/github/ja-odur/puzzled?branch=develop&service=github)
 ## __Puzzled__ 
 Is a web based gaming app. The app currently can crack any 2x2 or 3x3 Sudoku puzzles. 
 comming soon poker
