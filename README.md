@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ja-odur/puzzled/badge.svg?branch=develop)](https://coveralls.io/github/ja-odur/puzzled?branch=develop&service=github)
 ## __Puzzled__ 
 Is a web based gaming app. The app currently can crack any 2x2 or 3x3 Sudoku puzzles. 
+
 comming soon poker
 
 The app is built with ___Python/Django___ and __graphene__ for its backend.
@@ -27,13 +28,13 @@ command above after installing and activating a `Python` virtual environment.
 ### __Installing virtual environment__
 * Using pipenv, start the environment and install requirements
 * $ **`pipenv shell`**
-* $ **`pipenv install`**
+* $ **`pipenv install`**. That didn't work,  try **`pipenv install --skip-lock`** 
 
 
 ## __Starting the application__
-After cloning and installing the required dependencies, start the app using the command
+* After cloning and installing the required dependencies, start the app using the command
 below
-**`python manage.py runserver`** in [terminal](https://www.taniarascia.com/how-to-use-the-command-line-for-apple-macos-and-linux/)
+* $ **`python manage.py runserver`** in [terminal](https://www.taniarascia.com/how-to-use-the-command-line-for-apple-macos-and-linux/)
 
 ## __Author__
 
