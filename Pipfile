@@ -16,6 +16,7 @@ pytest = "*"
 pytest-cov = "*"
 psycopg2-binary = "*"
 dj_database_url = "*"
+django-webpack-loader  = "*"
 
 [dev-packages]
 

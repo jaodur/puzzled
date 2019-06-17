@@ -42,7 +42,9 @@ INSTALLED_APPS = [
 
     # After the default packages
     'graphene_django',
-    'puzzled.apps.sudoku'
+    'puzzled.apps.sudoku',
+    'puzzled.apps.puzzled_front',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -124,4 +126,11 @@ STATIC_URL = '/static/'
 
 GRAPHENE = {
     'SCHEMA': 'puzzled.schema'
+}
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json')
+    }
 }

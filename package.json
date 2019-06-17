@@ -1,0 +1,34 @@
+{
+  "name": "puzzled",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/ja-odur/puzzled.svg?branch=develop)](https://travis-ci.org/ja-odur/puzzled) [![Coverage Status](https://coveralls.io/repos/github/ja-odur/puzzled/badge.svg?branch=develop)](https://coveralls.io/github/ja-odur/puzzled?branch=develop&service=github) ## __Puzzled__  Is a web based gaming app. The app currently can crack any 2x2 or 3x3 Sudoku puzzles.  comming soon poker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --progess --colors --mode development",
+    "watch": "webpack --config webpack.config.js --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaodur/puzzled.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaodur/puzzled/issues"
+  },
+  "homepage": "https://github.com/jaodur/puzzled#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^4.34.0",
+    "webpack-bundle-tracker": "^0.4.2-beta",
+    "webpack-cli": "^3.3.4"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
