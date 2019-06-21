@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import {Hello} from "./components/Hello";
+// import {Hello} from "./components/Hello";
+import Hello from "./components/Sudoku";
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -9,7 +10,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:8000'
+    uri: 'http://localhost:8000/graphql/'
 });
 
 const client = new ApolloClient({

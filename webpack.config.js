@@ -5,10 +5,10 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
     context: __dirname,
 
-    entry:'./puzzled/apps/puzzled_front/static/js/index.tsx',
+    entry:'./puzzled_ui/static/js/index.tsx',
 
     output: {
-        path: path.resolve('./puzzled/apps/puzzled_front/static/bundles/'),
+        path: path.resolve('./puzzled_ui/static/bundles/'),
         filename: '[name]-[hash].js'
     },
 
