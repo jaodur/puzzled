@@ -1,5 +1,19 @@
 import graphene
+from graphene_django import DjangoObjectType
 from .game_logic import Sudoku
+from .models import Sudoku as SudokuModel
+
+
+class SudokuType(DjangoObjectType):
+    class Meta:
+        model = SudokuModel
+
+
+class Query(graphene.ObjectType):
+    sodukus = graphene.List(SudokuType)
+
+    def resolve_sudokus(self, info, **kwargs):
+        return SudokuModel.objects.all()
 
 
 class SolveSudoku(graphene.Mutation):
