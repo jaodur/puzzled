@@ -21,6 +21,7 @@ export default function() {
                 <Fragment>
                     <h1>React TypeScript Apollo!</h1>
                     <button
+                        className='btn btn-primary'
                         onClick = {(e) => {
                             e.preventDefault();
                         solveSudoku({
