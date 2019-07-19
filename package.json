@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js --progess --colors --mode development",
-    "watch": "webpack --config webpack.config.js --mode development",
+    "watch": "webpack --config webpack.config.js --hot --mode development --watch",
     "start": "webpack-dev-server  — mode development — inline –hot"
   },
   "repository": {
@@ -30,12 +30,14 @@
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.3.1",
     "css-loader": "^3.0.0",
+    "file-loader": "^4.0.0",
     "node-sass": "^4.12.0",
     "react-hot-loader": "^4.11.1",
     "sass-loader": "^7.1.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "typescript": "^3.5.2",
+    "url-loader": "^2.0.1",
     "webpack": "^4.34.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.3.4",
