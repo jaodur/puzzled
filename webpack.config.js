@@ -30,8 +30,12 @@ module.exports = {
                 use: ['babel-loader']
             },
             {
-                test: /\.scss$/,
+                test: /\.sass$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(png|je?pg|webp)$/,
+                use: ['url-loader']
             },
             {
                 enforce: "pre",
@@ -42,7 +46,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss']
+        extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.sass', '.png']
     },
 
 };

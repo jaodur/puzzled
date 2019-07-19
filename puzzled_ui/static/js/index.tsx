@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import './styles/main';
 
 // import {Hello} from "./components/Hello";
-import Hello from "./components/Sudoku";
+import {Home} from "./components/homePage/Home";
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -21,7 +21,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <Hello />
+        <Home />
     </ApolloProvider>,
     document.getElementById("react")
 );
