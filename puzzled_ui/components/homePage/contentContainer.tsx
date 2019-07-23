@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RouterLink } from '../commons/link';
 
 let orangeGameContainer: string = 'game-container-orange';
 let blueGameContainer: string = 'game-container-blue';
@@ -7,6 +8,8 @@ let purpleGameContainer: string = 'game-container-purple';
 let charmGameContainer: string = 'game-container-charm';
 let stormGameContainer: string = 'game-container-storm';
 let mainContent: string = 'main-content';
+
+let linkNoStyle: string = 'link__no-style';
 
 function GamesIntro() {
     return (
@@ -45,14 +48,14 @@ function ContentContainer() {
         <React.Fragment>
             <GamesIntro/>
             <div className={`${mainContent}`}>
-                <Game gameClass={orangeGameContainer}/>
-                <Game gameClass={blueGameContainer}/>
-                <Game gameClass={redGameContainer}/>
-                <Game gameClass={purpleGameContainer}/>
-                <Game gameClass={charmGameContainer}/>
-                <Game gameClass={stormGameContainer}/>
-                <Game gameClass={purpleGameContainer}/>
-                <Game gameClass={orangeGameContainer}/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ orangeGameContainer } />} styleClass={ linkNoStyle }/>
+                <Game gameClass={ blueGameContainer }/>
+                <Game gameClass={ redGameContainer }/>
+                <Game gameClass={ purpleGameContainer }/>
+                <Game gameClass={ charmGameContainer }/>
+                <Game gameClass={ stormGameContainer }/>
+                <Game gameClass={ purpleGameContainer }/>
+                <Game gameClass={ orangeGameContainer }/>
             </div>
         </React.Fragment>
     )

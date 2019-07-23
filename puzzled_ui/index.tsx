@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './styles/main';
 
-// import {Hello} from "./components/Hello";
-import {Home} from "./components/homePage/Home";
+import { Home } from "./components/homePage/Home";
+import { SudokuHome } from "./components/sudoku/sudoku";
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -20,8 +21,14 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
-        <Home />
+    <ApolloProvider client={ client }>
+        <BrowserRouter>
+            <Switch>
+                <Route exact path="/" component={ Home } />
+                <Route exact path="/sudoku/" component={ SudokuHome } />
+            </Switch>
+        </BrowserRouter>
+
     </ApolloProvider>,
     document.getElementById("react")
 );
