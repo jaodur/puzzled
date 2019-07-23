@@ -11,8 +11,8 @@ export class Home extends React.Component {
         return [
             <NavBarContainer/>,
             <ContentContainer/>,
-            <Footer footerClass={footerClass}/>
-    ]
+            <Footer footerClass={ footerClass }/>
+        ]
     }
 }
 

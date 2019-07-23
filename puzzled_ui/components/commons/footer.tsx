@@ -1,9 +1,8 @@
 import * as React from "react";
+import { footerInterface } from '../interfaces'
 
-interface footer {
-    footerClass: string
-}
-function Footer({ footerClass }: footer) {
+
+function Footer({ footerClass }: footerInterface) {
     return (
         <div className= {footerClass}>
             <div className={`${footerClass}__email`}>
