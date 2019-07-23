@@ -1,20 +1,13 @@
 import * as React from "react";
+import { keyInterface, gridRowInterface} from '../interfaces'
 
-interface GridInterface {
-    numItems: number,
-    sudokuGridClass: string
-}
-interface key {
-    key: string
-}
-
-function TableData({ key }: key) {
+function TableData({ key }: keyInterface) {
     return (
         <td key={key}>&nbsp;</td>
     )
 }
 
-function GridRow({ numItems, sudokuGridClass }: GridInterface) {
+function GridRow({ numItems, sudokuGridClass }: gridRowInterface) {
 
     function CreateTableData(num: number) {
         let cells = Array();

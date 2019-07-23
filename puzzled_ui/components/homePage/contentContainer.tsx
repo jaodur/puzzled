@@ -1,5 +1,6 @@
 import * as React from "react";
 import { RouterLink } from '../commons/link';
+import { gameIntroInterface } from '../interfaces'
 
 let orangeGameContainer: string = 'game-container-orange';
 let blueGameContainer: string = 'game-container-blue';
@@ -23,11 +24,8 @@ function GamesIntro() {
     )
 }
 
-interface game {
-    gameClass: string
-}
 
-function Game({ gameClass }: game) {
+function Game({ gameClass }: gameIntroInterface) {
     return (
             <div className={gameClass}>
                 <div className={`${gameClass}__game-image`}><div></div></div>

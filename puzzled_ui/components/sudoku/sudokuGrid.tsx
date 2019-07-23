@@ -1,16 +1,8 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
+import { gridInterface, eventInterface } from '../interfaces'
 
-interface SudokuGridInterface {
-    num: number
-}
-
-interface event {
-    target: any
-}
-
-
-function SudokuGrid({ num }: SudokuGridInterface) {
+function SudokuGrid({ num }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ num:num, gridNums: getGridNums(num) });
 
@@ -33,7 +25,7 @@ function SudokuGrid({ num }: SudokuGridInterface) {
         return cells.map(cell=>cell);
     }
 
-    function selectOnChange(event: event) {
+    function selectOnChange(event: eventInterface) {
 
         let newNum: number = event.target.value;
         changeGridState({num: newNum, gridNums: getGridNums(newNum)});
