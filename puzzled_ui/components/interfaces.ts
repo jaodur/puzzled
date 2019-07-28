@@ -5,7 +5,7 @@ interface puzzleInterface {
 }
 
 interface gridInterface {
-    num: number
+    type: number
 }
 
 interface eventInterface {

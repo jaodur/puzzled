@@ -5,12 +5,12 @@ import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
-function SudokuGrid({ num }: gridInterface) {
+function SudokuGrid({ type }: gridInterface) {
 
-    const [ gridState, changeGridState ] = React.useState({ num:num, gridNums: getGridNums(num) });
+    const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
-    let sudokuGridClass: string = `sudoku-grid-${gridState.num}`;
+    let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
     function createDefaultPuzzle(gridNum: number){
         let finalArray = [];
@@ -25,7 +25,7 @@ function SudokuGrid({ num }: gridInterface) {
         if (number) {
             return number != 1 ?  number * number : 2;
         }
-        return num != 1 ?  num * num : 2;
+        return gridState.type != 1 ?  gridState.type * gridState.type : 2;
     }
 
     function updatePuzzleValue(row: number, col: number, val: string) {
@@ -47,16 +47,15 @@ function SudokuGrid({ num }: gridInterface) {
 
     function selectOnChange(event: eventInterface) {
 
-        let newNum: number = event.target.value;
-        setPuzzle(createDefaultPuzzle(getGridNums(newNum)));
-        changeGridState({num: newNum, gridNums: getGridNums(newNum)});
+        let newType: number = event.target.value;
+        setPuzzle(createDefaultPuzzle(getGridNums(newType)));
+        changeGridState({type: newType, gridNums: getGridNums(newType)});
     }
 
     function onKeyDown(row:number, col:number) {
 
         return function keyDown(event: eventInterface) {
             setPuzzle(updatePuzzleValue(row, col, event.key));
-            console.log(puzzle)
         }
     }
 
@@ -66,18 +65,18 @@ function SudokuGrid({ num }: gridInterface) {
             solve({
                 variables: {
                     puzzle: puzzle,
-                    pType: gridState.num
+                    pType: gridState.type
 
                 }
-            }).then((res:any) => {
-                setPuzzle(res.data.solveSudoku.puzzle);
+            }).then((response:any) => {
+                setPuzzle(response.data.solveSudoku.puzzle);
             });
         }
     }
 
     function clearPuzzle(event: eventInterface) {
         event.preventDefault();
-        setPuzzle(createDefaultPuzzle(getGridNums(gridState.num)))
+        setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)))
     }
 
 
