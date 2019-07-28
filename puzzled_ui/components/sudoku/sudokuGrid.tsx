@@ -52,6 +52,35 @@ function SudokuGrid({ num }: gridInterface) {
         changeGridState({num: newNum, gridNums: getGridNums(newNum)});
     }
 
+    function onKeyDown(row:number, col:number) {
+
+        return function keyDown(event: eventInterface) {
+            setPuzzle(updatePuzzleValue(row, col, event.key));
+            console.log(puzzle)
+        }
+    }
+
+    function solvePuzzle(solve: MutationFunc) {
+        return function (event: eventInterface) {
+            event.preventDefault();
+            solve({
+                variables: {
+                    puzzle: puzzle,
+                    pType: gridState.num
+
+                }
+            }).then((res:any) => {
+                setPuzzle(res.data.solveSudoku.puzzle);
+            });
+        }
+    }
+
+    function clearPuzzle(event: eventInterface) {
+        event.preventDefault();
+        setPuzzle(createDefaultPuzzle(getGridNums(gridState.num)))
+    }
+
+
     return (
 
         <React.Fragment>
@@ -65,6 +94,13 @@ function SudokuGrid({ num }: gridInterface) {
                         <option value={ 4 }>4x4</option>
                     </select>
                 </div>
+                <Mutation  mutation={ SOLVE_SUDOKU_MUTATION } >
+                    {(solvePuzzleCallBack: MutationFunc) => (
+                        <button onClick={ solvePuzzle(solvePuzzleCallBack) }>Solve</button>
+
+                    )}
+                </Mutation>
+                <button onClick={ clearPuzzle }>clear</button>
             </div>
             <div className={ `${ sudokuGridClass }__grid_wrapper` }>
 
