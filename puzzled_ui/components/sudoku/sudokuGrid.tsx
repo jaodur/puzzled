@@ -1,12 +1,25 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
-import { gridInterface, eventInterface } from '../interfaces'
+import { gridInterface, eventInterface, puzzleInterface } from '../interfaces'
+import * as _ from 'lodash';
+import { Mutation, MutationFunc } from "react-apollo";
+import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
 function SudokuGrid({ num }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ num:num, gridNums: getGridNums(num) });
+    const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.num}`;
+
+    function createDefaultPuzzle(gridNum: number){
+        let finalArray = [];
+        for (let i=0; i < gridNum; i++) {
+            let templateArray = _.fill(Array(gridNum), 0);
+            finalArray.push(templateArray)
+        }
+        return finalArray;
+    }
 
     function getGridNums(number?: number): number {
         if (number) {
@@ -15,11 +28,18 @@ function SudokuGrid({ num }: gridInterface) {
         return num != 1 ?  num * num : 2;
     }
 
-    function CreateTableRow(num: number) {
+    function updatePuzzleValue(row: number, col: number, val: string) {
+        let newPuzzle = puzzle.slice();
+        newPuzzle[row][col] = parseInt(val, 10);
+        return newPuzzle
+
+    }
+
+    function CreateTableRow(num: number, keyDown: any) {
         let cells = Array();
         for(let i = 0; i < num; i++){
-            cells.push(<GridRow numItems={num} sudokuGridClass={ sudokuGridClass } key={`table-row-${i}`}/>);
-
+            let puzzleObj: puzzleInterface = { puzzle: puzzle, mainPuzzleKey: i };
+            cells.push(<GridRow puzzle={ puzzleObj } keyDown={ keyDown } numItems={ num } sudokuGridClass={ sudokuGridClass } key={`table-row-${ i }`}/>);
         }
 
         return cells.map(cell=>cell);
@@ -28,10 +48,12 @@ function SudokuGrid({ num }: gridInterface) {
     function selectOnChange(event: eventInterface) {
 
         let newNum: number = event.target.value;
+        setPuzzle(createDefaultPuzzle(getGridNums(newNum)));
         changeGridState({num: newNum, gridNums: getGridNums(newNum)});
     }
 
     return (
+
         <React.Fragment>
             <div className={ `${ sudokuGridClass }__grid_type` }>
                 <div>
@@ -49,12 +71,13 @@ function SudokuGrid({ num }: gridInterface) {
                 <table className={ `${ sudokuGridClass }__grid_table` }>
                     <tbody>
 
-                        { CreateTableRow( gridState.gridNums ) }
+                        { CreateTableRow( gridState.gridNums, onKeyDown ) }
 
                     </tbody>
                 </table>
             </div>
         </React.Fragment>
+
     )
 }
 
