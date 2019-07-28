@@ -1,18 +1,29 @@
 import * as React from "react";
-import { keyInterface, gridRowInterface} from '../interfaces'
+import { keyInterface, gridRowInterface, puzzleInterface } from '../interfaces'
 
-function TableData({ key }: keyInterface) {
+function TableData({ indexKey, puzzle, keyDown }: keyInterface) {
+
+    function fillValue() {
+        let val = puzzle.puzzle[puzzle.mainPuzzleKey][puzzle.secPuzzleKey];
+        if (val !== 0){
+            return val;
+        }
+        return null;
+    }
     return (
-        <td key={key}>&nbsp;</td>
+        <td onKeyDown={keyDown(puzzle.mainPuzzleKey, puzzle.secPuzzleKey)} tabIndex={ -1 } key={indexKey}>
+            { fillValue() }
+        </td>
     )
 }
 
-function GridRow({ numItems, sudokuGridClass }: gridRowInterface) {
+function GridRow({ numItems, sudokuGridClass, puzzle, keyDown }: gridRowInterface) {
 
     function CreateTableData(num: number) {
         let cells = Array();
         for(let i = 0; i < num; i++){
-            cells.push(<TableData key={`table-data-${i}`}/>)
+            let newPuzzle: puzzleInterface = {puzzle: puzzle.puzzle, mainPuzzleKey: puzzle.mainPuzzleKey, secPuzzleKey: i };
+            cells.push(<TableData puzzle={ newPuzzle } keyDown={keyDown} indexKey={ `table-data-${i}` }/>)
         }
 
         return cells.map(cell=>cell);

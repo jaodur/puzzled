@@ -1,9 +1,17 @@
+interface puzzleInterface {
+    puzzle: Array<Array<number>>,
+    mainPuzzleKey: number,
+    secPuzzleKey?: number
+}
+
 interface gridInterface {
     num: number
 }
 
 interface eventInterface {
-    target: any
+    target: any,
+    key?: any,
+    preventDefault?: any
 }
 
 interface  routeLinkInterface {
@@ -14,10 +22,14 @@ interface  routeLinkInterface {
 
 interface gridRowInterface {
     numItems: number,
-    sudokuGridClass: string
+    sudokuGridClass: string,
+    puzzle: puzzleInterface,
+    keyDown: (row: number, col: number) => any
 }
 interface keyInterface {
-    key: string
+    indexKey: string,
+    puzzle: puzzleInterface
+    keyDown: (row: number, col: number) => any
 }
 
 interface gameIntroInterface {
@@ -30,5 +42,5 @@ interface footerInterface {
 
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, keyInterface, gameIntroInterface ,
-    footerInterface
+    footerInterface, puzzleInterface
 }
