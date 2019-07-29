@@ -21,6 +21,7 @@ from .schema import schema
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('puzzled_ui.urls')),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    path('', include('puzzled_ui.urls')),
+
 ]
