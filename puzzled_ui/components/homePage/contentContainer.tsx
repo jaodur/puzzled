@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RouterLink } from '../commons/link';
+import { RouterLink } from '../commons/links';
 import { gameIntroInterface } from '../interfaces'
 
 let orangeGameContainer: string = 'game-container-orange';

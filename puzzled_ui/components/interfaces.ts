@@ -20,6 +20,12 @@ interface  routeLinkInterface {
     styleClass: string
 }
 
+interface textLinkInterface {
+    text: string,
+    link: string,
+    styleClass?: string
+}
+
 interface gridRowInterface {
     numItems: number,
     sudokuGridClass: string,
@@ -40,9 +46,15 @@ interface footerInterface {
     footerClass: string
 }
 
+interface labelInterface {
+    text: string,
+    href: string,
+    style?: string
+}
+
 interface logoInterface {
-    primaryLabel: string,
-    secLabel?: string
+    primaryLabel: labelInterface,
+    secLabel?: labelInterface,
 }
 
 interface linkInterface {
@@ -52,13 +64,13 @@ interface linkInterface {
 }
 
 interface navbarInterface {
-    primaryLabel: string,
-    secLabel?: string,
+    primaryLabel: labelInterface,
+    secLabel?: labelInterface,
     navbarClass?: string;
     links: Array<linkInterface>
 }
 
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, keyInterface, gameIntroInterface ,
-    footerInterface, puzzleInterface, logoInterface, linkInterface, navbarInterface
+    footerInterface, puzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface, labelInterface
 }
