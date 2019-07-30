@@ -1,9 +1,8 @@
 import * as React from "react";
-import { SudokuGrid } from './sudokuGrid'
+import { SudokuGrid, defaultSudokuType } from './sudokuGrid'
 import { NavBar as SudokuNavBar }  from '../commons/NavBar';
 import { navbarInterface } from "../interfaces";
 
-const defaultSudokuType: number = 3;
 let linkNoStyle: string = 'link__no-style';
 
 let sudokuNavBarLinks: navbarInterface = {

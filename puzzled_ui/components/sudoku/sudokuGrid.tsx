@@ -5,6 +5,8 @@ import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
+const defaultSudokuType: number = 3;
+
 function SudokuGrid({ type }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
@@ -86,8 +88,7 @@ function SudokuGrid({ type }: gridInterface) {
             <div className={ `${ sudokuGridClass }__grid_type` }>
                 <div>
                     Type:
-                    <select onChange={ selectOnChange } defaultValue="3">
-                        <option value={ 1 }>1x1</option>
+                    <select onChange={ selectOnChange } defaultValue={ `${defaultSudokuType}` }>
                         <option value={ 2 }>2x2</option>
                         <option value={ 3 }>3x3</option>
                         <option value={ 4 }>4x4</option>
@@ -116,4 +117,4 @@ function SudokuGrid({ type }: gridInterface) {
     )
 }
 
-export { SudokuGrid };
+export { SudokuGrid, defaultSudokuType };
