@@ -1,10 +1,11 @@
 import * as React from "react";
+import { logoInterface } from "../interfaces";
 
 
-function Logo() {
+function Logo({ text }: logoInterface) {
     return (
         <div className='logo'>
-            puzzled
+            { text }
         </div>
     )
 }

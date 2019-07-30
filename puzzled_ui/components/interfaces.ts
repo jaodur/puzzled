@@ -40,7 +40,22 @@ interface footerInterface {
     footerClass: string
 }
 
+interface logoInterface {
+    text: string
+}
+
+interface linkInterface {
+    name: string,
+    href: string,
+    linkClass?: string,
+}
+
+interface navbarInterface {
+    navbarClass?: string;
+    links: Array<linkInterface>
+}
+
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, keyInterface, gameIntroInterface ,
-    footerInterface, puzzleInterface
+    footerInterface, puzzleInterface, logoInterface, linkInterface, navbarInterface
 }

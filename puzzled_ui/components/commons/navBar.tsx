@@ -1,25 +1,34 @@
 import * as React from "react";
 import { Logo } from './logo'
+import { linkInterface, navbarInterface } from "../interfaces";
 
 
-function NavBar() {
+function Link({ name, href, linkClass }: linkInterface){
     return (
-        <nav>
-            <Logo/>
+        <li className={ linkClass }>
+            <a href={ href }>{ name }</a>
+        </li>
+        )
+
+}
+
+
+function NavBar({ navbarClass, links }: navbarInterface) {
+    function createNavLinks(links: Array<linkInterface> ) {
+        let linksComponent = Array();
+
+        links.forEach( function (link, index) {
+            linksComponent.push(<Link name={ link.name } href={ link.href } key={`navBarLinks-${ index }`}/>)
+        });
+
+        return linksComponent.map(link=>link);
+    }
+    return (
+        <nav className={ navbarClass }>
+            <Logo text={ 'puzzled' }/>
             <ul>
-                <li>
-                    <a href='#'>Games</a>
-                </li>
-                <li>
-                    <a href='#'>Pin</a>
-                </li>
-                <li className="navbar-separator"></li>
-                <li>
-                    <a href='#'>Sign In</a>
-                </li>
-                <li>
-                    <a href='#'>Sign Up</a>
-                </li>
+                { createNavLinks(links) }
+
             </ul>
         </nav>
     )
