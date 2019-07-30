@@ -66,6 +66,14 @@ $thickBlue: #1b50b9
 @mixin nav-bar($bgColor: white, $height: 10%)
   nav
     background-color: $bgColor
+    height: #{$height}
+    //border: 2px solid green
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0
+    margin: 0
+
     div
       flex: 2 2
       //border: 1px solid red
@@ -75,13 +83,12 @@ $thickBlue: #1b50b9
       text-align: right
       text-transform: capitalize
       margin-right: 5%
-    height: #{$height}
-    //border: 2px solid green
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 0
-    margin: 0
+
+      span
+        margin: 5px
+        text-transform: lowercase
+        font-size: 1.5rem
+        color: black
 
     ul
       height: 100%

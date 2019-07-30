@@ -5,6 +5,8 @@ import { navbarInterface } from "../interfaces";
 const defaultSudokuType: number = 3;
 
 let sudokuNavBarLinks: navbarInterface = {
+    primaryLabel: 'puzzled',
+    secLabel: 'sudoku',
     links:
         [
             { name: 'Play', href: '#' },
@@ -21,7 +23,13 @@ let sudokuNavBarLinks: navbarInterface = {
 class SudokuHome extends React.Component {
     render(): Array<JSX.Element> {
         return [
-            <div className={'sudoku-nav'}><SudokuNavBar links={ sudokuNavBarLinks.links } key={ 'sudoku '}/></div>,
+            <div className={'sudoku-nav'}>
+                <SudokuNavBar
+                    primaryLabel={ sudokuNavBarLinks.primaryLabel }
+                    secLabel={ sudokuNavBarLinks.secLabel }
+                    links={ sudokuNavBarLinks.links }
+                    key={ 'sudoku '}/>
+            </div>,
             <SudokuGrid type={ defaultSudokuType }/>
         ]
 

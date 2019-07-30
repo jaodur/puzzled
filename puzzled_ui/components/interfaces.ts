@@ -41,7 +41,8 @@ interface footerInterface {
 }
 
 interface logoInterface {
-    text: string
+    primaryLabel: string,
+    secLabel?: string
 }
 
 interface linkInterface {
@@ -51,6 +52,8 @@ interface linkInterface {
 }
 
 interface navbarInterface {
+    primaryLabel: string,
+    secLabel?: string,
     navbarClass?: string;
     links: Array<linkInterface>
 }

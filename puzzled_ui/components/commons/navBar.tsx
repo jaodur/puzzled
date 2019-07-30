@@ -13,7 +13,7 @@ function Link({ name, href, linkClass }: linkInterface){
 }
 
 
-function NavBar({ navbarClass, links }: navbarInterface) {
+function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
     function createNavLinks(links: Array<linkInterface> ) {
         let linksComponent = Array();
 
@@ -25,7 +25,7 @@ function NavBar({ navbarClass, links }: navbarInterface) {
     }
     return (
         <nav className={ navbarClass }>
-            <Logo text={ 'puzzled' }/>
+            <Logo primaryLabel={ primaryLabel } secLabel={ secLabel }/>
             <ul>
                 { createNavLinks(links) }
 

@@ -4,6 +4,7 @@ import { AppName } from './appName'
 import { navbarInterface } from "../interfaces";
 
 let navBarLinks: navbarInterface = {
+    primaryLabel: 'puzzled',
     links:
         [
             { name: 'Games', href: '#' },
@@ -18,7 +19,7 @@ let navBarLinks: navbarInterface = {
 function NavBarContainer(): JSX.Element {
     return (
         <div className='navbar-container'>
-            <NavBar links={ navBarLinks.links } key={ 'main' }/>
+            <NavBar primaryLabel={ navBarLinks.primaryLabel } links={ navBarLinks.links } key={ 'main' }/>
             <AppName/>
         </div>
     )
