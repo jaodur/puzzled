@@ -23,7 +23,13 @@ function GridRow({ numItems, sudokuGridClass, puzzle, keyDown }: gridRowInterfac
         let cells = Array();
         for(let i = 0; i < num; i++){
             let newPuzzle: puzzleInterface = {puzzle: puzzle.puzzle, mainPuzzleKey: puzzle.mainPuzzleKey, secPuzzleKey: i };
-            cells.push(<TableData puzzle={ newPuzzle } keyDown={keyDown} indexKey={ `table-data-${i}` }/>)
+            cells.push(
+                <TableData
+                    puzzle={ newPuzzle }
+                    keyDown={keyDown}
+                    indexKey={ `table-data-${i}` }
+                    key={`table-row-${i}`}
+                />)
         }
 
         return cells.map(cell=>cell);

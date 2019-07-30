@@ -63,6 +63,71 @@ $thickBlue: #1b50b9
       font-size: 1rem
       line-height: 1.4rem
 
+@mixin nav-bar($bgColor: white, $height: 10%)
+  nav
+    background-color: $bgColor
+    height: #{$height}
+    //border: 2px solid green
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0
+    margin: 0
+
+    div
+      flex: 2 2
+      //border: 1px solid red
+      color: darken(grey, 20%)
+      align-self: center
+      font-size: $baseFontSize + 20
+      text-align: right
+      text-transform: capitalize
+      margin-right: 5%
+
+      span
+        margin: 5px
+        text-transform: lowercase
+        font-size: 1.5rem
+        color: black
+
+    ul
+      height: 100%
+      margin: 5%
+      padding: 0
+      list-style: none
+      display: flex
+      //border: 5px solid ?]grey
+      //flex-direction: row-reverse
+      align-items: center
+      //justify-content: center
+      flex: 8 1
+
+      li
+        margin: 0 1%
+        //padding: .1mm 1%
+        height: 60%
+        //border: 1px solid red
+        font-size: $baseFontSize + 5
+        font-weight: 100
+        //font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif
+        line-height: 1
+        display: flex
+        align-items: center
+
+        &:first-child
+          align-self: left
+
+        &:nth-child(3)
+          flex: 1 1 auto
+
+        &:hover
+          a
+            color: $thickBlue
+
+        a
+          color: black
+          text-decoration: none
+
 
 // *********************** styles ******************************
 
@@ -76,6 +141,7 @@ body
 .link
   &__no-style
     text-decoration: none
+    color: inherit
 
 .navbar-container
   //background-color: $thickBlue
@@ -95,61 +161,7 @@ body
       margin: 0
       @include large-font
 
-  nav
-    background-color: white
-    div
-      flex: 2 2
-      //border: 1px solid red
-      color: darken(grey, 20%)
-      align-self: center
-      font-size: $baseFontSize + 20
-      text-align: right
-      text-transform: capitalize
-      margin-right: 5%
-    height: 10%
-    //border: 2px solid green
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 0
-    margin: 0
-
-    ul
-      height: 100%
-      margin: 5%
-      padding: 0
-      list-style: none
-      display: flex
-      //border: 5px solid ?]grey
-      //flex-direction: row-reverse
-      align-items: center
-      //justify-content: center
-      flex: 8 1
-
-      li
-        margin: 0 1%
-        padding: .1mm 1%
-        height: 60%
-        font-size: $baseFontSize + 5
-        font-weight: 100
-        //font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif
-        line-height: 1
-        display: flex
-        align-items: center
-
-        &:first-child
-          align-self: left
-
-        &:nth-child(3)
-          flex: 1 1 auto
-
-        &:hover
-          a
-           color: $thickBlue
-
-        a
-          color: black
-          text-decoration: none
+  @include nav-bar
 
 .main-content
   display: flex
@@ -268,4 +280,7 @@ body
       flex: 2 1
     &_extras
       flex: 2 1
+
+.sudoku-nav
+  @include nav-bar($bgColor: #ffc63b, $height: 50px)
 
