@@ -9,9 +9,9 @@ let footerClass: string = 'main-footer';
 export class Home extends React.Component {
     render(): Array<JSX.Element> {
         return [
-            <NavBarContainer/>,
-            <ContentContainer/>,
-            <Footer footerClass={ footerClass }/>
+            <NavBarContainer key={ 'navBarContainer' } />,
+            <ContentContainer key={ 'contentContainer' } />,
+            <Footer footerClass={ footerClass } key={ 'footer' } />
         ]
     }
 }

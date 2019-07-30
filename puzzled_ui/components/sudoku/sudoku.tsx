@@ -24,14 +24,14 @@ let sudokuNavBarLinks: navbarInterface = {
 class SudokuHome extends React.Component {
     render(): Array<JSX.Element> {
         return [
-            <div className={'sudoku-nav'}>
+            <div className={'sudoku-nav'} key={ 'navbarContainer'}>
                 <SudokuNavBar
                     primaryLabel={ sudokuNavBarLinks.primaryLabel }
                     secLabel={ sudokuNavBarLinks.secLabel }
                     links={ sudokuNavBarLinks.links }
                     key={ 'sudoku '}/>
             </div>,
-            <SudokuGrid type={ defaultSudokuType }/>
+            <SudokuGrid type={ defaultSudokuType } key={ 'sudokuGrid' } />
         ]
 
     }
