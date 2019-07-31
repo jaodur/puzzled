@@ -38,6 +38,10 @@ module.exports = {
                 use: ['url-loader']
             },
             {
+                test: /\.html$/,
+                use: ['html-loader']
+            },
+            {
                 enforce: "pre",
                 test: /\.js$/,
                 loader: "source-map-loader"
