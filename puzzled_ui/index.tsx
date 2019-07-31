@@ -5,6 +5,7 @@ import './styles/main';
 
 import { Home } from "./components/homePage/Home";
 import { SudokuHome } from "./components/sudoku/sudoku";
+import { PageNotFound } from "./components/commons/404PageNotFound";
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -26,6 +27,7 @@ ReactDOM.render(
             <Switch>
                 <Route exact path="/" component={ Home } />
                 <Route exact path="/sudoku/" component={ SudokuHome } />
+                <Route component={ PageNotFound }/>
             </Switch>
         </BrowserRouter>
 
