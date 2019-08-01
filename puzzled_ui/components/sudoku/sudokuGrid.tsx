@@ -6,6 +6,8 @@ import { Mutation, MutationFunc } from "react-apollo";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
 const defaultSudokuType: number = 3;
+const deleteKeyCode: number = 8;
+const baseTenRadix: number = 10;
 
 function SudokuGrid({ type }: gridInterface) {
 
@@ -30,9 +32,25 @@ function SudokuGrid({ type }: gridInterface) {
         return gridState.type != 1 ?  gridState.type * gridState.type : 2;
     }
 
-    function updatePuzzleValue(row: number, col: number, val: string) {
+    function validateInput(inputNum: number){
+
+        if(inputNum >= 0 && inputNum <= gridState.gridNums){
+            return inputNum
+        }
+        return 0
+    }
+    function concatenateNumbers(prevNum: number, newNum:string, keyCode: number) {
+        if(keyCode === deleteKeyCode){
+            let prevNumString: string = prevNum.toString();
+            let newNum = prevNumString.slice(0, -1) ? prevNumString.slice(0, -1) : 0;
+            return parseInt(`${ newNum }`, baseTenRadix)
+        }
+        return parseInt(`${ prevNum }${ newNum }`, baseTenRadix)
+    }
+
+    function updatePuzzleValue(row: number, col: number, val: string, keyCode: number) {
         let newPuzzle = puzzle.slice();
-        newPuzzle[row][col] = parseInt(val, 10);
+        newPuzzle[row][col] = validateInput(concatenateNumbers(newPuzzle[row][col], val, keyCode));
         return newPuzzle
 
     }
@@ -57,7 +75,8 @@ function SudokuGrid({ type }: gridInterface) {
     function onKeyDown(row:number, col:number) {
 
         return function keyDown(event: eventInterface) {
-            setPuzzle(updatePuzzleValue(row, col, event.key));
+            event.preventDefault();
+            setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
         }
     }
 
