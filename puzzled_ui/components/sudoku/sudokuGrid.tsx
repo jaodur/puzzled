@@ -32,10 +32,35 @@ function SudokuGrid({ type }: gridInterface) {
         return gridState.type != 1 ?  gridState.type * gridState.type : 2;
     }
 
-    function validateInput(inputNum: number){
+    function validateInput(row: number, col: number, inputNum: number){
+
+        function getInnerGrid(row: number, col: number) {
+            let rowStart: number = Math.floor(row / gridState.type) * gridState.type;
+            let colStart: number = Math.floor(col / gridState.type) * gridState.type;
+
+            return _.flattenDeep(
+                Array.from(
+                    puzzle.slice(rowStart, rowStart + gridState.type).map(
+                    innerArr => innerArr.slice(colStart, colStart + gridState.type )
+                    )
+                )
+            );
+        }
+
+        function getAllRelatedGridValues(row: number, col: number){
+            return _.concat(
+                getInnerGrid(row, col),
+                puzzle[row],
+                puzzle[col]
+            )
+        }
 
         if(inputNum >= 0 && inputNum <= gridState.gridNums){
-            return inputNum
+
+            if(!getAllRelatedGridValues(row, col).includes(inputNum)){
+                return inputNum
+            }
+
         }
         return 0
     }
@@ -50,7 +75,7 @@ function SudokuGrid({ type }: gridInterface) {
 
     function updatePuzzleValue(row: number, col: number, val: string, keyCode: number) {
         let newPuzzle = puzzle.slice();
-        newPuzzle[row][col] = validateInput(concatenateNumbers(newPuzzle[row][col], val, keyCode));
+        newPuzzle[row][col] = validateInput(row, col, concatenateNumbers(newPuzzle[row][col], val, keyCode));
         return newPuzzle
 
     }
