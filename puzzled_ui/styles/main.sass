@@ -178,7 +178,7 @@ body
   background: url("../images/astronaut-black.jpg") no-repeat center center fixed
   background-size: cover
   overflow: hidden
-  height: $screenHeight
+  height: $screenHeight - ( 0.04 * $screenHeight)
   color: white
   display: flex
   flex-direction: column
@@ -187,6 +187,7 @@ body
 
   &__main
     font-size: 20rem
+    line-height: 15rem
 
   &__sub
     font-size: 1.5rem
