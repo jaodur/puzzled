@@ -11,7 +11,8 @@ interface gridInterface {
 interface eventInterface {
     target: any,
     key?: any,
-    preventDefault?: any
+    preventDefault?: any,
+    keyCode?: number
 }
 
 interface  routeLinkInterface {
