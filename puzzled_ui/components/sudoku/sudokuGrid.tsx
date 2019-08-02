@@ -1,6 +1,6 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
-import { gridInterface, eventInterface, puzzleInterface } from '../interfaces'
+import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
@@ -13,6 +13,7 @@ function SudokuGrid({ type }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -82,11 +83,32 @@ function SudokuGrid({ type }: gridInterface) {
 
     }
 
+        function decorateFilledInputValue(className: string, row: number, col: number) {
+
+            if(originalPuzzle[row][col] === 0) {
+
+                return `${className}__td_solved`;
+            }
+
+            return className
+        }
+
+
     function CreateTableRow(num: number, keyDown: any) {
+
         let cells = Array();
         for(let i = 0; i < num; i++){
-            let puzzleObj: puzzleInterface = { puzzle: puzzle, mainPuzzleKey: i };
-            cells.push(<GridRow puzzle={ puzzleObj } keyDown={ keyDown } numItems={ num } sudokuGridClass={ sudokuGridClass } key={`table-row-${ i }`}/>);
+            let puzzleObj: fullPuzzleInterface = { puzzle: puzzle, mainPuzzleKey: i };
+            cells.push(
+                <GridRow
+                    puzzle={ puzzleObj }
+                    keyDown={ keyDown }
+                    decorateFunc = { decorateFilledInputValue }
+                    numItems={ num }
+                    sudokuGridClass={ sudokuGridClass }
+                    key={`table-row-${ i }`}
+                />
+            );
         }
 
         return cells.map(cell=>cell);
@@ -96,6 +118,7 @@ function SudokuGrid({ type }: gridInterface) {
 
         let newType: number = event.target.value;
         setPuzzle(createDefaultPuzzle(getGridNums(newType)));
+        setOriginalPuzzle(createDefaultPuzzle(getGridNums(newType)));
         changeGridState({type: newType, gridNums: getGridNums(newType)});
     }
 
@@ -104,6 +127,8 @@ function SudokuGrid({ type }: gridInterface) {
         return function keyDown(event: eventInterface) {
             event.preventDefault();
             setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
+            setOriginalPuzzle(puzzle);
+
         }
     }
 
@@ -117,7 +142,8 @@ function SudokuGrid({ type }: gridInterface) {
 
                 }
             }).then((response:any) => {
-                setPuzzle(response.data.solveSudoku.puzzle);
+                let solvedPuzzle: Array<Array<number>> = response.data.solveSudoku.puzzle;
+                setPuzzle(solvedPuzzle);
             });
         }
     }

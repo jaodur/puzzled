@@ -1,4 +1,4 @@
-interface puzzleInterface {
+interface fullPuzzleInterface {
     puzzle: Array<Array<number>>,
     mainPuzzleKey: number,
     secPuzzleKey?: number
@@ -30,13 +30,15 @@ interface textLinkInterface {
 interface gridRowInterface {
     numItems: number,
     sudokuGridClass: string,
-    puzzle: puzzleInterface,
-    keyDown: (row: number, col: number) => any
+    puzzle: fullPuzzleInterface,
+    keyDown: (row: number, col: number) => any,
+    decorateFunc: (className: string, row: number, col: number) => string
 }
-interface keyInterface {
+interface sudokuTableDataInterface {
     indexKey: string,
-    puzzle: puzzleInterface
-    keyDown: (row: number, col: number) => any
+    puzzle: fullPuzzleInterface
+    keyDown: (row: number, col: number) => any,
+    decorateFunc: (className: string, row: number, col: number) => string
 }
 
 interface gameIntroInterface {
@@ -72,6 +74,6 @@ interface navbarInterface {
 }
 
 export {
-    gridInterface, eventInterface, routeLinkInterface, gridRowInterface, keyInterface, gameIntroInterface ,
-    footerInterface, puzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface, labelInterface
+    gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
+    footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface, labelInterface
 }
