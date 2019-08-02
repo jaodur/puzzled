@@ -48,10 +48,12 @@ function SudokuGrid({ type }: gridInterface) {
         }
 
         function getAllRelatedGridValues(row: number, col: number){
+            let colArr: number[][] = puzzle.map(innerArr => innerArr.slice(col, col+1));
+
             return _.concat(
                 getInnerGrid(row, col),
                 puzzle[row],
-                puzzle[col]
+                _.flattenDeep(colArr)
             )
         }
 
