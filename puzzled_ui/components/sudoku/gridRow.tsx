@@ -1,7 +1,7 @@
 import * as React from "react";
 import { sudokuTableDataInterface, gridRowInterface, fullPuzzleInterface } from '../interfaces'
 
-function TableData({ indexKey, puzzle, keyDown, decorateFunc }: sudokuTableDataInterface) {
+function TableData({ indexKey, puzzle, keyDown, decorateFunc, clickFunc }: sudokuTableDataInterface) {
 
     function fillValue() {
         let val = puzzle.puzzle[puzzle.mainPuzzleKey][puzzle.secPuzzleKey];
@@ -13,7 +13,8 @@ function TableData({ indexKey, puzzle, keyDown, decorateFunc }: sudokuTableDataI
     return (
         <td
             className={ decorateFunc('table-data', puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
-            onKeyDown={keyDown(puzzle.mainPuzzleKey, puzzle.secPuzzleKey)}
+            onKeyDown={ keyDown(puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
+            onClick={ clickFunc(puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
             tabIndex={ -1 } key={indexKey}
         >
             { fillValue() }
@@ -21,7 +22,7 @@ function TableData({ indexKey, puzzle, keyDown, decorateFunc }: sudokuTableDataI
     )
 }
 
-function GridRow({ numItems, sudokuGridClass, puzzle, keyDown, decorateFunc }: gridRowInterface) {
+function GridRow({ numItems, sudokuGridClass, puzzle, keyDown, decorateFunc, clickFunc }: gridRowInterface) {
 
     function CreateTableData(num: number) {
         let cells = Array();
@@ -32,7 +33,8 @@ function GridRow({ numItems, sudokuGridClass, puzzle, keyDown, decorateFunc }: g
             cells.push(
                 <TableData
                     puzzle={ newPuzzle }
-                    keyDown={keyDown}
+                    keyDown={ keyDown }
+                    clickFunc={ clickFunc }
                     decorateFunc = { decorateFunc }
                     indexKey={ `table-data-${i}` }
                     key={`table-row-${i}`}

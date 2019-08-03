@@ -32,12 +32,14 @@ interface gridRowInterface {
     sudokuGridClass: string,
     puzzle: fullPuzzleInterface,
     keyDown: (row: number, col: number) => any,
+    clickFunc: (row: number, col: number) => any,
     decorateFunc: (className: string, row: number, col: number) => string
 }
 interface sudokuTableDataInterface {
     indexKey: string,
     puzzle: fullPuzzleInterface
     keyDown: (row: number, col: number) => any,
+    clickFunc: (row: number, col: number) => any,
     decorateFunc: (className: string, row: number, col: number) => string
 }
 
