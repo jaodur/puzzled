@@ -8,6 +8,8 @@ import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 const defaultSudokuType: number = 3;
 const deleteKeyCode: number = 8;
 const baseTenRadix: number = 10;
+const duplicateValueCode: number = -2;
+const groupedGridValueCode: number = -1;
 
 function SudokuGrid({ type }: gridInterface) {
 
@@ -47,7 +49,7 @@ function SudokuGrid({ type }: gridInterface) {
 
     function highlightSimilarGrids(row: number, col: number) {
         function fillCell(arr: any, row: number, col: number, value: number){
-            if(arr[row][col] !== -2){
+            if(arr[row][col] !== duplicateValueCode){
                 arr[row][col] = value
             }
 
@@ -55,18 +57,18 @@ function SudokuGrid({ type }: gridInterface) {
         let rowStart: number = Math.floor(row / gridState.type) * gridState.type;
         let colStart: number = Math.floor(col / gridState.type) * gridState.type;
 
-        let coords = createPrefilledArray(errorFields, -2);
+        let coords = createPrefilledArray(errorFields, duplicateValueCode);
 
         for(let row=rowStart; row < rowStart + parseInt(`${gridState.type}`, baseTenRadix); row++){
 
             for(let col=colStart; col < colStart + parseInt(`${gridState.type}`, baseTenRadix); col++){
-                fillCell(coords, row, col, -1);
+                fillCell(coords, row, col, groupedGridValueCode);
             }
         }
 
         for(let i=0; i < gridState.gridNums; i++){
-            fillCell(coords, row, i, -1);
-            fillCell(coords, i, col, -1);
+            fillCell(coords, row, i, groupedGridValueCode);
+            fillCell(coords, i, col, groupedGridValueCode);
         }
 
         return coords
@@ -187,8 +189,7 @@ function SudokuGrid({ type }: gridInterface) {
         newErrorFields = uniqueArray(newErrorFields);
 
         setErrorFields(newErrorFields);
-        setErrors(createPrefilledArray(newErrorFields, -2));
-
+        setErrors(createPrefilledArray(newErrorFields, duplicateValueCode));
         return inputNum
     }
     function concatenateNumbers(prevNum: number, newNum:string, keyCode: number) {
@@ -209,12 +210,12 @@ function SudokuGrid({ type }: gridInterface) {
 
         function decorateFilledInputValue(className: string, row: number, col: number) {
 
-            if(errors[row][col] === -2) {
+            if(errors[row][col] === duplicateValueCode) {
                 return `${className}__error`;
 
             }
 
-            if(errors[row][col] === -1) {
+            if(errors[row][col] === groupedGridValueCode) {
                 return `${className}__grouped_grid`;
 
             }
@@ -251,7 +252,7 @@ function SudokuGrid({ type }: gridInterface) {
 
     function selectOnChange(event: eventInterface) {
 
-        let newType: number = event.target.value;
+        let newType: number = parseInt(`${event.target.value}`, baseTenRadix);
         setPuzzle(createDefaultPuzzle(getGridNums(newType)));
         setOriginalPuzzle(createDefaultPuzzle(getGridNums(newType)));
         setErrorFields([]);
