@@ -14,11 +14,11 @@ const groupedGridValueCode: number = -1;
 function SudokuGrid({ type }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
-    const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
-    const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
-    const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [ puzzle, setPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [ originalPuzzle, setOriginalPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [ errors, setErrors ] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
-    const [errorFields, setErrorFields] = React.useState([]);
+    const [ errorFields, setErrorFields ] = React.useState([]);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -94,7 +94,7 @@ function SudokuGrid({ type }: gridInterface) {
 
         function getAllRelatedGridValues(row: number, col: number){
             let colArr: number[][] = puzzle.map(innerArr => innerArr.slice(col, col+1));
-            highlightSimilarGrids(row, col);
+
             return _.concat(
                 getInnerGrid(row, col),
                 puzzle[row],
@@ -190,7 +190,13 @@ function SudokuGrid({ type }: gridInterface) {
 
         setErrorFields(newErrorFields);
         setErrors(createPrefilledArray(newErrorFields, duplicateValueCode));
-        return inputNum
+
+
+        if(inputNum > 0 && inputNum <= gridState.gridNums){
+            return inputNum
+        }
+
+        return 0
     }
     function concatenateNumbers(prevNum: number, newNum:string, keyCode: number) {
         if(keyCode === deleteKeyCode){
