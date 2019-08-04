@@ -1,7 +1,7 @@
 import * as React from "react";
-import { keyInterface, gridRowInterface, puzzleInterface } from '../interfaces'
+import { sudokuTableDataInterface, gridRowInterface, fullPuzzleInterface } from '../interfaces'
 
-function TableData({ indexKey, puzzle, keyDown }: keyInterface) {
+function TableData({ indexKey, puzzle, keyDown, decorateFunc, clickFunc }: sudokuTableDataInterface) {
 
     function fillValue() {
         let val = puzzle.puzzle[puzzle.mainPuzzleKey][puzzle.secPuzzleKey];
@@ -11,22 +11,31 @@ function TableData({ indexKey, puzzle, keyDown }: keyInterface) {
         return null;
     }
     return (
-        <td onKeyDown={keyDown(puzzle.mainPuzzleKey, puzzle.secPuzzleKey)} tabIndex={ -1 } key={indexKey}>
+        <td
+            className={ decorateFunc('table-data', puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
+            onKeyDown={ keyDown(puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
+            onClick={ clickFunc(puzzle.mainPuzzleKey, puzzle.secPuzzleKey) }
+            tabIndex={ -1 } key={indexKey}
+        >
             { fillValue() }
         </td>
     )
 }
 
-function GridRow({ numItems, sudokuGridClass, puzzle, keyDown }: gridRowInterface) {
+function GridRow({ numItems, sudokuGridClass, puzzle, keyDown, decorateFunc, clickFunc }: gridRowInterface) {
 
     function CreateTableData(num: number) {
         let cells = Array();
         for(let i = 0; i < num; i++){
-            let newPuzzle: puzzleInterface = {puzzle: puzzle.puzzle, mainPuzzleKey: puzzle.mainPuzzleKey, secPuzzleKey: i };
+            let newPuzzle: fullPuzzleInterface = {
+                puzzle: puzzle.puzzle, mainPuzzleKey: puzzle.mainPuzzleKey, secPuzzleKey: i
+            };
             cells.push(
                 <TableData
                     puzzle={ newPuzzle }
-                    keyDown={keyDown}
+                    keyDown={ keyDown }
+                    clickFunc={ clickFunc }
+                    decorateFunc = { decorateFunc }
                     indexKey={ `table-data-${i}` }
                     key={`table-row-${i}`}
                 />)

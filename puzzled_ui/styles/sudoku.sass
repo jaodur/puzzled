@@ -70,7 +70,7 @@
     -moz-user-select: none
     -webkit-user-select: none
     border: 2px solid #344861
-    font-size: 2rem
+    font-size: 5rem - $type
     color: #354861
 
     &tbody
@@ -118,6 +118,18 @@ table
   border-spacing: 0
   margin: 0
   padding: 0
+
+.table-data
+
+  &__error
+    color: #fb4547
+    background-color: #f7cfd6
+
+  &__td_solved
+    color: #4a90e2
+
+  &__grouped_grid
+    background-color: #e2e7ed
 
 .sudoku-grid-1
   @include sudokuGrid($type: 1, $reduceHeight: 0)
