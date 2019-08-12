@@ -1,3 +1,7 @@
+// ****************** imports *********************
+@import "./common"
+
+// ****************** mixins **********************
 @mixin transform($value)
   -webkit-transform: $value
   -moz-transform: $value
@@ -112,6 +116,9 @@
 
 
 // ************************** style *******************************
+
+.sudoku-nav
+  @include nav-bar($bgColor: #ffc63b, $height: 50px)
 
 table
   border-collapse: collapse

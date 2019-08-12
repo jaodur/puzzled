@@ -1,0 +1,193 @@
+$baseFontSize: 14px
+$screenHeight: 100vh
+//$thickBlue: #1b50b9
+$thickBlue: #2662ac
+
+// *********************** mixins ******************************
+
+@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px, $fontFamily: inherent, $fontWeight: inherent)
+  font-size: $baseFontSize + $fontSize
+  font-family: $fontFamily
+  font-weight: $fontWeight
+  font-style: normal
+  letter-spacing: $letterSpacing
+  line-height: $lineHeight
+  text-align: center
+
+@mixin game-container($fadeColor: #ffc63b, $thickColor: #f19b1a)
+  margin: 1%
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  box-shadow: 4px 4px 15px 0 rgba(36,37,38,.08)
+  border-radius: .5rem
+  width: 475px
+  height: 258px
+  transition: background 2s
+
+  &:hover
+    background-image: linear-gradient($fadeColor, $thickColor)
+    color: white
+    cursor: pointer
+    h3, p
+      color: inherit
+
+@mixin game-image($fadeColor: #ffc63b, $thickColor: #f19b1a, $imageUrl: '../images/sudoku-dark.jpg', $imgBackgroundColor: white)
+  &__game-image
+    flex: 1 1
+    padding: 10px
+    border-radius: .5rem
+    background-image: linear-gradient($fadeColor, $thickColor)
+    div
+      height: 100%
+      border-radius: 100%
+
+      background: $imgBackgroundColor url($imageUrl) no-repeat center
+
+@mixin game-card
+  &__game-card
+    flex: 2 1
+    padding: 10px
+
+    h3
+      color: #3c4852
+      text-transform: capitalize
+      margin-bottom: 0
+      @include large-font($fontSize: 10, $letterSpacing: 0, $lineHeight: 30px)
+
+    p
+      text-align: justify
+      text-justify: inter-word
+      padding: 5px
+      color: #657480
+      font-size: 1rem
+      line-height: 1.4rem
+
+@mixin nav-bar($bgColor: white, $height: 2.8rem)
+  nav
+    background-color: $bgColor
+    height: #{$height}
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0
+    margin: 0
+
+    div
+      flex: 2 2
+      color: darken(grey, 20%)
+      align-self: center
+      font-size: $baseFontSize + 20
+      text-align: right
+      text-transform: capitalize
+      margin-right: 5%
+
+      span
+        margin: 5px
+        text-transform: lowercase
+        font-size: 1.5rem
+        color: black
+
+    ul
+      height: 100%
+      margin: 5%
+      padding: 0
+      list-style: none
+      display: flex
+      align-items: center
+      flex: 8 1
+
+      li
+        margin: 0 1%
+        height: 60%
+        font-size: $baseFontSize + 5
+        font-weight: 100
+        line-height: 1
+        display: flex
+        align-items: center
+
+        &:first-child
+          align-self: left
+
+        &:nth-child(3)
+          flex: 1 1 auto
+
+        &:hover
+          a
+            color: $thickBlue
+
+        a
+          color: black
+          text-decoration: none
+
+@mixin navbar-container($height: $screenHeight * 0.4)
+  height: $height
+
+  > div
+    padding: 5%
+    color: white
+    display: flex
+    align-items: baseline
+    justify-content: center
+
+    h1
+      margin: 0
+      @include large-font
+
+  @include nav-bar
+
+@mixin footer($bgColor: $thickBlue, $color: white)
+  min-height: $screenHeight * 0.35
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  margin-top: 5%
+  background-color: $bgColor
+
+  &__content
+    height: 100%
+    width: 100%
+    font-size: 1.2rem
+    color: $color
+    display: flex
+    border-bottom: 1px solid $color
+    padding-bottom: 10px
+
+    h1
+      text-transform: capitalize
+      text-align: center
+
+    p
+      width: 80%
+      margin: 0 auto
+      line-height: 3rem
+      text-align: center
+
+    &_about
+      flex: 3 1
+      p
+        line-height: 2rem
+        text-align: justify
+
+    &_games
+      flex: 2 1
+
+    &_leaderboard
+      flex: 2 1
+
+    &_extras
+      flex: 2 1
+
+  &__copyright
+    height: 30px
+    margin: 0
+    padding: 0
+    display: flex
+    flex-direction: column
+    align-content: center
+    justify-content: center
+    color: $color
+
+    p
+      font-size: 0.8rem
+      color: inherit
