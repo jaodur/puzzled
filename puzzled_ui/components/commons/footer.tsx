@@ -34,7 +34,7 @@ function Footer({ footerClass }: footerInterface) {
                     <p>2048</p>
                 </div>
                 <div className={`${footerClass}__content_extras`}>
-                    <h1>extra</h1>
+                    <h1>extras</h1>
                     <p>Sudoku</p>
                     <p>Mine sweeper</p>
                     <p>Poker</p>
