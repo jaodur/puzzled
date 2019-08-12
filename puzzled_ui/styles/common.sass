@@ -136,12 +136,12 @@ $thickBlue: #2662ac
 
   @include nav-bar
 
-@mixin footer($bgColor: $thickBlue, $color: white)
+@mixin footer($bgColor: $thickBlue, $color: white, $marginTop: 5%)
   min-height: $screenHeight * 0.35
   display: flex
   flex-wrap: wrap
   justify-content: center
-  margin-top: 5%
+  margin-top: $marginTop
   background-color: $bgColor
 
   &__content
@@ -150,6 +150,7 @@ $thickBlue: #2662ac
     font-size: 1.2rem
     color: $color
     display: flex
+    border-top: 1px solid $color
     border-bottom: 1px solid $color
     padding-bottom: 10px
 
