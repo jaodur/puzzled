@@ -3,7 +3,7 @@
 
 $baseFontSize: 14px
 $screenHeight: 100vh
-$thickBlue: #1b50b9
+//$thickBlue: #1b50b9
 $thickBlue: #2662ac
 
 // *********************** mixins ******************************
@@ -51,13 +51,12 @@ $thickBlue: #2662ac
   &__game-card
     flex: 2 1
     padding: 10px
-    //border: 1px solid yellow
+
     h3
       color: #3c4852
       text-transform: capitalize
       margin-bottom: 0
       @include large-font($fontSize: 10, $letterSpacing: 0, $lineHeight: 30px)
-    //border: 1px solid purple
 
     p
       text-align: justify
@@ -71,7 +70,6 @@ $thickBlue: #2662ac
   nav
     background-color: $bgColor
     height: #{$height}
-    //border: 2px solid green
     display: flex
     justify-content: center
     align-items: center
@@ -80,7 +78,6 @@ $thickBlue: #2662ac
 
     div
       flex: 2 2
-      //border: 1px solid red
       color: darken(grey, 20%)
       align-self: center
       font-size: $baseFontSize + 20
@@ -100,20 +97,14 @@ $thickBlue: #2662ac
       padding: 0
       list-style: none
       display: flex
-      //border: 5px solid ?]grey
-      //flex-direction: row-reverse
       align-items: center
-      //justify-content: center
       flex: 8 1
 
       li
         margin: 0 1%
-        //padding: .1mm 1%
         height: 60%
-        //border: 1px solid red
         font-size: $baseFontSize + 5
         font-weight: 100
-        //font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif
         line-height: 1
         display: flex
         align-items: center
@@ -141,7 +132,6 @@ $thickBlue: #2662ac
     display: flex
     align-items: baseline
     justify-content: center
-    //border: 1px solid red
 
     h1
       margin: 0
@@ -156,8 +146,6 @@ body
   font-size: $baseFontSize
   padding: 0
   margin: 0
-
-  //border: 1px solid red
 
 .link
   &__no-style
@@ -204,11 +192,9 @@ body
 .main-content
   display: flex
   flex-wrap: wrap
-  //flex-direction: column
   align-items: center
   justify-content: center
   margin-top: 5%
-  //border: 5px solid black
 
   &__game-intro-title
     padding: 0
@@ -216,7 +202,6 @@ body
     @include large-font($fontSize: 40, $letterSpacing: -1px, $lineHeight: 100px)
     text-transform: capitalize
     transform: scale(1, 2)
-    //border: 1px solid red
 
   &__game-intro-mini-title
     color: #7e7e7e
