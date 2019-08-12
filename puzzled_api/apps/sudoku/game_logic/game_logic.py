@@ -1,8 +1,6 @@
 import numpy as np
-import time
 from itertools import combinations
 from math import floor
-from bisect import insort
 
 
 class Sudoku:
@@ -14,6 +12,9 @@ class Sudoku:
         self.main_axis_pos_mapper, self.minor_axis_pos_mapper = self.sector_position_mapper()
         self.position = [i for i in range(self.type * self.type)]
         self.puzzle = puzzle
+        self.filled_values = self._initial_filled_values()
+        self.empty_cells = []
+        self.allowed_values = {val for val in range(1, self.type * self.type + 1)}
 
     @property
     def type(self):
@@ -40,12 +41,13 @@ class Sudoku:
 
     def solve(self):
 
-        i, j, possible_values = self._find_next_empty_cell()
+        i, j, possible_values = self._find_next_cell()
 
         if i == -1:
             return self
 
-        for num in possible_values:
+        for num in set(possible_values):
+
             implications = self.generate_implications(i, j, num)
 
             if self.solve():
@@ -82,7 +84,7 @@ class Sudoku:
         for key, value in enumerate(values):
             if value:
                 if transpose and not 0 < value <= max_value:
-                    msg = f'value {value} at position ({position}, {key}) is not within the range 0 to {max_value}'
+                    msg = f'value {value} at position ({position}, {key}) is not within the range of 1 to {max_value}'
                     invalids.append(msg)
                     continue
 
@@ -173,73 +175,123 @@ class Sudoku:
         return [(x[0], x[1], y[0], y[1]) for x in sector for y in sector]
 
     def _get_sector(self, row, col):
+        row_start, row_end, col_start, col_end = self._get_sector_coord(row, col)
+
+        return self.puzzle[row_start:row_end, col_start:col_end].ravel()
+
+    def _get_sector_coord(self, row, col):
         row = floor(row / self.type) * self.type
         col = floor(col / self.type) * self.type
-        return self.puzzle[row:row + self.type, col:col + self.type].ravel()
+
+        return row, row + self.type, col, col + self.type
+
+    def update_empty_cells(self):
+        empty_cells = []
+
+        for row in range(self.type * self.type):
+            for col in range(self.type * self.type):
+
+                if not self.puzzle[row, col]:
+                    possible_values = self.allowed_values.difference(self.get_filled_values(row, col))
+                    empty_cells.append((row, col, possible_values))
+
+        return sorted(empty_cells, key=lambda val: len(val[2]), reverse=True)
+
+    def _find_next_cell(self):
+        self.empty_cells = self.update_empty_cells()
+
+        try:
+            empty_cell = self.empty_cells.pop()
+        except IndexError:
+            return -1, -1, -1
+
+        return empty_cell
 
     def _find_next_empty_cell(self):
+        try:
+            next_cell = self.empty_cells.pop()
+        except IndexError:
+            return -1, -1, set()
 
-        empty_cells = self._get_missing_values()
-        return empty_cells[0] if empty_cells else (-1, -1, -1)
+        row, col, _ = next_cell
 
-    def _is_valid(self, i, j, num, sector=()):
-        if not len(sector):
-            sector = self._get_sector(i, j)
+        possible_values = self.allowed_values.difference(self.get_filled_values(row, col))
 
-        return num not in set(sector).union(set(self.puzzle[i, :]), set(self.puzzle[:, j]))
+        return row, col, possible_values
+
+    def _is_valid(self, row, col, num):
+        return num not in self.get_filled_values(row, col)
+
+    def get_filled_values(self, row, col):
+        row_values = self.filled_values.get(f'r-{row}')
+        col_values = self.filled_values.get(f'c-{col}')
+        sector_coords = self._get_sector_coord(row, col)
+        sector_values = self.filled_values.get('{}-{}-{}-{}'.format(*sector_coords))
+
+        return sector_values.union(row_values, col_values)
+
+    def update_filled_values(self, row, col, val):
+        self.filled_values.get(f'r-{row}').add(val)
+        self.filled_values.get(f'c-{col}').add(val)
+        sector_coords = self._get_sector_coord(row, col)
+        self.filled_values.get('{}-{}-{}-{}'.format(*sector_coords)).add(val)
+
+    def discard_filled_values(self, row, col, val):
+        self.filled_values.get(f'r-{row}').discard(val)
+        self.filled_values.get(f'c-{col}').discard(val)
+        sector_coords = self._get_sector_coord(row, col)
+        self.filled_values.get('{}-{}-{}-{}'.format(*sector_coords)).discard(val)
 
     def generate_implications(self, i, j, num):
+
         self.puzzle[i, j] = num
         impl = [(i, j, num)]
+        self.update_filled_values(i, j, num)
         done = False
 
         while not done:
             done = True
-            possible_values = set(range(1, self.type * self.type + 1))
+            row, col, possible_values = self._find_next_empty_cell()
 
-            for position, coordinates in enumerate(self.sectors):
-                x0, x1, y0, y1 = coordinates
-                sec_array = self.puzzle[x0:x1, y0:y1].ravel()
+            # for num in possible_values:
+            #
+            #     if self._is_valid(row, col, num):
+            #         self.puzzle[row, col] = num
+            #         impl.append((row, col, num))
+            #         self.update_filled_values(row, col, num)
+            #         # print('inner', self.possible_values.get(f'{row}-{col}'))
+            #         # self.possible_values.get(f'{row}-{col}').discard(num)
+            #         done = False
+            #         break
 
-                for minor_pos, value in enumerate(sec_array):
+            if row != -1:
+                if len(possible_values) == 1:
+                    num = possible_values.pop()
+                    self.puzzle[row, col] = num
+                    impl.append((row, col, num))
+                    self.update_filled_values(row, col, num)
 
-                    if not value:
-                        row, col = self.get_pos(position, minor_pos)
-                        filled_values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]), sec_array)
-                        final_possible_values = possible_values.difference(filled_values)
-
-                        val = final_possible_values.pop() if len(final_possible_values) == 1 else None
-                        if val and self._is_valid(row, col, val):
-                            self.puzzle[row, col] = val
-                            impl.append((row, col, val))
-                            done = False
+                    done = False
 
         return impl
 
     def undo_implications(self, impl):
-        for x, y, _ in impl:
-            self.puzzle[x, y] = 0
+        for row, col, num in impl:
+            self.puzzle[row, col] = 0
+            self.discard_filled_values(row, col, num)
 
-    def _get_missing_values(self, dict_output_format=False):
-        possible_values = []
-        missing_val_dict = {}
-        arr = set(range(1, self.type * self.type + 1))
+    def _initial_filled_values(self):
+        initial_filled_values = {}
 
-        for position, coordinates in enumerate(self.sectors):
-            x0, x1, y0, y1 = coordinates
+        for ref in range(self.type * self.type):
+            initial_filled_values[f'r-{ref}'] = set(self.puzzle[ref, :])
+            initial_filled_values[f'c-{ref}'] = set(self.puzzle[:, ref])
 
-            sec_array = self.puzzle[x0:x1, y0:y1].ravel()
+        for row_start, row_end, col_start, col_end in self.sectors:
+            initial_filled_values[f'{row_start}-{row_end}-{col_start}-{col_end}'] = \
+                set(self.puzzle[row_start: row_end, col_start: col_end].ravel())
 
-            for minor_pos, value in enumerate(sec_array):
-
-                if not value:
-                    row, col = self.get_pos(position, minor_pos)
-                    filled_values = set(self.puzzle[row, :]).union(set(self.puzzle[:, col]), sec_array)
-                    missing_values = arr.difference(filled_values)
-                    possible_values.append((row, col, missing_values))
-                    missing_val_dict[f'{row}-{col}'] = missing_values
-
-        return missing_val_dict if dict_output_format else sorted(possible_values, key=lambda val: len(val[2]))
+        return initial_filled_values
 
     def row_col_mapper(self):
         mapper = {}
