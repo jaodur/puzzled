@@ -41,7 +41,7 @@ class Sudoku:
 
     def solve(self):
 
-        i, j, possible_values = self._find_next_cell()
+        i, j, possible_values = self._find_next_empty_cell(run_update=True)
 
         if i == -1:
             return self
@@ -197,21 +197,18 @@ class Sudoku:
 
         return sorted(empty_cells, key=lambda val: len(val[2]), reverse=True)
 
-    def _find_next_cell(self):
-        self.empty_cells = self.update_empty_cells()
+    def _find_next_empty_cell(self, run_update=False):
 
-        try:
-            empty_cell = self.empty_cells.pop()
-        except IndexError:
-            return -1, -1, -1
+        if run_update:
+            self.empty_cells = self.update_empty_cells()
 
-        return empty_cell
-
-    def _find_next_empty_cell(self):
         try:
             next_cell = self.empty_cells.pop()
         except IndexError:
-            return -1, -1, set()
+            return -1, -1, -1
+
+        if run_update:
+            return next_cell
 
         row, col, _ = next_cell
 
