@@ -1,11 +1,13 @@
 import * as React from "react";
 import { TextLink} from "./links";
 import { NavBar } from "./navBar";
+import { Footer } from "./footer";
 import { defaultNavBarLinks } from "./navbarLinks";
 
 let linkEmpasizedStyle: string = 'link__emphasized';
 let pageNotFoundClass: string = 'navbar-container-404';
 let pageNotFoundContentClass: string = 'content-container-404';
+let footerClass: string = 'footer-404';
 
 function PageNotFound() {
     return (
@@ -26,6 +28,7 @@ function PageNotFound() {
                     though you can still revisit planet <TextLink text={ "Puzzled" } link={ "/" } styleClass={ linkEmpasizedStyle }/>
                 </div>
             </div>
+            <Footer footerClass={ footerClass }/>
         </React.Fragment>
 
     )

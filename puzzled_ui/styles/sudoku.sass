@@ -1,3 +1,7 @@
+// ****************** imports *********************
+@import "./common"
+
+// ****************** mixins **********************
 @mixin transform($value)
   -webkit-transform: $value
   -moz-transform: $value
@@ -21,7 +25,8 @@
     display: flex
     flex-wrap: wrap
     justify-content: space-around
-    align-items: center
+    align-items: flex-start
+    min-height: 80vh
 
   &__grid_type
     margin-top: 40px
@@ -113,6 +118,12 @@
 
 // ************************** style *******************************
 
+$mainColor: #ffc63b
+//$mainColor: #2662ac
+
+.sudoku-nav
+  @include nav-bar($bgColor: $mainColor, $height: 50px)
+
 table
   border-collapse: collapse
   border-spacing: 0
@@ -148,5 +159,8 @@ table
 
 .arrow-up
   @include arrow(45)
+
+.footer-sudoku
+  @include footer($bgColor: $mainColor, $color: #160f01, $marginTop: 0)
 
 

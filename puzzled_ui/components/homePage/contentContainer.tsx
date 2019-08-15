@@ -10,7 +10,7 @@ let charmGameContainer: string = 'game-container-charm';
 let stormGameContainer: string = 'game-container-storm';
 let mainContent: string = 'main-content';
 
-let linkNoStyle: string = 'link__no-style';
+let linkNoStyleCard: string = 'link__no-style__card';
 
 function GamesIntro() {
     return (
@@ -46,14 +46,19 @@ function ContentContainer() {
         <React.Fragment>
             <GamesIntro/>
             <div className={`${mainContent}`}>
-                <RouterLink link="/sudoku/"  component={ <Game gameClass={ orangeGameContainer } />} styleClass={ linkNoStyle }/>
-                <Game gameClass={ blueGameContainer }/>
-                <Game gameClass={ redGameContainer }/>
-                <Game gameClass={ purpleGameContainer }/>
-                <Game gameClass={ charmGameContainer }/>
-                <Game gameClass={ stormGameContainer }/>
-                <Game gameClass={ purpleGameContainer }/>
-                <Game gameClass={ orangeGameContainer }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ orangeGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ blueGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ redGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ purpleGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ charmGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ stormGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ purpleGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ orangeGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ purpleGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ charmGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ stormGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ purpleGameContainer } />} styleClass={ linkNoStyleCard }/>
+                <RouterLink link="/sudoku/"  component={ <Game gameClass={ orangeGameContainer } />} styleClass={ linkNoStyleCard }/>
             </div>
         </React.Fragment>
     )

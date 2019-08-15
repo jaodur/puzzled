@@ -1,150 +1,7 @@
+// ************************ imports ****************************
 //@import "~bootstrap/scss/bootstrap"
+@import "./common"
 @import "./sudoku"
-
-$baseFontSize: 14px
-$screenHeight: 100vh
-$thickBlue: #1b50b9
-
-// *********************** mixins ******************************
-
-@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px)
-  font-size: $baseFontSize + $fontSize
-  letter-spacing: $letterSpacing
-  line-height: $lineHeight
-  text-align: center
-
-@mixin game-container($fadeColor: #ffc63b, $thickColor: #f19b1a)
-  margin: 1%
-  display: flex
-  flex-wrap: wrap
-  justify-content: center
-  box-shadow: 4px 4px 15px 0 rgba(36,37,38,.08)
-  border-radius: .5rem
-  width: 475px
-  height: 258px
-  transition: background 2s
-
-  &:hover
-    background-image: linear-gradient($fadeColor, $thickColor)
-    color: white
-    cursor: pointer
-    h3, p
-      color: inherit
-
-@mixin game-image($fadeColor: #ffc63b, $thickColor: #f19b1a, $imageUrl: '../images/sudoku-dark.jpg', $imgBackgroundColor: white)
-  &__game-image
-    flex: 1 1
-    padding: 10px
-    border-radius: .5rem
-    background-image: linear-gradient($fadeColor, $thickColor)
-    div
-      height: 100%
-      border-radius: 100%
-
-      background: $imgBackgroundColor url($imageUrl) no-repeat center
-
-@mixin game-card
-  &__game-card
-    flex: 2 1
-    padding: 10px
-    //border: 1px solid yellow
-    h3
-      color: #3c4852
-      text-transform: capitalize
-      margin-bottom: 0
-      @include large-font($fontSize: 10, $letterSpacing: 0, $lineHeight: 30px)
-    //border: 1px solid purple
-
-    p
-      text-align: justify
-      text-justify: inter-word
-      padding: 5px
-      color: #657480
-      font-size: 1rem
-      line-height: 1.4rem
-
-@mixin nav-bar($bgColor: white, $height: 2.8rem)
-  nav
-    background-color: $bgColor
-    height: #{$height}
-    //border: 2px solid green
-    display: flex
-    justify-content: center
-    align-items: center
-    padding: 0
-    margin: 0
-
-    div
-      flex: 2 2
-      //border: 1px solid red
-      color: darken(grey, 20%)
-      align-self: center
-      font-size: $baseFontSize + 20
-      text-align: right
-      text-transform: capitalize
-      margin-right: 5%
-
-      span
-        margin: 5px
-        text-transform: lowercase
-        font-size: 1.5rem
-        color: black
-
-    ul
-      height: 100%
-      margin: 5%
-      padding: 0
-      list-style: none
-      display: flex
-      //border: 5px solid ?]grey
-      //flex-direction: row-reverse
-      align-items: center
-      //justify-content: center
-      flex: 8 1
-
-      li
-        margin: 0 1%
-        //padding: .1mm 1%
-        height: 60%
-        //border: 1px solid red
-        font-size: $baseFontSize + 5
-        font-weight: 100
-        //font-family: HelveticaNeue-Light,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif
-        line-height: 1
-        display: flex
-        align-items: center
-
-        &:first-child
-          align-self: left
-
-        &:nth-child(3)
-          flex: 1 1 auto
-
-        &:hover
-          a
-            color: $thickBlue
-
-        a
-          color: black
-          text-decoration: none
-
-@mixin navbar-container($height: $screenHeight * 0.4)
-  height: $height
-
-  > div
-    padding: 5%
-    color: white
-    display: flex
-    align-items: baseline
-    justify-content: center
-    //border: 1px solid red
-
-    h1
-      margin: 0
-      @include large-font
-
-  @include nav-bar
-
 
 // *********************** styles ******************************
 
@@ -153,12 +10,15 @@ body
   padding: 0
   margin: 0
 
-  //border: 1px solid red
-
 .link
   &__no-style
     text-decoration: none
     color: inherit
+
+    &__card
+      margin: 1rem
+      text-decoration: none
+      color: inherit
 
   &__emphasized
     color: inherit
@@ -195,26 +55,20 @@ body
 .main-content
   display: flex
   flex-wrap: wrap
-  //flex-direction: column
   align-items: center
   justify-content: center
   margin-top: 5%
-  //border: 5px solid black
 
   &__game-intro-title
     padding: 0
     margin: 2% 0 0 0
-    //color: #7e7e7e
-    //color: black
     @include large-font($fontSize: 40, $letterSpacing: -1px, $lineHeight: 100px)
     text-transform: capitalize
     transform: scale(1, 2)
-    //border: 1px solid red
 
   &__game-intro-mini-title
     color: #7e7e7e
     @include large-font($fontSize: 0, $letterSpacing: 0, $lineHeight: 30px)
-    //border-top: 2px solid green
 
 .game-container-orange
   @include game-container
@@ -247,69 +101,9 @@ body
   @include game-card
 
 .main-footer
-  height: $screenHeight * 0.7
-  display: flex
-  flex-wrap: wrap
-  justify-content: center
-  margin-top: 5%
-  background-color: $thickBlue
-  border: 1px solid red
+  @include footer
 
-  &__email
-    height: 40%
-    display: flex
-    flex-wrap: wrap
-    flex-direction: column
-    justify-content: center
-    align-items: center
+.footer-404
+  @include footer($bgColor: black, $marginTop: 0)
 
-    border: 1px solid green
-
-    &_title
-      margin: 0
-      //padding: 0
-      width: 100%
-      //height: 40%
-      color: white
-      @include large-font($fontSize: 40, $letterSpacing: -1px, $lineHeight: 100px)
-      border: 1px solid purple
-
-    &_input
-      height: 15%
-      width: 30%
-      padding: 0 5px
-      //border-style: none
-      border: 1px solid blue
-      border-radius: 100% / 5px
-
-
-
-    &_submit
-      margin-top: 10px
-      padding: 5px
-      text-transform: uppercase
-
-      &:hover
-        color: blue
-
-  &__content
-    height: 60%
-    width: 100%
-    display: flex
-    border: 1px solid white
-
-    div
-      border: 1px solid white
-
-    &_about
-      flex: 3 1
-    &_games
-      flex: 2 1
-    &_leaderboard
-      flex: 2 1
-    &_extras
-      flex: 2 1
-
-.sudoku-nav
-  @include nav-bar($bgColor: #ffc63b, $height: 50px)
 
