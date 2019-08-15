@@ -15,7 +15,7 @@ install:
   - pipenv install --skip-lock
 
 script:
-- coverage run --source='puzzled_api/apps' manage.py test && coverage report
+- pytest --cov=puzzled_api/ && coverage report
 
 after_success:
 - coveralls
