@@ -11,6 +11,7 @@ const deleteKeyCode: number = 8;
 const baseTenRadix: number = 10;
 const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
+const numberPadCode: number = 0;
 
 function SudokuGrid({ type }: gridInterface) {
 
@@ -18,8 +19,8 @@ function SudokuGrid({ type }: gridInterface) {
     const [ puzzle, setPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [ originalPuzzle, setOriginalPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [ errors, setErrors ] = React.useState(createDefaultPuzzle(gridState.gridNums));
-
     const [ errorFields, setErrorFields ] = React.useState([]);
+    const [ currentGrid, setCurrentGrid ] = React.useState([]);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -87,7 +88,7 @@ function SudokuGrid({ type }: gridInterface) {
             return _.flattenDeep(
                 Array.from(
                     puzzle.slice(rowStart, rowStart + gridState.type).map(
-                    innerArr => innerArr.slice(colStart, colStart + gridState.type )
+                        innerArr => innerArr.slice(colStart, colStart + gridState.type )
                     )
                 )
             );
@@ -95,7 +96,6 @@ function SudokuGrid({ type }: gridInterface) {
 
         function getAllRelatedGridValues(row: number, col: number){
             let colArr: number[][] = puzzle.map(innerArr => innerArr.slice(col, col+1));
-
             return _.concat(
                 getInnerGrid(row, col),
                 puzzle[row],
@@ -200,6 +200,10 @@ function SudokuGrid({ type }: gridInterface) {
         return 0
     }
     function concatenateNumbers(prevNum: number, newNum:string, keyCode: number) {
+        if(keyCode === numberPadCode){
+            return parseInt(`${ newNum }`, baseTenRadix)
+        }
+
         if(keyCode === deleteKeyCode){
             let prevNumString: string = prevNum.toString();
             let newNum = prevNumString.slice(0, -1) ? prevNumString.slice(0, -1) : 0;
@@ -279,10 +283,21 @@ function SudokuGrid({ type }: gridInterface) {
 
     function onClick(row:number, col:number) {
 
-        return function keyDown(event: eventInterface) {
+        return function (event: eventInterface) {
             event.preventDefault();
+            setCurrentGrid([row, col, event.target]);
             setErrors(highlightSimilarGrids(row, col));
+            setOriginalPuzzle(puzzle);
         }
+    }
+
+    function onPadClick(event: eventInterface) {
+        event.preventDefault();
+        let [row, col, target] = currentGrid;
+        target.focus();
+        setErrors(highlightSimilarGrids(row, col));
+        setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+
     }
 
     function solvePuzzle(solve: MutationFunc) {
@@ -336,7 +351,11 @@ function SudokuGrid({ type }: gridInterface) {
 
                     </tbody>
                 </table>
-                <NumberPad gridClass={ sudokuGridClass } type={ gridState.type }/>
+                <NumberPad
+                    onPadClick={ onPadClick }
+                    gridClass={ sudokuGridClass }
+                    type={ gridState.type }
+                />
             </div>
         </React.Fragment>
 

@@ -7,4 +7,11 @@ function arraySize(ar: any[]){
     return [row_count, Math.min.apply(null, row_sizes)]
 }
 
-export { arraySize }
+function checkNull(value: any){
+    if(isNaN(value)){
+        return 0
+    }
+    return value
+}
+
+export { arraySize, checkNull }

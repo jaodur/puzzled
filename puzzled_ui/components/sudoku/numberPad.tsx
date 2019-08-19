@@ -3,14 +3,20 @@ import { numPadInterface } from "../interfaces";
 
 
 
-function NumPadRow({ gridClass, type, startNum }: numPadInterface) {
+function NumPadRow({ gridClass, type, startNum, onPadClick }: numPadInterface) {
 
     function CreateNumPadData(num: number, fillValue: number) {
 
         let cells = Array();
         for(let i = 0; i < num; i++){
             cells.push(
-                <td key={`sudoku-numpad-td-${ fillValue }` }>{ fillValue }</td>
+                <td
+                    onClick={ onPadClick }
+                    data-value={ fillValue }
+                    key={`sudoku-numpad-td-${ fillValue }` }
+                >
+                    { fillValue }
+                </td>
             );
             fillValue += 1;
         }
@@ -26,7 +32,7 @@ function NumPadRow({ gridClass, type, startNum }: numPadInterface) {
     )
 }
 
-function NumberPad({ gridClass, type }: numPadInterface){
+function NumberPad({ gridClass, type, onPadClick }: numPadInterface){
 
     function CreateNumPadRow(type: number, startNum: number) {
 
@@ -34,6 +40,7 @@ function NumberPad({ gridClass, type }: numPadInterface){
         for(let i = 0; i < type; i++){
             cells.push(
                 <NumPadRow
+                    onPadClick={ onPadClick }
                     gridClass={ gridClass }
                     type={ type }
                     startNum={ startNum }
@@ -51,7 +58,9 @@ function NumberPad({ gridClass, type }: numPadInterface){
             <tbody>
             { CreateNumPadRow(type, 1)}
             <tr className={`${ gridClass }__grid_wrapper__numpad_row` }>
-                <td>erase</td>
+                <td onClick={ onPadClick } data-value={ 0 }>
+                    erase
+                </td>
             </tr>
 
             </tbody>

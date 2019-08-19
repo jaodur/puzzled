@@ -9,7 +9,8 @@ interface gridInterface {
 }
 
 interface numPadInterface extends gridInterface {
-    gridClass: string
+    gridClass: string,
+    onPadClick: (event: eventInterface) => any,
     startNum?: number
 }
 
