@@ -8,6 +8,10 @@ interface gridInterface {
     type: number
 }
 
+interface numPadInterface extends gridInterface {
+    gridClass: string
+}
+
 interface eventInterface {
     target: any,
     key?: any,
@@ -77,5 +81,6 @@ interface navbarInterface {
 
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
-    footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface, labelInterface
+    footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
+    labelInterface, numPadInterface
 }

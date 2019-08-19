@@ -1,5 +1,6 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
+import { NumberPad } from "./numberPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
@@ -335,6 +336,7 @@ function SudokuGrid({ type }: gridInterface) {
 
                     </tbody>
                 </table>
+                <NumberPad gridClass={ sudokuGridClass } type={ gridState.type }/>
             </div>
         </React.Fragment>
 

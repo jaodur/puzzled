@@ -24,9 +24,54 @@
   &__grid_wrapper
     display: flex
     flex-wrap: wrap
-    justify-content: space-around
+    justify-content: center
     align-items: flex-start
     min-height: 80vh
+
+    &__numpad
+      margin: 0 1%
+      padding: 0
+      background: #fff
+      user-select: none
+      -ms-user-select: none
+      -moz-user-select: none
+      -webkit-user-select: none
+      border: 2px solid #bec6d4
+      font-size: 7rem - $type
+      color: #354861
+
+      &tbody
+        margin: 0
+        padding: 0
+
+      &_row
+        display: flex
+        width: 100%
+        height: 100%
+        justify-content: center
+
+        &:last-child
+          border-top: 1px solid #bec6d4
+
+        td
+          margin: 0
+          padding: 0
+          text-align: center
+          display: flex
+          justify-content: center
+          align-items: center
+          height: 120px - $reduceHeight
+          width: 120px - $reduceHeight
+          border-bottom: 1px solid #bec6d4
+          border-right: 1px solid #bec6d4
+
+          &:hover
+            background-color: #e2e7ed
+
+          &:focus
+            outline: none
+            background-color: #bbdefb
+
 
   &__grid_type
     margin-top: 40px
