@@ -37,7 +37,7 @@
       -moz-user-select: none
       -webkit-user-select: none
       border: 2px solid #bec6d4
-      font-size: 7rem - $type
+      font-size: 6rem - $type
       color: #354861
 
       &tbody
@@ -49,9 +49,16 @@
         width: 100%
         height: 100%
         justify-content: center
+        cursor: pointer
 
         &:last-child
           border-top: 1px solid #bec6d4
+          color: red
+          text-transform: capitalize
+
+          &:hover
+            background-color: red
+            color: white
 
         td
           margin: 0
@@ -60,8 +67,8 @@
           display: flex
           justify-content: center
           align-items: center
-          height: 120px - $reduceHeight
-          width: 120px - $reduceHeight
+          height: 115px - $reduceHeight
+          width: 115px - $reduceHeight
           border-bottom: 1px solid #bec6d4
           border-right: 1px solid #bec6d4
 
@@ -148,6 +155,7 @@
         width: 80px - $reduceHeight
         border-bottom: 1px solid #bec6d4
         border-right: 1px solid #bec6d4
+        cursor: pointer
 
         &:nth-child(#{$type}n)
           border-right: 0

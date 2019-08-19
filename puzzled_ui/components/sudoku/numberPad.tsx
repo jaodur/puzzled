@@ -1,27 +1,52 @@
 import * as React from 'react'
 import { numPadInterface } from "../interfaces";
 
+
+
+function NumPadRow({ gridClass, type, startNum }: numPadInterface) {
+
+    function CreateNumPadData(num: number, fillValue: number) {
+
+        let cells = Array();
+        for(let i = 0; i < num; i++){
+            cells.push(
+                <td>{ fillValue }</td>
+            );
+            fillValue += 1;
+        }
+
+        return cells.map(cell=>cell);
+    }
+
+    return (
+        <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
+            { CreateNumPadData(type, startNum) }
+
+        </tr>
+    )
+}
+
 function NumberPad({ gridClass, type }: numPadInterface){
+
+    function CreateNumPadRow(type: number, startNum: number) {
+
+        let cells = Array();
+        for(let i = 0; i < type; i++){
+            cells.push(
+                <NumPadRow gridClass={ gridClass } type={ type } startNum={ startNum }/>
+            );
+            startNum += type;
+        }
+
+        return cells.map(cell=>cell);
+    }
+
     return (
         <table className={ `${ gridClass }__grid_wrapper__numpad`}>
             <tbody>
+            { CreateNumPadRow(type, 1)}
             <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-            </tr>
-            <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
-            <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-            </tr>
-            <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
-                del
+                erase
             </tr>
 
             </tbody>

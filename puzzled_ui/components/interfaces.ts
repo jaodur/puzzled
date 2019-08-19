@@ -10,6 +10,7 @@ interface gridInterface {
 
 interface numPadInterface extends gridInterface {
     gridClass: string
+    startNum?: number
 }
 
 interface eventInterface {
