@@ -10,7 +10,7 @@ function NumPadRow({ gridClass, type, startNum }: numPadInterface) {
         let cells = Array();
         for(let i = 0; i < num; i++){
             cells.push(
-                <td>{ fillValue }</td>
+                <td key={`sudoku-numpad-td-${ fillValue }` }>{ fillValue }</td>
             );
             fillValue += 1;
         }
@@ -19,7 +19,7 @@ function NumPadRow({ gridClass, type, startNum }: numPadInterface) {
     }
 
     return (
-        <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
+        <tr className={ `${ gridClass }__grid_wrapper__numpad_row` }>
             { CreateNumPadData(type, startNum) }
 
         </tr>
@@ -33,7 +33,12 @@ function NumberPad({ gridClass, type }: numPadInterface){
         let cells = Array();
         for(let i = 0; i < type; i++){
             cells.push(
-                <NumPadRow gridClass={ gridClass } type={ type } startNum={ startNum }/>
+                <NumPadRow
+                    gridClass={ gridClass }
+                    type={ type }
+                    startNum={ startNum }
+                    key={ `sudoku-numpad-row-${ startNum }` }
+                />
             );
             startNum += type;
         }
@@ -42,11 +47,11 @@ function NumberPad({ gridClass, type }: numPadInterface){
     }
 
     return (
-        <table className={ `${ gridClass }__grid_wrapper__numpad`}>
+        <table className={ `${ gridClass }__grid_wrapper__numpad` }>
             <tbody>
             { CreateNumPadRow(type, 1)}
-            <tr className={`${ gridClass }__grid_wrapper__numpad_row`}>
-                erase
+            <tr className={`${ gridClass }__grid_wrapper__numpad_row` }>
+                <td>erase</td>
             </tr>
 
             </tbody>
