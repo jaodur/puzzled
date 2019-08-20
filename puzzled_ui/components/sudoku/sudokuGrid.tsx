@@ -4,6 +4,7 @@ import { NumberPad } from "./numberPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
+import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid } from "../../utils/utils";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
 const defaultSudokuType: number = 3;
@@ -49,15 +50,14 @@ function SudokuGrid({ type }: gridInterface) {
         return gridState.type != 1 ?  gridState.type * gridState.type : 2;
     }
 
-    function highlightSimilarGrids(row: number, col: number) {
+    function highlightSimilarGrids(row: number, col: number, keyCode?: number) {
         function fillCell(arr: any, row: number, col: number, value: number){
             if(arr[row][col] !== duplicateValueCode){
                 arr[row][col] = value
             }
 
         }
-        let rowStart: number = Math.floor(row / gridState.type) * gridState.type;
-        let colStart: number = Math.floor(col / gridState.type) * gridState.type;
+        let [ rowStart, colStart ] = getGridCoords(row, col, gridState.type);
 
         let coords = createPrefilledArray(errorFields, duplicateValueCode);
 
@@ -77,79 +77,72 @@ function SudokuGrid({ type }: gridInterface) {
 
     }
 
+    function getInnerGrid(row: number, col: number) {
+        let [ rowStart, colStart ] = getGridCoords(row, col, gridState.type);
 
-    function validateInput(row: number, col: number, inputNum: number){
-
-
-        function getInnerGrid(row: number, col: number) {
-            let rowStart: number = Math.floor(row / gridState.type) * gridState.type;
-            let colStart: number = Math.floor(col / gridState.type) * gridState.type;
-
-            return _.flattenDeep(
-                Array.from(
-                    puzzle.slice(rowStart, rowStart + gridState.type).map(
-                        innerArr => innerArr.slice(colStart, colStart + gridState.type )
-                    )
+        return Array.from(
+                puzzle.slice(rowStart, rowStart + gridState.type).map(
+                    innerArr => innerArr.slice(colStart, colStart + gridState.type )
                 )
             );
-        }
+    }
 
-        function getAllRelatedGridValues(row: number, col: number){
-            let colArr: number[][] = puzzle.map(innerArr => innerArr.slice(col, col+1));
-            return _.concat(
-                getInnerGrid(row, col),
-                puzzle[row],
-                _.flattenDeep(colArr)
-            )
-        }
 
-        function getNumCoord(row: number, col:number, arr: any, inputNum: number) {
-            let rowStart: number = Math.floor(row / gridState.type) * gridState.type;
-            let colStart: number = Math.floor(col / gridState.type) * gridState.type;
-            let [ firstSlice, secondSlice, thirdSlice ] = [
-                gridState.gridNums,
-                2 * gridState.gridNums,
-                3 * gridState.gridNums
-            ];
-            let [ sectorArr, rowArr, colArr ] = [
-                _.slice(arr, 0, firstSlice),
-                _.slice(arr, firstSlice, secondSlice),
-                _.slice(arr , secondSlice, thirdSlice)
-            ];
+    function getAllRelatedGridValues(row: number, col: number){
 
-            let coords = [];
 
-            for(let i=0; i < gridState.gridNums; i++){
-                if(inputNum !== 0 && inputNum === sectorArr[i]){
-                    coords.push([ Math.floor(rowStart + (i / gridState.type)), colStart + (i % gridState.type) ])
-                }
-                if(inputNum !== 0 && inputNum === rowArr[i]){
-                    coords.push([row, i])
-                }
-                if(inputNum !== 0 && inputNum === colArr[i]){
-                    coords.push([i, col])
-                }
+        let colArr: (number|ConcatArray<number>)[] = _.flattenDeep(
+            puzzle.map(innerArr => innerArr.slice(col, col+1))
+        );
 
+        console.log('remo', removeFromGrid([row, col], gridState.type, getInnerGrid(row, col), puzzle[row], colArr));
+
+
+
+        let relatedValues = _.concat(
+            _.flattenDeep(getInnerGrid(row, col)),
+            puzzle[row],
+            colArr
+        );
+
+        return relatedValues
+    }
+
+    function getNumCoord(row: number, col:number, arr: any, inputNum: number) {
+        let [ rowStart, colStart ] = getGridCoords(row, col, gridState.type);
+        let [ firstSlice, secondSlice, thirdSlice ] = [
+            gridState.gridNums,
+            2 * gridState.gridNums,
+            3 * gridState.gridNums
+        ];
+        let [ sectorArr, rowArr, colArr ] = [
+            _.slice(arr, 0, firstSlice),
+            _.slice(arr, firstSlice, secondSlice),
+            _.slice(arr , secondSlice, thirdSlice)
+        ];
+
+        let coords = [];
+
+        for(let i=0; i < gridState.gridNums; i++){
+            if(inputNum !== 0 && inputNum === sectorArr[i]){
+                coords.push([ Math.floor(rowStart + (i / gridState.type)), colStart + (i % gridState.type) ])
+            }
+            if(inputNum !== 0 && inputNum === rowArr[i]){
+                coords.push([row, i])
+            }
+            if(inputNum !== 0 && inputNum === colArr[i]){
+                coords.push([i, col])
             }
 
-            return coords
         }
 
-        function uniqueArray(arr: Array<Array<number>>) {
-            function uniqueOnly([row, col]: Array<number>){
-                return `${row}${col}`;
-            }
-            return _.uniqBy(arr, uniqueOnly)
-        }
-
-        function removeFromArray(arr: Array<Array<number>>, item: Array<number>){
-            let [row, col] = item;
-            _.remove(arr, ([x, y]) => x === row && y === col);
-        }
+        return coords
+    }
 
 
-
-
+    function validateInput(row: number, col: number, inputNum: number){
+        console.log('related vals', getAllRelatedGridValues(row, col));
+        console.log('related coords', getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum));
         let newErrorCoords = uniqueArray(
                 getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum)
         );
@@ -219,25 +212,25 @@ function SudokuGrid({ type }: gridInterface) {
 
     }
 
-        function decorateFilledInputValue(className: string, row: number, col: number) {
+    function decorateFilledInputValue(className: string, row: number, col: number) {
 
-            if(errors[row][col] === duplicateValueCode) {
-                return `${className}__error`;
+        if(errors[row][col] === duplicateValueCode) {
+            return `${className}__error`;
 
-            }
-
-            if(errors[row][col] === groupedGridValueCode) {
-                return `${className}__grouped_grid`;
-
-            }
-
-            if(originalPuzzle[row][col] === 0) {
-
-                return `${className}__td_solved`;
-            }
-
-            return className
         }
+
+        if(errors[row][col] === groupedGridValueCode) {
+            return `${className}__grouped_grid`;
+
+        }
+
+        if(originalPuzzle[row][col] === 0) {
+
+            return `${className}__td_solved`;
+        }
+
+        return className
+    }
 
 
     function CreateTableRow(num: number, keyDown: any) {
@@ -295,7 +288,7 @@ function SudokuGrid({ type }: gridInterface) {
         event.preventDefault();
         let [row, col, target] = currentGrid;
         target.focus();
-        setErrors(highlightSimilarGrids(row, col));
+        // setErrors(highlightSimilarGrids(row, col));
         setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
 
     }
