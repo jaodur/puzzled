@@ -8,6 +8,12 @@ interface gridInterface {
     type: number
 }
 
+interface numPadInterface extends gridInterface {
+    gridClass: string,
+    onPadClick: (event: eventInterface) => any,
+    startNum?: number
+}
+
 interface eventInterface {
     target: any,
     key?: any,
@@ -75,7 +81,14 @@ interface navbarInterface {
     links: Array<linkInterface>
 }
 
+interface svgIconInterface {
+    fillColor?: string,
+    width?: string,
+    height?: string
+}
+
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
-    footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface, labelInterface
+    footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
+    labelInterface, numPadInterface, svgIconInterface
 }

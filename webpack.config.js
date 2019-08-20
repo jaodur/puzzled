@@ -34,7 +34,7 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|je?pg|webp)$/,
+                test: /\.(png|je?pg|webp|svg)$/,
                 use: ['url-loader']
             },
             {
