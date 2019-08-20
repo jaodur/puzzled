@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { numPadInterface } from "../interfaces";
-
+import { EraseIcon } from "../icons/sudoku";
 
 
 function NumPadRow({ gridClass, type, startNum, onPadClick }: numPadInterface) {
@@ -59,7 +59,8 @@ function NumberPad({ gridClass, type, onPadClick }: numPadInterface){
             { CreateNumPadRow(type, 1)}
             <tr className={`${ gridClass }__grid_wrapper__numpad_row` }>
                 <td onClick={ onPadClick } data-value={ 0 }>
-                    erase
+                    <EraseIcon width={ '30' }/>
+                    &nbsp;erase
                 </td>
             </tr>
 

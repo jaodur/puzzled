@@ -37,7 +37,7 @@
       -moz-user-select: none
       -webkit-user-select: none
       border: 2px solid #bec6d4
-      font-size: 6rem - $type
+      font-size: 5rem - $type
       color: #354861
 
       &tbody
@@ -53,14 +53,20 @@
 
         &:last-child
           border-top: 1px solid #bec6d4
-          color: red
           text-transform: capitalize
+          font-size: 20px
+          padding: 0
+          height: 50px
 
           &:hover
             background-color: red
             color: white
+
+            svg
+              fill: white
           td
             border: none
+            height: 100%
 
             &:hover
               background-color: inherit
