@@ -9,13 +9,6 @@ function arraySize(ar: any[]){
     return [row_count, Math.min.apply(null, row_sizes)]
 }
 
-function checkNull(value: any){
-    if(isNaN(value)){
-        return 0
-    }
-    return value
-}
-
 function uniqueArray(arr: Array<Array<number>>) {
     function uniqueOnly([row, col]: Array<number>){
         return `${row}${col}`;
@@ -35,17 +28,27 @@ function getGridCoords(row: number, col: number, refNumber: number){
     return [rowStart, colStart]
 }
 
+function modulus(numerator: number, denominator: number){
+    let mod = numerator % denominator;
+
+    if(isNaN(mod)){
+        return numerator
+    }
+
+    return mod
+}
+
 function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[][], rowArr: number[], colArr: any){
     let [ row, col ] = coords;
     let [ rowStart, colStart ] = getGridCoords(row, col, refNumber);
-    let [ rowGrid, colGrid ] = [checkNull(row % rowStart), checkNull(col % colStart)];
+    let [ rowGrid, colGrid ] = [ modulus(row, rowStart), modulus(col, colStart) ];
     innerGrid = Array.from(innerGrid);
     rowArr = Array.from(rowArr);
     colArr = Array.from(colArr);
 
-    innerGrid[rowGrid][colGrid] = 100;
-    rowArr[col] = 100;
-    colArr[row] = 100;
+    innerGrid[rowGrid][colGrid] = 0;
+    rowArr[col] = 0;
+    colArr[row] = 0;
 
     return _.concat(
         _.flattenDeep(innerGrid),
@@ -55,4 +58,4 @@ function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[]
 
 }
 
-export { arraySize, checkNull, uniqueArray, removeFromArray, getGridCoords, removeFromGrid }
+export { arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid }

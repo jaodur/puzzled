@@ -50,7 +50,7 @@ function SudokuGrid({ type }: gridInterface) {
         return gridState.type != 1 ?  gridState.type * gridState.type : 2;
     }
 
-    function highlightSimilarGrids(row: number, col: number, keyCode?: number) {
+    function highlightSimilarGrids(row: number, col: number) {
         function fillCell(arr: any, row: number, col: number, value: number){
             if(arr[row][col] !== duplicateValueCode){
                 arr[row][col] = value
@@ -95,17 +95,13 @@ function SudokuGrid({ type }: gridInterface) {
             puzzle.map(innerArr => innerArr.slice(col, col+1))
         );
 
-        console.log('remo', removeFromGrid([row, col], gridState.type, getInnerGrid(row, col), puzzle[row], colArr));
-
-
-
-        let relatedValues = _.concat(
-            _.flattenDeep(getInnerGrid(row, col)),
+        return removeFromGrid(
+            [row, col],
+            gridState.type,
+            getInnerGrid(row, col),
             puzzle[row],
-            colArr
-        );
+            colArr);
 
-        return relatedValues
     }
 
     function getNumCoord(row: number, col:number, arr: any, inputNum: number) {
@@ -121,45 +117,40 @@ function SudokuGrid({ type }: gridInterface) {
             _.slice(arr , secondSlice, thirdSlice)
         ];
 
-        let coords = [];
+        let errorCoords = [];
 
         for(let i=0; i < gridState.gridNums; i++){
             if(inputNum !== 0 && inputNum === sectorArr[i]){
-                coords.push([ Math.floor(rowStart + (i / gridState.type)), colStart + (i % gridState.type) ])
+                errorCoords.push([ Math.floor(rowStart + (i / gridState.type)), colStart + (i % gridState.type) ])
             }
             if(inputNum !== 0 && inputNum === rowArr[i]){
-                coords.push([row, i])
+                errorCoords.push([row, i])
             }
             if(inputNum !== 0 && inputNum === colArr[i]){
-                coords.push([i, col])
+                errorCoords.push([i, col])
             }
 
         }
 
-        return coords
+        return errorCoords
     }
 
 
     function validateInput(row: number, col: number, inputNum: number){
-        console.log('related vals', getAllRelatedGridValues(row, col));
-        console.log('related coords', getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum));
-        let newErrorCoords = uniqueArray(
+
+        let newErrorFields = uniqueArray(
                 getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum)
         );
-        let newErrorFields = Array.from(errorFields);
+        let prevErrorFields = Array.from(errorFields);
 
-        if(Array.isArray(newErrorCoords) && newErrorCoords.length > 0) {
-            newErrorCoords.push([row, col]);
 
-        }else{
-            newErrorCoords = uniqueArray(
-                getNumCoord(row, col, getAllRelatedGridValues(row, col), puzzle[row][col])
-            );
+        if(Array.isArray(newErrorFields) && newErrorFields.length > 0) {
+            newErrorFields.push([row, col]);
+        } else {
 
-            removeFromArray(newErrorCoords, [row, col]);
-            removeFromArray(newErrorFields, [row, col]);
+            removeFromArray(prevErrorFields, [row, col]);
 
-            Array.from(newErrorCoords).map( arr => {
+            Array.from(prevErrorFields).map( arr => {
 
                 let [x, y] = arr;
 
@@ -169,21 +160,20 @@ function SudokuGrid({ type }: gridInterface) {
 
                 removeFromArray(nestedErrors, [row, col]);
 
-                if(nestedErrors.length == 1){
-
-                    removeFromArray(newErrorCoords, [x, y]);
-                    removeFromArray(newErrorFields, [x, y]);
+                if(!nestedErrors.length){
+                    removeFromArray(prevErrorFields, [x, y]);
                 }
 
             })
 
         }
 
-        newErrorFields.push(...newErrorCoords);
-        newErrorFields = uniqueArray(newErrorFields);
 
-        setErrorFields(newErrorFields);
-        setErrors(createPrefilledArray(newErrorFields, duplicateValueCode));
+        prevErrorFields.push(...newErrorFields);
+        prevErrorFields = uniqueArray(prevErrorFields);
+
+        setErrorFields(prevErrorFields);
+        setErrors(createPrefilledArray(prevErrorFields, duplicateValueCode));
 
 
         if(inputNum > 0 && inputNum <= gridState.gridNums){
