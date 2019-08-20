@@ -58,4 +58,8 @@ function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[]
 
 }
 
-export { arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid }
+function noop(){
+
+}
+
+export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid }

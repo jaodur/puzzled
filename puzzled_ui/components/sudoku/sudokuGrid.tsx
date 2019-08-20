@@ -4,7 +4,7 @@ import { NumberPad } from "./numberPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { Mutation, MutationFunc } from "react-apollo";
-import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid } from "../../utils/utils";
+import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid, noop } from "../../utils/utils";
 import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
 const defaultSudokuType: number = 3;
@@ -277,9 +277,12 @@ function SudokuGrid({ type }: gridInterface) {
     function onPadClick(event: eventInterface) {
         event.preventDefault();
         let [row, col, target] = currentGrid;
-        target.focus();
-        // setErrors(highlightSimilarGrids(row, col));
-        setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+        try {
+            target.focus();
+            setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+        } catch(e){
+            noop();
+        }
 
     }
 
