@@ -440,6 +440,7 @@ class Sudoku:
     @staticmethod
     def difficulty_pattern_generator(puzzle_type, difficulty):
         max_val = puzzle_type * puzzle_type
+
         if difficulty == 'insane':
             prefilled = {(x, y) for x in range(puzzle_type) for y in range(puzzle_type)}
             coords = {(x, y) for x in range(max_val) if x != 0 for y in range(max_val) if y != 0}.difference(prefilled)
@@ -447,6 +448,18 @@ class Sudoku:
 
             import pdb; pdb.set_trace()
             return prefilled, sorted(coords)
+
+        if difficulty == 'hard':
+            coords = []
+            for x in range(max_val):
+                row_coords = [(x, y) for y in range(max_val)]
+
+                if x % 2:
+                    row_coords.reverse()
+
+                coords.extend(row_coords)
+
+            return [], coords
 
 
     def __str__(self):
