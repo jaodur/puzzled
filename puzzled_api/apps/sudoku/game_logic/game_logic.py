@@ -7,7 +7,7 @@ from .utils import generate_rand_coords
 
 class Sudoku:
 
-    DIFFICULTY_LEVELS = ('easy', 'medium', 'hard', 'insane')
+    DIFFICULTY_LEVELS = ('easy', 'medium', 'hard', 'expert')
     TRANSLATE_PATTERNS = ('NONE', 'row', 'col', 'row_exchange', 'col_exchange', 'roll_translate')
 
     def __init__(self, puzzle, type):
@@ -67,7 +67,6 @@ class Sudoku:
         solved_grid = cls.randomly_filled_puzzle(puzzle_type)
         puzzle = cls.dig(solved_grid.puzzle, puzzle_type, difficulty)
 
-        import pdb; pdb.set_trace()
         puzzle = cls.translate_puzzle(puzzle, puzzle_type)
 
         return cls(puzzle, puzzle_type)
@@ -332,7 +331,6 @@ class Sudoku:
         for row, col in prefilled:
             puzzle[row, col] = 0
 
-        import pdb; pdb.set_trace()
         for row, col in coords:
             original_val = puzzle[row, col]
             test_values = set(allowed_values)
@@ -441,12 +439,11 @@ class Sudoku:
     def difficulty_pattern_generator(puzzle_type, difficulty):
         max_val = puzzle_type * puzzle_type
 
-        if difficulty == 'insane':
+        if difficulty == 'expert':
             prefilled = {(x, y) for x in range(puzzle_type) for y in range(puzzle_type)}
             coords = {(x, y) for x in range(max_val) if x != 0 for y in range(max_val) if y != 0}.difference(prefilled)
             prefilled = prefilled.union({(0, y) for y in range(max_val)}, {(x, 0) for x in range(max_val)})
 
-            import pdb; pdb.set_trace()
             return prefilled, sorted(coords)
 
         if difficulty == 'hard':
@@ -460,6 +457,21 @@ class Sudoku:
                 coords.extend(row_coords)
 
             return [], coords
+
+        if difficulty == 'medium':
+            coords = []
+            for x in range(max_val):
+
+                if not x % 2:
+                    row_coords = [(x, y) for index, y in enumerate(range(max_val)) if not index % 2]
+                else:
+                    row_coords = [(x, y) for index, y in enumerate(range(max_val)) if index % 2]
+                    row_coords.reverse()
+
+                coords.extend(row_coords)
+
+            return [], coords
+
 
 
     def __str__(self):
