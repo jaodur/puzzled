@@ -2,8 +2,13 @@ import numpy as np
 from itertools import combinations
 from math import floor
 
+from .utils import generate_rand_coords
+
 
 class Sudoku:
+
+    DIFFICULTY_LEVELS = ('easy', 'medium', 'hard', 'insane')
+    TRANSLATE_PATTERNS = ('NONE', 'row', 'col', 'row_exchange', 'col_exchange', 'roll_translate')
 
     def __init__(self, puzzle, type):
         self.puzzle_orig = puzzle
@@ -57,8 +62,15 @@ class Sudoku:
 
         return False
 
-    def generate(self):
-        pass
+    @classmethod
+    def generate(cls, puzzle_type, difficulty='easy'):
+        solved_grid = cls.randomly_filled_puzzle(puzzle_type)
+        puzzle = cls.dig(solved_grid.puzzle, puzzle_type, difficulty)
+
+        import pdb; pdb.set_trace()
+        puzzle = cls.translate_puzzle(puzzle, puzzle_type)
+
+        return cls(puzzle, puzzle_type)
 
     def __validate(self, puzzle):
 
@@ -298,6 +310,144 @@ class Sudoku:
             for key, value in zip(reversed(lst), comb):
                 mapper.__setitem__(key, list(value))
         return mapper
+
+    @classmethod
+    def randomly_filled_puzzle(cls, puzzle_type):
+        max_val = puzzle_type * puzzle_type
+        coords = generate_rand_coords(high_value=max_val - 1, size=max_val)
+        allowed_values = (x for x in range(1, max_val + 1))
+        puzzle = np.zeros((max_val, max_val))
+
+        for [row, col], val in zip(coords, allowed_values):
+            puzzle[row, col] = val
+
+        return cls(puzzle, puzzle_type).solve()
+
+    @classmethod
+    def dig(cls, puzzle, puzzle_type, difficulty):
+        max_val = puzzle_type * puzzle_type
+        prefilled, coords = cls.difficulty_pattern_generator(puzzle_type, difficulty)
+        allowed_values = {x for x in range(1, max_val + 1)}
+
+        for row, col in prefilled:
+            puzzle[row, col] = 0
+
+        import pdb; pdb.set_trace()
+        for row, col in coords:
+            original_val = puzzle[row, col]
+            test_values = set(allowed_values)
+            test_values.discard(original_val)
+            unique = True
+
+            for val in test_values:
+                puzzle[row, col] = val
+
+                try:
+                    new_puzzle = cls(puzzle, puzzle_type).solve()
+                except:
+                    puzzle[row, col] = original_val
+                    continue
+
+                if new_puzzle:
+                    puzzle[row, col] = original_val
+                    unique = False
+                    break
+
+            if unique:
+                puzzle[row, col] = 0
+
+        return puzzle
+
+    @classmethod
+    def translate_puzzle(cls, puzzle, puzzle_type):
+        translate_mapper = cls.translate_mapper()
+
+        translate_patterns = np.random.choice(
+            cls.TRANSLATE_PATTERNS,
+            size=np.random.choice(range(1, 5), size=1, p=[0.1, 0.2, 0.3, 0.4]),
+            replace=False)
+
+        for pattern in translate_patterns:
+            puzzle = translate_mapper.get(pattern, lambda puzzle, *args: puzzle)(puzzle, puzzle_type)
+
+        return puzzle
+
+    @staticmethod
+    def roll_translate(puzzle, *args):
+        return np.rot90(
+            puzzle,
+            np.random.choice(range(1, 3), size=1)
+        )
+
+    @classmethod
+    def row_col_translate(cls, translate_row):
+        def translate(puzzle, puzzle_type):
+            grouped_coords = cls.get_grouped_cells(puzzle_type)
+
+            for coords in grouped_coords:
+                coord = np.random.choice(coords, size=2, replace=False)
+
+                if translate_row:
+                    row1, row2 = coord
+                    temp_row = np.copy(puzzle[row1, :])
+                    puzzle[row1, :], puzzle[row2, :] = puzzle[row2, :], temp_row
+
+                else:
+                    col1, col2 = coord
+                    temp_col = np.copy(puzzle[:, col1])
+                    puzzle[:, col1], puzzle[:, col2] = puzzle[:, col2], temp_col
+
+            return puzzle
+
+        return translate
+
+    @classmethod
+    def row_col_exchange_translate(cls, translate_row):
+
+        def translate(puzzle, puzzle_type):
+            grouped_coords = cls.get_grouped_cells(puzzle_type)
+            np.random.shuffle(grouped_coords)
+
+            if translate_row:
+                row_sec1, row_sec2, *extras = grouped_coords
+                temp_section = np.copy(puzzle[row_sec1[0]:row_sec1[-1]+1, :])
+                puzzle[row_sec1[0]:row_sec1[-1] + 1, :], puzzle[row_sec2[0]:row_sec2[-1]+1, :] = \
+                    puzzle[row_sec2[0]:row_sec2[-1]+1, :], temp_section
+            else:
+                col_sec1, col_sec2, *extras = grouped_coords
+                temp_section = np.copy(puzzle[:, col_sec1[0]:col_sec1[-1] + 1])
+                puzzle[:, col_sec1[0]:col_sec1[-1] + 1], puzzle[:, col_sec2[0]:col_sec2[-1] + 1] = \
+                    puzzle[:, col_sec2[0]:col_sec2[-1] + 1], temp_section
+            return puzzle
+
+        return translate
+
+    @staticmethod
+    def get_grouped_cells(puzzle_type):
+        arr = np.arange(puzzle_type * puzzle_type)
+        return np.array_split(arr, puzzle_type)
+
+    @classmethod
+    def translate_mapper(cls):
+        return {
+            'roll_translate': cls.roll_translate,
+            'row': cls.row_col_translate(translate_row=True),
+            'col': cls.row_col_translate(translate_row=False),
+            'row_exchange': cls.row_col_exchange_translate(translate_row=True),
+            'col_exchange': cls.row_col_exchange_translate(translate_row=False)
+        }
+
+    @staticmethod
+    def difficulty_pattern_generator(puzzle_type, difficulty):
+        max_val = puzzle_type * puzzle_type
+        if difficulty == 'insane':
+            prefilled = {(x, y) for x in range(puzzle_type) for y in range(puzzle_type)}
+            coords = {(x, y) for x in range(max_val) if x != 0 for y in range(max_val) if y != 0}.difference(prefilled)
+            prefilled = prefilled.union({(0, y) for y in range(max_val)}, {(x, 0) for x in range(max_val)})
+
+            import pdb; pdb.set_trace()
+            return prefilled, sorted(coords)
+
 
     def __str__(self):
 
