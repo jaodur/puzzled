@@ -319,4 +319,4 @@ class Sudoku:
         return str_rep
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(puzzle={self.puzzle}, type={self.type})'
+        return f'{self.__class__.__name__}(puzzle=\n{np.array_repr(self.puzzle)}, type={self.type})'
