@@ -9,4 +9,14 @@ const SOLVE_SUDOKU_MUTATION = gql`
   }
 `;
 
-export { SOLVE_SUDOKU_MUTATION }
+const GENERATE_SUDOKU_MUTATION = gql`
+  mutation generateSudoku($pType: Int!, $difficulty: String!){
+    generateSudoku(pType: $pType, difficulty: $difficulty){
+      pType,
+      difficulty,
+      puzzle
+    }
+  }
+`;
+
+export { SOLVE_SUDOKU_MUTATION, GENERATE_SUDOKU_MUTATION }
