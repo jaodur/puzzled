@@ -87,8 +87,14 @@ interface svgIconInterface {
     height?: string
 }
 
+interface solveSudokuPadInterface {
+    selectOnChange: (event: eventInterface) => any,
+    solvePuzzle: (solve: any) => any,
+    clearPuzzle: (event: eventInterface) => any
+}
+
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
     footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
-    labelInterface, numPadInterface, svgIconInterface
+    labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface
 }

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
 import { NumberPad } from "./numberPad";
+import { SolveSudokuPad } from "./solveSudokuPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
-import { Mutation, MutationFunc } from "react-apollo";
+import { MutationFunc } from "react-apollo";
 import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid, noop } from "../../utils/utils";
-import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku'
 
 const defaultSudokuType: number = 3;
 const deleteKeyCode: number = 8;
@@ -312,21 +312,11 @@ function SudokuGrid({ type }: gridInterface) {
 
         <React.Fragment>
             <div className={ `${ sudokuGridClass }__grid_type` }>
-                <div>
-                    Type:
-                    <select onChange={ selectOnChange } defaultValue={ `${defaultSudokuType}` }>
-                        <option value={ 2 }>2x2</option>
-                        <option value={ 3 }>3x3</option>
-                        <option value={ 4 }>4x4</option>
-                    </select>
-                </div>
-                <Mutation  mutation={ SOLVE_SUDOKU_MUTATION } >
-                    {(solvePuzzleCallBack: MutationFunc) => (
-                        <button onClick={ solvePuzzle(solvePuzzleCallBack) }>Solve</button>
-
-                    )}
-                </Mutation>
-                <button onClick={ clearPuzzle }>clear</button>
+                <SolveSudokuPad
+                    selectOnChange={selectOnChange}
+                    solvePuzzle={solvePuzzle}
+                    clearPuzzle={clearPuzzle}
+                />
             </div>
             <div className={ `${ sudokuGridClass }__grid_wrapper` }>
 
