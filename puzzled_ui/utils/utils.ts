@@ -62,4 +62,8 @@ function noop(){
 
 }
 
-export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid }
+function renderElement(element: JSX.Element): any {
+    return ()=>element
+}
+
+export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement }
