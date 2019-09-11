@@ -72,6 +72,7 @@ interface linkInterface {
     name: string,
     href: string,
     linkClass?: string,
+    activeClassName?: string
 }
 
 interface navbarInterface {

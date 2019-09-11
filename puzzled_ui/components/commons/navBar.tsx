@@ -1,16 +1,7 @@
 import * as React from "react";
 import { Logo } from './logo'
 import { linkInterface, navbarInterface } from "../interfaces";
-
-
-function Link({ name, href, linkClass }: linkInterface){
-    return (
-        <li className={ linkClass }>
-            <a href={ href }>{ name }</a>
-        </li>
-        )
-
-}
+import { NavItemLink } from "./links";
 
 
 function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
@@ -18,7 +9,16 @@ function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface)
         let linksComponent = Array();
 
         links.forEach( function (link, index) {
-            linksComponent.push(<Link name={ link.name } href={ link.href } key={`navBarLinks-${ index }`}/>)
+            linksComponent.push(
+                <li>
+                    <NavItemLink
+                        name={ link.name }
+                        href={ link.href }
+                        activeClassName={ 'sudoku-selected' }
+                        key={`navBarLinks-${ index }`}
+                    />
+                </li>
+            )
         });
 
         return linksComponent.map(link=>link);

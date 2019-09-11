@@ -8,7 +8,7 @@ let defaultNavBarLinks: navbarInterface = {
         [
             { name: 'Games', href: '#' },
             { name: 'Pin', href: '#' },
-            { name: null, href: null, linkClass: 'navbar-separator' },
+            { name: null, href: '#', linkClass: 'navbar-separator' },
             { name: 'Sign In', href: '#' },
             { name: 'Sign Up', href: '#' }
 
@@ -23,7 +23,7 @@ let sudokuNavBarLinks: navbarInterface = {
             { name: 'Play', href: '/sudoku/play/' },
             { name: 'Solve', href: '/sudoku/solve/' },
             { name: 'Help', href: '#' },
-            { name: null, href: null, linkClass: 'navbar-separator' },
+            { name: null, href: '#', linkClass: 'navbar-separator' },
             { name: 'Sign In', href: '#' },
             { name: 'Sign Up', href: '#' },
 
