@@ -8,6 +8,7 @@ import { SudokuHome } from "./components/sudoku/sudoku";
 import { PageNotFound } from "./components/commons/404PageNotFound";
 
 import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -23,14 +24,15 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={ client }>
-        <BrowserRouter forceRefresh={ false }>
-            <Switch>
-                <Route exact path="/" component={ Home } />
-                <Route path="/sudoku/" component={ SudokuHome } />
-                <Route component={ PageNotFound }/>
-            </Switch>
-        </BrowserRouter>
-
+        <ApolloHooksProvider client={ client }>
+            <BrowserRouter forceRefresh={ false }>
+                <Switch>
+                    <Route exact path="/" component={ Home } />
+                    <Route path="/sudoku/" component={ SudokuHome } />
+                    <Route component={ PageNotFound }/>
+                </Switch>
+            </BrowserRouter>
+        </ApolloHooksProvider>
     </ApolloProvider>,
     document.getElementById("react")
 );
