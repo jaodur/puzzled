@@ -5,12 +5,12 @@ import { defaultSudokuType, defaultDifficultyLevel } from "./sudokuGrid";
 import { solveSudokuPadInterface, playSudokuPadInterface } from "../interfaces";
 
 
-function SolveSudokuPad({ selectOnChange, solvePuzzle, clearPuzzle }: solveSudokuPadInterface){
+function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: solveSudokuPadInterface){
     return (
         <React.Fragment>
             <div>
                 Type:
-                <select onChange={ selectOnChange } defaultValue={ `${ defaultSudokuType }` }>
+                <select onChange={ onTypeChange } defaultValue={ `${ defaultSudokuType }` }>
                     <option value={ 2 }>2x2</option>
                     <option value={ 3 }>3x3</option>
                     <option value={ 4 }>4x4</option>
@@ -28,12 +28,12 @@ function SolveSudokuPad({ selectOnChange, solvePuzzle, clearPuzzle }: solveSudok
 }
 
 
-function PlaySudokuPad({ selectOnChange, generatePuzzle, resetPuzzle }: playSudokuPadInterface){
+function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, resetPuzzle }: playSudokuPadInterface){
     return (
         <React.Fragment>
             <div>
                 Type:
-                <select onChange={ selectOnChange } defaultValue={ `${ defaultSudokuType }` }>
+                <select onChange={ onTypeChange } defaultValue={ `${ defaultSudokuType }` }>
                     <option value={ 2 }>2x2</option>
                     <option value={ 3 }>3x3</option>
                     <option value={ 4 }>4x4</option>
@@ -41,7 +41,7 @@ function PlaySudokuPad({ selectOnChange, generatePuzzle, resetPuzzle }: playSudo
             </div>
             <div>
                 Difficulty:
-                <select onChange={ selectOnChange } defaultValue={ `${ defaultDifficultyLevel }` }>
+                <select onChange={ onDifficultyChange } defaultValue={ `${ defaultDifficultyLevel }` }>
                     <option value={ 'easy' }>Easy</option>
                     <option value={ 'medium' }>Medium</option>
                     <option value={ 'hard' }>Hard</option>

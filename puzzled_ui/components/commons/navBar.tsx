@@ -10,12 +10,12 @@ function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface)
 
         links.forEach( function (link, index) {
             linksComponent.push(
-                <li>
+                <li key={ `navBarLinks-${ index }` }>
                     <NavItemLink
                         name={ link.name }
                         href={ link.href }
                         activeClassName={ 'sudoku-selected' }
-                        key={`navBarLinks-${ index }`}
+
                     />
                 </li>
             )

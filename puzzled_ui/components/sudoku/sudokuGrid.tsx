@@ -320,7 +320,7 @@ function SudokuGrid({ type }: gridInterface) {
                         render={
                             renderElement(
                                 <SolveSudokuPad
-                                    selectOnChange={ onTypeSelect }
+                                    onTypeChange={ onTypeSelect }
                                     solvePuzzle={ solvePuzzle }
                                     clearPuzzle={ clearPuzzle }
                                 />
@@ -333,9 +333,10 @@ function SudokuGrid({ type }: gridInterface) {
                         render={
                             renderElement(
                                 <PlaySudokuPad
-                                    selectOnChange={onTypeSelect}
-                                    generatePuzzle={solvePuzzle}
-                                    resetPuzzle={clearPuzzle}
+                                    onTypeChange={ onTypeSelect }
+                                    onDifficultyChange={ onDifficultySelect }
+                                    generatePuzzle={ generatePuzzle }
+                                    resetPuzzle={ clearPuzzle }
                                 />
                             )
                         }

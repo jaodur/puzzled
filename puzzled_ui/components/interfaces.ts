@@ -88,15 +88,17 @@ interface svgIconInterface {
     height?: string
 }
 
-interface solveSudokuPadInterface {
-    selectOnChange: (event: eventInterface) => any,
+interface sudokuPad {
+    onTypeChange: (event: eventInterface) => any,
+}
+
+interface solveSudokuPadInterface extends sudokuPad  {
     solvePuzzle: (solve: any) => any,
-    generatePuzzle?: (solve: any) => any,
     clearPuzzle: (event: eventInterface) => any
 }
 
-interface playSudokuPadInterface {
-    selectOnChange: (event: eventInterface) => any,
+interface playSudokuPadInterface extends sudokuPad {
+    onDifficultyChange: (event: eventInterface) => any,
     generatePuzzle: (solve: any) => any,
     resetPuzzle: (event: eventInterface) => any
 }
