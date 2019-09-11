@@ -90,11 +90,18 @@ interface svgIconInterface {
 interface solveSudokuPadInterface {
     selectOnChange: (event: eventInterface) => any,
     solvePuzzle: (solve: any) => any,
+    generatePuzzle?: (solve: any) => any,
     clearPuzzle: (event: eventInterface) => any
+}
+
+interface playSudokuPadInterface {
+    selectOnChange: (event: eventInterface) => any,
+    generatePuzzle: (solve: any) => any,
+    resetPuzzle: (event: eventInterface) => any
 }
 
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
     footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
-    labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface
+    labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface, playSudokuPadInterface
 }

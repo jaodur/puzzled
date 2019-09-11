@@ -1,13 +1,15 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
 import { NumberPad } from "./numberPad";
-import { SolveSudokuPad } from "./solveSudokuPad";
+import {Route, Switch, Redirect} from 'react-router-dom';
+import { SolveSudokuPad, PlaySudokuPad } from "./sudokuPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { MutationFunc } from "react-apollo";
-import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid, noop } from "../../utils/utils";
+import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid, noop, renderElement } from "../../utils/utils";
 
 const defaultSudokuType: number = 3;
+const defaultDifficultyLevel: string = 'easy';
 const deleteKeyCode: number = 8;
 const baseTenRadix: number = 10;
 const duplicateValueCode: number = -2;
@@ -244,7 +246,7 @@ function SudokuGrid({ type }: gridInterface) {
         return cells.map(cell=>cell);
     }
 
-    function selectOnChange(event: eventInterface) {
+    function onTypeSelect(event: eventInterface) {
 
         let newType: number = parseInt(`${event.target.value}`, baseTenRadix);
         setPuzzle(createDefaultPuzzle(getGridNums(newType)));
@@ -312,11 +314,37 @@ function SudokuGrid({ type }: gridInterface) {
 
         <React.Fragment>
             <div className={ `${ sudokuGridClass }__grid_type` }>
-                <SolveSudokuPad
-                    selectOnChange={selectOnChange}
-                    solvePuzzle={solvePuzzle}
-                    clearPuzzle={clearPuzzle}
-                />
+                <Switch>
+                    <Route
+                        exact path="/sudoku/solve/"
+                        render={
+                            renderElement(
+                                <SolveSudokuPad
+                                    selectOnChange={ onTypeSelect }
+                                    solvePuzzle={ solvePuzzle }
+                                    clearPuzzle={ clearPuzzle }
+                                />
+                            )
+                        }
+                    />
+
+                    <Route
+                        exact path="/sudoku/play/"
+                        render={
+                            renderElement(
+                                <PlaySudokuPad
+                                    selectOnChange={onTypeSelect}
+                                    generatePuzzle={solvePuzzle}
+                                    resetPuzzle={clearPuzzle}
+                                />
+                            )
+                        }
+                    />
+
+                    <Redirect to="/sudoku/play/" />
+
+
+                </Switch>
             </div>
             <div className={ `${ sudokuGridClass }__grid_wrapper` }>
 
@@ -338,4 +366,4 @@ function SudokuGrid({ type }: gridInterface) {
     )
 }
 
-export { SudokuGrid, defaultSudokuType };
+export { SudokuGrid, defaultSudokuType, defaultDifficultyLevel };

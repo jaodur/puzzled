@@ -23,10 +23,10 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={ client }>
-        <BrowserRouter>
+        <BrowserRouter forceRefresh={ false }>
             <Switch>
                 <Route exact path="/" component={ Home } />
-                <Route exact path="/sudoku/" component={ SudokuHome } />
+                <Route path="/sudoku/" component={ SudokuHome } />
                 <Route component={ PageNotFound }/>
             </Switch>
         </BrowserRouter>
