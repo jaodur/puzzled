@@ -16,7 +16,7 @@ const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
 
-function SudokuGrid({ type }: gridInterface) {
+function SudokuGrid({ type, playController }: gridInterface) {
 
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
     const [ puzzle, setPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -256,6 +256,22 @@ function SudokuGrid({ type }: gridInterface) {
         changeGridState({type: newType, gridNums: getGridNums(newType)});
     }
 
+    async function onDifficultySelect(event: eventInterface) {
+        let newDifficulty: string = event.target.value;
+
+        let generatedPuzzle = await genPuzzleFunction(
+            {variables: {pType: gridState.type, difficulty: newDifficulty}}
+            ).then((res: any) => {
+            return res.data.generateSudoku.puzzle
+        });
+
+        setDifficulty( newDifficulty );
+        setPuzzle( generatedPuzzle );
+        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setErrorFields([]);
+        setErrors(createDefaultPuzzle(getGridNums(gridState.type)));
+    }
+
     function onKeyDown(row:number, col:number) {
 
         return function keyDown(event: eventInterface) {
@@ -300,6 +316,22 @@ function SudokuGrid({ type }: gridInterface) {
                 }
             }).then((response: any) => {
                 setPuzzle(response.data.solveSudoku.puzzle);
+            });
+        }
+    }
+
+    function generatePuzzle(generate: MutationFunc) {
+        return function (event: eventInterface) {
+            event.preventDefault();
+            setErrors(createDefaultPuzzle(gridState.gridNums));
+            generate({
+                variables: {
+                    pType: gridState.type,
+                    difficulty: difficulty
+
+                }
+            }).then((response: any) => {
+                setPuzzle(response.data.generateSudoku.puzzle);
             });
         }
     }

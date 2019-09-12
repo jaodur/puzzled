@@ -4,7 +4,7 @@ import { linkInterface, navbarInterface } from "../interfaces";
 import { NavItemLink } from "./links";
 
 
-function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
+function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
     function createNavLinks(links: Array<linkInterface> ) {
         let linksComponent = Array();
 
@@ -15,7 +15,7 @@ function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface)
                         name={ link.name }
                         href={ link.href }
                         activeClassName={ 'sudoku-selected' }
-
+                        onTabClick={ onTabClick }
                     />
                 </li>
             )

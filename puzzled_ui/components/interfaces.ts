@@ -5,7 +5,8 @@ interface fullPuzzleInterface {
 }
 
 interface gridInterface {
-    type: number
+    type: number,
+    playController?: boolean
 }
 
 interface numPadInterface extends gridInterface {
@@ -72,10 +73,12 @@ interface linkInterface {
     name: string,
     href: string,
     linkClass?: string,
-    activeClassName?: string
+    activeClassName?: string,
+    onTabClick?: (event: eventInterface) => any
 }
 
 interface navbarInterface {
+    onTabClick?: (event: eventInterface) => any,
     primaryLabel: labelInterface,
     secLabel?: labelInterface,
     navbarClass?: string;

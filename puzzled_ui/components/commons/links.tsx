@@ -14,9 +14,14 @@ function TextLink({ text, link, styleClass }: textLinkInterface) {
     )
 }
 
-function NavItemLink({ name, href, linkClass, activeClassName }: linkInterface){
+function NavItemLink({ name, href, linkClass, activeClassName, onTabClick }: linkInterface){
     return (
-            <NavLink to={ href } activeClassName={ activeClassName }>{ name }</NavLink>
+            <NavLink
+                to={ href }
+                activeClassName={ activeClassName }
+                onClick={ onTabClick }
+                data-name={ name }
+            >{ name }</NavLink>
     )
 
 }export { RouterLink, TextLink, NavItemLink }
