@@ -6,7 +6,17 @@ import { SolveSudokuPad, PlaySudokuPad } from "./sudokuPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { MutationFunc } from "react-apollo";
-import { uniqueArray, removeFromArray, getGridCoords, removeFromGrid, noop, renderElement } from "../../utils/utils";
+import { useMutation } from 'react-apollo-hooks'
+import { GENERATE_SUDOKU_MUTATION } from "../../graphql/mutations/sudoku";
+import {
+    uniqueArray,
+    removeFromArray,
+    getGridCoords,
+    removeFromGrid,
+    noop,
+    renderElement,
+    deepCopy,
+} from "../../utils/utils";
 
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
@@ -24,6 +34,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ errors, setErrors ] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [ errorFields, setErrorFields ] = React.useState([]);
     const [ currentGrid, setCurrentGrid ] = React.useState([]);
+    const [ difficulty, setDifficulty ] = React.useState(defaultDifficultyLevel);
+    const [ genPuzzleFunction, setGenPuzzleFunction ] = useMutation(GENERATE_SUDOKU_MUTATION);
+
+    console.log('playController', playController);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -198,7 +212,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
     }
 
     function updatePuzzleValue(row: number, col: number, val: string, keyCode: number) {
-        let newPuzzle = puzzle.slice();
+        let newPuzzle = Array.from(puzzle);
         newPuzzle[row][col] = validateInput(row, col, concatenateNumbers(newPuzzle[row][col], val, keyCode));
         return newPuzzle
 
@@ -206,26 +220,34 @@ function SudokuGrid({ type, playController }: gridInterface) {
 
     function decorateFilledInputValue(className: string, row: number, col: number) {
 
+        function blockCell(originalClassName: string, newClassName: string){
+            if(originalPuzzle[row][col] !== 0 && playController){
+               return `${ newClassName } ${ originalClassName }__td_blocked`
+            }
+
+            return newClassName
+        }
+
         if(errors[row][col] === duplicateValueCode) {
-            return `${className}__error`;
+            return blockCell(className, `${className}__error`);
 
         }
 
         if(errors[row][col] === groupedGridValueCode) {
-            return `${className}__grouped_grid`;
+            return blockCell(className, `${className}__grouped_grid`);
 
         }
 
         if(originalPuzzle[row][col] === 0) {
 
-            return `${className}__td_solved`;
+            return blockCell(className, `${className}__td_solved`);
         }
 
-        return className
+        return blockCell(className, className)
     }
 
 
-    function CreateTableRow(num: number, keyDown: any) {
+    function CreateTableRow(num: number, keyDown: any, puzzle: any) {
 
         let cells = Array();
         for(let i = 0; i < num; i++){
@@ -265,9 +287,9 @@ function SudokuGrid({ type, playController }: gridInterface) {
             return res.data.generateSudoku.puzzle
         });
 
-        setDifficulty( newDifficulty );
-        setPuzzle( generatedPuzzle );
-        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setDifficulty(newDifficulty);
+        setPuzzle(deepCopy(generatedPuzzle));
+        setOriginalPuzzle(deepCopy(generatedPuzzle));
         setErrorFields([]);
         setErrors(createDefaultPuzzle(getGridNums(gridState.type)));
     }
@@ -278,7 +300,9 @@ function SudokuGrid({ type, playController }: gridInterface) {
             event.preventDefault();
             setErrors(highlightSimilarGrids(row, col));
             setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
-            setOriginalPuzzle(puzzle);
+            if(!playController) {
+                setOriginalPuzzle(deepCopy(puzzle));
+            }
         }
     }
 
@@ -288,7 +312,9 @@ function SudokuGrid({ type, playController }: gridInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
             setErrors(highlightSimilarGrids(row, col));
-            setOriginalPuzzle(puzzle);
+            if(!playController) {
+                setOriginalPuzzle(deepCopy(puzzle));
+            }
         }
     }
 
@@ -321,24 +347,27 @@ function SudokuGrid({ type, playController }: gridInterface) {
     }
 
     function generatePuzzle(generate: MutationFunc) {
-        return function (event: eventInterface) {
+        return async function (event: eventInterface) {
             event.preventDefault();
             setErrors(createDefaultPuzzle(gridState.gridNums));
-            generate({
+            await generate({
                 variables: {
                     pType: gridState.type,
                     difficulty: difficulty
 
                 }
             }).then((response: any) => {
-                setPuzzle(response.data.generateSudoku.puzzle);
+                let puzzle = response.data.generateSudoku.puzzle;
+                setOriginalPuzzle(deepCopy(puzzle));
+                setPuzzle(deepCopy(puzzle));
             });
         }
     }
 
     function clearPuzzle(event: eventInterface) {
         event.preventDefault();
-        setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)))
+        setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)))
     }
 
 
@@ -384,7 +413,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 <table className={ `${ sudokuGridClass }__grid_table` }>
                     <tbody>
 
-                        { CreateTableRow( gridState.gridNums, onKeyDown ) }
+                        { CreateTableRow( gridState.gridNums, onKeyDown, puzzle ) }
 
                     </tbody>
                 </table>

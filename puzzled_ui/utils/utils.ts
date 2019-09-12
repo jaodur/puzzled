@@ -66,4 +66,14 @@ function renderElement(element: JSX.Element): any {
     return ()=>element
 }
 
-export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement }
+function deepCopy(object: any) {
+    let output: any, v: any, key: any;
+    output = Array.isArray(object) ? [] : {};
+    for (key in object) {
+        v = object[key];
+        output[key] = (typeof v === "object") ? deepCopy(v) : v;
+    }
+    return output;
+}
+
+export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement, deepCopy }

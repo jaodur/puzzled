@@ -24,7 +24,6 @@ function SudokuHome() {
         return pathname.includes('play')
 
     }
-
     return (
         <React.Fragment>
         <div className={'sudoku-nav'} key={ 'navbarContainer'}>
