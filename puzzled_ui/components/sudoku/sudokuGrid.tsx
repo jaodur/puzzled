@@ -234,8 +234,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
         }
 
         if(errors[row][col] === groupedGridValueCode) {
-            return blockCell(className, `${className}__grouped_grid`);
+            let groupClass = blockCell(className, `${className}__grouped_grid`);
 
+            return originalPuzzle[row][col] === 0 ?
+                `${ groupClass } ${ blockCell(className, `${ className }__td_solved`) }` : groupClass
         }
 
         if(originalPuzzle[row][col] === 0) {
