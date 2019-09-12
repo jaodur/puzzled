@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GridRow } from './gridRow'
 import { NumberPad } from "./numberPad";
-import {Route, Switch, Redirect} from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { SolveSudokuPad, PlaySudokuPad } from "./sudokuPad";
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
@@ -25,6 +25,7 @@ const baseTenRadix: number = 10;
 const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
+const empty: number = 0;
 
 function SudokuGrid({ type, playController }: gridInterface) {
 
@@ -36,8 +37,6 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ currentGrid, setCurrentGrid ] = React.useState([]);
     const [ difficulty, setDifficulty ] = React.useState(defaultDifficultyLevel);
     const [ genPuzzleFunction, setGenPuzzleFunction ] = useMutation(GENERATE_SUDOKU_MUTATION);
-
-    console.log('playController', playController);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -136,13 +135,13 @@ function SudokuGrid({ type, playController }: gridInterface) {
         let errorCoords = [];
 
         for(let i=0; i < gridState.gridNums; i++){
-            if(inputNum !== 0 && inputNum === sectorArr[i]){
+            if(inputNum !== empty && inputNum === sectorArr[i]){
                 errorCoords.push([ Math.floor(rowStart + (i / gridState.type)), colStart + (i % gridState.type) ])
             }
-            if(inputNum !== 0 && inputNum === rowArr[i]){
+            if(inputNum !== empty && inputNum === rowArr[i]){
                 errorCoords.push([row, i])
             }
-            if(inputNum !== 0 && inputNum === colArr[i]){
+            if(inputNum !== empty && inputNum === colArr[i]){
                 errorCoords.push([i, col])
             }
 
@@ -196,7 +195,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
             return inputNum
         }
 
-        return 0
+        return empty
     }
     function concatenateNumbers(prevNum: number, newNum:string, keyCode: number) {
         if(keyCode === numberPadCode){
@@ -212,7 +211,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
     }
 
     function updatePuzzleValue(row: number, col: number, val: string, keyCode: number) {
-        let newPuzzle = Array.from(puzzle);
+        let newPuzzle = deepCopy(puzzle);
         newPuzzle[row][col] = validateInput(row, col, concatenateNumbers(newPuzzle[row][col], val, keyCode));
         return newPuzzle
 
@@ -221,7 +220,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function decorateFilledInputValue(className: string, row: number, col: number) {
 
         function blockCell(originalClassName: string, newClassName: string){
-            if(originalPuzzle[row][col] !== 0 && playController){
+            if(originalPuzzle[row][col] !== empty && playController){
                return `${ newClassName } ${ originalClassName }__td_blocked`
             }
 
@@ -229,20 +228,22 @@ function SudokuGrid({ type, playController }: gridInterface) {
         }
 
         if(errors[row][col] === duplicateValueCode) {
-            return blockCell(className, `${className}__error`);
+            let duplicateClass = blockCell(className, `${ className }__error`);
+            return originalPuzzle[row][col] === empty ?
+                duplicateClass : blockCell(className, `${ className }__error_blocked`);
 
         }
 
         if(errors[row][col] === groupedGridValueCode) {
-            let groupClass = blockCell(className, `${className}__grouped_grid`);
+            let groupClass = blockCell(className, `${ className }__grouped_grid`);
 
-            return originalPuzzle[row][col] === 0 ?
+            return originalPuzzle[row][col] === empty ?
                 `${ groupClass } ${ blockCell(className, `${ className }__td_solved`) }` : groupClass
         }
 
-        if(originalPuzzle[row][col] === 0) {
+        if(originalPuzzle[row][col] === empty) {
 
-            return blockCell(className, `${className}__td_solved`);
+            return blockCell(className, `${ className }__td_solved`);
         }
 
         return blockCell(className, className)

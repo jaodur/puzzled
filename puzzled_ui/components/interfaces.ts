@@ -102,7 +102,7 @@ interface solveSudokuPadInterface extends sudokuPad  {
 
 interface playSudokuPadInterface extends sudokuPad {
     onDifficultyChange: (event: eventInterface) => any,
-    generatePuzzle: (solve: any) => any,
+    generatePuzzle: (generate: any) => any,
     resetPuzzle: (event: eventInterface) => any
 }
 
