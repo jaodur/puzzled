@@ -379,6 +379,12 @@ function SudokuGrid({ type, playController }: gridInterface) {
         setSolved(false)
     }
 
+    function resetPuzzle(event: eventInterface){
+        event.preventDefault();
+        setPuzzle(deepCopy(originalPuzzle));
+        setSolved(false)
+    }
+
 
     return (
 
@@ -406,7 +412,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                                     onTypeChange={ onTypeSelect }
                                     onDifficultyChange={ onDifficultySelect }
                                     generatePuzzle={ generatePuzzle }
-                                    resetPuzzle={ clearPuzzle }
+                                    resetPuzzle={ resetPuzzle }
                                 />
                             )
                         }
