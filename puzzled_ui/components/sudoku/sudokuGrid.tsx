@@ -37,6 +37,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ currentGrid, setCurrentGrid ] = React.useState([]);
     const [ difficulty, setDifficulty ] = React.useState(defaultDifficultyLevel);
     const [ genPuzzleFunction, setGenPuzzleFunction ] = useMutation(GENERATE_SUDOKU_MUTATION);
+    const [ solved, setSolved ] = React.useState(false);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -279,6 +280,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         setErrorFields([]);
         setErrors(createDefaultPuzzle(getGridNums(newType)));
         changeGridState({type: newType, gridNums: getGridNums(newType)});
+        setSolved(false)
     }
 
     async function onDifficultySelect(event: eventInterface) {
@@ -293,6 +295,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         setDifficulty(newDifficulty);
         setPuzzle(deepCopy(generatedPuzzle));
         setOriginalPuzzle(deepCopy(generatedPuzzle));
+        setSolved(false);
         setErrorFields([]);
         setErrors(createDefaultPuzzle(getGridNums(gridState.type)));
     }
@@ -303,7 +306,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
             event.preventDefault();
             setErrors(highlightSimilarGrids(row, col));
             setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
-            if(!playController) {
+            if(!playController && !solved) {
                 setOriginalPuzzle(deepCopy(puzzle));
             }
         }
@@ -315,7 +318,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
             setErrors(highlightSimilarGrids(row, col));
-            if(!playController) {
+            if(!playController && !solved) {
                 setOriginalPuzzle(deepCopy(puzzle));
             }
         }
@@ -345,6 +348,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 }
             }).then((response: any) => {
                 setPuzzle(response.data.solveSudoku.puzzle);
+                setSolved(true)
             });
         }
     }
@@ -363,6 +367,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 let puzzle = response.data.generateSudoku.puzzle;
                 setOriginalPuzzle(deepCopy(puzzle));
                 setPuzzle(deepCopy(puzzle));
+                setSolved(false)
             });
         }
     }
@@ -370,7 +375,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function clearPuzzle(event: eventInterface) {
         event.preventDefault();
         setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
-        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)))
+        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setSolved(false)
     }
 
 
