@@ -30,6 +30,10 @@ using this command `git clone -b develop https://github.com/ja-odur/puzzled.git`
 * Using npm, install node depencencies
 * $ **`npm install`**
 
+## __Setting up environment variables__
+* create a `.env` file in the role directory and add the environment variable key defined in the
+`.env_sample` file with corresponding value.
+
 
 ## __Starting the application__
 * After cloning and installing the required dependencies, run the builds and start the app using the command
