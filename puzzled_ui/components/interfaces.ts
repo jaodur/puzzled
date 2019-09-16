@@ -50,6 +50,16 @@ interface sudokuTableDataInterface {
     decorateFunc: (className: string, row: number, col: number) => string
 }
 
+interface GridTableInterface {
+    CreateTableRow: (gridNums: number, onKeyDown: any, puzzle: number[][]) => any,
+    sudokuGridClass: string,
+    gridState: any
+    onKeyDown:(row: number, col: number) => any,
+    puzzle: number[][],
+    showCongsMsg: boolean,
+    onClick: (generate: any) => any
+}
+
 interface gameIntroInterface {
     gameClass: string
 }
@@ -106,8 +116,14 @@ interface playSudokuPadInterface extends sudokuPad {
     resetPuzzle: (event: eventInterface) => any
 }
 
+interface congratulationInterface {
+    className: string,
+    onClick: (generate: any) => any
+}
+
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
     footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
-    labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface, playSudokuPadInterface
+    labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface, playSudokuPadInterface,
+    congratulationInterface, GridTableInterface
 }

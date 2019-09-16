@@ -10,5 +10,4 @@ function EraseIcon({ width }: svgIconInterface) {
     )
 }
 
-
 export { EraseIcon }

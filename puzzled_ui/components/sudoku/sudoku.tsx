@@ -33,7 +33,7 @@ function SudokuHome() {
                 links={ sudokuNavBarLinks.links }
                 onTabClick={ onTabClick() }
                 key={ 'sudoku' }/>
-        </div>,
+        </div>
         <SudokuGrid type={ defaultSudokuType } playController={ playController } key={ 'sudokuGrid' } />
         <Footer footerClass={footerClass} key={ 'sudoku-footer' }/>
         </React.Fragment>

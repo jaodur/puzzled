@@ -3,6 +3,7 @@ import { GridRow } from './gridRow'
 import { NumberPad } from "./numberPad";
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { SolveSudokuPad, PlaySudokuPad } from "./sudokuPad";
+import { GridTable } from './gridTable';
 import { gridInterface, eventInterface, fullPuzzleInterface } from '../interfaces'
 import * as _ from 'lodash';
 import { MutationFunc } from "react-apollo";
@@ -17,6 +18,8 @@ import {
     renderElement,
     deepCopy,
 } from "../../utils/utils";
+import {useEffect} from "react";
+
 
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
@@ -40,6 +43,11 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ solved, setSolved ] = React.useState(false);
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
+
+    useEffect(()=>{
+        checkSolved()
+
+    }, [puzzle, solved, errorFields]);
 
     function createDefaultPuzzle(gridNum: number){
         let finalArray = [];
@@ -385,6 +393,20 @@ function SudokuGrid({ type, playController }: gridInterface) {
         setSolved(false)
     }
 
+    function checkSolved(){
+        let testPuzzle = _.flattenDeep(deepCopy(puzzle));
+
+        console.log('checkSolved ran');
+
+        if(playController && errorFields.length <= 0) {
+            if (_.find(testPuzzle, val => val === empty) === empty) {
+                setSolved(false);
+                return
+            }
+            setSolved(true)
+        }
+    }
+
 
     return (
 
@@ -425,13 +447,16 @@ function SudokuGrid({ type, playController }: gridInterface) {
             </div>
             <div className={ `${ sudokuGridClass }__grid_wrapper` }>
 
-                <table className={ `${ sudokuGridClass }__grid_table` }>
-                    <tbody>
+                <GridTable
+                    CreateTableRow={ CreateTableRow }
+                    sudokuGridClass={ sudokuGridClass }
+                    gridState={ gridState }
+                    onKeyDown={ onKeyDown }
+                    puzzle={ puzzle }
+                    showCongsMsg={ playController && solved }
+                    onClick={ generatePuzzle }
+                />
 
-                        { CreateTableRow( gridState.gridNums, onKeyDown, puzzle ) }
-
-                    </tbody>
-                </table>
                 <NumberPad
                     onPadClick={ onPadClick }
                     gridClass={ sudokuGridClass }
