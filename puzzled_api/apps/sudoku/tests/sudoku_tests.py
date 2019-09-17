@@ -45,3 +45,27 @@ class TestSudoku:
         repr_rep = repr(Sudoku(puzzle, 3))
 
         assert 'type=3' in repr_rep
+
+    def test_get_sector_succeeds(self, puzzle):
+
+        sector = Sudoku(puzzle, 3)._get_sector(1, 2)
+
+        assert list(sector) == list([5, 7, 0, 0, 4, 0, 9, 0, 0])
+
+    def test_update_empty_cells_succeeds(self, puzzle):
+
+        cells = Sudoku(puzzle, 3).update_empty_cells()
+
+        assert cells[-1] == (5, 6, {8, 1})
+
+    def test_find_next_empty_cell_with_update_succeeds(self, puzzle):
+
+        next_cell = Sudoku(puzzle, 3)._find_next_empty_cell(run_update=True)
+
+        assert next_cell == (5, 6, {8, 1})
+
+    def test_find_next_empty_cell_without_update_fails(self, puzzle):
+
+        next_cell = Sudoku(puzzle, 3)._find_next_empty_cell()
+
+        assert next_cell == (-1, -1, -1)
