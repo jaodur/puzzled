@@ -63,7 +63,7 @@ $thickBlue: #2662ac
       font-size: 1rem
       line-height: 1.4rem
 
-@mixin nav-bar($bgColor: white, $height: 2.8rem)
+@mixin nav-bar($bgColor: white, $color: black, $hoverColor: $thickBlue,$logoColor: grey, $height: 2.8rem)
   nav
     background-color: $bgColor
     height: #{$height}
@@ -75,7 +75,7 @@ $thickBlue: #2662ac
 
     div
       flex: 2 2
-      color: darken(grey, 20%)
+      color: darken($logoColor, 40%)
       align-self: center
       font-size: $baseFontSize + 20
       text-align: right
@@ -86,7 +86,7 @@ $thickBlue: #2662ac
         margin: 5px
         text-transform: lowercase
         font-size: 1.5rem
-        color: black
+        color: $color
 
     ul
       height: 100%
@@ -114,10 +114,10 @@ $thickBlue: #2662ac
 
         &:hover
           a
-            color: $thickBlue
+            color: $hoverColor
 
         a
-          color: black
+          color: $color
           text-decoration: none
 
 @mixin navbar-container($height: $screenHeight * 0.4)

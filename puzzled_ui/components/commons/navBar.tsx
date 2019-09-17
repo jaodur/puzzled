@@ -1,24 +1,24 @@
 import * as React from "react";
 import { Logo } from './logo'
 import { linkInterface, navbarInterface } from "../interfaces";
+import { NavItemLink } from "./links";
 
 
-function Link({ name, href, linkClass }: linkInterface){
-    return (
-        <li className={ linkClass }>
-            <a href={ href }>{ name }</a>
-        </li>
-        )
-
-}
-
-
-function NavBar({ primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
+function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links }: navbarInterface) {
     function createNavLinks(links: Array<linkInterface> ) {
         let linksComponent = Array();
 
         links.forEach( function (link, index) {
-            linksComponent.push(<Link name={ link.name } href={ link.href } key={`navBarLinks-${ index }`}/>)
+            linksComponent.push(
+                <li key={ `navBarLinks-${ index }` }>
+                    <NavItemLink
+                        name={ link.name }
+                        href={ link.href }
+                        activeClassName={ 'sudoku-selected' }
+                        onTabClick={ onTabClick }
+                    />
+                </li>
+            )
         });
 
         return linksComponent.map(link=>link);
