@@ -463,6 +463,20 @@ class Sudoku:
             for x in range(max_val):
 
                 if not x % 2:
+                    row_coords = [(x, y) for index, y in enumerate(range(max_val)) if not index % 2 or index % 3]
+                else:
+                    row_coords = [(x, y) for index, y in enumerate(range(max_val)) if index % 2]
+                    row_coords.reverse()
+
+                coords.extend(row_coords)
+
+            return [], coords
+
+        if difficulty == 'easy':
+            coords = []
+            for x in range(max_val):
+
+                if not x % 2:
                     row_coords = [(x, y) for index, y in enumerate(range(max_val)) if not index % 2]
                 else:
                     row_coords = [(x, y) for index, y in enumerate(range(max_val)) if index % 2]
