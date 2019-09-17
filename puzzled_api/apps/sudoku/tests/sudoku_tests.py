@@ -7,6 +7,7 @@ from .fixtures import (
     expert_coords,
     hard_coords,
     medium_coords,
+    easy_coords,
     str_representation
 )
 
@@ -34,6 +35,12 @@ class TestSudoku:
 
         assert prefilled == []
         assert coords == medium_coords
+
+    def test_difficulty_pattern_generator_easy_succeeds(self, easy_coords):
+        prefilled, coords = Sudoku.difficulty_pattern_generator(3, 'easy')
+
+        assert prefilled == []
+        assert coords == easy_coords
 
     def test_string_representation(self, puzzle, str_representation):
 
