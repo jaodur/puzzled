@@ -98,7 +98,8 @@ interface navbarInterface {
 interface svgIconInterface {
     fillColor?: string,
     width?: string,
-    height?: string
+    height?: string,
+    styleClass?: string
 }
 
 interface sudokuPad {
@@ -121,9 +122,14 @@ interface congratulationInterface {
     onClick: (generate: any) => any
 }
 
+interface timerInterface {
+    styleClass:string,
+    play: boolean
+}
+
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
     footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
     labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface, playSudokuPadInterface,
-    congratulationInterface, GridTableInterface
+    congratulationInterface, GridTableInterface, timerInterface
 }

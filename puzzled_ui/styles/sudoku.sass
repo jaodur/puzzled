@@ -227,10 +227,13 @@
 // ************************** style *******************************
 
 //$mainColor: #ffc63b
-$mainColor: #2662ac
+$mainNavBarColor: #2662ac
+$thickRed: #fb4547
+$lightRed: #f7cfd6
+$lightBlue: #4a90e2
 
 .sudoku-nav
-  @include nav-bar($bgColor: $mainColor,$color: #dadada,$hoverColor: white, $logoColor: white, $height: 50px)
+  @include nav-bar($bgColor: $mainNavBarColor,$color: #dadada,$hoverColor: white, $logoColor: white, $height: 50px)
 
 table
   border-collapse: collapse
@@ -241,22 +244,20 @@ table
 .table-data
 
   &__error
-    color: #fb4547
-    background-color: #f7cfd6
+    color: $thickRed
+    background-color: $lightRed
 
   &__error_blocked
-    background-color: #f7cfd6
+    background-color: $lightRed
 
   &__td_solved
-    color: #4a90e2
-    //color: #4a78ca
+    color: $lightBlue
 
   &__td_blocked
     pointer-events: none
 
   &__grouped_grid
     background-color: #e2e7ed
-    //color: blue
 
 .sudoku-grid-1
   @include sudokuGrid($type: 1, $reduceHeight: 0)
@@ -278,9 +279,20 @@ table
 
 .footer-sudoku
   //@include footer($bgColor: $mainColor, $color: #160f01, $marginTop: 0)
-  @include footer($bgColor: $mainColor, $color: #dadada, $marginTop: 0)
+  @include footer($bgColor: $mainNavBarColor, $color: #dadada, $marginTop: 0)
 
 .sudoku-selected
   color: white !important
+
+.timer
+  &__span
+    color: $thickRed
+    min-width: 60px
+    text-align: right
+
+  &__svg
+    fill: $mainNavBarColor
+    margin: 4px
+
 
 
