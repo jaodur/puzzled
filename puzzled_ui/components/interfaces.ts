@@ -99,7 +99,8 @@ interface svgIconInterface {
     fillColor?: string,
     width?: string,
     height?: string,
-    styleClass?: string
+    styleClass?: string,
+    onClick?: any
 }
 
 interface sudokuPad {
@@ -116,7 +117,8 @@ interface playSudokuPadInterface extends sudokuPad {
     generatePuzzle: (generate: any) => any,
     resetPuzzle: (event: eventInterface) => any,
     totalSeconds: number,
-    playing: boolean
+    playing: boolean,
+    onClick: any
 }
 
 interface congratulationInterface {
@@ -127,7 +129,8 @@ interface congratulationInterface {
 interface timerInterface {
     styleClass:string,
     playing: boolean,
-    totalSeconds: number
+    totalSeconds: number,
+    onClick: any
 }
 
 export {

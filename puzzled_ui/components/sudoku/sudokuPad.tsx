@@ -31,7 +31,14 @@ function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: solveSudokuP
 }
 
 
-function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, resetPuzzle, totalSeconds, playing }: playSudokuPadInterface){
+function PlaySudokuPad({
+                           onTypeChange,
+                           onDifficultyChange,
+                           generatePuzzle,
+                           resetPuzzle,
+                           totalSeconds,
+                           playing,
+                           onClick }: playSudokuPadInterface){
     return (
         <React.Fragment>
             <div>
@@ -60,7 +67,7 @@ function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, reset
                 )}
             </Mutation>
 
-            <Timer playing={ playing } styleClass={ timerClass } totalSeconds={ totalSeconds }/>
+            <Timer onClick={ onClick } playing={ playing } styleClass={ timerClass } totalSeconds={ totalSeconds }/>
         </React.Fragment>
     )
 }

@@ -19,7 +19,6 @@ import {
     deepCopy,
 } from "../../utils/utils";
 
-
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
 const deleteKeyCode: number = 8;
@@ -419,6 +418,11 @@ function SudokuGrid({ type, playController }: gridInterface) {
         }
     }
 
+    function onTimerIconClick(event: eventInterface) {
+        event.preventDefault();
+        setPlayTime({...playTime, playing: !playTime.playing, timeoutFunc: null})
+    }
+
 
     return (
 
@@ -449,6 +453,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                                     resetPuzzle={ resetPuzzle }
                                     totalSeconds={ playTime.totalSeconds }
                                     playing={ playTime.playing }
+                                    onClick={ onTimerIconClick }
                                 />
                             )
                         }

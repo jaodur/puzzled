@@ -16,9 +16,9 @@ function EraseIcon({ width }: svgIconInterface) {
     )
 }
 
-function PlayIcon({ styleClass, width }: svgIconInterface) {
+function PlayIcon({ styleClass, width, onClick }: svgIconInterface) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.054 286.054" width={ width } className={ styleClass }>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.054 286.054" width={ width } className={ styleClass } onClick={ onClick }>
             <g>
                     <path d="M143.027,0.004C64.04,0.004,0,64.036,0,143.022c0,78.996,64.04,143.027,143.027,143.027
                     s143.027-64.031,143.027-143.027C286.054,64.045,222.014,0.004,143.027,0.004z M143.027,259.232
@@ -31,9 +31,9 @@ function PlayIcon({ styleClass, width }: svgIconInterface) {
             )
         }
 
-function PauseIcon({ styleClass, width }: svgIconInterface) {
+function PauseIcon({ styleClass, width, onClick }: svgIconInterface) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.054 286.054" width={ width } className={ styleClass }>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.054 286.054" width={ width } className={ styleClass } onClick={ onClick }>
             <g>
                 <path d="M120.679,89.387c-7.411,0-13.409,6.007-13.409,13.409v80.453c0,7.411,5.998,13.409,13.409,13.409
                     s13.409-5.998,13.409-13.409v-80.453C134.088,95.394,128.09,89.387,120.679,89.387z M143.027,0.004C64.04,0.004,0,64.036,0,143.022
