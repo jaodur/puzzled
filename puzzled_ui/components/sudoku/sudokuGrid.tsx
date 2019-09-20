@@ -303,7 +303,6 @@ function SudokuGrid({ type, playController }: gridInterface) {
             ).then((res: any) => {
             return res.data.generateSudoku.puzzle
         });
-
         setDifficulty(newDifficulty);
         setPuzzle(deepCopy(generatedPuzzle));
         setOriginalPuzzle(deepCopy(generatedPuzzle));
@@ -393,6 +392,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
 
     function resetPuzzle(event: eventInterface){
         event.preventDefault();
+        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setErrorFields([]);
         setPuzzle(deepCopy(originalPuzzle));
         setSolved(false)
     }
