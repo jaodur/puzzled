@@ -396,8 +396,6 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function checkSolved(){
         let testPuzzle = _.flattenDeep(deepCopy(puzzle));
 
-        console.log('checkSolved ran');
-
         if(playController && errorFields.length <= 0) {
             if (_.find(testPuzzle, val => val === empty) === empty) {
                 setSolved(false);

@@ -57,11 +57,10 @@ function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, reset
             <Mutation  mutation={ GENERATE_SUDOKU_MUTATION } >
                 {(generatePuzzleCallBack: MutationFunc) => (
                     <button onClick={ generatePuzzle(generatePuzzleCallBack) }>New Game</button>
-
                 )}
             </Mutation>
 
-            <Timer play={ true } styleClass={ timerClass }/>
+            <Timer play={ true } styleClass={ timerClass } totalSeconds={ 4149 }/>
         </React.Fragment>
     )
 }

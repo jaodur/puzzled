@@ -124,7 +124,8 @@ interface congratulationInterface {
 
 interface timerInterface {
     styleClass:string,
-    play: boolean
+    play: boolean,
+    totalSeconds: number
 }
 
 export {
