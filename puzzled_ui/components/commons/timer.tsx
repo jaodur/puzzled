@@ -6,10 +6,10 @@ import { modulus, pad } from "../../utils/utils";
 const minute: number = 60; // 60 seconds
 const hour: number = minute * 60;
 
-function Timer({ play, styleClass, totalSeconds }: timerInterface) {
+function Timer({ playing, styleClass, totalSeconds }: timerInterface) {
 
     function loadIcon() {
-        if(play){
+        if(playing){
             return <PauseIcon width={ '25' } styleClass={ `${ styleClass }__svg` }/>
         }
 

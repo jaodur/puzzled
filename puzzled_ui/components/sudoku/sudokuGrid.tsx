@@ -18,7 +18,6 @@ import {
     renderElement,
     deepCopy,
 } from "../../utils/utils";
-import {useEffect} from "react";
 
 
 const defaultSudokuType: number = 3;
@@ -41,12 +40,17 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ difficulty, setDifficulty ] = React.useState(defaultDifficultyLevel);
     const [ genPuzzleFunction, setGenPuzzleFunction ] = useMutation(GENERATE_SUDOKU_MUTATION);
     const [ solved, setSolved ] = React.useState(false);
+    const [ playTime, setPlayTime ] = React.useState({ playing: false, totalSeconds: 0, timeoutFunc: null });
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
-    useEffect(()=>{
-        checkSolved()
+    React.useEffect(() => {
+        updateTimer();
+        return () => {clearInterval(playTime.timeoutFunc)}
+    }, [playTime]);
 
+    React.useEffect(()=>{
+        checkSolved();
     }, [puzzle, solved, errorFields]);
 
     function createDefaultPuzzle(gridNum: number){
@@ -404,6 +408,15 @@ function SudokuGrid({ type, playController }: gridInterface) {
             setSolved(true)
         }
     }
+    
+    function updateTimer() {
+        if(!playTime.timeoutFunc && playTime.playing ){
+            let timer = setInterval(()=>{
+                setPlayTime({...playTime, totalSeconds: playTime.totalSeconds + 1})
+            }, 1000);
+            setPlayTime({...playTime, timeoutFunc: timer})
+        }
+    }
 
 
     return (
@@ -433,6 +446,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
                                     onDifficultyChange={ onDifficultySelect }
                                     generatePuzzle={ generatePuzzle }
                                     resetPuzzle={ resetPuzzle }
+                                    totalSeconds={ playTime.totalSeconds }
+                                    playing={ playTime.playing }
                                 />
                             )
                         }

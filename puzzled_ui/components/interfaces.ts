@@ -114,7 +114,9 @@ interface solveSudokuPadInterface extends sudokuPad  {
 interface playSudokuPadInterface extends sudokuPad {
     onDifficultyChange: (event: eventInterface) => any,
     generatePuzzle: (generate: any) => any,
-    resetPuzzle: (event: eventInterface) => any
+    resetPuzzle: (event: eventInterface) => any,
+    totalSeconds: number,
+    playing: boolean
 }
 
 interface congratulationInterface {
@@ -124,7 +126,7 @@ interface congratulationInterface {
 
 interface timerInterface {
     styleClass:string,
-    play: boolean,
+    playing: boolean,
     totalSeconds: number
 }
 
