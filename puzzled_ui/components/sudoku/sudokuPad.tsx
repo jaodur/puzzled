@@ -38,7 +38,8 @@ function PlaySudokuPad({
                            resetPuzzle,
                            totalSeconds,
                            playing,
-                           onClick }: playSudokuPadInterface){
+                           onClick,
+                           stopTimer }: playSudokuPadInterface){
     return (
         <React.Fragment>
             <div>
@@ -67,7 +68,12 @@ function PlaySudokuPad({
                 )}
             </Mutation>
 
-            <Timer onClick={ onClick } playing={ playing } styleClass={ timerClass } totalSeconds={ totalSeconds }/>
+            <Timer stopTimer={ stopTimer }
+                   onClick={ onClick }
+                   playing={ playing }
+                   styleClass={ timerClass }
+                   totalSeconds={ totalSeconds }/>
+
         </React.Fragment>
     )
 }

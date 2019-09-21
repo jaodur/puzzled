@@ -57,7 +57,9 @@ interface GridTableInterface {
     onKeyDown:(row: number, col: number) => any,
     puzzle: number[][],
     showCongsMsg: boolean,
-    onClick: (generate: any) => any
+    onClick: (generate: any) => any,
+    playing: boolean,
+    onPlayPauseClick: any
 }
 
 interface gameIntroInterface {
@@ -118,7 +120,8 @@ interface playSudokuPadInterface extends sudokuPad {
     resetPuzzle: (event: eventInterface) => any,
     totalSeconds: number,
     playing: boolean,
-    onClick: any
+    onClick: any,
+    stopTimer: boolean
 }
 
 interface congratulationInterface {
@@ -126,16 +129,22 @@ interface congratulationInterface {
     onClick: (generate: any) => any
 }
 
+interface pauseInterface {
+    className: string,
+    onPlayIconClick: (generate: any) => any
+}
+
 interface timerInterface {
     styleClass:string,
     playing: boolean,
     totalSeconds: number,
-    onClick: any
+    onClick: any,
+    stopTimer: boolean
 }
 
 export {
     gridInterface, eventInterface, routeLinkInterface, gridRowInterface, sudokuTableDataInterface, gameIntroInterface ,
     footerInterface, fullPuzzleInterface, logoInterface, linkInterface, navbarInterface, textLinkInterface,
     labelInterface, numPadInterface, svgIconInterface, solveSudokuPadInterface, playSudokuPadInterface,
-    congratulationInterface, GridTableInterface, timerInterface
+    congratulationInterface, GridTableInterface, timerInterface, pauseInterface
 }

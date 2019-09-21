@@ -6,14 +6,17 @@ import { modulus, pad } from "../../utils/utils";
 const minute: number = 60; // 60 seconds
 const hour: number = minute * 60;
 
-function Timer({ playing, styleClass, totalSeconds, onClick }: timerInterface) {
+function Timer({ playing, styleClass, totalSeconds, onClick, stopTimer }: timerInterface) {
+    function setClickFunction(){
+        return stopTimer ? ()=>{} : onClick
+    }
 
     function loadIcon() {
-        if(playing){
-            return <PauseIcon onClick={ onClick } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
+        if(!stopTimer && playing){
+            return <PauseIcon onClick={ setClickFunction() } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
         }
 
-        return <PlayIcon onClick={ onClick } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
+        return <PlayIcon onClick={ setClickFunction() } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
     }
 
     function parseSeconds(totalSeconds: number) {

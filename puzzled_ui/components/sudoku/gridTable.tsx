@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { Congratulation } from "./congratulation";
 import { GridTableInterface } from "../interfaces";
+import {Pause} from "./pause";
 
-function GridTable({ CreateTableRow, sudokuGridClass, gridState, onKeyDown, puzzle, showCongsMsg, onClick }: GridTableInterface) {
+function GridTable({
+                       CreateTableRow,
+                       sudokuGridClass,
+                       gridState,
+                       onKeyDown,
+                       puzzle,
+                       showCongsMsg,
+                       onClick,
+                       playing,
+                       onPlayPauseClick }: GridTableInterface) {
     return (
         <div className={ `${ sudokuGridClass }__grid_congrats_wrapper` }>
             <Congratulation
@@ -11,6 +21,10 @@ function GridTable({ CreateTableRow, sudokuGridClass, gridState, onKeyDown, puzz
                 }
                 onClick={ onClick }
             />
+
+            <Pause
+                className={ playing ? `${ sudokuGridClass }__no_display` :  `${ sudokuGridClass }__congrats_wrapper` }
+                onPlayIconClick={ onPlayPauseClick }/>
 
             <table
                 className={
