@@ -151,8 +151,9 @@ $lightBlue: #4a90e2
 
     button
       font-size: inherit
-      text-transform: uppercase
+      text-transform: capitalize
       margin: 0 1%
+      cursor: pointer
 
     > div
       //width: (80px - $reduceHeight) * $type * $type
@@ -179,6 +180,7 @@ $lightBlue: #4a90e2
         border-color: rgb(166, 166, 166)
         border-image: initial
         background-color: rgb(248, 248, 248)
+        cursor: pointer
 
   &__grid_table
     margin: 0
@@ -300,6 +302,12 @@ table
   &__svg
     fill: $mainNavBarColor
     margin: 4px
+    cursor: pointer
+
+    &__disabled
+      fill: $mainNavBarColor
+      margin: 4px
+      cursor: not-allowed
 
 
 

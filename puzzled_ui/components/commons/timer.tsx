@@ -11,12 +11,16 @@ function Timer({ playing, styleClass, totalSeconds, onClick, stopTimer }: timerI
         return stopTimer ? ()=>{} : onClick
     }
 
+    function setStyleClass() {
+        return stopTimer ? `${ styleClass }__svg__disabled` : `${ styleClass }__svg`
+    }
+
     function loadIcon() {
         if(!stopTimer && playing){
-            return <PauseIcon onClick={ setClickFunction() } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
+            return <PauseIcon onClick={ setClickFunction() } width={ '25' } styleClass={ setStyleClass() }/>
         }
 
-        return <PlayIcon onClick={ setClickFunction() } width={ '25' } styleClass={ `${ styleClass }__svg` }/>
+        return <PlayIcon onClick={ setClickFunction() } width={ '25' } styleClass={ setStyleClass() }/>
     }
 
     function parseSeconds(totalSeconds: number) {
