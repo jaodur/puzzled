@@ -74,7 +74,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function initPuzzleLoad() {
         if(!playController){
             setPuzzle(createDefaultPuzzle(gridState.gridNums));
-            setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+            setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
+            setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
         }
         else {
             genPuzzleFunction(
@@ -416,6 +417,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         event.preventDefault();
         setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
         setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setErrorFields([]);
         setSolved(false)
     }
 
@@ -454,11 +456,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
     }
 
     function checkPlayPauseStatus() {
-        if(playController && !playTime.playing){
-            setPuzzle(deepCopy(createDefaultPuzzle(gridState.gridNums)));
+        if(playController){
+            playTime.playing ? setPuzzle(pausedPuzzle) : setPuzzle(deepCopy(createDefaultPuzzle(gridState.gridNums)));
             return
         }
-        setPuzzle(pausedPuzzle);
     }
 
     function updatePausedPuzzle() {
