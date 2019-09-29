@@ -29,7 +29,6 @@ const numberPadCode: number = 0;
 const empty: number = 0;
 
 function SudokuGrid({ type, playController }: gridInterface) {
-
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
     const [ puzzle, setPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [ originalPuzzle, setOriginalPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -43,6 +42,12 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ pausedPuzzle, setPausedPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
+
+    // componentDidMount
+    React.useEffect(() => {
+        initPuzzleLoad();
+
+    }, []);
 
     React.useEffect(() => {
         updateTimer();
@@ -64,6 +69,23 @@ function SudokuGrid({ type, playController }: gridInterface) {
             finalArray.push(templateArray)
         }
         return finalArray;
+    }
+
+    function initPuzzleLoad() {
+        if(!playController){
+            setPuzzle(createDefaultPuzzle(gridState.gridNums));
+            setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+        }
+        else {
+            genPuzzleFunction(
+                {variables: {pType: gridState.type, difficulty: difficulty}}
+            ).then((res: any) => {
+                let puzzle: number[][] = res.data.generateSudoku.puzzle;
+                setPuzzle(deepCopy(puzzle));
+                setOriginalPuzzle(deepCopy(puzzle));
+                setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+            });
+        }
     }
 
     function createPrefilledArray(coords: Array<Array<number>>, fillValue: number) {
