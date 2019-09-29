@@ -30,7 +30,6 @@ function getGridCoords(row: number, col: number, refNumber: number){
 
 function modulus(numerator: number, denominator: number){
     let mod = numerator % denominator;
-
     if(isNaN(mod)){
         return numerator
     }
@@ -76,4 +75,14 @@ function deepCopy(object: any) {
     return output;
 }
 
-export { noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement, deepCopy }
+function pad(input: any, length: number, padChar: string='0', padLeft: boolean=true) {
+    if(padLeft){
+        return `${ input }`.padStart(length, padChar)
+    }
+    return `${ input }`.padEnd(length, padChar)
+}
+
+export {
+    noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement, deepCopy,
+    pad
+}

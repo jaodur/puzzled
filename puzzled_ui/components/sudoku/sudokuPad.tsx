@@ -3,6 +3,9 @@ import { Mutation, MutationFunc } from "react-apollo";
 import { SOLVE_SUDOKU_MUTATION, GENERATE_SUDOKU_MUTATION } from "../../graphql/mutations/sudoku";
 import { defaultSudokuType, defaultDifficultyLevel } from "./sudokuGrid";
 import { solveSudokuPadInterface, playSudokuPadInterface } from "../interfaces";
+import { Timer } from "../commons/timer";
+
+const timerClass: string = 'timer';
 
 
 function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: solveSudokuPadInterface){
@@ -28,7 +31,15 @@ function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: solveSudokuP
 }
 
 
-function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, resetPuzzle }: playSudokuPadInterface){
+function PlaySudokuPad({
+                           onTypeChange,
+                           onDifficultyChange,
+                           generatePuzzle,
+                           resetPuzzle,
+                           totalSeconds,
+                           playing,
+                           onClick,
+                           stopTimer }: playSudokuPadInterface){
     return (
         <React.Fragment>
             <div>
@@ -48,13 +59,21 @@ function PlaySudokuPad({ onTypeChange, onDifficultyChange, generatePuzzle, reset
                     <option value={ 'expert' }>Expert</option>
                 </select>
             </div>
+
             <button onClick={ resetPuzzle }>reset</button>
+
             <Mutation  mutation={ GENERATE_SUDOKU_MUTATION } >
                 {(generatePuzzleCallBack: MutationFunc) => (
                     <button onClick={ generatePuzzle(generatePuzzleCallBack) }>New Game</button>
-
                 )}
             </Mutation>
+
+            <Timer stopTimer={ stopTimer }
+                   onClick={ onClick }
+                   playing={ playing }
+                   styleClass={ timerClass }
+                   totalSeconds={ totalSeconds }/>
+
         </React.Fragment>
     )
 }

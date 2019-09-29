@@ -18,8 +18,6 @@ import {
     renderElement,
     deepCopy,
 } from "../../utils/utils";
-import {useEffect} from "react";
-
 
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
@@ -31,7 +29,6 @@ const numberPadCode: number = 0;
 const empty: number = 0;
 
 function SudokuGrid({ type, playController }: gridInterface) {
-
     const [ gridState, changeGridState ] = React.useState({ type: type, gridNums: getGridNums(type) });
     const [ puzzle, setPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [ originalPuzzle, setOriginalPuzzle ] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -41,12 +38,28 @@ function SudokuGrid({ type, playController }: gridInterface) {
     const [ difficulty, setDifficulty ] = React.useState(defaultDifficultyLevel);
     const [ genPuzzleFunction, setGenPuzzleFunction ] = useMutation(GENERATE_SUDOKU_MUTATION);
     const [ solved, setSolved ] = React.useState(false);
+    const [ playTime, setPlayTime ] = React.useState({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+    const [ pausedPuzzle, setPausedPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
 
     let sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
-    useEffect(()=>{
-        checkSolved()
+    // componentDidMount
+    React.useEffect(() => {
+        initPuzzleLoad();
 
+    }, []);
+
+    React.useEffect(() => {
+        updateTimer();
+        checkPlayPauseStatus();
+
+        return () => { clearInterval(playTime.timeoutFunc) }
+
+    }, [playTime]);
+
+    React.useEffect(()=>{
+        checkSolved();
+        updatePausedPuzzle()
     }, [puzzle, solved, errorFields]);
 
     function createDefaultPuzzle(gridNum: number){
@@ -56,6 +69,24 @@ function SudokuGrid({ type, playController }: gridInterface) {
             finalArray.push(templateArray)
         }
         return finalArray;
+    }
+
+    function initPuzzleLoad() {
+        if(!playController){
+            setPuzzle(createDefaultPuzzle(gridState.gridNums));
+            setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
+            setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
+        }
+        else {
+            genPuzzleFunction(
+                {variables: {pType: gridState.type, difficulty: difficulty}}
+            ).then((res: any) => {
+                let puzzle: number[][] = res.data.generateSudoku.puzzle;
+                setPuzzle(deepCopy(puzzle));
+                setOriginalPuzzle(deepCopy(puzzle));
+                setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+            });
+        }
     }
 
     function createPrefilledArray(coords: Array<Array<number>>, fillValue: number) {
@@ -299,11 +330,11 @@ function SudokuGrid({ type, playController }: gridInterface) {
             ).then((res: any) => {
             return res.data.generateSudoku.puzzle
         });
-
         setDifficulty(newDifficulty);
         setPuzzle(deepCopy(generatedPuzzle));
         setOriginalPuzzle(deepCopy(generatedPuzzle));
         setSolved(false);
+        setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
         setErrorFields([]);
         setErrors(createDefaultPuzzle(getGridNums(gridState.type)));
     }
@@ -312,8 +343,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
 
         return function keyDown(event: eventInterface) {
             event.preventDefault();
-            setErrors(highlightSimilarGrids(row, col));
-            setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
+            if(!solved) {
+                setErrors(highlightSimilarGrids(row, col));
+                setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
+            }
             if(!playController && !solved) {
                 setOriginalPuzzle(deepCopy(puzzle));
             }
@@ -336,8 +369,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
         event.preventDefault();
         let [row, col, target] = currentGrid;
         try {
-            target.focus();
-            setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+            if(!solved) {
+                target.focus();
+                setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+            }
         } catch(e){
             noop();
         }
@@ -348,6 +383,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         return function (event: eventInterface) {
             event.preventDefault();
             setErrors(createDefaultPuzzle(gridState.gridNums));
+            setOriginalPuzzle(deepCopy(puzzle));
             solve({
                 variables: {
                     puzzle: puzzle,
@@ -375,7 +411,9 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 let puzzle = response.data.generateSudoku.puzzle;
                 setOriginalPuzzle(deepCopy(puzzle));
                 setPuzzle(deepCopy(puzzle));
-                setSolved(false)
+                setSolved(false);
+                setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
+
             });
         }
     }
@@ -384,11 +422,14 @@ function SudokuGrid({ type, playController }: gridInterface) {
         event.preventDefault();
         setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
         setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
+        setErrorFields([]);
         setSolved(false)
     }
 
     function resetPuzzle(event: eventInterface){
         event.preventDefault();
+        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setErrorFields([]);
         setPuzzle(deepCopy(originalPuzzle));
         setSolved(false)
     }
@@ -396,14 +437,50 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function checkSolved(){
         let testPuzzle = _.flattenDeep(deepCopy(puzzle));
 
-        console.log('checkSolved ran');
-
         if(playController && errorFields.length <= 0) {
             if (_.find(testPuzzle, val => val === empty) === empty) {
                 setSolved(false);
                 return
             }
             setSolved(true)
+        }
+    }
+    
+    function updateTimer() {
+        if(!playTime.timeoutFunc && playTime.playing && !playTime.stopTimer ){
+            let timer = setInterval(()=>{
+                setPlayTime({...playTime, totalSeconds: playTime.totalSeconds + 1})
+            }, 1000);
+            setPlayTime({...playTime, timeoutFunc: timer})
+        }
+    }
+
+    function onPlayPauseClick(event: eventInterface) {
+        event.preventDefault();
+        setPlayTime({...playTime, playing: !playTime.playing, timeoutFunc: null})
+    }
+
+    function checkPlayPauseStatus() {
+        if(playController){
+            playTime.playing ? setPuzzle(pausedPuzzle) : setPuzzle(deepCopy(createDefaultPuzzle(gridState.gridNums)));
+            return
+        }
+    }
+
+    function updatePausedPuzzle() {
+        function checkIfNotEmpty(puzzle: number[][]) {
+            return uniqueArray(puzzle).length > 1
+        }
+
+        if(playController && playTime.playing){
+
+            if(checkIfNotEmpty(puzzle)){
+                setPausedPuzzle(deepCopy(puzzle))
+            }
+        }
+
+        if(solved){
+            setPlayTime({...playTime, stopTimer: true, timeoutFunc: null})
         }
     }
 
@@ -435,6 +512,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
                                     onDifficultyChange={ onDifficultySelect }
                                     generatePuzzle={ generatePuzzle }
                                     resetPuzzle={ resetPuzzle }
+                                    totalSeconds={ playTime.totalSeconds }
+                                    playing={ playTime.playing }
+                                    onClick={ onPlayPauseClick }
+                                    stopTimer={ playTime.stopTimer }
                                 />
                             )
                         }
@@ -455,6 +536,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
                     puzzle={ puzzle }
                     showCongsMsg={ playController && solved }
                     onClick={ generatePuzzle }
+                    playing={ playTime.playing }
+                    onPlayPauseClick={ onPlayPauseClick }
                 />
 
                 <NumberPad
@@ -462,6 +545,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                     gridClass={ sudokuGridClass }
                     type={ gridState.type }
                 />
+
             </div>
         </React.Fragment>
 
