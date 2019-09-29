@@ -343,8 +343,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
 
         return function keyDown(event: eventInterface) {
             event.preventDefault();
-            setErrors(highlightSimilarGrids(row, col));
-            setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
+            if(!solved) {
+                setErrors(highlightSimilarGrids(row, col));
+                setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
+            }
             if(!playController && !solved) {
                 setOriginalPuzzle(deepCopy(puzzle));
             }
@@ -367,8 +369,10 @@ function SudokuGrid({ type, playController }: gridInterface) {
         event.preventDefault();
         let [row, col, target] = currentGrid;
         try {
-            target.focus();
-            setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+            if(!solved) {
+                target.focus();
+                setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
+            }
         } catch(e){
             noop();
         }
@@ -379,6 +383,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         return function (event: eventInterface) {
             event.preventDefault();
             setErrors(createDefaultPuzzle(gridState.gridNums));
+            setOriginalPuzzle(deepCopy(puzzle));
             solve({
                 variables: {
                     puzzle: puzzle,
