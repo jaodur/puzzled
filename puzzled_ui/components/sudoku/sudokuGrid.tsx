@@ -71,7 +71,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
         return finalArray;
     }
 
-    function setAllPuzzles(newType: number, newPuzzle?: number[][]){
+    function setAllPuzzleStates(newType: number, newPuzzle?: number[][]){
         newPuzzle = newPuzzle ? newPuzzle : createDefaultPuzzle(getGridNums(newType));
 
         setPuzzle(deepCopy(newPuzzle));
@@ -325,7 +325,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function onTypeSelect(event: eventInterface) {
 
         let newType: number = parseInt(`${event.target.value}`, baseTenRadix);
-        setAllPuzzles(newType);
+        setAllPuzzleStates(newType);
         changeGridState({type: newType, gridNums: getGridNums(newType)});
         setPlayTime({ ...playTime, totalSeconds: 0});
     }
@@ -339,7 +339,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
             return res.data.generateSudoku.puzzle
         });
         setDifficulty(newDifficulty);
-        setAllPuzzles(gridState.type, generatedPuzzle);
+        setAllPuzzleStates(gridState.type, generatedPuzzle);
         setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
     }
 
@@ -413,7 +413,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 }
             }).then((response: any) => {
                 let puzzle = response.data.generateSudoku.puzzle;
-                setAllPuzzles(gridState.type, puzzle);
+                setAllPuzzleStates(gridState.type, puzzle);
                 setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
             });
         }
@@ -421,7 +421,7 @@ function SudokuGrid({ type, playController }: gridInterface) {
 
     function clearPuzzle(event: eventInterface) {
         event.preventDefault();
-        setAllPuzzles(gridState.type);
+        setAllPuzzleStates(gridState.type);
     }
 
     function resetPuzzle(event: eventInterface){

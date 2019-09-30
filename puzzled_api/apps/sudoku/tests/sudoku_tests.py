@@ -76,3 +76,10 @@ class TestSudoku:
         next_cell = Sudoku(puzzle, 3)._find_next_empty_cell()
 
         assert next_cell == (-1, -1, -1)
+
+    def test_invalid_type_fails(self):
+        with pytest.raises(Exception) as err:
+            Sudoku([1, 2, 3, 4, 5], 3)
+
+        assert err.value.args[0] == 'The shape generated from type "3" supplied i.e. ' \
+                                    '(9, 9) does not match the puzzle structure (5,)'
