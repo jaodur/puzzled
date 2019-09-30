@@ -71,6 +71,17 @@ function SudokuGrid({ type, playController }: gridInterface) {
         return finalArray;
     }
 
+    function setAllPuzzleStates(newType: number, newPuzzle?: number[][]){
+        newPuzzle = newPuzzle ? newPuzzle : createDefaultPuzzle(getGridNums(newType));
+
+        setPuzzle(deepCopy(newPuzzle));
+        setPausedPuzzle(deepCopy(newPuzzle));
+        setOriginalPuzzle(deepCopy(newPuzzle));
+        setErrors(createDefaultPuzzle(getGridNums(newType)));
+        setErrorFields([]);
+        setSolved(false);
+    }
+
     function initPuzzleLoad() {
         if(!playController){
             setPuzzle(createDefaultPuzzle(gridState.gridNums));
@@ -314,12 +325,9 @@ function SudokuGrid({ type, playController }: gridInterface) {
     function onTypeSelect(event: eventInterface) {
 
         let newType: number = parseInt(`${event.target.value}`, baseTenRadix);
-        setPuzzle(createDefaultPuzzle(getGridNums(newType)));
-        setOriginalPuzzle(createDefaultPuzzle(getGridNums(newType)));
-        setErrorFields([]);
-        setErrors(createDefaultPuzzle(getGridNums(newType)));
+        setAllPuzzleStates(newType);
         changeGridState({type: newType, gridNums: getGridNums(newType)});
-        setSolved(false)
+        setPlayTime({ ...playTime, totalSeconds: 0});
     }
 
     async function onDifficultySelect(event: eventInterface) {
@@ -331,12 +339,8 @@ function SudokuGrid({ type, playController }: gridInterface) {
             return res.data.generateSudoku.puzzle
         });
         setDifficulty(newDifficulty);
-        setPuzzle(deepCopy(generatedPuzzle));
-        setOriginalPuzzle(deepCopy(generatedPuzzle));
-        setSolved(false);
+        setAllPuzzleStates(gridState.type, generatedPuzzle);
         setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
-        setErrorFields([]);
-        setErrors(createDefaultPuzzle(getGridNums(gridState.type)));
     }
 
     function onKeyDown(row:number, col:number) {
@@ -409,21 +413,15 @@ function SudokuGrid({ type, playController }: gridInterface) {
                 }
             }).then((response: any) => {
                 let puzzle = response.data.generateSudoku.puzzle;
-                setOriginalPuzzle(deepCopy(puzzle));
-                setPuzzle(deepCopy(puzzle));
-                setSolved(false);
+                setAllPuzzleStates(gridState.type, puzzle);
                 setPlayTime({...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0});
-
             });
         }
     }
 
     function clearPuzzle(event: eventInterface) {
         event.preventDefault();
-        setPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
-        setOriginalPuzzle(createDefaultPuzzle(getGridNums(gridState.type)));
-        setErrorFields([]);
-        setSolved(false)
+        setAllPuzzleStates(gridState.type);
     }
 
     function resetPuzzle(event: eventInterface){

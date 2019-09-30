@@ -1,6 +1,9 @@
 import numpy as np
 
 
-def generate_rand_coords(high_value, size):
+def generate_row_values(puzzle_type):
 
-    return np.random.random_integers(low=0, high=high_value, size=(size, 2))
+    row = np.arange(1, (puzzle_type * puzzle_type) + 1)
+    np.random.shuffle(row)
+
+    return row

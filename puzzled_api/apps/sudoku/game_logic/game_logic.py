@@ -2,7 +2,7 @@ import numpy as np
 from itertools import combinations
 from math import floor
 
-from .utils import generate_rand_coords
+from .utils import generate_row_values
 
 
 class Sudoku:
@@ -313,11 +313,10 @@ class Sudoku:
     @classmethod
     def randomly_filled_puzzle(cls, puzzle_type):
         max_val = puzzle_type * puzzle_type
-        coords = generate_rand_coords(high_value=max_val - 1, size=max_val)
-        allowed_values = (x for x in range(1, max_val + 1))
         puzzle = np.zeros((max_val, max_val))
+        [row] = np.random.random_integers(low=0, high=max_val - 1, size=1)
 
-        for [row, col], val in zip(coords, allowed_values):
+        for col, val in enumerate(generate_row_values(puzzle_type)):
             puzzle[row, col] = val
 
         return cls(puzzle, puzzle_type).solve()
