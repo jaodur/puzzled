@@ -15,7 +15,7 @@ install:
   - pipenv install --skip-lock
 
 script:
-- pytest --cov=puzzled_api/ && coverage report
+- pytest --cov=backend/ && coverage report
 
 after_success:
 - coveralls

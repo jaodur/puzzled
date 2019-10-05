@@ -1,4 +1,4 @@
-"""puzzled_api URL Configuration
+"""backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.1/topics/http/urls/
@@ -22,6 +22,6 @@ from .schema import schema
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
-    path('', include('puzzled_ui.urls')),
+    path('', include('frontend.urls')),
 
 ]
