@@ -1,5 +1,5 @@
 import graphene
-from puzzled_api.apps.sudoku.schema import Mutation as SudokuMutation, Query as SudokuQuery
+from backend.apps.sudoku.schema import Mutation as SudokuMutation, Query as SudokuQuery
 
 
 class Mutation(SudokuMutation, graphene.ObjectType):
