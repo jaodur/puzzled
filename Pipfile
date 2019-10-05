@@ -19,6 +19,7 @@ pytest-mock = "*"
 psycopg2-binary = "*"
 dj_database_url = "*"
 django-webpack-loader  = "*"
+invoke = "*"
 
 [dev-packages]
 
