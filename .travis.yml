@@ -1,6 +1,7 @@
 language: python
 python:
-- '3.6.5'
+  - '3.6.5'
+node_js: '0.8'
 
 services:
   - postgresql
@@ -13,9 +14,12 @@ before_script:
 install:
   - pip install pipenv
   - pipenv install --skip-lock
+  - npm install
+  - PATH=$PATH:$(pwd)/node_modules/.bin
 
 script:
-- pytest --cov=backend/ && coverage report
+  - inv lint-js
+  - pytest --cov=backend/ && coverage report
 
 after_success:
 - coveralls
