@@ -1,18 +1,16 @@
-import * as React from "react";
-import { NavBarContainer } from "../commons/navbarContainer"
-import { ContentContainer } from "./contentContainer"
-import { Footer } from '../commons/footer'
+import * as React from 'react';
+import { Footer } from '../commons/footer';
+import { NavBarContainer } from '../commons/navbarContainer';
+import { ContentContainer } from './contentContainer';
 
-let footerClass: string = 'main-footer';
-
+const footerClass: string = 'main-footer';
 
 export class Home extends React.Component {
-    render(): Array<JSX.Element> {
+    public render(): JSX.Element[] {
         return [
-            <NavBarContainer key={ 'navBarContainer' } />,
-            <ContentContainer key={ 'contentContainer' } />,
-            <Footer footerClass={ footerClass } key={ 'footer' } />
-        ]
+            <NavBarContainer key={'navBarContainer'} />,
+            <ContentContainer key={'contentContainer'} />,
+            <Footer footerClass={footerClass} key={'footer'} />,
+        ];
     }
 }
-
