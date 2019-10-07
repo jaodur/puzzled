@@ -1,7 +1,9 @@
 from invoke import Collection
 
 from .testing_tasks import lint_js
+from .dev_tasks import prettier
 
-col = Collection()
+task_col = Collection()
 
-col.add_task(lint_js)
+task_col.add_task(prettier)
+task_col.add_task(lint_js)
