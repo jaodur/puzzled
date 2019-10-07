@@ -22,6 +22,6 @@
         "no-switch-case-fall-through": true
     },
     "linterOptions": {
-        "exclude": ["node_modules/**/*.ts", "**/*.js", "**/*.jsx"]
+        "exclude": ["**/node_modules/**", "**/*.js", "**/*.jsx", "**/static/**"]
     }
 }
