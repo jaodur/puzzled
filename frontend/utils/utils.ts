@@ -59,10 +59,10 @@ function renderElement(element: JSX.Element): any {
 }
 
 function deepCopy(object: any) {
-    // eslint-disable-next-line
     const output: any = Array.isArray(object) ? [] : {};
     let v: any;
     let key: any;
+
     for (key in object) {
         v = object[key];
         output[key] = typeof v === 'object' ? deepCopy(v) : v;
