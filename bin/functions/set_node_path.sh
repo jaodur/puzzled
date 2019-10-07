@@ -11,5 +11,5 @@ then
     handle_exit 0 "Node path already set"
 fi
 
-PATH=$PATH:$(pwd)/node_modules/.bin
+PATH="${PATH}:$(pwd)/node_modules/.bin"
 log  "Node path set: ${PATH}"
