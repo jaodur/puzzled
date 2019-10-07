@@ -13,3 +13,8 @@ def set_node_path(context):
     run('bin/functions/set_node_path.sh', echo=True)
 
 
+@task(name='install-requirements')
+def install_requirements(context):
+    """Install python and node requirements"""
+    run('pipenv install --skip-lock', echo=True)
+    run('npm install', echo=True)
