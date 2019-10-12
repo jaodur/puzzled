@@ -20,6 +20,7 @@ psycopg2-binary = "*"
 dj_database_url = "*"
 django-webpack-loader  = "*"
 invoke = "*"
+flake8 = "*"
 
 [dev-packages]
 
