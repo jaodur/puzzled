@@ -3,3 +3,6 @@ exclude = node_modules
 max-line-length = 120
 ignore = FI12,FI14,FI15,FI16,FI17,FI5,W503,W504,W505,W605
 require-code = True
+per-file-ignores =
+    */__init__.py:F401
+    */tests/sudoku_tests.py:F401,F811
