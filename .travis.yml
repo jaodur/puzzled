@@ -1,21 +1,26 @@
 language: python
 python:
-- '3.6.5'
+  - '3.6.5'
+node_js: '0.8'
 
 services:
   - postgresql
 
 before_script:
-  - psql -c 'create database travis_ci_test;' -U postgres
+  - psql -c 'CREATE DATABASE travis_ci_test;' -U postgres
   - python manage.py makemigrations
   - python manage.py migrate
 
 install:
   - pip install pipenv
-  - pipenv install --skip-lock
+  - pip install invoke
+  - inv install-requirements
+  - PATH=$PATH:$(pwd)/node_modules/.bin
 
 script:
-- pytest --cov=backend/ && coverage report
+  - inv lint-js
+  - inv lint-py
+  - inv test-py
 
 after_success:
-- coveralls
+  - coveralls

@@ -1,46 +1,46 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-function arraySize(ar: any[]){
-    var row_count = ar.length;
-    var row_sizes = [];
-    for(var i=0;i<row_count;i++){
-        row_sizes.push(ar[i].length)
+function arraySize(ar: any[]) {
+    const rowCount = ar.length;
+    const rowSizes = [];
+    for (let i = 0; i < rowCount; i++) {
+        rowSizes.push(ar[i].length);
     }
-    return [row_count, Math.min.apply(null, row_sizes)]
+    return [rowCount, Math.min.apply(null, rowSizes)];
 }
 
-function uniqueArray(arr: Array<Array<number>>) {
-    function uniqueOnly([row, col]: Array<number>){
+function uniqueArray(arr: number[][]) {
+    function uniqueOnly([row, col]: number[]) {
         return `${row}${col}`;
     }
-    return _.uniqBy(arr, uniqueOnly)
+    return _.uniqBy(arr, uniqueOnly);
 }
 
-function removeFromArray(arr: Array<Array<number>>, item: Array<number>){
-    let [row, col] = item;
+function removeFromArray(arr: number[][], item: number[]) {
+    const [row, col] = item;
     _.remove(arr, ([x, y]) => x === row && y === col);
 }
 
-function getGridCoords(row: number, col: number, refNumber: number){
-    let rowStart: number = Math.floor(row / refNumber) * refNumber;
-    let colStart: number = Math.floor(col / refNumber) * refNumber;
-    
-    return [rowStart, colStart]
+function getGridCoords(row: number, col: number, refNumber: number) {
+    const rowStart: number = Math.floor(row / refNumber) * refNumber;
+    const colStart: number = Math.floor(col / refNumber) * refNumber;
+
+    return [rowStart, colStart];
 }
 
-function modulus(numerator: number, denominator: number){
-    let mod = numerator % denominator;
-    if(isNaN(mod)){
-        return numerator
+function modulus(numerator: number, denominator: number) {
+    const mod = numerator % denominator;
+    if (isNaN(mod)) {
+        return numerator;
     }
 
-    return mod
+    return mod;
 }
 
-function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[][], rowArr: number[], colArr: any){
-    let [ row, col ] = coords;
-    let [ rowStart, colStart ] = getGridCoords(row, col, refNumber);
-    let [ rowGrid, colGrid ] = [ modulus(row, rowStart), modulus(col, colStart) ];
+function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[][], rowArr: number[], colArr: any) {
+    const [row, col] = coords;
+    const [rowStart, colStart] = getGridCoords(row, col, refNumber);
+    const [rowGrid, colGrid] = [modulus(row, rowStart), modulus(col, colStart)];
     innerGrid = Array.from(innerGrid);
     rowArr = Array.from(rowArr);
     colArr = Array.from(colArr);
@@ -49,40 +49,43 @@ function removeFromGrid(coords: number[], refNumber: number, innerGrid: number[]
     rowArr[col] = 0;
     colArr[row] = 0;
 
-    return _.concat(
-        _.flattenDeep(innerGrid),
-        rowArr,
-        colArr
-    );
-
+    return _.concat(_.flattenDeep(innerGrid), rowArr, colArr);
 }
 
-function noop(){
-
-}
+function noop() {}
 
 function renderElement(element: JSX.Element): any {
-    return ()=>element
+    return () => element;
 }
 
 function deepCopy(object: any) {
-    let output: any, v: any, key: any;
-    output = Array.isArray(object) ? [] : {};
+    const output: any = Array.isArray(object) ? [] : {};
+    let v: any;
+    let key: any;
+
     for (key in object) {
         v = object[key];
-        output[key] = (typeof v === "object") ? deepCopy(v) : v;
+        output[key] = typeof v === 'object' ? deepCopy(v) : v;
     }
     return output;
 }
 
-function pad(input: any, length: number, padChar: string='0', padLeft: boolean=true) {
-    if(padLeft){
-        return `${ input }`.padStart(length, padChar)
+function pad(input: any, length: number, padChar: string = '0', padLeft: boolean = true) {
+    if (padLeft) {
+        return `${input}`.padStart(length, padChar);
     }
-    return `${ input }`.padEnd(length, padChar)
+    return `${input}`.padEnd(length, padChar);
 }
 
 export {
-    noop, arraySize, modulus, uniqueArray, removeFromArray, getGridCoords, removeFromGrid, renderElement, deepCopy,
-    pad
-}
+    noop,
+    arraySize,
+    modulus,
+    uniqueArray,
+    removeFromArray,
+    getGridCoords,
+    removeFromGrid,
+    renderElement,
+    deepCopy,
+    pad,
+};

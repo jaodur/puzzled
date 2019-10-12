@@ -1,33 +1,29 @@
-import {navbarInterface} from "../interfaces";
-let linkNoStyle: string = 'link__no-style';
+import { NavbarInterface } from '../interfaces';
+const linkNoStyle: string = 'link__no-style';
 
-let defaultNavBarLinks: navbarInterface = {
+const defaultNavBarLinks: NavbarInterface = {
     primaryLabel: { text: 'puzzled', href: '/', style: linkNoStyle },
     secLabel: { text: null, href: '#' },
-    links:
-        [
-            { name: 'Games', href: '#' },
-            { name: 'Pin', href: '#' },
-            { name: null, href: '#', linkClass: 'navbar-separator' },
-            { name: 'Sign In', href: '#' },
-            { name: 'Sign Up', href: '#' }
-
-        ]
+    links: [
+        { name: 'Games', href: '#' },
+        { name: 'Pin', href: '#' },
+        { name: null, href: '#', linkClass: 'navbar-separator' },
+        { name: 'Sign In', href: '#' },
+        { name: 'Sign Up', href: '#' },
+    ],
 };
 
-let sudokuNavBarLinks: navbarInterface = {
-    primaryLabel: { text: 'puzzled', href: "/", style: linkNoStyle },
+const sudokuNavBarLinks: NavbarInterface = {
+    primaryLabel: { text: 'puzzled', href: '/', style: linkNoStyle },
     secLabel: { text: 'sudoku', href: '/sudoku/', style: linkNoStyle },
-    links:
-        [
-            { name: 'Play', href: '/sudoku/play/' },
-            { name: 'Solve', href: '/sudoku/solve/' },
-            { name: 'Help', href: '#' },
-            { name: null, href: '#', linkClass: 'navbar-separator' },
-            { name: 'Sign In', href: '#' },
-            { name: 'Sign Up', href: '#' },
-
-        ]
+    links: [
+        { name: 'Play', href: '/sudoku/play/' },
+        { name: 'Solve', href: '/sudoku/solve/' },
+        { name: 'Help', href: '#' },
+        { name: null, href: '#', linkClass: 'navbar-separator' },
+        { name: 'Sign In', href: '#' },
+        { name: 'Sign Up', href: '#' },
+    ],
 };
 
-export { defaultNavBarLinks, sudokuNavBarLinks }
+export { defaultNavBarLinks, sudokuNavBarLinks };

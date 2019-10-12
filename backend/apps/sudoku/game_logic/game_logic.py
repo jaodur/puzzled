@@ -172,7 +172,7 @@ class Sudoku:
         main_pos = self.main_axis_pos_mapper.get(main_pos)
         minor_pos = self.minor_axis_pos_mapper.get(minor_pos)
 
-        return main_pos[0]+minor_pos[0], main_pos[1]+minor_pos[1] if main_pos and minor_pos else None
+        return main_pos[0] + minor_pos[0], main_pos[1] + minor_pos[1] if main_pos and minor_pos else None
 
     def _sectors(self):
         unique_sector_keys = [0, self.type * self.type]
@@ -303,7 +303,7 @@ class Sudoku:
 
     def row_col_mapper(self):
         mapper = {}
-        arr = np.array(range(self.type*self.type)).reshape(-1, self.type)
+        arr = np.array(range(self.type * self.type)).reshape(-1, self.type)
         for lst in arr:
             comb = combinations(lst, self.type - 1)
             for key, value in zip(reversed(lst), comb):
@@ -341,7 +341,7 @@ class Sudoku:
 
                 try:
                     new_puzzle = cls(puzzle, puzzle_type).solve()
-                except:
+                except:  # noqa: E722
                     puzzle[row, col] = original_val
                     continue
 
@@ -407,9 +407,9 @@ class Sudoku:
 
             if translate_row:
                 row_sec1, row_sec2, *extras = grouped_coords
-                temp_section = np.copy(puzzle[row_sec1[0]:row_sec1[-1]+1, :])
-                puzzle[row_sec1[0]:row_sec1[-1] + 1, :], puzzle[row_sec2[0]:row_sec2[-1]+1, :] = \
-                    puzzle[row_sec2[0]:row_sec2[-1]+1, :], temp_section
+                temp_section = np.copy(puzzle[row_sec1[0]:row_sec1[-1] + 1, :])
+                puzzle[row_sec1[0]:row_sec1[-1] + 1, :], puzzle[row_sec2[0]:row_sec2[-1] + 1, :] = \
+                    puzzle[row_sec2[0]:row_sec2[-1] + 1, :], temp_section
             else:
                 col_sec1, col_sec2, *extras = grouped_coords
                 temp_section = np.copy(puzzle[:, col_sec1[0]:col_sec1[-1] + 1])
@@ -485,19 +485,18 @@ class Sudoku:
 
             return [], coords
 
-
-
     def __str__(self):
 
         sep = '----'
-        separator = ' {}'.format(sep*self.type) * self.type
-        row = '\n{}{}'.format('{}{}'.format('|', f'{{: ^{len(sep)}}}'*self.type)*self.type, '|')
+        separator = ' {}'.format(sep * self.type) * self.type
+        row = '\n{}{}'.format('{}{}'.format('|', f'{{: ^{len(sep)}}}' * self.type) * self.type, '|')
 
         str_rep = separator
 
-        for i, values, values_orig in zip(range(1, (self.type*self.type) + 1), self.puzzle, self.puzzle_orig):
+        for i, values, values_orig in zip(range(1, (self.type * self.type) + 1), self.puzzle, self.puzzle_orig):
 
-            mark_orig = lambda val, val_orig: val and val == val_orig and f'{val}*' or val
+            def mark_orig(val, val_orig):
+                return val and val == val_orig and f'{val}*' or val
 
             str_rep = f'{str_rep}{row.format(*map(mark_orig, values, values_orig))}'
 

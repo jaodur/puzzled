@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Sudoku(models.Model):
     sudoku_hash = models.CharField(max_length=200)
 
