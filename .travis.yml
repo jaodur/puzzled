@@ -19,6 +19,7 @@ install:
 
 script:
   - inv lint-js
+  - inv lint-py
   - inv test-py
 
 after_success:
