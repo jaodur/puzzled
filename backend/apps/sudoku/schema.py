@@ -29,6 +29,7 @@ class SolveSudoku(graphene.Mutation):
 
         return SolveSudoku(puzzle=sudoku.puzzle, p_type=p_type)
 
+
 class GenerateSudoku(graphene.Mutation):
     puzzle = graphene.List(graphene.List(graphene.Int))
     difficulty = graphene.String()
@@ -45,5 +46,4 @@ class GenerateSudoku(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     solve_sudoku = SolveSudoku.Field()
-    generate_sudoku  = GenerateSudoku.Field()
-
+    generate_sudoku = GenerateSudoku.Field()

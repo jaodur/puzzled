@@ -15,7 +15,7 @@ from .fixtures import (
 class TestSudoku:
 
     def test_invalid_puzzle_fails(self, invalid_puzzle):
-        with pytest.raises(Exception) as e:
+        with pytest.raises(Exception):
             Sudoku(invalid_puzzle, 3)
 
     def test_difficulty_pattern_generator_expert_succeeds(self, expert_prefilled, expert_coords):

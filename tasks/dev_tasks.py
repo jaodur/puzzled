@@ -6,6 +6,7 @@ def prettier_js(context):
     """Runs prettier, a JS code formatter"""
     run('bin/prettier_fix.sh', echo=True)
 
+
 @task(name='prettier-py')
 def prettier_py(context):
     run('autopep8 --in-place --recursive .', echo=True)
