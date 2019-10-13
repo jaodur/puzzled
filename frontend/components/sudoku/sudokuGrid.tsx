@@ -100,6 +100,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
     }
 
     async function createPuzzle(pType: number, difficulty: string) {
+        setAllPuzzleStates(gridState.type);
         setLoading(true);
         await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
             const puzzle: number[][] = res.data.generateSudoku.puzzle;
