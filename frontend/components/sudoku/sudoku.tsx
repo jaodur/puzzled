@@ -3,7 +3,7 @@ import { Footer } from '../commons/footer';
 import { NavBar as SudokuNavBar } from '../commons/NavBar';
 import { sudokuNavBarLinks } from '../commons/navbarLinks';
 import { EventInterface } from '../interfaces';
-import { defaultSudokuType, SudokuGrid } from './sudokuGrid';
+import { SudokuGrid } from './sudokuGrid';
 
 const footerClass: string = 'footer-sudoku';
 
@@ -33,7 +33,7 @@ function SudokuHome() {
                     key={'sudoku'}
                 />
             </div>
-            <SudokuGrid type={defaultSudokuType} playController={playController} key={'sudokuGrid'} />
+            <SudokuGrid playController={playController} key={'sudokuGrid'} />
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </React.Fragment>
     );

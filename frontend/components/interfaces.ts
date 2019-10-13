@@ -5,11 +5,11 @@ interface FullPuzzleInterface {
 }
 
 interface GridInterface {
-    type: number;
     playController?: boolean;
 }
 
 interface NumPadInterface extends GridInterface {
+    type: number;
     gridClass: string;
     onPadClick: (event: EventInterface) => any;
     startNum?: number;
@@ -113,6 +113,7 @@ interface SudokuPad {
 interface SolveSudokuPadInterface extends SudokuPad {
     solvePuzzle: (solve: any) => any;
     clearPuzzle: (event: EventInterface) => any;
+    type: number;
 }
 
 interface PlaySudokuPadInterface extends SudokuPad {
@@ -123,6 +124,8 @@ interface PlaySudokuPadInterface extends SudokuPad {
     playing: boolean;
     onClick: any;
     stopTimer: boolean;
+    type: number;
+    difficulty: string;
 }
 
 interface CongratulationInterface {

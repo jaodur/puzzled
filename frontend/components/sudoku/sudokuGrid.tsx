@@ -27,8 +27,8 @@ const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
 const empty: number = 0;
 
-function SudokuGrid({ type, playController }: GridInterface) {
-    const [gridState, changeGridState] = React.useState({ type, gridNums: getGridNums(type) });
+function SudokuGrid({ playController }: GridInterface) {
+    const [gridState, changeGridState] = React.useState({ type: defaultSudokuType, gridNums: getGridNums(defaultSudokuType) });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -460,6 +460,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
                                 onTypeChange={onTypeSelect}
                                 solvePuzzle={solvePuzzle}
                                 clearPuzzle={clearPuzzle}
+                                type={gridState.type}
                             />
                         )}
                     />
@@ -477,6 +478,8 @@ function SudokuGrid({ type, playController }: GridInterface) {
                                 playing={playTime.playing}
                                 onClick={onPlayPauseClick}
                                 stopTimer={playTime.stopTimer}
+                                type={gridState.type}
+                                difficulty={difficulty}
                             />
                         )}
                     />
@@ -504,4 +507,4 @@ function SudokuGrid({ type, playController }: GridInterface) {
     );
 }
 
-export { SudokuGrid, defaultSudokuType, defaultDifficultyLevel };
+export { SudokuGrid };
