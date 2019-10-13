@@ -100,9 +100,9 @@ function SudokuGrid({ type, playController }: GridInterface) {
     }
 
     async function createPuzzle(pType: number, difficulty: string) {
-        setAllPuzzleStates(gridState.type);
+        setAllPuzzleStates(pType);
         setLoading(true);
-        await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
+        await genPuzzleFunction({ variables: { pType, difficulty } }).then((res: any) => {
             const puzzle: number[][] = res.data.generateSudoku.puzzle;
             setPuzzle(deepCopy(puzzle));
             setOriginalPuzzle(deepCopy(puzzle));
@@ -303,11 +303,17 @@ function SudokuGrid({ type, playController }: GridInterface) {
         return cells.map(cell => cell);
     }
 
-    function onTypeSelect(event: EventInterface) {
+    async function onTypeSelect(event: EventInterface) {
         const newType: number = parseInt(`${event.target.value}`, baseTenRadix);
-        setAllPuzzleStates(newType);
         changeGridState({ type: newType, gridNums: getGridNums(newType) });
-        setPlayTime({ ...playTime, totalSeconds: 0 });
+        setAllPuzzleStates(newType);
+
+        if(playController){
+            await createPuzzle(newType, difficulty)
+        }
+        else {
+            setPlayTime({...playTime, totalSeconds: 0, stopTimer: true});
+        }
     }
 
     async function onDifficultySelect(event: EventInterface) {
