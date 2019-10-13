@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Loader } from '../icons/loader';
+import { LoaderIcon } from '../icons/loaderIcon';
 import { GridTableInterface } from '../interfaces';
 import { Congratulation } from './congratulation';
 import { Pause } from './pause';
@@ -27,7 +27,7 @@ function GridTable({
                 className={playing ? `${sudokuGridClass}__no_display` : `${sudokuGridClass}__congrats_wrapper`}
                 onPlayIconClick={onPlayPauseClick}
             />
-            <Loader styleClass={loader ? 'loader' : 'loader__no_display'} />
+            <LoaderIcon styleClass={loader ? 'loaderIcon.tsx' : 'loader__no_display'} />
 
             <table
                 className={
