@@ -339,7 +339,7 @@ function SudokuGrid({ playController }: GridInterface) {
 
     async function onDifficultySelect(event: EventInterface) {
         const newDifficulty: string = event.target.value;
-
+        setDifficulty(newDifficulty)
         await createPuzzle(gridState.type, newDifficulty)
     }
 
