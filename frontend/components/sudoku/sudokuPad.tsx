@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Mutation, MutationFunc } from 'react-apollo';
-import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
 import { Timer } from '../commons/timer';
 import { PlaySudokuPadInterface, SolveSudokuPadInterface } from '../interfaces';
 import { defaultDifficultyLevel, defaultSudokuType } from './sudokuGrid';
@@ -18,11 +16,9 @@ function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: SolveSudokuP
                     <option value={4}>4x4</option>
                 </select>
             </div>
-            <Mutation mutation={SOLVE_SUDOKU_MUTATION}>
-                {(solvePuzzleCallBack: MutationFunc) => (
-                    <button onClick={solvePuzzle(solvePuzzleCallBack)}>Solve</button>
-                )}
-            </Mutation>
+
+            <button onClick={solvePuzzle}>Solve</button>
+
             <button onClick={clearPuzzle}>clear</button>
         </React.Fragment>
     );

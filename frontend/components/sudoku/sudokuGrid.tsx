@@ -1,9 +1,8 @@
 import * as _ from 'lodash';
 import * as React from 'react';
-import { MutationFunc } from 'react-apollo';
 import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { GENERATE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
+import { GENERATE_SUDOKU_MUTATION, SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
 import {
     deepCopy,
     getGridCoords,
@@ -38,6 +37,8 @@ function SudokuGrid({ type, playController }: GridInterface) {
     const [difficulty, setDifficulty] = React.useState(defaultDifficultyLevel);
     // eslint-disable-next-line
     const [genPuzzleFunction, setGenPuzzleFunction] = useMutation(GENERATE_SUDOKU_MUTATION);
+    // eslint-disable-next-line
+    const [solvePuzzleFunction, setSolvePuzzleFunction] = useMutation(SOLVE_SUDOKU_MUTATION);
     const [solved, setSolved] = React.useState(false);
     const [playTime, setPlayTime] = React.useState({
         playing: true,
@@ -109,6 +110,26 @@ function SudokuGrid({ type, playController }: GridInterface) {
             setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
         });
         setLoading(false);
+    }
+
+    async function solvePuzzle(event: EventInterface) {
+            event.preventDefault();
+            setErrors(createDefaultPuzzle(gridState.gridNums));
+            setOriginalPuzzle(deepCopy(puzzle));
+            setLoading(true)
+
+            await solvePuzzleFunction({
+                variables: {
+                    puzzle,
+                    pType: gridState.type,
+                },
+            }).then((response: any) => {
+                setPuzzle(response.data.solveSudoku.puzzle);
+                setSolved(true);
+            });
+
+            setLoading(false)
+
     }
 
     function createPrefilledArray(coords: number[][], fillValue: number) {
@@ -357,23 +378,6 @@ function SudokuGrid({ type, playController }: GridInterface) {
         } catch (e) {
             noop();
         }
-    }
-
-    function solvePuzzle(solve: MutationFunc) {
-        return function(event: EventInterface) {
-            event.preventDefault();
-            setErrors(createDefaultPuzzle(gridState.gridNums));
-            setOriginalPuzzle(deepCopy(puzzle));
-            solve({
-                variables: {
-                    puzzle,
-                    pType: gridState.type,
-                },
-            }).then((response: any) => {
-                setPuzzle(response.data.solveSudoku.puzzle);
-                setSolved(true);
-            });
-        };
     }
 
     async function generatePuzzle(event: EventInterface) {
