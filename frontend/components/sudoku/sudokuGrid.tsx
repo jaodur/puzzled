@@ -28,7 +28,10 @@ const numberPadCode: number = 0;
 const empty: number = 0;
 
 function SudokuGrid({ playController }: GridInterface) {
-    const [gridState, changeGridState] = React.useState({ type: defaultSudokuType, gridNums: getGridNums(defaultSudokuType) });
+    const [gridState, setGridState] = React.useState({
+        type: defaultSudokuType,
+        gridNums: getGridNums(defaultSudokuType),
+    });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -113,23 +116,22 @@ function SudokuGrid({ playController }: GridInterface) {
     }
 
     async function solvePuzzle(event: EventInterface) {
-            event.preventDefault();
-            setErrors(createDefaultPuzzle(gridState.gridNums));
-            setOriginalPuzzle(deepCopy(puzzle));
-            setLoading(true)
+        event.preventDefault();
+        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setOriginalPuzzle(deepCopy(puzzle));
+        setLoading(true);
 
-            await solvePuzzleFunction({
-                variables: {
-                    puzzle,
-                    pType: gridState.type,
-                },
-            }).then((response: any) => {
-                setPuzzle(response.data.solveSudoku.puzzle);
-                setSolved(true);
-            });
+        await solvePuzzleFunction({
+            variables: {
+                puzzle,
+                pType: gridState.type,
+            },
+        }).then((response: any) => {
+            setPuzzle(response.data.solveSudoku.puzzle);
+            setSolved(true);
+        });
 
-            setLoading(false)
-
+        setLoading(false);
     }
 
     function createPrefilledArray(coords: number[][], fillValue: number) {
@@ -326,21 +328,20 @@ function SudokuGrid({ playController }: GridInterface) {
 
     async function onTypeSelect(event: EventInterface) {
         const newType: number = parseInt(`${event.target.value}`, baseTenRadix);
-        changeGridState({ type: newType, gridNums: getGridNums(newType) });
+        setGridState({ type: newType, gridNums: getGridNums(newType) });
         setAllPuzzleStates(newType);
 
-        if(playController){
-            await createPuzzle(newType, difficulty)
-        }
-        else {
-            setPlayTime({...playTime, totalSeconds: 0, stopTimer: true});
+        if (playController) {
+            await createPuzzle(newType, difficulty);
+        } else {
+            setPlayTime({ ...playTime, totalSeconds: 0, stopTimer: true });
         }
     }
 
     async function onDifficultySelect(event: EventInterface) {
         const newDifficulty: string = event.target.value;
-        setDifficulty(newDifficulty)
-        await createPuzzle(gridState.type, newDifficulty)
+        setDifficulty(newDifficulty);
+        await createPuzzle(gridState.type, newDifficulty);
     }
 
     function onKeyDown(row: number, col: number) {
