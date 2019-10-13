@@ -319,14 +319,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
     async function onDifficultySelect(event: EventInterface) {
         const newDifficulty: string = event.target.value;
 
-        const generatedPuzzle = await genPuzzleFunction({
-            variables: { pType: gridState.type, difficulty: newDifficulty },
-        }).then((res: any) => {
-            return res.data.generateSudoku.puzzle;
-        });
-        setDifficulty(newDifficulty);
-        setAllPuzzleStates(gridState.type, generatedPuzzle);
-        setPlayTime({ ...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0 });
+        await createPuzzle(gridState.type, newDifficulty)
     }
 
     function onKeyDown(row: number, col: number) {
