@@ -57,7 +57,7 @@ interface GridTableInterface {
     onKeyDown: (row: number, col: number) => any;
     puzzle: number[][];
     showCongsMsg: boolean;
-    onClick: (generate: any) => any;
+    generatePuzzle: (event?: EventInterface) => any;
     playing: boolean;
     onPlayPauseClick: any;
     loader: boolean;
@@ -127,7 +127,7 @@ interface PlaySudokuPadInterface extends SudokuPad {
 
 interface CongratulationInterface {
     className: string;
-    onClick: (generate: any) => any;
+    generatePuzzle: () => any;
 }
 
 interface PauseInterface {

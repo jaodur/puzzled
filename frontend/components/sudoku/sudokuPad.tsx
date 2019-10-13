@@ -60,11 +60,9 @@ function PlaySudokuPad({
 
             <button onClick={resetPuzzle}>reset</button>
 
-            <Mutation mutation={GENERATE_SUDOKU_MUTATION}>
-                {(generatePuzzleCallBack: MutationFunc) => (
-                    <button onClick={generatePuzzle(generatePuzzleCallBack)}>New Game</button>
-                )}
-            </Mutation>
+
+            <button onClick={generatePuzzle}>New Game</button>
+
 
             <Timer
                 stopTimer={stopTimer}

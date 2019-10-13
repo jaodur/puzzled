@@ -11,7 +11,7 @@ function GridTable({
     onKeyDown,
     puzzle,
     showCongsMsg,
-    onClick,
+    generatePuzzle,
     playing,
     onPlayPauseClick,
     loader,
@@ -20,14 +20,14 @@ function GridTable({
         <div className={`${sudokuGridClass}__grid_congrats_wrapper`}>
             <Congratulation
                 className={showCongsMsg ? `${sudokuGridClass}__congrats_wrapper` : `${sudokuGridClass}__no_display`}
-                onClick={onClick}
+                generatePuzzle={generatePuzzle}
             />
 
             <Pause
                 className={playing ? `${sudokuGridClass}__no_display` : `${sudokuGridClass}__congrats_wrapper`}
                 onPlayIconClick={onPlayPauseClick}
             />
-            <LoaderIcon styleClass={loader ? 'loaderIcon.tsx' : 'loader__no_display'} />
+            <LoaderIcon styleClass={loader ? 'loader' : 'loader__no_display'} />
 
             <table
                 className={

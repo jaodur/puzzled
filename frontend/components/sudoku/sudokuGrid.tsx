@@ -95,7 +95,12 @@ function SudokuGrid({ type, playController }: GridInterface) {
             setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
             setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
         } else {
-            setLoading(true);
+           await createPuzzle(gridState.type, difficulty)
+        }
+    }
+
+    async function createPuzzle(pType: number, difficulty: string){
+        setLoading(true);
             await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
                 const puzzle: number[][] = res.data.generateSudoku.puzzle;
                 setPuzzle(deepCopy(puzzle));
@@ -103,7 +108,6 @@ function SudokuGrid({ type, playController }: GridInterface) {
                 setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
             });
             setLoading(false);
-        }
     }
 
     function createPrefilledArray(coords: number[][], fillValue: number) {
@@ -372,23 +376,11 @@ function SudokuGrid({ type, playController }: GridInterface) {
         };
     }
 
-    function generatePuzzle(generate: MutationFunc) {
-        return async function(event: EventInterface) {
-            event.preventDefault();
-            setErrors(createDefaultPuzzle(gridState.gridNums));
-            setLoading(true);
-            await generate({
-                variables: {
-                    pType: gridState.type,
-                    difficulty,
-                },
-            }).then((response: any) => {
-                const puzzle = response.data.generateSudoku.puzzle;
-                setAllPuzzleStates(gridState.type, puzzle);
-                setPlayTime({ ...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0 });
-            });
-            setLoading(false);
-        };
+    async function generatePuzzle(event: EventInterface) {
+        event.preventDefault();
+        setErrors(createDefaultPuzzle(gridState.gridNums));
+        await createPuzzle(gridState.type, difficulty)
+
     }
 
     function clearPuzzle(event: EventInterface) {
@@ -497,7 +489,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
                     onKeyDown={onKeyDown}
                     puzzle={puzzle}
                     showCongsMsg={playController && solved}
-                    onClick={generatePuzzle}
+                    generatePuzzle={generatePuzzle}
                     playing={playTime.playing}
                     onPlayPauseClick={onPlayPauseClick}
                     loader={loading}
