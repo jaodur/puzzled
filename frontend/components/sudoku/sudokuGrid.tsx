@@ -95,14 +95,14 @@ function SudokuGrid({ type, playController }: GridInterface) {
             setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
             setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
         } else {
-            setLoading(true)
+            setLoading(true);
             await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
                 const puzzle: number[][] = res.data.generateSudoku.puzzle;
                 setPuzzle(deepCopy(puzzle));
                 setOriginalPuzzle(deepCopy(puzzle));
                 setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
             });
-            setLoading(false)
+            setLoading(false);
         }
     }
 
@@ -376,7 +376,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
         return async function(event: EventInterface) {
             event.preventDefault();
             setErrors(createDefaultPuzzle(gridState.gridNums));
-            setLoading(true)
+            setLoading(true);
             await generate({
                 variables: {
                     pType: gridState.type,
@@ -387,7 +387,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
                 setAllPuzzleStates(gridState.type, puzzle);
                 setPlayTime({ ...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0 });
             });
-            setLoading(false)
+            setLoading(false);
         };
     }
 
