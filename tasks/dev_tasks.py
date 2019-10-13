@@ -1,7 +1,7 @@
 from invoke import run, task
 
 
-@task(name='prettier-pj')
+@task(name='prettier-js')
 def prettier_js(context):
     """Runs prettier, a JS code formatter"""
     run('bin/prettier_fix.sh', echo=True)
