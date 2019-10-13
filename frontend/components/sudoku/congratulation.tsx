@@ -7,7 +7,6 @@ function Congratulation({ className, generatePuzzle }: CongratulationInterface) 
             <div>Congratulations!</div>
 
             <button onClick={generatePuzzle}>New Game</button>
-
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation, MutationFunc } from 'react-apollo';
-import { GENERATE_SUDOKU_MUTATION, SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
+import { SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
 import { Timer } from '../commons/timer';
 import { PlaySudokuPadInterface, SolveSudokuPadInterface } from '../interfaces';
 import { defaultDifficultyLevel, defaultSudokuType } from './sudokuGrid';
@@ -60,9 +60,7 @@ function PlaySudokuPad({
 
             <button onClick={resetPuzzle}>reset</button>
 
-
             <button onClick={generatePuzzle}>New Game</button>
-
 
             <Timer
                 stopTimer={stopTimer}

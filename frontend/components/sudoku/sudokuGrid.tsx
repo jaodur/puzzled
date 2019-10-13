@@ -95,19 +95,19 @@ function SudokuGrid({ type, playController }: GridInterface) {
             setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
             setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
         } else {
-           await createPuzzle(gridState.type, difficulty)
+            await createPuzzle(gridState.type, difficulty);
         }
     }
 
-    async function createPuzzle(pType: number, difficulty: string){
+    async function createPuzzle(pType: number, difficulty: string) {
         setLoading(true);
-            await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
-                const puzzle: number[][] = res.data.generateSudoku.puzzle;
-                setPuzzle(deepCopy(puzzle));
-                setOriginalPuzzle(deepCopy(puzzle));
-                setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
-            });
-            setLoading(false);
+        await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
+            const puzzle: number[][] = res.data.generateSudoku.puzzle;
+            setPuzzle(deepCopy(puzzle));
+            setOriginalPuzzle(deepCopy(puzzle));
+            setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
+        });
+        setLoading(false);
     }
 
     function createPrefilledArray(coords: number[][], fillValue: number) {
@@ -379,8 +379,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
     async function generatePuzzle(event: EventInterface) {
         event.preventDefault();
         setErrors(createDefaultPuzzle(gridState.gridNums));
-        await createPuzzle(gridState.type, difficulty)
-
+        await createPuzzle(gridState.type, difficulty);
     }
 
     function clearPuzzle(event: EventInterface) {
