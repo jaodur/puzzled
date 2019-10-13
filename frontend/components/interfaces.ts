@@ -60,6 +60,7 @@ interface GridTableInterface {
     onClick: (generate: any) => any;
     playing: boolean;
     onPlayPauseClick: any;
+    loader: boolean;
 }
 
 interface GameIntroInterface {

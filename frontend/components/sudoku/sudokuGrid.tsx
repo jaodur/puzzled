@@ -46,6 +46,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
         stopTimer: false,
     });
     const [pausedPuzzle, setPausedPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [loading, setLoading] = React.useState(false);
 
     const sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
 
@@ -88,18 +89,20 @@ function SudokuGrid({ type, playController }: GridInterface) {
         setSolved(false);
     }
 
-    function initPuzzleLoad() {
+    async function initPuzzleLoad() {
         if (!playController) {
             setPuzzle(createDefaultPuzzle(gridState.gridNums));
             setOriginalPuzzle(createDefaultPuzzle(gridState.gridNums));
             setPlayTime({ playing: false, totalSeconds: 0, timeoutFunc: null, stopTimer: true });
         } else {
-            genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
+            setLoading(true)
+            await genPuzzleFunction({ variables: { pType: gridState.type, difficulty } }).then((res: any) => {
                 const puzzle: number[][] = res.data.generateSudoku.puzzle;
                 setPuzzle(deepCopy(puzzle));
                 setOriginalPuzzle(deepCopy(puzzle));
                 setPlayTime({ playing: true, totalSeconds: 0, timeoutFunc: null, stopTimer: false });
             });
+            setLoading(false)
         }
     }
 
@@ -373,6 +376,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
         return async function(event: EventInterface) {
             event.preventDefault();
             setErrors(createDefaultPuzzle(gridState.gridNums));
+            setLoading(true)
             await generate({
                 variables: {
                     pType: gridState.type,
@@ -383,6 +387,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
                 setAllPuzzleStates(gridState.type, puzzle);
                 setPlayTime({ ...playTime, stopTimer: false, timeoutFunc: null, totalSeconds: 0 });
             });
+            setLoading(false)
         };
     }
 
@@ -495,6 +500,7 @@ function SudokuGrid({ type, playController }: GridInterface) {
                     onClick={generatePuzzle}
                     playing={playTime.playing}
                     onPlayPauseClick={onPlayPauseClick}
+                    loader={loading}
                 />
 
                 <NumberPad onPadClick={onPadClick} gridClass={sudokuGridClass} type={gridState.type} />

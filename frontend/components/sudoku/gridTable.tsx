@@ -2,6 +2,7 @@ import * as React from 'react';
 import { GridTableInterface } from '../interfaces';
 import { Congratulation } from './congratulation';
 import { Pause } from './pause';
+import {Loader} from "../icons/loader";
 
 function GridTable({
     CreateTableRow,
@@ -13,6 +14,7 @@ function GridTable({
     onClick,
     playing,
     onPlayPauseClick,
+    loader,
 }: GridTableInterface) {
     return (
         <div className={`${sudokuGridClass}__grid_congrats_wrapper`}>
@@ -25,6 +27,7 @@ function GridTable({
                 className={playing ? `${sudokuGridClass}__no_display` : `${sudokuGridClass}__congrats_wrapper`}
                 onPlayIconClick={onPlayPauseClick}
             />
+            <Loader styleClass={loader ? 'loader' : 'loader__no_display'}/>
 
             <table
                 className={
