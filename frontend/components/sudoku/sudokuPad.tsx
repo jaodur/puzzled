@@ -1,28 +1,23 @@
 import * as React from 'react';
-import { Mutation, MutationFunc } from 'react-apollo';
-import { GENERATE_SUDOKU_MUTATION, SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
 import { Timer } from '../commons/timer';
 import { PlaySudokuPadInterface, SolveSudokuPadInterface } from '../interfaces';
-import { defaultDifficultyLevel, defaultSudokuType } from './sudokuGrid';
 
 const timerClass: string = 'timer';
 
-function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle }: SolveSudokuPadInterface) {
+function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveSudokuPadInterface) {
     return (
         <React.Fragment>
             <div>
                 Type:
-                <select onChange={onTypeChange} defaultValue={`${defaultSudokuType}`}>
+                <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
                     <option value={3}>3x3</option>
                     <option value={4}>4x4</option>
                 </select>
             </div>
-            <Mutation mutation={SOLVE_SUDOKU_MUTATION}>
-                {(solvePuzzleCallBack: MutationFunc) => (
-                    <button onClick={solvePuzzle(solvePuzzleCallBack)}>Solve</button>
-                )}
-            </Mutation>
+
+            <button onClick={solvePuzzle}>Solve</button>
+
             <button onClick={clearPuzzle}>clear</button>
         </React.Fragment>
     );
@@ -37,12 +32,14 @@ function PlaySudokuPad({
     playing,
     onClick,
     stopTimer,
+    type,
+    difficulty,
 }: PlaySudokuPadInterface) {
     return (
         <React.Fragment>
             <div>
                 Type:
-                <select onChange={onTypeChange} defaultValue={`${defaultSudokuType}`}>
+                <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
                     <option value={3}>3x3</option>
                     <option value={4}>4x4</option>
@@ -50,7 +47,7 @@ function PlaySudokuPad({
             </div>
             <div>
                 Difficulty:
-                <select onChange={onDifficultyChange} defaultValue={`${defaultDifficultyLevel}`}>
+                <select onChange={onDifficultyChange} defaultValue={`${difficulty}`}>
                     <option value={'easy'}>Easy</option>
                     <option value={'medium'}>Medium</option>
                     <option value={'hard'}>Hard</option>
@@ -60,11 +57,7 @@ function PlaySudokuPad({
 
             <button onClick={resetPuzzle}>reset</button>
 
-            <Mutation mutation={GENERATE_SUDOKU_MUTATION}>
-                {(generatePuzzleCallBack: MutationFunc) => (
-                    <button onClick={generatePuzzle(generatePuzzleCallBack)}>New Game</button>
-                )}
-            </Mutation>
+            <button onClick={generatePuzzle}>New Game</button>
 
             <Timer
                 stopTimer={stopTimer}
