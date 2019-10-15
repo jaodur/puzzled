@@ -22,6 +22,7 @@ const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
 const deleteKeyCode: number = 8;
 const baseTenRadix: number = 10;
+const sameNumberCode: number = -3;
 const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
@@ -156,22 +157,39 @@ function SudokuGrid({ playController }: GridInterface) {
                 arr[row][col] = value;
             }
         }
+
+        function highlightSameNum(arr: number[][], row: number, col: number) {
+            const targetNumber  = puzzle[row][col]
+
+            if(targetNumber){
+                puzzle.map((colArr, rowIndex) => {
+                    colArr.map((value, colIndex) => {
+                        if(value === targetNumber){
+                            arr[rowIndex][colIndex] = sameNumberCode
+                        }
+                    })
+                })
+            }
+
+            return arr
+        }
+
         const [rowStart, colStart] = getGridCoords(row, col, gridState.type);
 
-        const coords = createPrefilledArray(errorFields, duplicateValueCode);
+        const similarGridArr = createPrefilledArray(errorFields, duplicateValueCode);
 
         for (let row = rowStart; row < rowStart + parseInt(`${gridState.type}`, baseTenRadix); row++) {
             for (let col = colStart; col < colStart + parseInt(`${gridState.type}`, baseTenRadix); col++) {
-                fillCell(coords, row, col, groupedGridValueCode);
+                fillCell(similarGridArr, row, col, groupedGridValueCode);
             }
         }
 
         for (let i = 0; i < gridState.gridNums; i++) {
-            fillCell(coords, row, i, groupedGridValueCode);
-            fillCell(coords, i, col, groupedGridValueCode);
+            fillCell(similarGridArr, row, i, groupedGridValueCode);
+            fillCell(similarGridArr, i, col, groupedGridValueCode);
         }
-
-        return coords;
+        return highlightSameNum(similarGridArr, row, col);
+        return similarGridArr;
     }
 
     function getInnerGrid(row: number, col: number) {
@@ -289,6 +307,15 @@ function SudokuGrid({ playController }: GridInterface) {
             return originalPuzzle[row][col] === empty
                 ? duplicateClass
                 : blockCell(className, `${className}__error_blocked`);
+        }
+
+        if(errors[row][col] === sameNumberCode){
+            const groupClass = blockCell(className, `${className}__same_value_blocked`);
+
+            return originalPuzzle[row][col] === empty
+                ? `${groupClass} ${blockCell(className, `${className}__same_value`)}`
+                : groupClass;
+
         }
 
         if (errors[row][col] === groupedGridValueCode) {
