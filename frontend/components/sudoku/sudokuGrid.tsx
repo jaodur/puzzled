@@ -77,8 +77,8 @@ function SudokuGrid({ playController }: GridInterface) {
     }, [puzzle, solved, errorFields]);
 
     React.useLayoutEffect(() => {
-        setDecoratePuzzle(errors)
-    }, [errors])
+        setDecoratePuzzle(errors);
+    }, [errors]);
 
     function createDefaultPuzzle(gridNum: number) {
         const finalArray = [];
@@ -158,19 +158,19 @@ function SudokuGrid({ playController }: GridInterface) {
     }
 
     function highlightSameNum(arr: number[][], row: number, col: number, inputNum?: number) {
-            const targetNumber  = inputNum ? inputNum : puzzle[row][col]
+        const targetNumber = inputNum ? inputNum : puzzle[row][col];
 
-            if(targetNumber){
-                puzzle.map((colArr, rowIndex) => {
-                    colArr.map((value, colIndex) => {
-                        if(value === targetNumber){
-                            arr[rowIndex][colIndex] = !arr[rowIndex][colIndex] ? sameNumberCode : arr[rowIndex][colIndex]
-                        }
-                    })
-                })
-            }
-            return arr
+        if (targetNumber) {
+            puzzle.map((colArr, rowIndex) => {
+                colArr.map((value, colIndex) => {
+                    if (value === targetNumber) {
+                        arr[rowIndex][colIndex] = !arr[rowIndex][colIndex] ? sameNumberCode : arr[rowIndex][colIndex];
+                    }
+                });
+            });
         }
+        return arr;
+    }
 
     function highlightSimilarGrids(row: number, col: number, inputNum?: number) {
         function fillCell(arr: any, row: number, col: number, value: number) {
@@ -314,13 +314,12 @@ function SudokuGrid({ playController }: GridInterface) {
                 : blockCell(className, `${className}__error_blocked`);
         }
 
-        if(decoratePuzzle[row][col] === sameNumberCode){
+        if (decoratePuzzle[row][col] === sameNumberCode) {
             const groupClass = blockCell(className, `${className}__same_value_blocked`);
 
             return originalPuzzle[row][col] === empty
                 ? `${groupClass} ${blockCell(className, `${className}__same_value`)}`
                 : groupClass;
-
         }
 
         if (decoratePuzzle[row][col] === groupedGridValueCode) {
@@ -461,14 +460,13 @@ function SudokuGrid({ playController }: GridInterface) {
 
     function checkPlayPauseStatus() {
         if (playController) {
-            if(playTime.playing){
-                setPuzzle(pausedPuzzle)
-                setErrors(pausedErrors)
-            }else {
+            if (playTime.playing) {
+                setPuzzle(pausedPuzzle);
+                setErrors(pausedErrors);
+            } else {
                 setPuzzle(createDefaultPuzzle(gridState.gridNums));
-                setErrors(createDefaultPuzzle(gridState.gridNums))
+                setErrors(createDefaultPuzzle(gridState.gridNums));
             }
-            return;
         }
     }
 
@@ -480,7 +478,7 @@ function SudokuGrid({ playController }: GridInterface) {
         if (playController && playTime.playing) {
             if (checkIfNotEmpty(puzzle)) {
                 setPausedPuzzle(deepCopy(puzzle));
-                setPausedErrors(errors)
+                setPausedErrors(errors);
             }
         }
 
