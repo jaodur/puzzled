@@ -52,6 +52,7 @@ function SudokuGrid({ playController }: GridInterface) {
         stopTimer: false,
     });
     const [pausedPuzzle, setPausedPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [pausedErrors, setPausedErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [loading, setLoading] = React.useState(false);
 
     const sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
@@ -460,7 +461,13 @@ function SudokuGrid({ playController }: GridInterface) {
 
     function checkPlayPauseStatus() {
         if (playController) {
-            playTime.playing ? setPuzzle(pausedPuzzle) : setPuzzle(deepCopy(createDefaultPuzzle(gridState.gridNums)));
+            if(playTime.playing){
+                setPuzzle(pausedPuzzle)
+                setErrors(pausedErrors)
+            }else {
+                setPuzzle(createDefaultPuzzle(gridState.gridNums));
+                setErrors(createDefaultPuzzle(gridState.gridNums))
+            }
             return;
         }
     }
@@ -473,6 +480,7 @@ function SudokuGrid({ playController }: GridInterface) {
         if (playController && playTime.playing) {
             if (checkIfNotEmpty(puzzle)) {
                 setPausedPuzzle(deepCopy(puzzle));
+                setPausedErrors(errors)
             }
         }
 
