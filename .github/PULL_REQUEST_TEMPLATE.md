@@ -1,8 +1,11 @@
 #### Summary of Changes (What does this PR do?)
+- Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
 #### Is this change ready to hit production in its current state?
+- [ ] Yes
+- [ ] No
 
-Status of maturity (all need to be checked before merging):
+#### Status of maturity (all need to be checked before merging):
 
 - [ ] I consider this code done
 - [ ] I've tested this locally
@@ -22,7 +25,7 @@ Good to have (up to reviewer's discretion):
 * run builds `npm run build`
 * start the django server `python manage.py runserver`
 
-#### What are the relevant tickets?
-
+#### What are the relevant stories?
+- [story_id]()
 
 #### Screenshots (optional)
