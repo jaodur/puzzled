@@ -5,7 +5,7 @@ interface FullPuzzleInterface {
 }
 
 interface GridInterface {
-    playController?: boolean;
+    playControl?: boolean;
 }
 
 interface NumPadInterface extends GridInterface {
