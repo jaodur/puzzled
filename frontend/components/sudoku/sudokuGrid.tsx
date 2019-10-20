@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { flattenDeep, fill, find, slice } from 'lodash';
 import * as React from 'react';
 import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -83,7 +83,7 @@ function SudokuGrid({ playController }: GridInterface) {
     function createDefaultPuzzle(gridNum: number) {
         const finalArray = [];
         for (let i = 0; i < gridNum; i++) {
-            const templateArray = _.fill(Array(gridNum), 0);
+            const templateArray = fill(Array(gridNum), 0);
             finalArray.push(templateArray);
         }
         return finalArray;
@@ -213,7 +213,7 @@ function SudokuGrid({ playController }: GridInterface) {
     }
 
     function getAllRelatedGridValues(row: number, col: number) {
-        const colArr: Array<number | ConcatArray<number>> = _.flattenDeep(
+        const colArr: Array<number | ConcatArray<number>> = flattenDeep(
             puzzle.map(innerArr => innerArr.slice(col, col + 1))
         );
 
@@ -228,9 +228,9 @@ function SudokuGrid({ playController }: GridInterface) {
             3 * gridState.gridNums,
         ];
         const [sectorArr, rowArr, colArr] = [
-            _.slice(arr, 0, firstSlice),
-            _.slice(arr, firstSlice, secondSlice),
-            _.slice(arr, secondSlice, thirdSlice),
+            slice(arr, 0, firstSlice),
+            slice(arr, firstSlice, secondSlice),
+            slice(arr, secondSlice, thirdSlice),
         ];
 
         const errorCoords = [];
@@ -438,10 +438,10 @@ function SudokuGrid({ playController }: GridInterface) {
     }
 
     function checkSolved() {
-        const testPuzzle = _.flattenDeep(deepCopy(puzzle));
+        const testPuzzle = flattenDeep(deepCopy(puzzle));
 
         if (playController && errorFields.length <= 0) {
-            if (_.find(testPuzzle, val => val === empty) === empty) {
+            if (find(testPuzzle, val => val === empty) === empty) {
                 setSolved(false);
                 return;
             }
