@@ -8,19 +8,17 @@ import { SudokuGrid } from './sudokuGrid';
 const footerClass: string = 'footer-sudoku';
 
 function SudokuHome() {
-    const playControllerInitState = componentWillMount();
-    const [playController, setPlayController] = React.useState(playControllerInitState);
+    const [playController, setPlayController] = React.useState(false);
+
+    React.useEffect(() => {
+       const getPathname = () => window.location.pathname.includes('play');
+       setPlayController(getPathname)
+    })
 
     function onTabClick() {
         return function(event: EventInterface) {
             setPlayController(event.target.dataset.name === 'Play');
         };
-    }
-
-    function componentWillMount() {
-        const pathname: string = window.location.pathname;
-
-        return pathname.includes('play');
     }
     return (
         <React.Fragment>
@@ -33,7 +31,7 @@ function SudokuHome() {
                     key={'sudoku'}
                 />
             </div>
-            <SudokuGrid playController={playController} key={'sudokuGrid'} />
+            <SudokuGrid playController={true} key={'sudokuGrid'} />
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </React.Fragment>
     );
