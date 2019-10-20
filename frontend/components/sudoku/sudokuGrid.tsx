@@ -77,7 +77,7 @@ function SudokuGrid({ playController }: GridInterface) {
     }, [puzzle, solved, errorFields]);
 
     React.useLayoutEffect(() => {
-        setDecoratePuzzle(errors);
+        setDecoratePuzzle(deepCopy(errors));
     }, [errors]);
 
     function createDefaultPuzzle(gridNum: number) {
@@ -95,9 +95,14 @@ function SudokuGrid({ playController }: GridInterface) {
         setPuzzle(deepCopy(newPuzzle));
         setPausedPuzzle(deepCopy(newPuzzle));
         setOriginalPuzzle(deepCopy(newPuzzle));
-        setErrors(createDefaultPuzzle(getGridNums(newType)));
+        setAllErrorPuzzles(createDefaultPuzzle(getGridNums(newType)));
         setErrorFields([]);
         setSolved(false);
+    }
+
+    function setAllErrorPuzzles(newPuzzle: number[][]){
+        setErrors(deepCopy(newPuzzle))
+        setPausedErrors(deepCopy(newPuzzle))
     }
 
     async function initPuzzleLoad() {
@@ -124,7 +129,7 @@ function SudokuGrid({ playController }: GridInterface) {
 
     async function solvePuzzle(event: EventInterface) {
         event.preventDefault();
-        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setAllErrorPuzzles(createDefaultPuzzle(gridState.gridNums));
         setOriginalPuzzle(deepCopy(puzzle));
         setLoading(true);
 
@@ -251,7 +256,7 @@ function SudokuGrid({ playController }: GridInterface) {
 
         // do not update original values
         if (originalValue){
-            setErrors(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, originalValue));
+            setAllErrorPuzzles(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, originalValue));
             return originalValue
         }
 
@@ -279,7 +284,7 @@ function SudokuGrid({ playController }: GridInterface) {
         prevErrorFields = uniqueArray(prevErrorFields);
 
         setErrorFields(prevErrorFields);
-        setErrors(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, inputNum));
+        setAllErrorPuzzles(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, inputNum));
 
         if (inputNum > 0 && inputNum <= gridState.gridNums) {
             return inputNum;
@@ -387,7 +392,6 @@ function SudokuGrid({ playController }: GridInterface) {
         return function keyDown(event: EventInterface) {
             event.preventDefault();
             if (!solved) {
-                setErrors(highlightSimilarGrids(row, col, parseInt(event.key)));
                 setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
             }
         };
@@ -397,7 +401,7 @@ function SudokuGrid({ playController }: GridInterface) {
         return function(event: EventInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
-            setErrors(highlightSimilarGrids(row, col));
+            setAllErrorPuzzles(highlightSimilarGrids(row, col))
         };
     }
 
@@ -416,7 +420,7 @@ function SudokuGrid({ playController }: GridInterface) {
 
     async function generatePuzzle(event: EventInterface) {
         event.preventDefault();
-        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setAllErrorPuzzles(createDefaultPuzzle(gridState.gridNums));
         await createPuzzle(gridState.type, difficulty);
     }
 
@@ -427,7 +431,7 @@ function SudokuGrid({ playController }: GridInterface) {
 
     function resetPuzzle(event: EventInterface) {
         event.preventDefault();
-        setErrors(createDefaultPuzzle(gridState.gridNums));
+        setAllErrorPuzzles(createDefaultPuzzle(gridState.gridNums));
         setErrorFields([]);
         setPuzzle(deepCopy(originalPuzzle));
         setSolved(false);
@@ -462,11 +466,12 @@ function SudokuGrid({ playController }: GridInterface) {
     function checkPlayPauseStatus() {
         if (playController) {
             if (playTime.playing) {
-                setPuzzle(pausedPuzzle);
-                // setErrors(pausedErrors);
+                setPuzzle(deepCopy(pausedPuzzle));
+                setErrors(deepCopy(pausedErrors));
             } else {
                 setPuzzle(createDefaultPuzzle(gridState.gridNums));
                 setErrors(createDefaultPuzzle(gridState.gridNums));
+
             }
         }
     }
@@ -479,7 +484,7 @@ function SudokuGrid({ playController }: GridInterface) {
         if (playController && playTime.playing) {
             if (checkIfNotEmpty(puzzle)) {
                 setPausedPuzzle(deepCopy(puzzle));
-                setPausedErrors(errors);
+                setPausedErrors(deepCopy(errors));
             }
         }
 
