@@ -34,7 +34,7 @@ function SudokuGrid({ playControl }: GridInterface) {
         gridNums: getGridNums(defaultSudokuType),
     });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
-    const [playController, setPlayController] = React.useState(playControl)
+    const [playController, setPlayController] = React.useState(playControl);
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [decoratePuzzle, setDecoratePuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -61,15 +61,14 @@ function SudokuGrid({ playControl }: GridInterface) {
 
     // componentDidMount
     React.useEffect(() => {
-        const newPlayController  = getPathname()
-        setPlayController(newPlayController)
+        const newPlayController = getPathname();
+        setPlayController(newPlayController);
         initPuzzleLoad(newPlayController);
     }, []);
 
     React.useEffect(() => {
-        setPlayController(playControl)
+        setPlayController(playControl);
     });
-
 
     React.useEffect(() => {
         updateTimer();

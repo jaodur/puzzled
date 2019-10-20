@@ -11,8 +11,8 @@ function SudokuHome() {
     const [playController, setPlayController] = React.useState(getPathname());
 
     function getPathname() {
-            return window.location.pathname.includes('play');
-        }
+        return window.location.pathname.includes('play');
+    }
 
     function onTabClick() {
         return function(event: EventInterface) {
