@@ -1,4 +1,4 @@
-import { flattenDeep, fill, find, slice } from 'lodash';
+import { fill, find, flattenDeep, slice } from 'lodash';
 import * as React from 'react';
 import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -100,9 +100,9 @@ function SudokuGrid({ playController }: GridInterface) {
         setSolved(false);
     }
 
-    function setAllErrorPuzzles(newPuzzle: number[][]){
-        setErrors(deepCopy(newPuzzle))
-        setPausedErrors(deepCopy(newPuzzle))
+    function setAllErrorPuzzles(newPuzzle: number[][]) {
+        setErrors(deepCopy(newPuzzle));
+        setPausedErrors(deepCopy(newPuzzle));
     }
 
     async function initPuzzleLoad() {
@@ -252,12 +252,14 @@ function SudokuGrid({ playController }: GridInterface) {
 
     function validateInput(row: number, col: number, inputNum: number) {
         let prevErrorFields = Array.from(errorFields);
-        const originalValue = originalPuzzle[row][col]
+        const originalValue = originalPuzzle[row][col];
 
         // do not update original values
-        if (originalValue){
-            setAllErrorPuzzles(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, originalValue));
-            return originalValue
+        if (originalValue) {
+            setAllErrorPuzzles(
+                highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, originalValue)
+            );
+            return originalValue;
         }
 
         const newErrorFields = uniqueArray(getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum));
@@ -284,7 +286,9 @@ function SudokuGrid({ playController }: GridInterface) {
         prevErrorFields = uniqueArray(prevErrorFields);
 
         setErrorFields(prevErrorFields);
-        setAllErrorPuzzles(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, inputNum));
+        setAllErrorPuzzles(
+            highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, inputNum)
+        );
 
         if (inputNum > 0 && inputNum <= gridState.gridNums) {
             return inputNum;
@@ -401,7 +405,7 @@ function SudokuGrid({ playController }: GridInterface) {
         return function(event: EventInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
-            setAllErrorPuzzles(highlightSimilarGrids(row, col))
+            setAllErrorPuzzles(highlightSimilarGrids(row, col));
         };
     }
 
@@ -471,7 +475,6 @@ function SudokuGrid({ playController }: GridInterface) {
             } else {
                 setPuzzle(createDefaultPuzzle(gridState.gridNums));
                 setErrors(createDefaultPuzzle(gridState.gridNums));
-
             }
         }
     }
