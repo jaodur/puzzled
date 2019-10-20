@@ -262,11 +262,15 @@ table
   &__td_solved
     color: $lightBlue
 
-  &__td_blocked
-    pointer-events: none
-
   &__grouped_grid
     background-color: #e2e7ed
+
+  &__same_value
+    color: $lightBlue
+    background-color: #becee0
+
+  &__same_value_blocked
+    background-color: #cbdbed
 
 .sudoku-grid-1
   @include sudokuGrid($type: 1, $reduceHeight: 0)
@@ -323,8 +327,8 @@ table
 
   svg
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0
-    width: 40%
-    height: 40%
+    width: 30%
+    height: 30%
 
   &__no_display
     display: none
