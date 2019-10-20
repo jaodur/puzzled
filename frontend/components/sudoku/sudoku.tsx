@@ -11,9 +11,9 @@ function SudokuHome() {
     const [playController, setPlayController] = React.useState(false);
 
     React.useEffect(() => {
-       const getPathname = () => window.location.pathname.includes('play');
-       setPlayController(getPathname)
-    })
+        const getPathname = () => window.location.pathname.includes('play');
+        setPlayController(getPathname);
+    });
 
     function onTabClick() {
         return function(event: EventInterface) {
@@ -31,7 +31,7 @@ function SudokuHome() {
                     key={'sudoku'}
                 />
             </div>
-            <SudokuGrid playController={true} key={'sudokuGrid'} />
+            <SudokuGrid playController key={'sudokuGrid'} />
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </React.Fragment>
     );
