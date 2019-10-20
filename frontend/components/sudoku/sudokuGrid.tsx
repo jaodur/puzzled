@@ -246,8 +246,16 @@ function SudokuGrid({ playController }: GridInterface) {
     }
 
     function validateInput(row: number, col: number, inputNum: number) {
-        const newErrorFields = uniqueArray(getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum));
         let prevErrorFields = Array.from(errorFields);
+        const originalValue = originalPuzzle[row][col]
+
+        // do not update original values
+        if (originalValue){
+            setErrors(highlightSameNum(createPrefilledArray(prevErrorFields, duplicateValueCode), row, col, originalValue));
+            return originalValue
+        }
+
+        const newErrorFields = uniqueArray(getNumCoord(row, col, getAllRelatedGridValues(row, col), inputNum));
 
         if (Array.isArray(newErrorFields) && newErrorFields.length > 0) {
             newErrorFields.push([row, col]);
@@ -382,9 +390,6 @@ function SudokuGrid({ playController }: GridInterface) {
                 setErrors(highlightSimilarGrids(row, col, parseInt(event.key)));
                 setPuzzle(updatePuzzleValue(row, col, event.key, event.keyCode));
             }
-            if (!playController && !solved) {
-                setOriginalPuzzle(deepCopy(puzzle));
-            }
         };
     }
 
@@ -393,9 +398,6 @@ function SudokuGrid({ playController }: GridInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
             setErrors(highlightSimilarGrids(row, col));
-            if (!playController && !solved) {
-                setOriginalPuzzle(deepCopy(puzzle));
-            }
         };
     }
 
@@ -403,7 +405,6 @@ function SudokuGrid({ playController }: GridInterface) {
         event.preventDefault();
         const [row, col, target] = currentGrid;
         try {
-            // setErrors(highlightSimilarGrids(row, col, parseInt(event.target.dataset.value)));
             if (!solved) {
                 target.focus();
                 setPuzzle(updatePuzzleValue(row, col, event.target.dataset.value, numberPadCode));
@@ -462,7 +463,7 @@ function SudokuGrid({ playController }: GridInterface) {
         if (playController) {
             if (playTime.playing) {
                 setPuzzle(pausedPuzzle);
-                setErrors(pausedErrors);
+                // setErrors(pausedErrors);
             } else {
                 setPuzzle(createDefaultPuzzle(gridState.gridNums));
                 setErrors(createDefaultPuzzle(gridState.gridNums));
