@@ -22,6 +22,7 @@ django-webpack-loader  = "*"
 invoke = "*"
 flake8 = "*"
 autopep8 = "*"
+pytz = "*"
 
 [dev-packages]
 
