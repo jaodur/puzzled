@@ -30,4 +30,3 @@ class CreateUserMutation(graphene.Mutation):
 
 class UserMutation(graphene.ObjectType):
     create_user = CreateUserMutation.Field()
-
