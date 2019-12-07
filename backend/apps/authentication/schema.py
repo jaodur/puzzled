@@ -19,10 +19,14 @@ class CreateUserMutation(graphene.Mutation):
         last_name = graphene.String(required=True)
         email = graphene.String(required=True)
         password = graphene.String(required=True)
+        preferred_name = graphene.String(required=False)
+        telephone = graphene.String(required=False)
+        picture_url = graphene.String(required=False)
 
-    def mutate(self, info, first_name, last_name, email, password):
+    def mutate(self, info, first_name, last_name, email, password, **optional_fields):
+
         user = get_user_model().objects.create_user(
-            first_name=first_name, last_name=last_name, email=email, password=password
+            first_name=first_name, last_name=last_name, email=email, password=password, **optional_fields
         )
 
         return CreateUserMutation(user=user)
