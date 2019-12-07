@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class SudokuConfig(AppConfig):
-    name = 'sudoku'
+    name = 'backend.apps.sudoku'
