@@ -1,6 +1,8 @@
 from django.contrib.auth import authenticate, get_user_model, login, logout, views
 import graphene
 from graphene_django import DjangoObjectType
+from backend.lib.base import BaseMutation
+from backend.lib.types import EmailField, Error
 
 
 class CreateUserType(DjangoObjectType):
@@ -11,19 +13,25 @@ class CreateUserType(DjangoObjectType):
         return 'This is a write only field.'
 
 
-class CreateUserMutation(graphene.Mutation):
+class CreateUserMutation(BaseMutation):
     user = graphene.Field(CreateUserType)
+
+    class Meta:
+        description = 'test'
+        error_type_class = Error
+        error_type_field = "create_user_errors"
 
     class Arguments:
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
-        email = graphene.String(required=True)
+        email = EmailField(required=True)
         password = graphene.String(required=True)
         preferred_name = graphene.String(required=False)
         telephone = graphene.String(required=False)
         picture_url = graphene.String(required=False)
 
-    def mutate(self, info, first_name, last_name, email, password, **optional_fields):
+    @classmethod
+    def perform_mutation(cls, info, first_name, last_name, email, password, **optional_fields):
 
         user = get_user_model().objects.create_user(
             first_name=first_name, last_name=last_name, email=email, password=password, **optional_fields
