@@ -5,16 +5,28 @@ var BundleTracker = require('webpack-bundle-tracker');
 module.exports = {
     context: __dirname,
 
-    entry:'./frontend/index.tsx',
+    devServer: {
+        port: 3000,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        compress: true,
+        hot: true,
+    },
+
+    entry: [
+        'webpack-hot-middleware/client?http://localhost:3000/',
+        './frontend/index.tsx',
+    ],
 
     output: {
         path: path.resolve('./frontend/static/bundles/'),
-        filename: '[name]-[hash].js'
+        filename: '[name]-[hash].js',
+        publicPath: 'http://localhost:3000/frontend/static/bundles/',
     },
 
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
-        new webpack.HotModuleReplacementPlugin()
     ],
 
     module: {
@@ -27,7 +39,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
+                use: ['react-hot', 'babel-loader']
             },
             {
                 test: /\.sass$/,
@@ -50,6 +62,7 @@ module.exports = {
     },
 
     resolve: {
+        modules: ['node_modules'],
         extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.sass', '.png']
     },
 
