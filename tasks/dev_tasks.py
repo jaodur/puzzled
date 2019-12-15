@@ -41,4 +41,3 @@ def webpack_dev_server(context):
 def python_server(context):
     """run python server"""
     run('python manage.py runserver', echo=True)
-
