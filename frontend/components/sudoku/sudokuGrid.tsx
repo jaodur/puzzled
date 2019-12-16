@@ -71,8 +71,12 @@ function SudokuGrid({ playControl }: GridInterface) {
     });
 
     React.useEffect(() => {
-        updateTimer();
-        checkPlayPauseStatus();
+        // Todo: This check for not solved helps prevent infinite rendering loop caused by updating PlayTime
+        //  in the checkPlayPauseStatus. This can be cleaned
+        if(!solved) {
+            updateTimer();
+            checkPlayPauseStatus();
+        }
 
         return () => {
             clearInterval(playTime.timeoutFunc);
