@@ -12,7 +12,7 @@ import {
     renderElement,
     uniqueArray,
 } from '../../utils/utils';
-import { EventInterface, FullPuzzleInterface, GridInterface } from '../interfaces';
+import { EventInterface, FullPuzzleInterface } from '../interfaces';
 import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
@@ -28,13 +28,17 @@ const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
 const empty: number = 0;
 
-function SudokuGrid({ playControl }: GridInterface) {
+function SudokuGrid() {
+    const getPathname = () => {
+        return window.location.pathname.includes('play') || !window.location.pathname.includes('solve');
+    };
+
     const [gridState, setGridState] = React.useState({
         type: defaultSudokuType,
         gridNums: getGridNums(defaultSudokuType),
     });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
-    const [playController, setPlayController] = React.useState(playControl);
+    const [playController, setPlayController] = React.useState(getPathname);
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [decoratePuzzle, setDecoratePuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -57,7 +61,6 @@ function SudokuGrid({ playControl }: GridInterface) {
     const [loading, setLoading] = React.useState(false);
 
     const sudokuGridClass: string = `sudoku-grid-${gridState.type}`;
-    const getPathname = () => window.location.pathname.includes('play');
 
     // componentDidMount
     React.useEffect(() => {
@@ -67,12 +70,16 @@ function SudokuGrid({ playControl }: GridInterface) {
     }, []);
 
     React.useEffect(() => {
-        setPlayController(playControl);
+        setPlayController(getPathname);
     });
 
     React.useEffect(() => {
-        updateTimer();
-        checkPlayPauseStatus();
+        // Todo: This check for not solved helps prevent infinite rendering loop caused by updating PlayTime
+        //  in the checkPlayPauseStatus. This can be cleaned
+        if (!solved) {
+            updateTimer();
+            checkPlayPauseStatus();
+        }
 
         return () => {
             clearInterval(playTime.timeoutFunc);

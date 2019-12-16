@@ -15,7 +15,7 @@ install:
   - pip install pipenv
   - pip install invoke
   - inv install-requirements
-  - PATH=$PATH:$(pwd)/node_modules/.bin
+  - source ./bin/functions/set_node_path.sh && setNodePath
 
 script:
   - inv lint-js

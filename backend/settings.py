@@ -11,12 +11,12 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -27,7 +27,7 @@ SECRET_KEY = '2&-hb@n-ld#&^-%)g1hgt-v91i(qyrp(7$-v@^mugi5466-+)i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -121,8 +121,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# This is where collectstatic will put all the static files it gathers.  These should then
+# be served out from /static by the StaticFilesStorage
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
+
+# This is where the files will be collected from when running `collectstatic`.
+# From Django's perspective, this is the input location.
+STATICFILES_DIRS = [
+    'frontend/static',
+]
 
 STATIC_URL = '/static/'
+
+if not DEBUG:
+    raise ImproperlyConfigured('Please set the static-server')
 
 GRAPHENE = {
     'SCHEMA': 'backend.schema'
@@ -130,7 +144,13 @@ GRAPHENE = {
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'bundles/',
+        'BUNDLE_DIR_NAME': 'webpack_bundles/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json')
     }
 }
+
+if not DEBUG:
+    WEBPACK_LOADER['DEFAULT'].update({
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json')
+    })

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js --progess --colors --mode development",
-    "watch": "webpack --config webpack.config.js --hot --mode development --watch",
-    "start": "webpack-dev-server  —-mode development — inline –-hot"
+    "build-production": "webpack --config webpack.prod.config.js --progess --colors --mode production",
+    "watch": "webpack-dev-server --config webpack_dev_server.config.js --mode development"
   },
   "repository": {
     "type": "git",
@@ -68,6 +68,7 @@
     "react-apollo": "^2.5.6",
     "react-apollo-hooks": "^0.5.0",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1"
+    "react-router-dom": "^5.0.1",
+    "uglifyjs-webpack-plugin": "^2.2.0"
   }
 }

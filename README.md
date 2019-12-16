@@ -23,23 +23,44 @@ using this command `git clone -b develop https://github.com/ja-odur/puzzled.git`
 * Change into the newly cloned repo through `cd puzzled`
 
 ## __Installing virtual environment and installing dependencies__
-* Using pipenv, start the environment and install requirements
+Using pipenv, start the environment and install requirements
 * $ **`pipenv shell`**
-* $ **`pipenv install`**. That didn't work,  try **`pipenv install --skip-lock`** 
 
-* Using npm, install node depencencies
-* $ **`npm install`**
+Install the `invoke` library
+* $ **`pip install invoke`**
+
+Using invoke, install both Python and Node dependencies using
+* $ **`inv install-requirements`**
+
+Set-up Node path
+* $ **`source ./bin/functions/set_node_path.sh && setNodePath`**
 
 ## __Setting up environment variables__
-* create a `.env` file in the role directory and add the environment variable key defined in the
-`.env_sample` file with corresponding value.
+* create a `.env` file in the root directory and add the environment variables key defined in the
+`.env_sample` file with their corresponding values.
 
 
 ## __Starting the application__
-* After cloning and installing the required dependencies, run the builds and start the app using the command
-below
-* $ **`npm run build`**
-* $ **`python manage.py runserver`** in [terminal](https://www.taniarascia.com/how-to-use-the-command-line-for-apple-macos-and-linux/)
+Run webpack build
+* $ **`inv build-local`**
+
+Start the Django server
+* $ **`inv run-server`** in [terminal](https://www.taniarascia.com/how-to-use-the-command-line-for-apple-macos-and-linux/)
+
+## __Local development__
+Enabling hot-reloading using `webpack-dev-server`, run the following command in a separate terminal
+* $ **`inv webpack-server`**
+
+Checking for JS and Python Linting respectively
+* $ **`inv lint-js`**
+* $ **`inv lint-py`**
+
+Auto-fixing JS and Python linting respectively
+* $ **`inv prettier-js`**
+* $ **`inv prettier-py`**
+
+Running Python tests
+* $ **`inv test-py`**
 
 ## __Author__
 

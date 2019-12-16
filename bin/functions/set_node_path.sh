@@ -3,13 +3,14 @@
 # Import the functions we need
 source "bin/functions/general.sh"
 
-nodePath="/node_modules/.bin"
+setNodePath() {
 
-if [[ $PATH == *"${nodePath}"* ]];
-then
-
-    handle_exit 0 "Node path already set"
-fi
-
-PATH="${PATH}:$(pwd)/node_modules/.bin"
-log  "Node path set: ${PATH}"
+    if [[ -z "${NODE_PATH_SET}" ]];
+    then
+        log  "Setting Node path"
+        export PATH="${PATH}:$(pwd)/node_modules/.bin"
+        export NODE_PATH_SET=True
+    else
+        log  "Node path set: ${PATH}"
+    fi
+}
