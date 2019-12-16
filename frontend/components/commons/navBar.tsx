@@ -5,7 +5,7 @@ import { Logo } from './logo';
 
 function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links }: NavbarInterface) {
     function createNavLinks(links: LinkInterface[]) {
-        const linksComponent: any = [];
+        let linksComponent: any = [];
 
         links.forEach(function(link, index) {
             linksComponent.push(

@@ -11,12 +11,6 @@ config.devServer = {
         hot: true,
     };
 
-// use webpack-dev-server
-config.entry = [
-        'webpack-hot-middleware/client?http://localhost:3000/',
-        './frontend/index.tsx',
-    ];
-
 // override django's STATIC_URL for webpack bundles
 config.output.publicPath = 'http://localhost:3000/frontend/static/bundles/';
 
