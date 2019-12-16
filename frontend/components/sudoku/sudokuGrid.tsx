@@ -12,7 +12,7 @@ import {
     renderElement,
     uniqueArray,
 } from '../../utils/utils';
-import { EventInterface, FullPuzzleInterface, GridInterface } from '../interfaces';
+import { EventInterface, FullPuzzleInterface } from '../interfaces';
 import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
@@ -30,7 +30,7 @@ const empty: number = 0;
 
 function SudokuGrid() {
     const getPathname = () => {
-        return window.location.pathname.includes('play') || !window.location.pathname.includes('solve')
+        return window.location.pathname.includes('play') || !window.location.pathname.includes('solve');
     };
 
     const [gridState, setGridState] = React.useState({
@@ -76,7 +76,7 @@ function SudokuGrid() {
     React.useEffect(() => {
         // Todo: This check for not solved helps prevent infinite rendering loop caused by updating PlayTime
         //  in the checkPlayPauseStatus. This can be cleaned
-        if(!solved) {
+        if (!solved) {
             updateTimer();
             checkPlayPauseStatus();
         }
