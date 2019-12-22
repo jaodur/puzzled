@@ -2,7 +2,8 @@ from django.contrib.auth import authenticate, get_user_model, login, logout, vie
 import graphene
 from graphene_django import DjangoObjectType
 from backend.lib.base import BaseMutation
-from backend.lib.types import EmailField, Error
+from backend.lib.validators import email_validator, url_validator
+from backend.lib.types import Error
 
 
 class CreateUserType(DjangoObjectType):
@@ -24,11 +25,15 @@ class CreateUserMutation(BaseMutation):
     class Arguments:
         first_name = graphene.String(required=True)
         last_name = graphene.String(required=True)
-        email = EmailField(required=True)
+        email = graphene.String(required=True)
         password = graphene.String(required=True)
         preferred_name = graphene.String(required=False)
         telephone = graphene.String(required=False)
         picture_url = graphene.String(required=False)
+
+    class Validators:
+        email = email_validator
+        picture_url = url_validator
 
     @classmethod
     def perform_mutation(cls, info, first_name, last_name, email, password, **optional_fields):
