@@ -1,6 +1,7 @@
 import graphene
 from graphene.types.mutation import MutationOptions
-from django.core.exceptions import NON_FIELD_ERRORS, ImproperlyConfigured
+from graphene.utils.props import props
+from django.core.exceptions import ImproperlyConfigured
 from backend.lib.exceptions import FieldValidationError, GraphQLValidationError
 from backend.lib.types import Error
 from backend.lib.utils import get_error_code_from_error, snake_to_camel_case
@@ -22,7 +23,6 @@ def validation_error_to_error_type(validation_error):
     """Convert a ValidationError into a list of Error types."""
 
     if not isinstance(validation_error, FieldValidationError):
-        print(str(validation_error))
         raise Exception(f'All ValidationError Exceptions must inherit from {FieldValidationError.__name__}') from validation_error
 
     return [
@@ -32,31 +32,6 @@ def validation_error_to_error_type(validation_error):
             validation_error.params
         )
     ]
-
-    # err_list = []
-    # if hasattr(validation_error, "error_dict"):
-    #     # convert field errors
-    #     for field, field_errors in validation_error.error_dict.items():
-    #         field = None if field == NON_FIELD_ERRORS else snake_to_camel_case(field)
-    #         for err in field_errors:
-    #             err_list.append(
-    #                 (
-    #                     Error(field=field, message=err.messages[0]),
-    #                     get_error_code_from_error(err),
-    #                     err.params,
-    #                 )
-    #             )
-    # else:
-    #     # convert non-field errors
-    #     for err in validation_error.error_list:
-    #         err_list.append(
-    #             (
-    #                 Error(message=err.messages[0]),
-    #                 get_error_code_from_error(err),
-    #                 err.params,
-    #             )
-    #         )
-    # return err_list
 
 
 class BaseMutation(graphene.Mutation):
