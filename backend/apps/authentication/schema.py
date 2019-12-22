@@ -18,9 +18,11 @@ class CreateUserMutation(BaseMutation):
     user = graphene.Field(CreateUserType)
 
     class Meta:
-        description = 'test'
+        description = 'Create Users'
         error_type_class = Error
         error_type_field = "create_user_errors"
+        model = get_user_model()
+        unique_together = ['email']
 
     class Arguments:
         first_name = graphene.String(required=True)
