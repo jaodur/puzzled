@@ -30,7 +30,6 @@ class UserManager(BaseUserManager):
             except Exception as e:
                 raise FieldValidationError('Not a valid url', 'picture_url', picture_url)
 
-
         with transaction.atomic(using=self._db):
             user = self.model(email=email, **extra_fields)
             if password is not None:

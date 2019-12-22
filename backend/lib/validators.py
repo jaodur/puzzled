@@ -1,4 +1,5 @@
 import re
+from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 
 
@@ -12,7 +13,7 @@ email_pat = r'@'.join((mailbox_pat, domain_pat))
 # Compile the complete email regular expression
 email_re = re.compile(r'^' + email_pat + r'$', re.IGNORECASE)
 
-url_validator = URLValidator()
+validate_url = URLValidator()
 
 
 def validate_email(email):
@@ -22,3 +23,17 @@ def validate_email(email):
     addresses that are invalid, or belong to robots).
     """
     return bool(email_re.match(email))
+
+
+def url_validator(url):
+
+    try:
+        validate_url(url)
+    except ValidationError:
+        raise ValueError('Enter a valid url')
+
+
+def email_validator(email):
+
+    if not validate_email(email):
+        raise ValueError('Enter a valid email address')

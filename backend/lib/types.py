@@ -1,5 +1,5 @@
 import graphene
-from .validators import validate_email
+from .validators import validate_email, url_validator
 
 
 class Error(graphene.ObjectType):
@@ -23,10 +23,29 @@ class EmailField(graphene.String):
     def parse_value(value):
 
         if not validate_email(value):
-            return graphene.INVALID
+            return None
         return super().parse_value(value)
 
     @staticmethod
     def parse_literal(ast):
         if validate_email(ast.value):
+            return ast.value
+
+
+class URLField(graphene.String):
+    @staticmethod
+    def parse_value(value):
+        try:
+            url_validator(value)
+        except:
+            return None
+        return super().parse_value(value)
+
+    @staticmethod
+    def parse_literal(ast):
+        try:
+            url_validator(ast.value)
+        except:
+            pass
+        else:
             return ast.value
