@@ -37,7 +37,7 @@ class URLField(graphene.String):
     def parse_value(value):
         try:
             url_validator(value)
-        except:
+        except ValueError:
             return None
         return super().parse_value(value)
 
@@ -45,7 +45,7 @@ class URLField(graphene.String):
     def parse_literal(ast):
         try:
             url_validator(ast.value)
-        except:
+        except ValueError:
             pass
         else:
             return ast.value

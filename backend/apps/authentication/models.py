@@ -27,7 +27,7 @@ class UserManager(BaseUserManager):
         if picture_url:
             try:
                 url_validator(picture_url)
-            except Exception as e:
+            except Exception:
                 raise FieldValidationError('Not a valid url', 'picture_url', picture_url)
 
         with transaction.atomic(using=self._db):

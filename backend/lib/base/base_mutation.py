@@ -23,7 +23,8 @@ def validation_error_to_error_type(validation_error):
     """Convert a ValidationError into a list of Error types."""
 
     if not isinstance(validation_error, FieldValidationError):
-        raise Exception(f'All ValidationError Exceptions must inherit from {FieldValidationError.__name__}') from validation_error
+        raise Exception(
+            f'All ValidationError Exceptions must inherit from {FieldValidationError.__name__}') from validation_error
 
     return [
         (
@@ -44,7 +45,15 @@ class BaseMutation(graphene.Mutation):
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(cls, description=None, _meta=None, error_type_class=None, error_type_field=None, model=None, unique_together=None, **options):
+    def __init_subclass_with_meta__(
+            cls,
+            description=None,
+            _meta=None,
+            error_type_class=None,
+            error_type_field=None,
+            model=None,
+            unique_together=None,
+            **options):
         if not _meta:
             _meta = MutationOptions(cls)
 
@@ -154,8 +163,8 @@ class BaseMutation(graphene.Mutation):
             ]
             extra.update({cls._meta.error_type_field: typed_errors})
 
-            formatted_errors = [dict(field=snake_to_camel_case(error.field), message=error.message, code=error.code) for error in typed_errors]
+            formatted_errors = [dict(field=snake_to_camel_case(error.field),
+                                     message=error.message, code=error.code) for error in typed_errors]
 
             raise GraphQLValidationError('Validation failed', formatted_errors)
         return cls(errors=[e[0] for e in errors], **extra)
-

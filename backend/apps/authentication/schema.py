@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, get_user_model, login, logout, views
+from django.contrib.auth import authenticate, get_user_model, login, logout
 import graphene
 from graphene_django import DjangoObjectType
 from backend.lib.base import BaseMutation
