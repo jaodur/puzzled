@@ -44,7 +44,7 @@ class BaseMutation(graphene.Mutation):
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(cls, description=None, _meta=None, error_type_class=None, error_type_field=None, **options):
+    def __init_subclass_with_meta__(cls, description=None, _meta=None, error_type_class=None, error_type_field=None, model=None, unique_together=None, **options):
         if not _meta:
             _meta = MutationOptions(cls)
 
@@ -58,9 +58,15 @@ class BaseMutation(graphene.Mutation):
         else:
             validators = {}
 
+        if unique_together:
+            if not model or model is None:
+                raise ImproperlyConfigured('No model found in the Meta class')
+
         _meta.error_type_class = error_type_class
         _meta.error_type_field = error_type_field
         _meta.validators = validators
+        _meta.unique_together = unique_together
+        _meta.model = model
         super().__init_subclass_with_meta__(description=description, _meta=_meta, **options)
 
         if error_type_class and error_type_field:
@@ -96,15 +102,41 @@ class BaseMutation(graphene.Mutation):
                     errors.extend(
                         [
                             (
-                                Error(field=key, message=str(e),code='Invalid'),
+                                Error(field=key, message=str(e), code='Invalid'),
                                 'Invalid',
                                 value
                             )
                         ]
                     )
 
+        errors.extend(cls.run_model_unique_checks(**input_data))
         if errors:
             cls.handle_typed_errors(errors)
+
+    @classmethod
+    def run_model_unique_checks(cls, **input_data):
+        errors = []
+        filters = {
+            key: value for key, value in input_data.items() if key in cls._meta.unique_together
+        }
+
+        if cls._meta.model.objects.filter(**filters):
+
+            for field in cls._meta.unique_together:
+                errors.extend([
+                    (
+                        Error(
+                            field=field,
+                            message=f'{cls._meta.model.__name__} with {cls._meta.unique_together} already exists',
+                            code='Invalid'
+                        ),
+                        'Invalid',
+                        input_data.get(field)
+                    )
+
+                ])
+
+        return errors
 
     @classmethod
     def handle_errors(cls, error, **extra):
