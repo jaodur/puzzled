@@ -38,6 +38,7 @@ class BaseGraphQLView(GraphQLView):
                     errors = response.get('errors')
                     if isinstance(errors[0], Sequence):
                         response.update({'errors': errors[0]})
+                        execution_result.invalid = True
 
             if execution_result.invalid:
                 status_code = 400
