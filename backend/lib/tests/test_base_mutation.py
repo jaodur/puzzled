@@ -7,7 +7,9 @@ class TestValidationErrorToErrorType:
 
     def test_conversion_to_error_type_succeeds(self):
 
-        error, code, param = validation_error_to_error_type(FieldValidationError('test message', 'test_field', 'test_value'))[0]
+        error, code, param = validation_error_to_error_type(
+            FieldValidationError('test message', 'test_field', 'test_value')
+        )[0]
 
         assert error.code == 'required'
         assert error.message == 'test message'
