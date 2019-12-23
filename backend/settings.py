@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # After the default packages
     'graphene_django',
+    'backend.apps.authentication',
     'backend.apps.sudoku',
     'frontend',
     'webpack_loader',
@@ -103,6 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# Authentication
+AUTH_USER_MODEL = 'authentication.User'
 
 
 # Internationalization

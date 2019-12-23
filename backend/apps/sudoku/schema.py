@@ -9,14 +9,14 @@ class SudokuType(DjangoObjectType):
         model = SudokuModel
 
 
-class Query(graphene.ObjectType):
+class SudokuQuery(graphene.ObjectType):
     sodukus = graphene.List(SudokuType)
 
     def resolve_sudokus(self, info, **kwargs):
         return SudokuModel.objects.all()
 
 
-class SolveSudoku(graphene.Mutation):
+class SolveSudokuMutation(graphene.Mutation):
     puzzle = graphene.List(graphene.List(graphene.Int))
     p_type = graphene.Int()
 
@@ -27,10 +27,10 @@ class SolveSudoku(graphene.Mutation):
     def mutate(self, info, puzzle, p_type):
         sudoku = Sudoku(puzzle=puzzle, type=p_type).solve()
 
-        return SolveSudoku(puzzle=sudoku.puzzle, p_type=p_type)
+        return SolveSudokuMutation(puzzle=sudoku.puzzle, p_type=p_type)
 
 
-class GenerateSudoku(graphene.Mutation):
+class GenerateSudokuMutation(graphene.Mutation):
     puzzle = graphene.List(graphene.List(graphene.Int))
     difficulty = graphene.String()
     p_type = graphene.Int()
@@ -41,9 +41,9 @@ class GenerateSudoku(graphene.Mutation):
 
     def mutate(self, info, difficulty, p_type):
         sudoku = Sudoku.generate(puzzle_type=p_type, difficulty=difficulty)
-        return GenerateSudoku(puzzle=sudoku.puzzle, difficulty=difficulty, p_type=p_type)
+        return GenerateSudokuMutation(puzzle=sudoku.puzzle, difficulty=difficulty, p_type=p_type)
 
 
-class Mutation(graphene.ObjectType):
-    solve_sudoku = SolveSudoku.Field()
-    generate_sudoku = GenerateSudoku.Field()
+class SudokuMutation(graphene.ObjectType):
+    solve_sudoku = SolveSudokuMutation.Field()
+    generate_sudoku = GenerateSudokuMutation.Field()
