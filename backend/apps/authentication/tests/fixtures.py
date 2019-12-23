@@ -8,9 +8,9 @@ FAKE = faker.Faker()
 @pytest.fixture(scope='module')
 def user():
     return get_user_model()(
-       name=FAKE.first_name(),
-       preferred_name=FAKE.first_name(),
-       email=FAKE.email()
+        name=FAKE.first_name(),
+        preferred_name=FAKE.first_name(),
+        email=FAKE.email()
     )
 
 
