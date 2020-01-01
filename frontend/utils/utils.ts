@@ -77,6 +77,10 @@ function pad(input: any, length: number, padChar: string = '0', padLeft: boolean
     return `${input}`.padEnd(length, padChar);
 }
 
+function between(value: number, min: number, max: number){
+    return value >= min && value < max
+}
+
 export {
     noop,
     arraySize,
@@ -88,4 +92,5 @@ export {
     renderElement,
     deepCopy,
     pad,
+    between
 };

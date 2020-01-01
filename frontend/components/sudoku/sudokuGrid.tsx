@@ -16,7 +16,7 @@ import { EventInterface, FullPuzzleInterface } from '../interfaces';
 import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
-import { PlaySudokuPad, SolveSudokuPad } from './sudokuPad';
+import { PlaySudokuPad, SolveSudokuPad, TrainerSudokuPad } from './sudokuPad';
 
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
@@ -29,8 +29,17 @@ const numberPadCode: number = 0;
 const empty: number = 0;
 
 function SudokuGrid() {
-    const getPathname = () => {
-        return window.location.pathname.includes('play') || !window.location.pathname.includes('solve');
+    const checkPath = (path: string) => {
+       return window.location.pathname.includes(path)
+    }
+    const checkIfPlay = () => {
+        let isPlayPath = checkPath('play') || !checkPath('solve');
+
+        if (isPlayPath){
+            // check if path is trainer in case the previous checks fail
+            isPlayPath = !checkPath('trainer')
+        }
+        return isPlayPath
     };
 
     const [gridState, setGridState] = React.useState({
@@ -38,7 +47,7 @@ function SudokuGrid() {
         gridNums: getGridNums(defaultSudokuType),
     });
     const [puzzle, setPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
-    const [playController, setPlayController] = React.useState(getPathname);
+    const [playController, setPlayController] = React.useState(checkIfPlay);
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [decoratePuzzle, setDecoratePuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
@@ -64,13 +73,13 @@ function SudokuGrid() {
 
     // componentDidMount
     React.useEffect(() => {
-        const newPlayController = getPathname();
+        const newPlayController = checkIfPlay();
         setPlayController(newPlayController);
         initPuzzleLoad(newPlayController);
     }, []);
 
     React.useEffect(() => {
-        setPlayController(getPathname);
+        setPlayController(checkIfPlay);
     });
 
     React.useEffect(() => {
@@ -511,10 +520,141 @@ function SudokuGrid() {
         }
     }
 
+    function xRayPuzzle(event: EventInterface) {
+        event.preventDefault();
+
+        const format = 'ABCDEFHIJKLMNOPQRSTUVWXYZ'
+        const xRayPuzzle = deepCopy(puzzle)
+
+        let keyMapper: any = {}
+
+        puzzle[0].map((value, index) => {
+            keyMapper[value] = format[index]
+        })
+
+        puzzle.map((innerArr, row) =>{
+            innerArr.map((value, col) => {
+                xRayPuzzle[row][col] = keyMapper[value]
+            })
+        })
+
+        setPuzzle(xRayPuzzle)
+    }
+
+    function validateSwapRows(row1: number, row2: number, type: number) {
+        const maxValue = type * type
+        if(!between(row1, 0, maxValue) && !between(row2, 0, maxValue)){
+            return false
+        }
+        const sectorStartIndex = Math.floor(row1/type) * type
+        const sectorEndIndex = sectorStartIndex + type
+
+        return between(row1, sectorStartIndex, sectorEndIndex) && between(row2, sectorStartIndex, sectorEndIndex)
+    }
+
+    function swapRows(row: number, col: number, arr: number[][], opt_func: (row: number)=>number) {
+        const targetRow = opt_func(row);
+
+        if(!validateSwapRows(row, targetRow, gridState.type)){
+            return
+        }
+        let [target, temp] = [arr[targetRow], arr[row]]
+        arr[targetRow] = temp
+        arr[row] = target
+
+        setCurrentSwapGrid([targetRow, col])
+    }
+
+    function swapCols(row: number, col: number, arr: number[][], opt_func: (row: number)=>number) {
+       const targetCol = opt_func(col)
+
+        if(!validateSwapRows(col, targetCol, gridState.type)){
+            return
+        }
+        const target = arr.map((value: any, index: number) => { return value[targetCol] })
+        const temp = arr.map((value: any, index: number) => { return value[col] })
+
+        target.map((value: any, index: number) => { arr[index][col] = value })
+        temp.map((value: any, index: number) => { arr[index][targetCol] = value })
+
+        setCurrentSwapGrid([row, targetCol])
+    }
+
+    function swap(isRow: boolean, isIncrement: boolean, arr: number[][]) {
+        const [row, col] = currentSwapGrid;
+        const opt_func = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
+
+        isRow ? swapRows(row, col, arr, opt_func) : swapCols(row, col, arr, opt_func)
+    }
+
+    function createSwapHighlights(isRow: boolean, isIncrement: boolean) {
+        const arr: number[][] = createDefaultPuzzle(gridState.gridNums);
+        const targetArr: number[] = fill(Array(gridState.gridNums), swapTargetAxis)
+        const currentArr: number[] = fill(Array(gridState.gridNums), swapCurrentAxis)
+        const [row, col] = currentSwapGrid;
+        const opt_func = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
+
+        if(isRow){
+            const targetRow = opt_func(row);
+
+            if(!validateSwapRows(row, targetRow, gridState.type)){
+                console.log('invalid swaps for', row, targetRow)
+                return arr
+            }
+
+            arr[targetRow] = targetArr
+            arr[row] = currentArr
+
+        } else {
+            const targetCol = opt_func(col)
+
+            if(!validateSwapRows(col, targetCol, gridState.type)){
+                console.log('invalid swaps for ', col, targetCol)
+                return arr
+            }
+            targetArr.map((value: any, index: number) => { arr[index][targetCol] = value })
+            currentArr.map((value: any, index: number) => { arr[index][col] = value })
+        }
+
+        return arr;
+    }
+
+    function swapRowCol(isRow: boolean, increment: boolean) {
+        return function(event: EventInterface) {
+            event.preventDefault();
+            const newPuzzle = deepCopy(puzzle);
+            const newOriginalPuzzle = deepCopy(originalPuzzle)
+            const swapArr = createSwapHighlights(isRow, increment)
+
+            swap(isRow, increment, newPuzzle)
+            swap(isRow, increment, newOriginalPuzzle)
+
+            setPuzzle(newPuzzle)
+            setOriginalPuzzle(newOriginalPuzzle)
+            setDecorateSwap(swapArr)
+
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={`${sudokuGridClass}__grid_type`}>
                 <Switch>
+                    <Route
+                        exact
+                        path="/sudoku/trainer/"
+                        render={renderElement(
+                            <TrainerSudokuPad
+                                type={gridState.type}
+                                onTypeChange={onTypeSelect}
+                                solvePuzzle={solvePuzzle}
+                                xRayPuzzle={xRayPuzzle}
+                                swapPuzzle={clearPuzzle}
+                                swapRolCol={swapRowCol}
+                            />
+                        )}
+                    />
+
                     <Route
                         exact
                         path="/sudoku/solve/"

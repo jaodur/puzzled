@@ -19,6 +19,7 @@ const sudokuNavBarLinks: NavbarInterface = {
     links: [
         { name: 'Play', href: '/sudoku/play/' },
         { name: 'Solve', href: '/sudoku/solve/' },
+        { name: 'Trainer', href: '/sudoku/trainer/' },
         { name: 'Help', href: '#' },
         { name: null, href: '#', linkClass: 'navbar-separator' },
         { name: 'Sign In', href: '#' },
