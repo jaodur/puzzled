@@ -11,6 +11,7 @@ import {
     removeFromGrid,
     renderElement,
     uniqueArray,
+    between
 } from '../../utils/utils';
 import { EventInterface, FullPuzzleInterface } from '../interfaces';
 import { GridRow } from './gridRow';
@@ -27,6 +28,8 @@ const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
 const empty: number = 0;
+const swapTargetAxis: number = 1
+const swapCurrentAxis: number = 2
 
 function SudokuGrid() {
     const checkPath = (path: string) => {
@@ -51,8 +54,10 @@ function SudokuGrid() {
     const [originalPuzzle, setOriginalPuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errors, setErrors] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [decoratePuzzle, setDecoratePuzzle] = React.useState(createDefaultPuzzle(gridState.gridNums));
+    const [decorateSwap, setDecorateSwap] = React.useState(createDefaultPuzzle(gridState.gridNums));
     const [errorFields, setErrorFields] = React.useState([]);
     const [currentGrid, setCurrentGrid] = React.useState([]);
+    const [currentSwapGrid, setCurrentSwapGrid] = React.useState([]);
     const [difficulty, setDifficulty] = React.useState(defaultDifficultyLevel);
     // eslint-disable-next-line
     const [genPuzzleFunction, setGenPuzzleFunction] = useMutation(GENERATE_SUDOKU_MUTATION);
@@ -355,6 +360,22 @@ function SudokuGrid() {
                 : blockCell(className, `${className}__error_blocked`);
         }
 
+        if (decorateSwap[row][col] === swapTargetAxis) {
+            const groupClass = blockCell(className, `${className}__swap_target`);
+
+            return originalPuzzle[row][col] === empty
+                ? `${groupClass} ${blockCell(className, `${className}__swap_target`)}`
+                : groupClass;
+        }
+
+        if (decorateSwap[row][col] === swapCurrentAxis) {
+            const groupClass = blockCell(className, `${className}__swap_current`);
+
+            return originalPuzzle[row][col] === empty
+                ? `${groupClass} ${blockCell(className, `${className}__swap_current`)}`
+                : groupClass;
+        }
+
         if (decoratePuzzle[row][col] === sameNumberCode) {
             const groupClass = blockCell(className, `${className}__same_value_blocked`);
 
@@ -429,6 +450,7 @@ function SudokuGrid() {
         return function(event: EventInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
+            setCurrentSwapGrid([row, col])
             setAllErrorPuzzles(highlightSimilarGrids(row, col));
         };
     }
