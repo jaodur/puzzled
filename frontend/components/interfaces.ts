@@ -108,12 +108,13 @@ interface SvgIconInterface {
 
 interface SudokuPad {
     onTypeChange: (event: EventInterface) => any;
+    type: number;
 }
 
 interface SolveSudokuPadInterface extends SudokuPad {
     solvePuzzle: (solve: any) => any;
     clearPuzzle: (event: EventInterface) => any;
-    type: number;
+
 }
 
 interface PlaySudokuPadInterface extends SudokuPad {
@@ -124,8 +125,13 @@ interface PlaySudokuPadInterface extends SudokuPad {
     playing: boolean;
     onClick: any;
     stopTimer: boolean;
-    type: number;
     difficulty: string;
+}
+interface TrainerSudokuInterface extends SudokuPad {
+    solvePuzzle: (solve: any) => any;
+    xRayPuzzle: (format?: any) => any;
+    swapPuzzle: (event: any) => any;
+    swapRolCol: (isRow: boolean, increment: boolean) => any;
 }
 
 interface CongratulationInterface {
@@ -168,4 +174,5 @@ export {
     GridTableInterface,
     TimerInterface,
     PauseInterface,
+    TrainerSudokuInterface
 };

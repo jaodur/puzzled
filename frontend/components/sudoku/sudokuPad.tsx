@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Timer } from '../commons/timer';
-import { PlaySudokuPadInterface, SolveSudokuPadInterface } from '../interfaces';
+import { PlaySudokuPadInterface, SolveSudokuPadInterface, TrainerSudokuInterface } from '../interfaces';
 
 const timerClass: string = 'timer';
 
@@ -70,4 +70,30 @@ function PlaySudokuPad({
     );
 }
 
-export { SolveSudokuPad, PlaySudokuPad };
+function TrainerSudokuPad({type,  onTypeChange,  solvePuzzle,  xRayPuzzle,  swapPuzzle, swapRolCol}: TrainerSudokuInterface){
+    return (
+        <React.Fragment>
+            <div>
+                Type:
+                <select onChange={onTypeChange} defaultValue={`${type}`}>
+                    <option value={2}>2x2</option>
+                    <option value={3}>3x3</option>
+                    <option value={4}>4x4</option>
+                </select>
+            </div>
+            <button onClick={swapRolCol(false, false)}>&#8592;</button>
+            <button onClick={swapRolCol(false, true)}>&#8594;</button>
+            <button onClick={swapRolCol(true, false)}>&#8593;</button>
+            <button onClick={swapRolCol(true, true)}>&#8595;</button>
+
+            <button onClick={solvePuzzle}>Solve</button>
+
+            <button onClick={xRayPuzzle}>X-Ray</button>
+
+            <button onClick={swapPuzzle}>Swap</button>
+
+        </React.Fragment>
+    )
+}
+
+export { SolveSudokuPad, PlaySudokuPad, TrainerSudokuPad };
