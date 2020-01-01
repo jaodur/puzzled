@@ -452,6 +452,7 @@ function SudokuGrid() {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
             setCurrentSwapGrid([row, col])
+            setDecorateSwap(createDefaultPuzzle(gridState.gridNums))
             setAllErrorPuzzles(highlightSimilarGrids(row, col));
         };
     }
