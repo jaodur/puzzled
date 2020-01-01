@@ -124,6 +124,7 @@ function SudokuGrid() {
         setPuzzle(deepCopy(newPuzzle));
         setPausedPuzzle(deepCopy(newPuzzle));
         setOriginalPuzzle(deepCopy(newPuzzle));
+        setDecoratePuzzle(deepCopy(newPuzzle));
         setAllErrorPuzzles(createDefaultPuzzle(getGridNums(newType)));
         setErrorFields([]);
         setSolved(false);
