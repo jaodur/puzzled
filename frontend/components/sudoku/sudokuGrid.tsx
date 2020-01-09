@@ -58,6 +58,7 @@ function SudokuGrid() {
     const [errorFields, setErrorFields] = React.useState([]);
     const [currentGrid, setCurrentGrid] = React.useState([]);
     const [currentSwapGrid, setCurrentSwapGrid] = React.useState([]);
+    const [swapInputValues, setSwapInputValues] = React.useState({1: 0, 2: 0});
     const [difficulty, setDifficulty] = React.useState(defaultDifficultyLevel);
     // eslint-disable-next-line
     const [genPuzzleFunction, setGenPuzzleFunction] = useMutation(GENERATE_SUDOKU_MUTATION);
@@ -660,6 +661,65 @@ function SudokuGrid() {
         }
     }
 
+    function swapNumbers(event: EventInterface) {
+        event.preventDefault()
+        const num1 = swapInputValues[1]
+        const num2 = swapInputValues[2]
+
+        if(!!num1 && !!num2){
+            const newPuzzle = deepCopy(puzzle)
+
+            puzzle.map((arr, row) => {
+                arr.map((value, col) => {
+                    if(value === num1){
+                        newPuzzle[row][col] = num2
+                    }
+                    else if(value === num2) {
+                        newPuzzle[row][col] = num1
+                    }
+                })
+            })
+
+            setPuzzle(newPuzzle)
+        }
+    }
+
+    function onSwapInputChange(insertKey: number) {
+
+        return function (event: EventInterface) {
+            event.preventDefault()
+            let value: any = parseInt(event.target.value)
+
+            if(!!value) {
+
+                if (!between(value, 1, gridState.type * gridState.type + 1)) {
+                    return
+                }
+
+            }else {
+                value = ''
+            }
+
+            const newSwapValues = deepCopy(swapInputValues)
+            newSwapValues[insertKey] = value
+            setSwapInputValues(newSwapValues)
+        }
+
+    }
+
+    function onMarkClick(event: EventInterface) {
+        event.preventDefault()
+
+        const [row, col, target] = currentGrid
+
+        if(!!target){
+            const newOriginalPuzzle = deepCopy(originalPuzzle)
+            newOriginalPuzzle[row][col] = parseInt(target.value)
+
+            setOriginalPuzzle(newOriginalPuzzle)
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={`${sudokuGridClass}__grid_type`}>
@@ -673,8 +733,11 @@ function SudokuGrid() {
                                 onTypeChange={onTypeSelect}
                                 solvePuzzle={solvePuzzle}
                                 xRayPuzzle={xRayPuzzle}
-                                swapPuzzle={clearPuzzle}
+                                swapPuzzle={swapNumbers}
                                 swapRolCol={swapRowCol}
+                                onSwapInputChange={onSwapInputChange}
+                                swapInputValues={swapInputValues}
+                                onMarkClick={onMarkClick}
                             />
                         )}
                     />
