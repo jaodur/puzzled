@@ -36,13 +36,7 @@ function SudokuGrid() {
         return window.location.pathname.includes(path);
     };
     const checkIfPlay = () => {
-        let isPlayPath = checkPath('play') || !checkPath('solve');
-
-        if (isPlayPath) {
-            // check if path is trainer in case the previous checks fail
-            isPlayPath = !checkPath('trainer');
-        }
-        return isPlayPath;
+        return checkPath('play') || !(checkPath('solve') || checkPath('trainer'));
     };
 
     const [gridState, setGridState] = React.useState({
@@ -355,43 +349,50 @@ function SudokuGrid() {
             return newClassName;
         }
 
+        function renderBlockableStyleClass(styleClass: string, blockStyleClass: string) {
+            return originalPuzzle[row][col] === empty ? styleClass : blockStyleClass;
+        }
+
         if (decoratePuzzle[row][col] === duplicateValueCode) {
             const duplicateClass = blockCell(className, `${className}__error`);
-            return originalPuzzle[row][col] === empty
-                ? duplicateClass
-                : blockCell(className, `${className}__error_blocked`);
+
+            return renderBlockableStyleClass(duplicateClass, blockCell(className, `${className}__error_blocked`));
         }
 
         if (decorateSwap[row][col] === swapTargetAxis) {
             const groupClass = blockCell(className, `${className}__swap_target`);
 
-            return originalPuzzle[row][col] === empty
-                ? `${groupClass} ${blockCell(className, `${className}__swap_target`)}`
-                : groupClass;
+            return renderBlockableStyleClass(
+                `${groupClass} ${blockCell(className, `${className}__swap_target`)}`,
+                groupClass
+            );
         }
 
         if (decorateSwap[row][col] === swapCurrentAxis) {
             const groupClass = blockCell(className, `${className}__swap_current`);
 
-            return originalPuzzle[row][col] === empty
-                ? `${groupClass} ${blockCell(className, `${className}__swap_current`)}`
-                : groupClass;
+            return renderBlockableStyleClass(
+                `${groupClass} ${blockCell(className, `${className}__swap_current`)}`,
+                groupClass
+            );
         }
 
         if (decoratePuzzle[row][col] === sameNumberCode) {
             const groupClass = blockCell(className, `${className}__same_value_blocked`);
 
-            return originalPuzzle[row][col] === empty
-                ? `${groupClass} ${blockCell(className, `${className}__same_value`)}`
-                : groupClass;
+            return renderBlockableStyleClass(
+                `${groupClass} ${blockCell(className, `${className}__same_value`)}`,
+                groupClass
+            );
         }
 
         if (decoratePuzzle[row][col] === groupedGridValueCode) {
             const groupClass = blockCell(className, `${className}__grouped_grid`);
 
-            return originalPuzzle[row][col] === empty
-                ? `${groupClass} ${blockCell(className, `${className}__td_solved`)}`
-                : groupClass;
+            return renderBlockableStyleClass(
+                `${groupClass} ${blockCell(className, `${className}__td_solved`)}`,
+                groupClass
+            );
         }
 
         if (originalPuzzle[row][col] === empty) {
