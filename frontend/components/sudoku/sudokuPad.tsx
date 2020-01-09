@@ -70,7 +70,7 @@ function PlaySudokuPad({
     );
 }
 
-function TrainerSudokuPad({type,  onTypeChange,  solvePuzzle,  xRayPuzzle,  swapPuzzle, swapRolCol}: TrainerSudokuInterface){
+function TrainerSudokuPad({type,  onTypeChange,  solvePuzzle,  xRayPuzzle,  swapPuzzle, swapRolCol, onSwapInputChange, swapInputValues, onMarkClick}: TrainerSudokuInterface){
     return (
         <React.Fragment>
             <div>
@@ -90,7 +90,10 @@ function TrainerSudokuPad({type,  onTypeChange,  solvePuzzle,  xRayPuzzle,  swap
 
             <button onClick={xRayPuzzle}>X-Ray</button>
 
+            <button onClick={onMarkClick}>mark</button>
             <button onClick={swapPuzzle}>Swap</button>
+            <input type="text" value={swapInputValues[1]} onChange={onSwapInputChange(1)}/>
+            <input type="text" value={swapInputValues[2]} onChange={onSwapInputChange(2)}/>
 
         </React.Fragment>
     )

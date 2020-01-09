@@ -132,6 +132,9 @@ interface TrainerSudokuInterface extends SudokuPad {
     xRayPuzzle: (format?: any) => any;
     swapPuzzle: (event: any) => any;
     swapRolCol: (isRow: boolean, increment: boolean) => any;
+    onSwapInputChange: (insertKey: number) => any;
+    swapInputValues: {1: number, 2: number};
+    onMarkClick: (event: any) => any;
 }
 
 interface CongratulationInterface {
