@@ -120,6 +120,7 @@ function SudokuGrid() {
         setPausedPuzzle(deepCopy(newPuzzle));
         setOriginalPuzzle(deepCopy(newPuzzle));
         setDecoratePuzzle(deepCopy(newPuzzle));
+        setDecorateSwap(deepCopy(newPuzzle));
         setAllErrorPuzzles(createDefaultPuzzle(getGridNums(newType)));
         setErrorFields([]);
         setSolved(false);

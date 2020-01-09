@@ -96,6 +96,15 @@ interface NavbarInterface {
     secLabel?: LabelInterface;
     navbarClass?: string;
     links: LinkInterface[];
+    linkActiveClass: string;
+}
+
+interface NavbarLinksInterface {
+    onTabClick?: (event: EventInterface) => any;
+    primaryLabel: LabelInterface;
+    secLabel?: LabelInterface;
+    navbarClass?: string;
+    links: LinkInterface[];
 }
 
 interface SvgIconInterface {
@@ -154,6 +163,11 @@ interface TimerInterface {
     stopTimer: boolean;
 }
 
+interface NavbarContainerInterface {
+    styleClass: string,
+    showBanner?: boolean
+}
+
 export {
     GridInterface,
     EventInterface,
@@ -166,6 +180,7 @@ export {
     LogoInterface,
     LinkInterface,
     NavbarInterface,
+    NavbarLinksInterface,
     TextLinkInterface,
     LabelInterface,
     NumPadInterface,
@@ -177,4 +192,5 @@ export {
     TimerInterface,
     PauseInterface,
     TrainerSudokuInterface,
+    NavbarContainerInterface
 };

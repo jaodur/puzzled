@@ -1,7 +1,7 @@
-import { NavbarInterface } from '../interfaces';
+import { NavbarLinksInterface } from '../interfaces';
 const linkNoStyle: string = 'link__no-style';
 
-const defaultNavBarLinks: NavbarInterface = {
+const defaultNavBarLinks: NavbarLinksInterface = {
     primaryLabel: { text: 'puzzled', href: '/', style: linkNoStyle },
     secLabel: { text: null, href: '#' },
     links: [
@@ -13,17 +13,15 @@ const defaultNavBarLinks: NavbarInterface = {
     ],
 };
 
-const sudokuNavBarLinks: NavbarInterface = {
-    primaryLabel: { text: 'puzzled', href: '/', style: linkNoStyle },
-    secLabel: { text: 'sudoku', href: '/sudoku/', style: linkNoStyle },
+const sudokuNavBarLinks: NavbarLinksInterface = {
+    primaryLabel: { text: '', href: '/', style: linkNoStyle },
+    secLabel: { text: '', href: '/sudoku/', style: linkNoStyle },
     links: [
         { name: 'Play', href: '/sudoku/play/' },
         { name: 'Solve', href: '/sudoku/solve/' },
         { name: 'Trainer', href: '/sudoku/trainer/' },
         { name: 'Help', href: '#' },
         { name: null, href: '#', linkClass: 'navbar-separator' },
-        { name: 'Sign In', href: '#' },
-        { name: 'Sign Up', href: '#' },
     ],
 };
 
