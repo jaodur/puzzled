@@ -114,7 +114,6 @@ interface SudokuPad {
 interface SolveSudokuPadInterface extends SudokuPad {
     solvePuzzle: (solve: any) => any;
     clearPuzzle: (event: EventInterface) => any;
-
 }
 
 interface PlaySudokuPadInterface extends SudokuPad {
@@ -133,7 +132,7 @@ interface TrainerSudokuInterface extends SudokuPad {
     swapPuzzle: (event: any) => any;
     swapRolCol: (isRow: boolean, increment: boolean) => any;
     onSwapInputChange: (insertKey: number) => any;
-    swapInputValues: {1: number, 2: number};
+    swapInputValues: { 1: number; 2: number };
     onMarkClick: (event: any) => any;
 }
 
@@ -177,5 +176,5 @@ export {
     GridTableInterface,
     TimerInterface,
     PauseInterface,
-    TrainerSudokuInterface
+    TrainerSudokuInterface,
 };

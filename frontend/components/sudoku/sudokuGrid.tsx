@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { GENERATE_SUDOKU_MUTATION, SOLVE_SUDOKU_MUTATION } from '../../graphql/mutations/sudoku';
 import {
+    between,
     deepCopy,
     getGridCoords,
     noop,
@@ -11,7 +12,6 @@ import {
     removeFromGrid,
     renderElement,
     uniqueArray,
-    between
 } from '../../utils/utils';
 import { EventInterface, FullPuzzleInterface } from '../interfaces';
 import { GridRow } from './gridRow';
@@ -28,21 +28,21 @@ const duplicateValueCode: number = -2;
 const groupedGridValueCode: number = -1;
 const numberPadCode: number = 0;
 const empty: number = 0;
-const swapTargetAxis: number = 1
-const swapCurrentAxis: number = 2
+const swapTargetAxis: number = 1;
+const swapCurrentAxis: number = 2;
 
 function SudokuGrid() {
     const checkPath = (path: string) => {
-       return window.location.pathname.includes(path)
-    }
+        return window.location.pathname.includes(path);
+    };
     const checkIfPlay = () => {
         let isPlayPath = checkPath('play') || !checkPath('solve');
 
-        if (isPlayPath){
+        if (isPlayPath) {
             // check if path is trainer in case the previous checks fail
-            isPlayPath = !checkPath('trainer')
+            isPlayPath = !checkPath('trainer');
         }
-        return isPlayPath
+        return isPlayPath;
     };
 
     const [gridState, setGridState] = React.useState({
@@ -58,7 +58,7 @@ function SudokuGrid() {
     const [errorFields, setErrorFields] = React.useState([]);
     const [currentGrid, setCurrentGrid] = React.useState([]);
     const [currentSwapGrid, setCurrentSwapGrid] = React.useState([]);
-    const [swapInputValues, setSwapInputValues] = React.useState({1: 0, 2: 0});
+    const [swapInputValues, setSwapInputValues] = React.useState({ 1: 0, 2: 0 });
     const [difficulty, setDifficulty] = React.useState(defaultDifficultyLevel);
     // eslint-disable-next-line
     const [genPuzzleFunction, setGenPuzzleFunction] = useMutation(GENERATE_SUDOKU_MUTATION);
@@ -452,8 +452,8 @@ function SudokuGrid() {
         return function(event: EventInterface) {
             event.preventDefault();
             setCurrentGrid([row, col, event.target]);
-            setCurrentSwapGrid([row, col])
-            setDecorateSwap(createDefaultPuzzle(gridState.gridNums))
+            setCurrentSwapGrid([row, col]);
+            setDecorateSwap(createDefaultPuzzle(gridState.gridNums));
             setAllErrorPuzzles(highlightSimilarGrids(row, col));
         };
     }
@@ -548,97 +548,104 @@ function SudokuGrid() {
     function xRayPuzzle(event: EventInterface) {
         event.preventDefault();
 
-        const format = 'ABCDEFHIJKLMNOPQRSTUVWXYZ'
-        const xRayPuzzle = deepCopy(puzzle)
+        const format = 'ABCDEFHIJKLMNOPQRSTUVWXYZ';
+        const xRayPuzzle = deepCopy(puzzle);
 
-        let keyMapper: any = {}
+        const keyMapper: any = {};
 
         puzzle[0].map((value, index) => {
-            keyMapper[value] = format[index]
-        })
+            keyMapper[value] = format[index];
+        });
 
-        puzzle.map((innerArr, row) =>{
+        puzzle.map((innerArr, row) => {
             innerArr.map((value, col) => {
-                xRayPuzzle[row][col] = keyMapper[value]
-            })
-        })
+                xRayPuzzle[row][col] = keyMapper[value];
+            });
+        });
 
-        setPuzzle(xRayPuzzle)
+        setPuzzle(xRayPuzzle);
     }
 
     function validateSwapRows(row1: number, row2: number, type: number) {
-        const maxValue = type * type
-        if(!between(row1, 0, maxValue) && !between(row2, 0, maxValue)){
-            return false
+        const maxValue = type * type;
+        if (!between(row1, 0, maxValue) && !between(row2, 0, maxValue)) {
+            return false;
         }
-        const sectorStartIndex = Math.floor(row1/type) * type
-        const sectorEndIndex = sectorStartIndex + type
+        const sectorStartIndex = Math.floor(row1 / type) * type;
+        const sectorEndIndex = sectorStartIndex + type;
 
-        return between(row1, sectorStartIndex, sectorEndIndex) && between(row2, sectorStartIndex, sectorEndIndex)
+        return between(row1, sectorStartIndex, sectorEndIndex) && between(row2, sectorStartIndex, sectorEndIndex);
     }
 
-    function swapRows(row: number, col: number, arr: number[][], opt_func: (row: number)=>number) {
-        const targetRow = opt_func(row);
+    function swapRows(row: number, col: number, arr: number[][], optFunc: (row: number) => number) {
+        const targetRow = optFunc(row);
 
-        if(!validateSwapRows(row, targetRow, gridState.type)){
-            return
+        if (!validateSwapRows(row, targetRow, gridState.type)) {
+            return;
         }
-        let [target, temp] = [arr[targetRow], arr[row]]
-        arr[targetRow] = temp
-        arr[row] = target
+        const [target, temp] = [arr[targetRow], arr[row]];
+        arr[targetRow] = temp;
+        arr[row] = target;
 
-        setCurrentSwapGrid([targetRow, col])
+        setCurrentSwapGrid([targetRow, col]);
     }
 
-    function swapCols(row: number, col: number, arr: number[][], opt_func: (row: number)=>number) {
-       const targetCol = opt_func(col)
+    function swapCols(row: number, col: number, arr: number[][], optFunc: (row: number) => number) {
+        const targetCol = optFunc(col);
 
-        if(!validateSwapRows(col, targetCol, gridState.type)){
-            return
+        if (!validateSwapRows(col, targetCol, gridState.type)) {
+            return;
         }
-        const target = arr.map((value: any, index: number) => { return value[targetCol] })
-        const temp = arr.map((value: any, index: number) => { return value[col] })
+        const target = arr.map((value: any) => value[targetCol]);
+        const temp = arr.map((value: any) => value[col]);
 
-        target.map((value: any, index: number) => { arr[index][col] = value })
-        temp.map((value: any, index: number) => { arr[index][targetCol] = value })
+        target.map((value: any, index: number) => {
+            arr[index][col] = value;
+        });
+        temp.map((value: any, index: number) => {
+            arr[index][targetCol] = value;
+        });
 
-        setCurrentSwapGrid([row, targetCol])
+        setCurrentSwapGrid([row, targetCol]);
     }
 
     function swap(isRow: boolean, isIncrement: boolean, arr: number[][]) {
         const [row, col] = currentSwapGrid;
-        const opt_func = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
+        const optFunc = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
 
-        isRow ? swapRows(row, col, arr, opt_func) : swapCols(row, col, arr, opt_func)
+        isRow ? swapRows(row, col, arr, optFunc) : swapCols(row, col, arr, optFunc);
     }
 
     function createSwapHighlights(isRow: boolean, isIncrement: boolean) {
         const arr: number[][] = createDefaultPuzzle(gridState.gridNums);
-        const targetArr: number[] = fill(Array(gridState.gridNums), swapTargetAxis)
-        const currentArr: number[] = fill(Array(gridState.gridNums), swapCurrentAxis)
+        const targetArr: number[] = fill(Array(gridState.gridNums), swapTargetAxis);
+        const currentArr: number[] = fill(Array(gridState.gridNums), swapCurrentAxis);
         const [row, col] = currentSwapGrid;
-        const opt_func = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
+        const optFunc = isIncrement ? (num: number) => num + 1 : (num: number) => num - 1;
 
-        if(isRow){
-            const targetRow = opt_func(row);
+        if (isRow) {
+            const targetRow = optFunc(row);
 
-            if(!validateSwapRows(row, targetRow, gridState.type)){
-                console.log('invalid swaps for', row, targetRow)
-                return arr
+            if (!validateSwapRows(row, targetRow, gridState.type)) {
+                console.log('invalid swaps for', row, targetRow);
+                return arr;
             }
 
-            arr[targetRow] = targetArr
-            arr[row] = currentArr
-
+            arr[targetRow] = targetArr;
+            arr[row] = currentArr;
         } else {
-            const targetCol = opt_func(col)
+            const targetCol = optFunc(col);
 
-            if(!validateSwapRows(col, targetCol, gridState.type)){
-                console.log('invalid swaps for ', col, targetCol)
-                return arr
+            if (!validateSwapRows(col, targetCol, gridState.type)) {
+                console.log('invalid swaps for ', col, targetCol);
+                return arr;
             }
-            targetArr.map((value: any, index: number) => { arr[index][targetCol] = value })
-            currentArr.map((value: any, index: number) => { arr[index][col] = value })
+            targetArr.map((value: any, index: number) => {
+                arr[index][targetCol] = value;
+            });
+            currentArr.map((value: any, index: number) => {
+                arr[index][col] = value;
+            });
         }
 
         return arr;
@@ -648,75 +655,69 @@ function SudokuGrid() {
         return function(event: EventInterface) {
             event.preventDefault();
             const newPuzzle = deepCopy(puzzle);
-            const newOriginalPuzzle = deepCopy(originalPuzzle)
-            const swapArr = createSwapHighlights(isRow, increment)
+            const newOriginalPuzzle = deepCopy(originalPuzzle);
+            const swapArr = createSwapHighlights(isRow, increment);
 
-            swap(isRow, increment, newPuzzle)
-            swap(isRow, increment, newOriginalPuzzle)
+            swap(isRow, increment, newPuzzle);
+            swap(isRow, increment, newOriginalPuzzle);
 
-            setPuzzle(newPuzzle)
-            setOriginalPuzzle(newOriginalPuzzle)
-            setDecorateSwap(swapArr)
-
-        }
+            setPuzzle(newPuzzle);
+            setOriginalPuzzle(newOriginalPuzzle);
+            setDecorateSwap(swapArr);
+        };
     }
 
     function swapNumbers(event: EventInterface) {
-        event.preventDefault()
-        const num1 = swapInputValues[1]
-        const num2 = swapInputValues[2]
+        event.preventDefault();
+        const num1 = swapInputValues[1];
+        const num2 = swapInputValues[2];
 
-        if(!!num1 && !!num2){
-            const newPuzzle = deepCopy(puzzle)
+        if (!!num1 && !!num2) {
+            const newPuzzle = deepCopy(puzzle);
 
             puzzle.map((arr, row) => {
                 arr.map((value, col) => {
-                    if(value === num1){
-                        newPuzzle[row][col] = num2
+                    if (value === num1) {
+                        newPuzzle[row][col] = num2;
+                    } else if (value === num2) {
+                        newPuzzle[row][col] = num1;
                     }
-                    else if(value === num2) {
-                        newPuzzle[row][col] = num1
-                    }
-                })
-            })
+                });
+            });
 
-            setPuzzle(newPuzzle)
+            setPuzzle(newPuzzle);
         }
     }
 
     function onSwapInputChange(insertKey: number) {
+        return function(event: EventInterface) {
+            event.preventDefault();
+            let value: any = parseInt(event.target.value);
 
-        return function (event: EventInterface) {
-            event.preventDefault()
-            let value: any = parseInt(event.target.value)
-
-            if(!!value) {
-
+            if (!!value) {
                 if (!between(value, 1, gridState.type * gridState.type + 1)) {
-                    return
+                    return;
                 }
-
-            }else {
-                value = ''
+            } else {
+                value = '';
             }
 
-            const newSwapValues = deepCopy(swapInputValues)
-            newSwapValues[insertKey] = value
-            setSwapInputValues(newSwapValues)
-        }
-
+            const newSwapValues = deepCopy(swapInputValues);
+            newSwapValues[insertKey] = value;
+            setSwapInputValues(newSwapValues);
+        };
     }
 
     function onMarkClick(event: EventInterface) {
-        event.preventDefault()
+        event.preventDefault();
 
-        const [row, col, target] = currentGrid
+        const [row, col, target] = currentGrid;
 
-        if(!!target){
-            const newOriginalPuzzle = deepCopy(originalPuzzle)
-            newOriginalPuzzle[row][col] = parseInt(target.value)
+        if (!!target) {
+            const newOriginalPuzzle = deepCopy(originalPuzzle);
+            newOriginalPuzzle[row][col] = parseInt(target.value);
 
-            setOriginalPuzzle(newOriginalPuzzle)
+            setOriginalPuzzle(newOriginalPuzzle);
         }
     }
 
