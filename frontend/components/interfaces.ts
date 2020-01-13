@@ -137,10 +137,6 @@ interface PlaySudokuPadInterface extends SudokuPad {
     onDifficultyChange: (event: EventInterface) => any;
     generatePuzzle: (generate: any) => any;
     resetPuzzle: (event: EventInterface) => any;
-    totalSeconds: number;
-    playing: boolean;
-    onClick: any;
-    stopTimer: boolean;
     difficulty: string;
 }
 interface TrainerSudokuInterface extends SudokuPad {

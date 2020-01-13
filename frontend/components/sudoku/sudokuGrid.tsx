@@ -768,10 +768,6 @@ function SudokuGrid() {
                                     onDifficultyChange={onDifficultySelect}
                                     generatePuzzle={generatePuzzle}
                                     resetPuzzle={resetPuzzle}
-                                    totalSeconds={playTime.totalSeconds}
-                                    playing={playTime.playing}
-                                    onClick={onPlayPauseClick}
-                                    stopTimer={playTime.stopTimer}
                                     type={gridState.type}
                                     difficulty={difficulty}
                                 />

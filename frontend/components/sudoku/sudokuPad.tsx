@@ -1,8 +1,5 @@
 import * as React from 'react';
-import { Timer } from '../commons/timer';
 import { PlaySudokuPadInterface, SolveSudokuPadInterface, TrainerSudokuInterface } from '../interfaces';
-
-const timerClass: string = 'timer';
 
 function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveSudokuPadInterface) {
     return (
@@ -28,10 +25,6 @@ function PlaySudokuPad({
     onDifficultyChange,
     generatePuzzle,
     resetPuzzle,
-    totalSeconds,
-    playing,
-    onClick,
-    stopTimer,
     type,
     difficulty,
 }: PlaySudokuPadInterface) {
