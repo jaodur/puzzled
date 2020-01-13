@@ -8,11 +8,20 @@ interface GridInterface {
     playControl?: boolean;
 }
 
-interface NumPadInterface extends GridInterface {
+interface NumPadRowInterface extends GridInterface {
     type: number;
     gridClass: string;
     onPadClick: (event: EventInterface) => any;
     startNum?: number;
+}
+
+interface NumPadInterface extends NumPadRowInterface {
+    totalSeconds: number;
+    playing: boolean;
+    playControl: boolean;
+    onTimerClick: any;
+    stopTimer: boolean;
+    timerStyleClass: string;
 }
 
 interface EventInterface {
@@ -96,6 +105,15 @@ interface NavbarInterface {
     secLabel?: LabelInterface;
     navbarClass?: string;
     links: LinkInterface[];
+    linkActiveClass: string;
+}
+
+interface NavbarLinksInterface {
+    onTabClick?: (event: EventInterface) => any;
+    primaryLabel: LabelInterface;
+    secLabel?: LabelInterface;
+    navbarClass?: string;
+    links: LinkInterface[];
 }
 
 interface SvgIconInterface {
@@ -108,24 +126,28 @@ interface SvgIconInterface {
 
 interface SudokuPad {
     onTypeChange: (event: EventInterface) => any;
+    type: number;
 }
 
 interface SolveSudokuPadInterface extends SudokuPad {
     solvePuzzle: (solve: any) => any;
     clearPuzzle: (event: EventInterface) => any;
-    type: number;
 }
 
 interface PlaySudokuPadInterface extends SudokuPad {
     onDifficultyChange: (event: EventInterface) => any;
     generatePuzzle: (generate: any) => any;
     resetPuzzle: (event: EventInterface) => any;
-    totalSeconds: number;
-    playing: boolean;
-    onClick: any;
-    stopTimer: boolean;
-    type: number;
     difficulty: string;
+}
+interface TrainerSudokuInterface extends SudokuPad {
+    solvePuzzle: (solve: any) => any;
+    xRayPuzzle: (format?: any) => any;
+    swapPuzzle: (event: any) => any;
+    swapRolCol: (isRow: boolean, increment: boolean) => any;
+    onSwapInputChange: (insertKey: number) => any;
+    swapInputValues: { 1: number; 2: number };
+    onMarkClick: (event: any) => any;
 }
 
 interface CongratulationInterface {
@@ -141,9 +163,15 @@ interface PauseInterface {
 interface TimerInterface {
     styleClass: string;
     playing: boolean;
+    playControl: boolean;
     totalSeconds: number;
     onClick: any;
     stopTimer: boolean;
+}
+
+interface NavbarContainerInterface {
+    styleClass: string;
+    showBanner?: boolean;
 }
 
 export {
@@ -158,9 +186,11 @@ export {
     LogoInterface,
     LinkInterface,
     NavbarInterface,
+    NavbarLinksInterface,
     TextLinkInterface,
     LabelInterface,
     NumPadInterface,
+    NumPadRowInterface,
     SvgIconInterface,
     SolveSudokuPadInterface,
     PlaySudokuPadInterface,
@@ -168,4 +198,6 @@ export {
     GridTableInterface,
     TimerInterface,
     PauseInterface,
+    TrainerSudokuInterface,
+    NavbarContainerInterface,
 };

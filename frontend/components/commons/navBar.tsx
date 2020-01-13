@@ -3,7 +3,7 @@ import { LinkInterface, NavbarInterface } from '../interfaces';
 import { NavItemLink } from './links';
 import { Logo } from './logo';
 
-function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links }: NavbarInterface) {
+function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links, linkActiveClass }: NavbarInterface) {
     function createNavLinks(links: LinkInterface[]) {
         const linksComponent: any = [];
 
@@ -13,7 +13,7 @@ function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links }: Navb
                     <NavItemLink
                         name={link.name}
                         href={link.href}
-                        activeClassName={'sudoku-selected'}
+                        activeClassName={linkActiveClass}
                         onTabClick={onTabClick}
                     />
                 </li>

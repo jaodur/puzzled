@@ -17,6 +17,7 @@ function PageNotFound() {
                     secLabel={defaultNavBarLinks.secLabel}
                     primaryLabel={defaultNavBarLinks.primaryLabel}
                     links={defaultNavBarLinks.links}
+                    linkActiveClass={'sudoku-selected'}
                     key={'main'}
                 />
             </div>

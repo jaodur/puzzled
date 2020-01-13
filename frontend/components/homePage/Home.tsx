@@ -8,7 +8,7 @@ const footerClass: string = 'main-footer';
 export class Home extends React.Component {
     public render(): JSX.Element[] {
         return [
-            <NavBarContainer key={'navBarContainer'} />,
+            <NavBarContainer styleClass={'navbar-container'} showBanner key={'navBarContainer'} />,
             <ContentContainer key={'contentContainer'} />,
             <Footer footerClass={footerClass} key={'footer'} />,
         ];

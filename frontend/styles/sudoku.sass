@@ -6,6 +6,9 @@ $mainNavBarColor: #2662ac
 $thickRed: #fb4547
 $lightRed: #f7cfd6
 $lightBlue: #4a90e2
+$controllerWidth: 7.5rem
+$controllerCompMinHeight: 30px
+$standardMargin: 5px
 
 // ****************** mixins **********************
 @mixin transform($value)
@@ -73,11 +76,17 @@ $lightBlue: #4a90e2
         background-color: white
 
   &__grid_wrapper
+    margin: 2rem 0
     display: flex
     flex-wrap: wrap
-    justify-content: center
     align-items: flex-start
     min-height: 80vh
+
+    &__controller
+      display: flex
+      flex-wrap: wrap
+      width: $controllerWidth
+      margin: 0 10px 0 50px
 
     &__numpad
       margin: 0 1%
@@ -101,6 +110,13 @@ $lightBlue: #4a90e2
         height: 100%
         justify-content: center
         cursor: pointer
+
+        >div
+          border: 1px solid #bec6d4
+          width: 100%
+          min-height: 30px
+          font-size: $baseFontSize
+          padding: 0
 
         &:last-child
           border-top: 1px solid #bec6d4
@@ -129,8 +145,8 @@ $lightBlue: #4a90e2
           display: flex
           justify-content: center
           align-items: center
-          height: 115px - $reduceHeight
-          width: 115px - $reduceHeight
+          height: 100px - $reduceHeight
+          width: 100px - $reduceHeight
           border-bottom: 1px solid #bec6d4
           border-right: 1px solid #bec6d4
 
@@ -244,6 +260,56 @@ $lightBlue: #4a90e2
 .sudoku-nav
   @include nav-bar($bgColor: $mainNavBarColor,$color: #dadada,$hoverColor: white, $logoColor: white, $height: 50px)
 
+.sudoku-controls
+  padding: 0
+  >div
+    width: $controllerWidth
+    min-height: $controllerCompMinHeight
+    flex: 0 0 100%
+    margin-bottom: $standardMargin
+
+  >button
+    width: $controllerWidth
+    height: $controllerCompMinHeight
+    margin-bottom: $standardMargin
+
+  &__swap_controls
+    display: flex
+    flex-wrap: wrap
+
+    >button
+      flex: 1 2
+    >input
+      flex: 1 1
+      width: 20%
+
+  &__arrow_controls
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-wrap: wrap
+
+    >div
+      width: 35px
+      height: 35px
+
+      button
+        width: 100%
+        height: 100%
+
+  &__select_controls
+    display: flex
+    align-items: center
+    width: 100%
+    padding: 0
+    margin: 0
+
+    >select
+      height: 100%
+      width: 100%
+      outline: none
+      border: none
+
 table
   border-collapse: collapse
   border-spacing: 0
@@ -272,6 +338,14 @@ table
   &__same_value_blocked
     background-color: #cbdbed
 
+  &__swap_target
+    color: $mainNavBarColor
+    background-color: #aabbff
+
+  &__swap_current
+    color: $mainNavBarColor
+    background-color: #eebbff
+
 .sudoku-grid-1
   @include sudokuGrid($type: 1, $reduceHeight: 0)
 
@@ -298,9 +372,14 @@ table
   color: white !important
 
 .timer
+  display: flex
+  align-items: center
+  justify-content: flex-end
+
   &__span
     color: $mainNavBarColor
     min-width: 60px
+    margin: 0
     text-align: right
 
   &__svg
