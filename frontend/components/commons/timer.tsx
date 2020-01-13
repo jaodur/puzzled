@@ -39,10 +39,10 @@ function Timer({ playing, styleClass, totalSeconds, onClick, stopTimer }: TimerI
     }
 
     return (
-        <React.Fragment>
+        <div className={styleClass}>
             <span className={`${styleClass}__span`}>{parseSeconds(totalSeconds)}</span>
             {loadIcon()}
-        </React.Fragment>
+        </div>
     );
 }
 

@@ -8,11 +8,19 @@ interface GridInterface {
     playControl?: boolean;
 }
 
-interface NumPadInterface extends GridInterface {
+interface NumPadRowInterface extends GridInterface {
     type: number;
     gridClass: string;
     onPadClick: (event: EventInterface) => any;
     startNum?: number;
+}
+
+interface NumPadInterface extends NumPadRowInterface {
+    totalSeconds: number;
+    playing: boolean;
+    onTimerClick: any;
+    stopTimer: boolean;
+    timerStyleClass: string
 }
 
 interface EventInterface {
@@ -184,6 +192,7 @@ export {
     TextLinkInterface,
     LabelInterface,
     NumPadInterface,
+    NumPadRowInterface,
     SvgIconInterface,
     SolveSudokuPadInterface,
     PlaySudokuPadInterface,

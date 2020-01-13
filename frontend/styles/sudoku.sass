@@ -102,6 +102,13 @@ $lightBlue: #4a90e2
         justify-content: center
         cursor: pointer
 
+        >div
+          border: 1px solid #bec6d4
+          width: 100%
+          min-height: 30px
+          font-size: $baseFontSize
+          padding: 0
+
         &:last-child
           border-top: 1px solid #bec6d4
           text-transform: capitalize
@@ -306,9 +313,14 @@ table
   color: white !important
 
 .timer
+  display: flex
+  align-items: center
+  justify-content: flex-end
+
   &__span
     color: $mainNavBarColor
     min-width: 60px
+    margin: 0
     text-align: right
 
   &__svg

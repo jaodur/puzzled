@@ -19,6 +19,7 @@ import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
 import { PlaySudokuPad, SolveSudokuPad, TrainerSudokuPad } from './sudokuPad';
 
+const timerStyleClass: string = 'timer';
 const defaultSudokuType: number = 3;
 const defaultDifficultyLevel: string = 'easy';
 const deleteKeyCode: number = 8;
@@ -794,9 +795,18 @@ function SudokuGrid() {
                     loader={loading}
                 />
 
-                <NumberPad onPadClick={onPadClick} gridClass={sudokuGridClass} type={gridState.type} />
+                <NumberPad
+                    onPadClick={onPadClick}
+                    gridClass={sudokuGridClass}
+                    type={gridState.type}
+                    totalSeconds={playTime.totalSeconds}
+                    playing={playTime.playing}
+                    onTimerClick={onPlayPauseClick}
+                    stopTimer={playTime.stopTimer}
+                    timerStyleClass={timerStyleClass}
+                />
             </div>
-        </React.Fragment>
+
     );
 }
 

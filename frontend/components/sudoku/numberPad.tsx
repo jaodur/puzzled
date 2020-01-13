@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { EraseIcon } from '../icons/sudoku';
-import { NumPadInterface } from '../interfaces';
+import { NumPadInterface, NumPadRowInterface } from '../interfaces';
+import {Timer} from "../commons/timer";
 
-function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadInterface) {
+function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface) {
     function CreateNumPadData(num: number, fillValue: number) {
         const cells = [];
         for (let i = 0; i < num; i++) {
@@ -20,7 +21,7 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadInterface) {
     return <tr className={`${gridClass}__grid_wrapper__numpad_row`}>{CreateNumPadData(type, startNum)}</tr>;
 }
 
-function NumberPad({ gridClass, type, onPadClick }: NumPadInterface) {
+function NumberPad({ gridClass, type, onPadClick, onTimerClick, playing, stopTimer, timerStyleClass, totalSeconds }: NumPadInterface) {
     function CreateNumPadRow(type: number, startNum: number) {
         const cells = [];
         for (let i = 0; i < type; i++) {
@@ -42,6 +43,17 @@ function NumberPad({ gridClass, type, onPadClick }: NumPadInterface) {
     return (
         <table className={`${gridClass}__grid_wrapper__numpad`}>
             <tbody>
+                <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
+                    <div>
+                        <Timer
+                            stopTimer={stopTimer}
+                            onClick={onTimerClick}
+                            playing={playing}
+                            styleClass={timerStyleClass}
+                            totalSeconds={totalSeconds}
+                        />
+                    </div>
+                </tr>
                 {CreateNumPadRow(type, 1)}
                 <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
                     <td onClick={onPadClick} data-value={0}>
