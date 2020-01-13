@@ -51,7 +51,6 @@ function PlaySudokuPad({
             <button onClick={resetPuzzle}>reset</button>
 
             <button onClick={generatePuzzle}>New Game</button>
-
         </div>
     );
 }
@@ -78,7 +77,6 @@ function TrainerSudokuPad({
                 </select>
             </div>
 
-
             <button onClick={solvePuzzle}>Solve</button>
 
             <button onClick={xRayPuzzle}>X-Ray</button>
@@ -92,15 +90,23 @@ function TrainerSudokuPad({
             </div>
 
             <div className={'sudoku-controls__arrow_controls'}>
-                <div></div>
-                <div><button onClick={swapRolCol(true, false)}>&#8593;</button></div>
-                <div></div>
-                <div><button onClick={swapRolCol(false, false)}>&#8592;</button></div>
-                <div></div>
-                <div><button onClick={swapRolCol(false, true)}>&#8594;</button></div>
-                <div></div>
-                <div><button onClick={swapRolCol(true, true)}>&#8595;</button></div>
-                <div></div>
+                <div />
+                <div>
+                    <button onClick={swapRolCol(true, false)}>&#8593;</button>
+                </div>
+                <div />
+                <div>
+                    <button onClick={swapRolCol(false, false)}>&#8592;</button>
+                </div>
+                <div />
+                <div>
+                    <button onClick={swapRolCol(false, true)}>&#8594;</button>
+                </div>
+                <div />
+                <div>
+                    <button onClick={swapRolCol(true, true)}>&#8595;</button>
+                </div>
+                <div />
             </div>
         </div>
     );

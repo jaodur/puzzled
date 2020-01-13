@@ -21,7 +21,7 @@ interface NumPadInterface extends NumPadRowInterface {
     playControl: boolean;
     onTimerClick: any;
     stopTimer: boolean;
-    timerStyleClass: string
+    timerStyleClass: string;
 }
 
 interface EventInterface {
@@ -170,8 +170,8 @@ interface TimerInterface {
 }
 
 interface NavbarContainerInterface {
-    styleClass: string,
-    showBanner?: boolean
+    styleClass: string;
+    showBanner?: boolean;
 }
 
 export {
@@ -199,5 +199,5 @@ export {
     TimerInterface,
     PauseInterface,
     TrainerSudokuInterface,
-    NavbarContainerInterface
+    NavbarContainerInterface,
 };

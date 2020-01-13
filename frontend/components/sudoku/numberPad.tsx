@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { Timer } from '../commons/timer';
 import { EraseIcon } from '../icons/sudoku';
 import { NumPadInterface, NumPadRowInterface } from '../interfaces';
-import {Timer} from "../commons/timer";
 
 function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface) {
     function CreateNumPadData(num: number, fillValue: number) {
@@ -21,7 +21,17 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface
     return <tr className={`${gridClass}__grid_wrapper__numpad_row`}>{CreateNumPadData(type, startNum)}</tr>;
 }
 
-function NumberPad({ gridClass, type, onPadClick, onTimerClick, playing, playControl, stopTimer, timerStyleClass, totalSeconds }: NumPadInterface) {
+function NumberPad({
+    gridClass,
+    type,
+    onPadClick,
+    onTimerClick,
+    playing,
+    playControl,
+    stopTimer,
+    timerStyleClass,
+    totalSeconds,
+}: NumPadInterface) {
     function CreateNumPadRow(type: number, startNum: number) {
         const cells = [];
         for (let i = 0; i < type; i++) {

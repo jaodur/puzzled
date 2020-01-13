@@ -2,10 +2,10 @@ import * as React from 'react';
 import { AppName } from './appName';
 import { NavBar } from './navBar';
 
+import { NavbarContainerInterface } from '../interfaces';
 import { defaultNavBarLinks } from './navbarLinks';
-import { NavbarContainerInterface } from '../interfaces'
 
-function NavBarContainer({styleClass, showBanner}: NavbarContainerInterface): JSX.Element {
+function NavBarContainer({ styleClass, showBanner }: NavbarContainerInterface): JSX.Element {
     return (
         <div className={styleClass}>
             <NavBar
