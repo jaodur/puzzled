@@ -21,7 +21,7 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface
     return <tr className={`${gridClass}__grid_wrapper__numpad_row`}>{CreateNumPadData(type, startNum)}</tr>;
 }
 
-function NumberPad({ gridClass, type, onPadClick, onTimerClick, playing, stopTimer, timerStyleClass, totalSeconds }: NumPadInterface) {
+function NumberPad({ gridClass, type, onPadClick, onTimerClick, playing, playControl, stopTimer, timerStyleClass, totalSeconds }: NumPadInterface) {
     function CreateNumPadRow(type: number, startNum: number) {
         const cells = [];
         for (let i = 0; i < type; i++) {
@@ -51,6 +51,7 @@ function NumberPad({ gridClass, type, onPadClick, onTimerClick, playing, stopTim
                             playing={playing}
                             styleClass={timerStyleClass}
                             totalSeconds={totalSeconds}
+                            playControl={playControl}
                         />
                     </div>
                 </tr>

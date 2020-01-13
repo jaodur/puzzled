@@ -797,6 +797,7 @@ function SudokuGrid() {
                     type={gridState.type}
                     totalSeconds={playTime.totalSeconds}
                     playing={playTime.playing}
+                    playControl={playController}
                     onTimerClick={onPlayPauseClick}
                     stopTimer={playTime.stopTimer}
                     timerStyleClass={timerStyleClass}

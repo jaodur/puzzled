@@ -18,6 +18,7 @@ interface NumPadRowInterface extends GridInterface {
 interface NumPadInterface extends NumPadRowInterface {
     totalSeconds: number;
     playing: boolean;
+    playControl: boolean;
     onTimerClick: any;
     stopTimer: boolean;
     timerStyleClass: string
@@ -162,6 +163,7 @@ interface PauseInterface {
 interface TimerInterface {
     styleClass: string;
     playing: boolean;
+    playControl: boolean;
     totalSeconds: number;
     onClick: any;
     stopTimer: boolean;

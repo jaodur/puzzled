@@ -6,13 +6,13 @@ import { TimerInterface } from '../interfaces';
 const minute: number = 60; // 60 seconds
 const hour: number = minute * 60;
 
-function Timer({ playing, styleClass, totalSeconds, onClick, stopTimer }: TimerInterface) {
+function Timer({ playing, playControl, styleClass, totalSeconds, onClick, stopTimer }: TimerInterface) {
     function setClickFunction() {
-        return stopTimer ? () => {} : onClick;
+        return stopTimer || !playControl ? () => {} : onClick;
     }
 
     function setStyleClass() {
-        return stopTimer ? `${styleClass}__svg__disabled` : `${styleClass}__svg`;
+        return stopTimer || !playControl ? `${styleClass}__svg__disabled` : `${styleClass}__svg`;
     }
 
     function loadIcon() {
