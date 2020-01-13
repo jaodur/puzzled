@@ -6,8 +6,8 @@ const timerClass: string = 'timer';
 
 function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveSudokuPadInterface) {
     return (
-        <React.Fragment>
-            <div>
+        <div className={'sudoku-controls'}>
+            <div className={'sudoku-controls__select_controls'}>
                 Type:
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
@@ -19,7 +19,7 @@ function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveS
             <button onClick={solvePuzzle}>Solve</button>
 
             <button onClick={clearPuzzle}>clear</button>
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -36,8 +36,8 @@ function PlaySudokuPad({
     difficulty,
 }: PlaySudokuPadInterface) {
     return (
-        <React.Fragment>
-            <div>
+        <div className={'sudoku-controls'}>
+            <div className={'sudoku-controls__select_controls'}>
                 Type:
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
@@ -45,7 +45,7 @@ function PlaySudokuPad({
                     <option value={4}>4x4</option>
                 </select>
             </div>
-            <div>
+            <div className={'sudoku-controls__select_controls'}>
                 Difficulty:
                 <select onChange={onDifficultyChange} defaultValue={`${difficulty}`}>
                     <option value={'easy'}>Easy</option>
@@ -59,14 +59,7 @@ function PlaySudokuPad({
 
             <button onClick={generatePuzzle}>New Game</button>
 
-            <Timer
-                stopTimer={stopTimer}
-                onClick={onClick}
-                playing={playing}
-                styleClass={timerClass}
-                totalSeconds={totalSeconds}
-            />
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -82,8 +75,8 @@ function TrainerSudokuPad({
     onMarkClick,
 }: TrainerSudokuInterface) {
     return (
-        <React.Fragment>
-            <div>
+        <div className={'sudoku-controls'}>
+            <div className={'sudoku-controls__select_controls'}>
                 Type:
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
@@ -91,20 +84,32 @@ function TrainerSudokuPad({
                     <option value={4}>4x4</option>
                 </select>
             </div>
-            <button onClick={swapRolCol(false, false)}>&#8592;</button>
-            <button onClick={swapRolCol(false, true)}>&#8594;</button>
-            <button onClick={swapRolCol(true, false)}>&#8593;</button>
-            <button onClick={swapRolCol(true, true)}>&#8595;</button>
+
 
             <button onClick={solvePuzzle}>Solve</button>
 
             <button onClick={xRayPuzzle}>X-Ray</button>
 
             <button onClick={onMarkClick}>mark</button>
-            <button onClick={swapPuzzle}>Swap</button>
-            <input type="text" value={swapInputValues[1]} onChange={onSwapInputChange(1)} />
-            <input type="text" value={swapInputValues[2]} onChange={onSwapInputChange(2)} />
-        </React.Fragment>
+
+            <div className={'sudoku-controls__swap_controls'}>
+                <input type="text" value={swapInputValues[1]} onChange={onSwapInputChange(1)} />
+                <input type="text" value={swapInputValues[2]} onChange={onSwapInputChange(2)} />
+                <button onClick={swapPuzzle}>Swap</button>
+            </div>
+
+            <div className={'sudoku-controls__arrow_controls'}>
+                <div></div>
+                <div><button onClick={swapRolCol(true, false)}>&#8593;</button></div>
+                <div></div>
+                <div><button onClick={swapRolCol(false, false)}>&#8592;</button></div>
+                <div></div>
+                <div><button onClick={swapRolCol(false, true)}>&#8594;</button></div>
+                <div></div>
+                <div><button onClick={swapRolCol(true, true)}>&#8595;</button></div>
+                <div></div>
+            </div>
+        </div>
     );
 }
 

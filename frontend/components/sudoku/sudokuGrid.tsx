@@ -725,63 +725,63 @@ function SudokuGrid() {
     }
 
     return (
-        <React.Fragment>
-            <div className={`${sudokuGridClass}__grid_type`}>
-                <Switch>
-                    <Route
-                        exact
-                        path="/sudoku/trainer/"
-                        render={renderElement(
-                            <TrainerSudokuPad
-                                type={gridState.type}
-                                onTypeChange={onTypeSelect}
-                                solvePuzzle={solvePuzzle}
-                                xRayPuzzle={xRayPuzzle}
-                                swapPuzzle={swapNumbers}
-                                swapRolCol={swapRowCol}
-                                onSwapInputChange={onSwapInputChange}
-                                swapInputValues={swapInputValues}
-                                onMarkClick={onMarkClick}
-                            />
-                        )}
-                    />
-
-                    <Route
-                        exact
-                        path="/sudoku/solve/"
-                        render={renderElement(
-                            <SolveSudokuPad
-                                onTypeChange={onTypeSelect}
-                                solvePuzzle={solvePuzzle}
-                                clearPuzzle={clearPuzzle}
-                                type={gridState.type}
-                            />
-                        )}
-                    />
-
-                    <Route
-                        exact
-                        path="/sudoku/play/"
-                        render={renderElement(
-                            <PlaySudokuPad
-                                onTypeChange={onTypeSelect}
-                                onDifficultyChange={onDifficultySelect}
-                                generatePuzzle={generatePuzzle}
-                                resetPuzzle={resetPuzzle}
-                                totalSeconds={playTime.totalSeconds}
-                                playing={playTime.playing}
-                                onClick={onPlayPauseClick}
-                                stopTimer={playTime.stopTimer}
-                                type={gridState.type}
-                                difficulty={difficulty}
-                            />
-                        )}
-                    />
-
-                    <Redirect to="/sudoku/play/" />
-                </Switch>
-            </div>
             <div className={`${sudokuGridClass}__grid_wrapper`}>
+                <div className={`${sudokuGridClass}__grid_wrapper__controller`}>
+                    <Switch>
+                        <Route
+                            exact
+                            path="/sudoku/trainer/"
+                            render={renderElement(
+                                <TrainerSudokuPad
+                                    type={gridState.type}
+                                    onTypeChange={onTypeSelect}
+                                    solvePuzzle={solvePuzzle}
+                                    xRayPuzzle={xRayPuzzle}
+                                    swapPuzzle={swapNumbers}
+                                    swapRolCol={swapRowCol}
+                                    onSwapInputChange={onSwapInputChange}
+                                    swapInputValues={swapInputValues}
+                                    onMarkClick={onMarkClick}
+                                />
+                            )}
+                        />
+
+                        <Route
+                            exact
+                            path="/sudoku/solve/"
+                            render={renderElement(
+                                <SolveSudokuPad
+                                    onTypeChange={onTypeSelect}
+                                    solvePuzzle={solvePuzzle}
+                                    clearPuzzle={clearPuzzle}
+                                    type={gridState.type}
+                                />
+                            )}
+                        />
+
+                        <Route
+                            exact
+                            path="/sudoku/play/"
+                            render={renderElement(
+                                <PlaySudokuPad
+                                    onTypeChange={onTypeSelect}
+                                    onDifficultyChange={onDifficultySelect}
+                                    generatePuzzle={generatePuzzle}
+                                    resetPuzzle={resetPuzzle}
+                                    totalSeconds={playTime.totalSeconds}
+                                    playing={playTime.playing}
+                                    onClick={onPlayPauseClick}
+                                    stopTimer={playTime.stopTimer}
+                                    type={gridState.type}
+                                    difficulty={difficulty}
+                                />
+                            )}
+                        />
+
+                        <Redirect to="/sudoku/play/" />
+                    </Switch>
+                </div>
+
                 <GridTable
                     CreateTableRow={CreateTableRow}
                     sudokuGridClass={sudokuGridClass}
