@@ -37,7 +37,7 @@ function Footer({ footerClass }: FooterInterface) {
             </div>
             <div className={`${footerClass}__copyright`}>
                 <p>
-                    © 2019 Copyright:<a> The Puzzled group. All rights reserved.</a>
+                    © {new Date().getFullYear()} Copyright:<a> The Puzzled group. All rights reserved.</a>
                 </p>
             </div>
         </div>
