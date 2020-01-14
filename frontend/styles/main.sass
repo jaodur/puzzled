@@ -2,8 +2,17 @@
 @import "./common"
 
 // *********************** styles ******************************
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+html, body
+  height: 100%
 
 body
+  min-height: 100vh
+  flex-direction: column
   font-size: $baseFontSize
   padding: 0
   margin: 0
@@ -33,6 +42,11 @@ body
   background-color: $thickBlue
 
   @include navbar-container($height: 2.8rem)
+
+.default-nav-strip
+  width: 100%
+  height: 2.8rem
+  background-color: $thickBlue
 
 .navbar-container-404
   @include navbar-container($height: 2.8rem)
