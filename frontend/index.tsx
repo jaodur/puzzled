@@ -14,6 +14,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import { SnackbarProvider } from 'notistack';
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
@@ -28,13 +29,16 @@ const client = new ApolloClient({
 ReactDOM.render(
     <ApolloProvider client={client}>
         <ApolloHooksProvider client={client}>
-            <BrowserRouter forceRefresh={false}>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/sudoku/" component={SudokuHome} />
-                    <Route component={PageNotFound} />
-                </Switch>
-            </BrowserRouter>
+            <SnackbarProvider maxSnack={3} anchorOrigin={{vertical: 'top', horizontal: 'center',}}>
+                <BrowserRouter forceRefresh={false}>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/sudoku/" component={SudokuHome} />
+                        <Route path="/signup/" component={SignUp} />
+                        <Route component={PageNotFound} />
+                    </Switch>
+                </BrowserRouter>
+            </SnackbarProvider>
         </ApolloHooksProvider>
     </ApolloProvider>,
     document.getElementById('react')
