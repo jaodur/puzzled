@@ -7,6 +7,7 @@ import './styles/sudoku';
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
 import { SudokuHome } from './components/sudoku/sudoku';
+import { SignUp } from './components/profile/siginup'
 
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
