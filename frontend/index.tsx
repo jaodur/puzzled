@@ -3,6 +3,8 @@ import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './styles/main';
 import './styles/sudoku';
+import './styles/profile.sass';
+import './styles/snackbar.sass';
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
