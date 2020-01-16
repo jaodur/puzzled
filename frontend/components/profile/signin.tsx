@@ -1,5 +1,4 @@
 import { Button, Link, TextField } from '@material-ui/core';
-import { isEmpty } from 'lodash';
 import * as React from 'react';
 import { SignInInterface } from '../interfaces/profile';
 
@@ -39,8 +38,7 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
                         className={`${signInStyleClass}__button`}
                         variant="contained"
                         color="primary"
-                        onClick={loginUser}
-                        disabled={!isEmpty(userErrors)}>
+                        onClick={loginUser}>
                         Sign in
                     </Button>
                 </div>

@@ -34,13 +34,21 @@ function SignInSignUpContainer() {
         };
     }
 
+    function validateUserInputs(userInputs: object, constraints: object, fullMessages:boolean = false) {
+        return validate(
+            userInputs,
+            constraints,
+            { fullMessages }
+        )
+    }
+
     function onTextFieldChange(key: string) {
         return function(event: EventInterface) {
             preventDefault(event);
 
             const updatedUserInfo = deepCopy(userInfo);
             updatedUserInfo[key] = event.target.value;
-            const errors = validate(updatedUserInfo, userLogInConstraints, { fullMessages: false });
+            const errors = validateUserInputs(updatedUserInfo, userLogInConstraints);
             setUserErrors(errors || {});
             setUserInfo(updatedUserInfo);
         };
@@ -48,6 +56,13 @@ function SignInSignUpContainer() {
 
     async function logInUser(event: EventInterface) {
         preventDefault(event);
+
+        const errors = validateUserInputs(userInfo, userLogInConstraints)
+
+        if(!!errors){
+            setUserErrors(errors)
+            return
+        }
 
         await logInUserFunction({
             variables: {
