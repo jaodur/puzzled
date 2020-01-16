@@ -8,7 +8,7 @@ import './styles/sudoku';
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
-import SignUp from './components/profile/siginup';
+import signInSignUpContainer from './components/profile/signInSignUpContainer';
 import { SudokuHome } from './components/sudoku/sudoku';
 
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -36,7 +36,7 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route path="/sudoku/" component={SudokuHome} />
-                        <Route path="/signup/" component={SignUp} />
+                        <Route path="/signup/" component={signInSignUpContainer} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </BrowserRouter>

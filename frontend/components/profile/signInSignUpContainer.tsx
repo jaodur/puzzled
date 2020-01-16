@@ -14,7 +14,7 @@ import SignIn from './signin';
 
 const footerClass: string = 'main-footer';
 
-function SignUp() {
+function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // eslint-disable-next-line
@@ -83,4 +83,4 @@ function SignUp() {
     );
 }
 
-export default withSnackbar(SignUp);
+export default withSnackbar(SignInSignUpContainer);
