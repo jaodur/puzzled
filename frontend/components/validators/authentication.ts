@@ -1,4 +1,4 @@
-import { emailFormat } from './common';
+import { emailFormat, nameFormat } from './common';
 
 const userLogInConstraints = {
     email: {
@@ -14,4 +14,16 @@ const userLogInConstraints = {
     },
 };
 
-export { userLogInConstraints };
+const createUserConstraints = {
+    ...userLogInConstraints,
+    firstName: {
+        presence: true,
+        format: nameFormat
+    },
+    lastName: {
+        presence: true,
+        format: nameFormat
+    }
+};
+
+export { createUserConstraints, userLogInConstraints };
