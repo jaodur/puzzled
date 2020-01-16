@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 function closeAction(closeSnackbar: any) {
-    return function(key: any) {
+    return function cAction(key: any) {
         return (
             <>
                 <button

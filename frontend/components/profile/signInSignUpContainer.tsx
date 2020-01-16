@@ -34,12 +34,8 @@ function SignInSignUpContainer() {
         };
     }
 
-    function validateUserInputs(userInputs: object, constraints: object, fullMessages:boolean = false) {
-        return validate(
-            userInputs,
-            constraints,
-            { fullMessages }
-        )
+    function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
+        return validate(userInputs, constraints, { fullMessages });
     }
 
     function onTextFieldChange(key: string) {
@@ -57,11 +53,11 @@ function SignInSignUpContainer() {
     async function logInUser(event: EventInterface) {
         preventDefault(event);
 
-        const errors = validateUserInputs(userInfo, userLogInConstraints)
+        const errors = validateUserInputs(userInfo, userLogInConstraints);
 
-        if(!!errors){
-            setUserErrors(errors)
-            return
+        if (!!errors) {
+            setUserErrors(errors);
+            return;
         }
 
         await logInUserFunction({
