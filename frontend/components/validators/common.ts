@@ -5,7 +5,7 @@ const emailFormat = {
 
 const nameFormat = {
     pattern: /^[ a-zA-Z\-_]+$/,
-    message: 'Must contain english letters, -, _ and space.'
+    message: 'Must contain english letters, -, _ and space.',
 };
 
 export { emailFormat, nameFormat };

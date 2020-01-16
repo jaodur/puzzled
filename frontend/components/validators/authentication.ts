@@ -18,12 +18,12 @@ const createUserConstraints = {
     ...userLogInConstraints,
     firstName: {
         presence: true,
-        format: nameFormat
+        format: nameFormat,
     },
     lastName: {
         presence: true,
-        format: nameFormat
-    }
+        format: nameFormat,
+    },
 };
 
 export { createUserConstraints, userLogInConstraints };

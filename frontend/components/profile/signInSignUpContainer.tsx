@@ -1,11 +1,11 @@
 import { useSnackbar, withSnackbar } from 'notistack';
-import * as React from 'react';
 import { useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import * as React from 'react';
 import { useMutation } from 'react-apollo-hooks';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { validate } from 'validate.js';
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
-import {deepCopy, renderElement} from '../../utils/utils';
+import { deepCopy, renderElement } from '../../utils/utils';
 import { Footer } from '../commons/footer';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { closeAction } from '../commons/snackBarActions';
@@ -43,9 +43,8 @@ function SignInSignUpContainer() {
     }
 
     function onTextFieldChange(constraints: object) {
-
-        return function (key: string) {
-            return function (event: EventInterface) {
+        return function(key: string) {
+            return function(event: EventInterface) {
                 preventDefault(event);
 
                 const updatedUserInfo = deepCopy(userInfo);
@@ -54,7 +53,7 @@ function SignInSignUpContainer() {
                 setUserErrors(errors || {});
                 setUserInfo(updatedUserInfo);
             };
-        }
+        };
     }
 
     async function logInUser(event: EventInterface) {
@@ -101,9 +100,9 @@ function SignInSignUpContainer() {
                 lastName: userInfo.lastName,
                 email: userInfo.email,
                 password: userInfo.password,
-            }
+            },
         })
-        .then(() => {
+            .then(() => {
                 enqueueSnackbar('successful signup', { variant: 'success' });
             })
             .catch((response: any) => {
@@ -115,7 +114,6 @@ function SignInSignUpContainer() {
             });
     }
 
-
     return (
         <React.Fragment>
             <NavBarContainer styleClass={'default-navbar-container'} />
@@ -124,7 +122,7 @@ function SignInSignUpContainer() {
                 <Switch>
                     <Route
                         exact
-                        path='/u/signin/'
+                        path="/u/signin/"
                         render={renderElement(
                             <SignIn
                                 loginUser={logInUser}
@@ -136,7 +134,7 @@ function SignInSignUpContainer() {
                     />
                     <Route
                         exact
-                        path='/u/signup/'
+                        path="/u/signup/"
                         render={renderElement(
                             <SignUp
                                 createUser={createUser}

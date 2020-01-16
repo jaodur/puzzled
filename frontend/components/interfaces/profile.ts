@@ -28,7 +28,7 @@ interface SignInInterface extends SignCommonsInterface {
     loginUser: (event: any) => any;
 }
 
-interface SIgnUpInterface extends SignCommonsInterface{
+interface SIgnUpInterface extends SignCommonsInterface {
     createUser: (event: any) => any;
 }
 
