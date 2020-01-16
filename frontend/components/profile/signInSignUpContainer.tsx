@@ -56,7 +56,7 @@ function SignInSignUpContainer() {
         const errors = validateUserInputs(userInfo, userLogInConstraints);
 
         if (!!errors) {
-            setUserErrors(errors);
+            setUserErrors(errors || {});
             return;
         }
 

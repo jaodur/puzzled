@@ -17,7 +17,7 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
                         label="Email"
                         variant="filled"
                         error={!!userErrors.email}
-                        helperText={!!userErrors.email ? userErrors.email[0] : ''}
+                        helperText={!!userErrors.email ? userErrors.email : ''}
                         onChange={onTextFieldChange('email')}
                     />
                 </div>
@@ -27,7 +27,7 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
                         label="Password"
                         variant="filled"
                         error={!!userErrors.password}
-                        helperText={!!userErrors.password ? userErrors.password[0] : ''}
+                        helperText={!!userErrors.password ? userErrors.password : ''}
                         type="password"
                         onChange={onTextFieldChange('password')}
                     />

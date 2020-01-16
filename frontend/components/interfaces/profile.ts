@@ -18,11 +18,18 @@ interface UserErrorsInterface {
     telephone?: string;
 }
 
-interface SignInInterface {
-    loginUser: (event: any) => any;
+interface SignCommonsInterface {
     onTextFieldChange: (key: string) => any;
-    userInfo: UserInfoInterface;
+    userInfo?: UserInfoInterface;
     userErrors: UserErrorsInterface;
 }
 
-export { SignInInterface, UserErrorsInterface, UserInfoInterface };
+interface SignInInterface extends SignCommonsInterface {
+    loginUser: (event: any) => any;
+}
+
+interface SIgnUpInterface extends SignCommonsInterface{
+    createUser: (event: any) => any;
+}
+
+export { SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
