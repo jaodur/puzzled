@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Button, TextField, Link } from "@material-ui/core";
-import { withSnackbar, useSnackbar } from 'notistack';
-import { closeAction } from "../commons/snackBarActions";
+import {isEmpty} from "lodash"
+import { SignInInterface} from "../interfaces/profile";
 
 const signInStyleClass: string = 'signin-container';
 
 
 
-function SignIn() {
+function SignIn({loginUser, onTextFieldChange, userErrors}: SignInInterface) {
     const preventDefault = (event: any) => event.preventDefault();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
 
     return (
         <>
@@ -20,8 +20,9 @@ function SignIn() {
                     className={`${signInStyleClass}__input`}
                     label="Email"
                     variant="filled"
-                    error
-                    helperText={'Please enter a valid email.'}
+                    error={!!userErrors.email}
+                    helperText={!!userErrors.email ? userErrors.email[0] : ''}
+                    onChange={onTextFieldChange('email')}
                 />
 
             </div>
@@ -30,21 +31,21 @@ function SignIn() {
                     className={`${signInStyleClass}__input`}
                     label="Password"
                     variant="filled"
-                    error
-                    helperText={'Your password must contain between 4 and 60 characters.'}
-                    type="password"/>
+                    error={!!userErrors.password}
+                    helperText={!!userErrors.password ? userErrors.password[0] : ''}
+                    type="password"
+                    onChange={onTextFieldChange('password')}
+                />
             </div>
 
             <div className={`${signInStyleClass}__button_container`}>
-                <Button className={`${signInStyleClass}__button`} variant="contained" color="primary" onClick={
-                    () => enqueueSnackbar('Successfully fetched the data.',
-                        {variant: 'error', persist: true, action: closeAction(closeSnackbar)})}>
+                <Button className={`${signInStyleClass}__button`} variant="contained" color="primary" onClick={loginUser} disabled={!isEmpty(userErrors)}>
                     Sign in
                 </Button>
             </div>
 
             <div className={`${signInStyleClass}__link_container`}>
-                New to Puzzle? <Link href="#" onClick={preventDefault}>Sign up now</Link>.
+                New to Puzzled? <Link href="#" onClick={preventDefault}>Sign up now</Link>.
             </div>
         </div>
 
@@ -52,4 +53,4 @@ function SignIn() {
     );
 };
 
-export default withSnackbar(SignIn);
+export default SignIn;
