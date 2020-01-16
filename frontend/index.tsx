@@ -36,7 +36,7 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route path="/sudoku/" component={SudokuHome} />
-                        <Route path="/signup/" component={signInSignUpContainer} />
+                        <Route path="/signin/" component={signInSignUpContainer} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </BrowserRouter>

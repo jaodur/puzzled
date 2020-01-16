@@ -1,10 +1,11 @@
 import { useSnackbar, withSnackbar } from 'notistack';
 import * as React from 'react';
 import { useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
 import { validate } from 'validate.js';
 import { LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
-import { deepCopy } from '../../utils/utils';
+import {deepCopy, renderElement} from '../../utils/utils';
 import { Footer } from '../commons/footer';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { closeAction } from '../commons/snackBarActions';
@@ -82,12 +83,21 @@ function SignInSignUpContainer() {
             <NavBarContainer styleClass={'default-navbar-container'} />
             <div className={'default-nav-strip'} />
             <div className={'content'}>
-                <SignIn
-                    loginUser={logInUser}
-                    userInfo={userInfo}
-                    onTextFieldChange={onTextFieldChange}
-                    userErrors={userErrors}
-                />
+                <Switch>
+                    <Route
+                        exact
+                        path='/signin/'
+                        render={renderElement(
+                            <SignIn
+                                loginUser={logInUser}
+                                userInfo={userInfo}
+                                onTextFieldChange={onTextFieldChange}
+                                userErrors={userErrors}
+                            />
+                        )}
+                    />
+                    <Redirect to="/signin/" />
+                </Switch>
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </React.Fragment>
