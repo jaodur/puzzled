@@ -4,14 +4,15 @@ import { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
 import { validate } from 'validate.js';
-import { LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
+import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import {deepCopy, renderElement} from '../../utils/utils';
 import { Footer } from '../commons/footer';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { closeAction } from '../commons/snackBarActions';
 import { EventInterface } from '../interfaces/interfaces';
-import { userLogInConstraints } from '../validators/authentication';
+import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
 import SignIn from './signin';
+import SignUp from './signup';
 
 const footerClass: string = 'main-footer';
 
@@ -20,6 +21,8 @@ function SignInSignUpContainer() {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // eslint-disable-next-line
     const [logInUserFunction, setLogInUserFunction] = useMutation(LOGIN_USER_MUTATION);
+    // eslint-disable-next-line
+    const [createUserFunction, setCreateUserFunction] = useMutation(CREATE_USER_MUTATION);
     const [userInfo, setUserInfo] = useState(userInfoInitialState);
     const [userErrors, setUserErrors] = useState({});
 
@@ -39,16 +42,19 @@ function SignInSignUpContainer() {
         return validate(userInputs, constraints, { fullMessages });
     }
 
-    function onTextFieldChange(key: string) {
-        return function(event: EventInterface) {
-            preventDefault(event);
+    function onTextFieldChange(constraints: object) {
 
-            const updatedUserInfo = deepCopy(userInfo);
-            updatedUserInfo[key] = event.target.value;
-            const errors = validateUserInputs(updatedUserInfo, userLogInConstraints);
-            setUserErrors(errors || {});
-            setUserInfo(updatedUserInfo);
-        };
+        return function (key: string) {
+            return function (event: EventInterface) {
+                preventDefault(event);
+
+                const updatedUserInfo = deepCopy(userInfo);
+                updatedUserInfo[key] = event.target.value;
+                const errors = validateUserInputs(updatedUserInfo, constraints);
+                setUserErrors(errors || {});
+                setUserInfo(updatedUserInfo);
+            };
+        }
     }
 
     async function logInUser(event: EventInterface) {
@@ -78,6 +84,38 @@ function SignInSignUpContainer() {
                 });
             });
     }
+
+    async function createUser(event: EventInterface) {
+        preventDefault(event);
+
+        const errors = validateUserInputs(userInfo, createUserConstraints);
+
+        if (!!errors) {
+            setUserErrors(errors || {});
+            return;
+        }
+
+        await createUserFunction({
+            variables: {
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                email: userInfo.email,
+                password: userInfo.password,
+            }
+        })
+        .then(() => {
+                enqueueSnackbar('successful signup', { variant: 'success' });
+            })
+            .catch((response: any) => {
+                enqueueSnackbar(response.graphQLErrors[0].message, {
+                    variant: 'error',
+                    persist: true,
+                    action: closeAction(closeSnackbar),
+                });
+            });
+    }
+
+
     return (
         <React.Fragment>
             <NavBarContainer styleClass={'default-navbar-container'} />
@@ -86,17 +124,29 @@ function SignInSignUpContainer() {
                 <Switch>
                     <Route
                         exact
-                        path='/signin/'
+                        path='/u/signin/'
                         render={renderElement(
                             <SignIn
                                 loginUser={logInUser}
                                 userInfo={userInfo}
-                                onTextFieldChange={onTextFieldChange}
+                                onTextFieldChange={onTextFieldChange(userLogInConstraints)}
                                 userErrors={userErrors}
                             />
                         )}
                     />
-                    <Redirect to="/signin/" />
+                    <Route
+                        exact
+                        path='/u/signup/'
+                        render={renderElement(
+                            <SignUp
+                                createUser={createUser}
+                                userInfo={userInfo}
+                                onTextFieldChange={onTextFieldChange(createUserConstraints)}
+                                userErrors={userErrors}
+                            />
+                        )}
+                    />
+                    <Redirect to="/u/signin/" />
                 </Switch>
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
