@@ -1,4 +1,4 @@
-import { emailFormat } from "./common";
+import { emailFormat } from './common';
 
 const userLogInConstraints = {
     email: {
@@ -9,9 +9,9 @@ const userLogInConstraints = {
         presence: true,
         length: {
             minimum: 4,
-            message: "Must be at least 6 characters."
-        }
-    }
+            message: 'Must be at least 6 characters.',
+        },
+    },
 };
 
-export { userLogInConstraints }
+export { userLogInConstraints };

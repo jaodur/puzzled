@@ -21,7 +21,9 @@ function SudokuHome() {
                     key={'sudoku'}
                 />
             </div>
-            <div className={'content'}><SudokuGrid key={'sudokuGrid'} /></div>
+            <div className={'content'}>
+                <SudokuGrid key={'sudokuGrid'} />
+            </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </React.Fragment>
     );

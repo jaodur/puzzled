@@ -1,14 +1,19 @@
-import * as React from "react";
+import * as React from 'react';
 
-
-function closeAction(closeSnackbar: any){
-    return (key:any) => (
-        <>
-            <button className={'actions__secondary'} onClick={() => { closeSnackbar(key) }}>
-                Close
-            </button>
-        </>
-    )
+function closeAction(closeSnackbar: any) {
+    return function(key: any) {
+        return (
+            <>
+                <button
+                    className={'actions__secondary'}
+                    onClick={() => {
+                        closeSnackbar(key);
+                    }}>
+                    Close
+                </button>
+            </>
+        );
+    };
 }
 
-export { closeAction }
+export { closeAction };

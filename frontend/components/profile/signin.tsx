@@ -1,56 +1,60 @@
-import * as React from "react";
-import { Button, TextField, Link } from "@material-ui/core";
-import {isEmpty} from "lodash"
-import { SignInInterface} from "../interfaces/profile";
+import { Button, Link, TextField } from '@material-ui/core';
+import { isEmpty } from 'lodash';
+import * as React from 'react';
+import { SignInInterface } from '../interfaces/profile';
 
 const signInStyleClass: string = 'signin-container';
 
-
-
-function SignIn({loginUser, onTextFieldChange, userErrors}: SignInInterface) {
+function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
     const preventDefault = (event: any) => event.preventDefault();
-
 
     return (
         <>
-        <div className={signInStyleClass}>
-            <p className={`${signInStyleClass}__title`}>sign in</p>
-            <div className={`${signInStyleClass}__input_container`}>
-                <TextField
-                    className={`${signInStyleClass}__input`}
-                    label="Email"
-                    variant="filled"
-                    error={!!userErrors.email}
-                    helperText={!!userErrors.email ? userErrors.email[0] : ''}
-                    onChange={onTextFieldChange('email')}
-                />
+            <div className={signInStyleClass}>
+                <p className={`${signInStyleClass}__title`}>sign in</p>
+                <div className={`${signInStyleClass}__input_container`}>
+                    <TextField
+                        className={`${signInStyleClass}__input`}
+                        label="Email"
+                        variant="filled"
+                        error={!!userErrors.email}
+                        helperText={!!userErrors.email ? userErrors.email[0] : ''}
+                        onChange={onTextFieldChange('email')}
+                    />
+                </div>
+                <div className={`${signInStyleClass}__input_container`}>
+                    <TextField
+                        className={`${signInStyleClass}__input`}
+                        label="Password"
+                        variant="filled"
+                        error={!!userErrors.password}
+                        helperText={!!userErrors.password ? userErrors.password[0] : ''}
+                        type="password"
+                        onChange={onTextFieldChange('password')}
+                    />
+                </div>
 
-            </div>
-            <div className={`${signInStyleClass}__input_container`}>
-                <TextField
-                    className={`${signInStyleClass}__input`}
-                    label="Password"
-                    variant="filled"
-                    error={!!userErrors.password}
-                    helperText={!!userErrors.password ? userErrors.password[0] : ''}
-                    type="password"
-                    onChange={onTextFieldChange('password')}
-                />
-            </div>
+                <div className={`${signInStyleClass}__button_container`}>
+                    <Button
+                        className={`${signInStyleClass}__button`}
+                        variant="contained"
+                        color="primary"
+                        onClick={loginUser}
+                        disabled={!isEmpty(userErrors)}>
+                        Sign in
+                    </Button>
+                </div>
 
-            <div className={`${signInStyleClass}__button_container`}>
-                <Button className={`${signInStyleClass}__button`} variant="contained" color="primary" onClick={loginUser} disabled={!isEmpty(userErrors)}>
-                    Sign in
-                </Button>
+                <div className={`${signInStyleClass}__link_container`}>
+                    New to Puzzled?{' '}
+                    <Link href="#" onClick={preventDefault}>
+                        Sign up now
+                    </Link>
+                    .
+                </div>
             </div>
-
-            <div className={`${signInStyleClass}__link_container`}>
-                New to Puzzled? <Link href="#" onClick={preventDefault}>Sign up now</Link>.
-            </div>
-        </div>
-
-            </>
+        </>
     );
-};
+}
 
 export default SignIn;

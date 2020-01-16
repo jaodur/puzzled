@@ -4,13 +4,13 @@ const LOGIN_USER_MUTATION = gql`
     mutation loginUser($email: String!, $password: String!) {
         loginUser(email: $email, password: $password) {
             user {
-                email,
-                name,
+                email
+                name
                 id
             }
             loggedIn
-        } 
+        }
     }
 `;
 
-export { LOGIN_USER_MUTATION }
+export { LOGIN_USER_MUTATION };
