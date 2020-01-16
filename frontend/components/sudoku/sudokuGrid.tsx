@@ -13,7 +13,7 @@ import {
     renderElement,
     uniqueArray,
 } from '../../utils/utils';
-import { EventInterface, FullPuzzleInterface } from '../interfaces';
+import { EventInterface, FullPuzzleInterface } from '../interfaces/interfaces';
 import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';

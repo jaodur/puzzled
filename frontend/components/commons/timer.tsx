@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { modulus, pad } from '../../utils/utils';
 import { PauseIcon, PlayIcon } from '../icons/sudoku';
-import { TimerInterface } from '../interfaces';
+import { TimerInterface } from '../interfaces/interfaces';
 
 const minute: number = 60; // 60 seconds
 const hour: number = minute * 60;

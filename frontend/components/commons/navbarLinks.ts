@@ -1,4 +1,4 @@
-import { NavbarLinksInterface } from '../interfaces';
+import { NavbarLinksInterface } from '../interfaces/interfaces';
 const linkNoStyle: string = 'link__no-style';
 
 const defaultNavBarLinks: NavbarLinksInterface = {

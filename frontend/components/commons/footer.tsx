@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FooterInterface } from '../interfaces';
+import { FooterInterface } from '../interfaces/interfaces';
 
 function Footer({ footerClass }: FooterInterface) {
     return (

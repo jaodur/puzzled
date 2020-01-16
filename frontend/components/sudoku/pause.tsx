@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PlayIcon } from '../icons/sudoku';
-import { PauseInterface } from '../interfaces';
+import { PauseInterface } from '../interfaces/interfaces';
 
 function Pause({ className, onPlayIconClick }: PauseInterface) {
     return (
