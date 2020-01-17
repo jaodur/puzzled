@@ -18,6 +18,7 @@ import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
 import { PlaySudokuPad, SolveSudokuPad, TrainerSudokuPad } from './sudokuPad';
+import { links } from "../commons/linkUrls";
 
 const timerStyleClass: string = 'timer';
 const defaultSudokuType: number = 3;
@@ -730,7 +731,7 @@ function SudokuGrid() {
                 <Switch>
                     <Route
                         exact
-                        path="/sudoku/trainer/"
+                        path={links.SUDOKU.TRAINER}
                         render={renderElement(
                             <TrainerSudokuPad
                                 type={gridState.type}
@@ -748,7 +749,7 @@ function SudokuGrid() {
 
                     <Route
                         exact
-                        path="/sudoku/solve/"
+                        path={links.SUDOKU.SOLVE}
                         render={renderElement(
                             <SolveSudokuPad
                                 onTypeChange={onTypeSelect}
@@ -761,7 +762,7 @@ function SudokuGrid() {
 
                     <Route
                         exact
-                        path="/sudoku/play/"
+                        path={links.SUDOKU.PLAY}
                         render={renderElement(
                             <PlaySudokuPad
                                 onTypeChange={onTypeSelect}
@@ -774,7 +775,7 @@ function SudokuGrid() {
                         )}
                     />
 
-                    <Redirect to="/sudoku/play/" />
+                    <Redirect to={links.SUDOKU.PLAY} />
                 </Switch>
             </div>
 

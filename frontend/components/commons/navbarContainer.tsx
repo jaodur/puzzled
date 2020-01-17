@@ -12,7 +12,7 @@ function NavBarContainer({ styleClass, showBanner }: NavbarContainerInterface): 
                 secLabel={defaultNavBarLinks.secLabel}
                 primaryLabel={defaultNavBarLinks.primaryLabel}
                 links={defaultNavBarLinks.links}
-                linkActiveClass={'sudoku-selected'}
+                linkActiveClass={'main-selected'}
                 key={'main'}
             />
             {!!showBanner && <AppName />}

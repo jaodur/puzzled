@@ -13,6 +13,7 @@ import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
 import SignIn from './signin';
 import SignUp from './signup';
+import { links } from "../commons/linkUrls";
 
 const footerClass: string = 'main-footer';
 
@@ -122,7 +123,7 @@ function SignInSignUpContainer() {
                 <Switch>
                     <Route
                         exact
-                        path="/u/signin/"
+                        path={links.USER.SIGN_IN}
                         render={renderElement(
                             <SignIn
                                 loginUser={logInUser}
@@ -134,7 +135,7 @@ function SignInSignUpContainer() {
                     />
                     <Route
                         exact
-                        path="/u/signup/"
+                        path={links.USER.SIGN_UP}
                         render={renderElement(
                             <SignUp
                                 createUser={createUser}
@@ -144,7 +145,7 @@ function SignInSignUpContainer() {
                             />
                         )}
                     />
-                    <Redirect to="/u/signin/" />
+                    <Redirect to={links.USER.SIGN_IN} />
                 </Switch>
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />

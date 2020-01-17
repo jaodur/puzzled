@@ -1,6 +1,7 @@
 import { Button, Link, TextField } from '@material-ui/core';
 import * as React from 'react';
 import { SIgnUpInterface } from '../interfaces/profile';
+import { links } from "../commons/linkUrls";
 
 const signUpStyleClass: string = 'signup-container';
 
@@ -65,7 +66,7 @@ function SignUp({ createUser, onTextFieldChange, userErrors }: SIgnUpInterface) 
 
                 <div className={`${signUpStyleClass}__link_container`}>
                     Already a member?{' '}
-                    <Link href="#" onClick={preventDefault}>
+                    <Link href={links.USER.SIGN_IN}>
                         Sign in now
                     </Link>
                     .

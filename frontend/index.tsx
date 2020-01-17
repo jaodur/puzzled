@@ -17,6 +17,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import { links } from "./components/commons/linkUrls";
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
@@ -34,9 +35,9 @@ ReactDOM.render(
             <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                 <BrowserRouter forceRefresh={false}>
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/sudoku/" component={SudokuHome} />
-                        <Route path="/u/" component={signInSignUpContainer} />
+                        <Route exact path={links.HOME} component={Home} />
+                        <Route path={links.SUDOKU.HOME} component={SudokuHome} />
+                        <Route path={links.USER.HOME} component={signInSignUpContainer} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </BrowserRouter>

@@ -1,6 +1,7 @@
 import { Button, Link, TextField } from '@material-ui/core';
 import * as React from 'react';
 import { SignInInterface } from '../interfaces/profile';
+import { links } from "../commons/linkUrls";
 
 const signInStyleClass: string = 'signin-container';
 
@@ -45,7 +46,7 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
 
                 <div className={`${signInStyleClass}__link_container`}>
                     New to Puzzled?{' '}
-                    <Link href="#" onClick={preventDefault}>
+                    <Link href={links.USER.SIGN_UP}>
                         Sign up now
                     </Link>
                     .
