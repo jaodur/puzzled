@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouterLink } from '../commons/links';
+import { links } from '../commons/linkUrls';
 import { GameIntroInterface } from '../interfaces/interfaces';
-import { links } from "../commons/linkUrls";
 
 const orangeGameContainer: string = 'game-container-orange';
 const blueGameContainer: string = 'game-container-blue';

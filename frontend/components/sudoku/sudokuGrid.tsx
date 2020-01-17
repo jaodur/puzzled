@@ -13,12 +13,12 @@ import {
     renderElement,
     uniqueArray,
 } from '../../utils/utils';
+import { links } from '../commons/linkUrls';
 import { EventInterface, FullPuzzleInterface } from '../interfaces/interfaces';
 import { GridRow } from './gridRow';
 import { GridTable } from './gridTable';
 import { NumberPad } from './numberPad';
 import { PlaySudokuPad, SolveSudokuPad, TrainerSudokuPad } from './sudokuPad';
-import { links } from "../commons/linkUrls";
 
 const timerStyleClass: string = 'timer';
 const defaultSudokuType: number = 3;

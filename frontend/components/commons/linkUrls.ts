@@ -2,7 +2,7 @@ const sudokuLinks = {
     HOME: '/sudoku/',
     PLAY: '/sudoku/play',
     SOLVE: '/sudoku/solve',
-    TRAINER: '/sudoku/trainer/'
+    TRAINER: '/sudoku/trainer/',
 };
 
 const userLinks = {
@@ -17,4 +17,4 @@ const links = {
     USER: userLinks,
 };
 
-export { links }
+export { links };

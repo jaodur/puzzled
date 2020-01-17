@@ -17,7 +17,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
-import { links } from "./components/commons/linkUrls";
+import { links } from './components/commons/linkUrls';
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',

@@ -1,13 +1,11 @@
 import { Button, Link, TextField } from '@material-ui/core';
 import * as React from 'react';
+import { links } from '../commons/linkUrls';
 import { SignInInterface } from '../interfaces/profile';
-import { links } from "../commons/linkUrls";
 
 const signInStyleClass: string = 'signin-container';
 
 function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
-    const preventDefault = (event: any) => event.preventDefault();
-
     return (
         <>
             <div className={signInStyleClass}>
@@ -45,11 +43,7 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
                 </div>
 
                 <div className={`${signInStyleClass}__link_container`}>
-                    New to Puzzled?{' '}
-                    <Link href={links.USER.SIGN_UP}>
-                        Sign up now
-                    </Link>
-                    .
+                    New to Puzzled? <Link href={links.USER.SIGN_UP}>Sign up now</Link>.
                 </div>
             </div>
         </>

@@ -1,5 +1,5 @@
 import { NavbarLinksInterface } from '../interfaces/interfaces';
-import { links } from "./linkUrls";
+import { links } from './linkUrls';
 
 const linkNoStyle: string = 'link__no-style';
 

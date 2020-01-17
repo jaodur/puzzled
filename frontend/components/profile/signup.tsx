@@ -1,13 +1,11 @@
 import { Button, Link, TextField } from '@material-ui/core';
 import * as React from 'react';
+import { links } from '../commons/linkUrls';
 import { SIgnUpInterface } from '../interfaces/profile';
-import { links } from "../commons/linkUrls";
 
 const signUpStyleClass: string = 'signup-container';
 
 function SignUp({ createUser, onTextFieldChange, userErrors }: SIgnUpInterface) {
-    const preventDefault = (event: any) => event.preventDefault();
-
     return (
         <>
             <div className={signUpStyleClass}>
@@ -65,11 +63,7 @@ function SignUp({ createUser, onTextFieldChange, userErrors }: SIgnUpInterface) 
                 </div>
 
                 <div className={`${signUpStyleClass}__link_container`}>
-                    Already a member?{' '}
-                    <Link href={links.USER.SIGN_IN}>
-                        Sign in now
-                    </Link>
-                    .
+                    Already a member? <Link href={links.USER.SIGN_IN}>Sign in now</Link>.
                 </div>
             </div>
         </>

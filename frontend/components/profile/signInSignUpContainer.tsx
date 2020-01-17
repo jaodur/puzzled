@@ -1,19 +1,19 @@
 import { useSnackbar, withSnackbar } from 'notistack';
-import { useState } from 'react';
 import * as React from 'react';
+import { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { validate } from 'validate.js';
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy, renderElement } from '../../utils/utils';
 import { Footer } from '../commons/footer';
+import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { closeAction } from '../commons/snackBarActions';
 import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
 import SignIn from './signin';
 import SignUp from './signup';
-import { links } from "../commons/linkUrls";
 
 const footerClass: string = 'main-footer';
 
