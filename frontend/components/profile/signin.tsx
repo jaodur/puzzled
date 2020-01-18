@@ -1,5 +1,6 @@
-import { Button, Link, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
+import { TextLink } from '../commons/links';
 import { links } from '../commons/linkUrls';
 import { SignInInterface } from '../interfaces/profile';
 
@@ -43,7 +44,9 @@ function SignIn({ loginUser, onTextFieldChange, userErrors }: SignInInterface) {
                 </div>
 
                 <div className={`${signInStyleClass}__link_container`}>
-                    New to Puzzled? <Link href={links.USER.SIGN_UP}>Sign up now</Link>.
+                    New to Puzzled?{' '}
+                    <TextLink link={links.USER.SIGN_UP} text={'Sign up now'} styleClass={'link__standard'} />
+                    &#46;
                 </div>
             </div>
         </>
