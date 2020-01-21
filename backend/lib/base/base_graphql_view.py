@@ -19,6 +19,7 @@ class BaseGraphQLView(GraphQLView):
         return {"message": six.text_type(error)}
 
     def get_response(self, request, data, show_graphiql=False):
+        validation_error_occurred = False
         query, variables, operation_name, id = self.get_graphql_params(request, data)
 
         execution_result = self.execute_graphql_request(
@@ -38,10 +39,13 @@ class BaseGraphQLView(GraphQLView):
                     errors = response.get('errors')
                     if isinstance(errors[0], Sequence):
                         response.update({'errors': errors[0]})
-                        execution_result.invalid = True
+                        validation_error_occurred = True
 
             if execution_result.invalid:
                 status_code = 400
+            if validation_error_occurred:
+                # ensure the data attr is not added to the response when a validation error occurs
+                pass
             else:
                 response["data"] = execution_result.data
 
