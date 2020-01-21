@@ -14,6 +14,7 @@ import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
 import SignIn from './signin';
 import SignUp from './signup';
+import { CustomContentWrapper } from "../commons/customSnackbar";
 
 const footerClass: string = 'main-footer';
 
@@ -74,13 +75,16 @@ function SignInSignUpContainer() {
             },
         })
             .then(() => {
-                enqueueSnackbar('successful', { variant: 'success' });
+                enqueueSnackbar('successful', {
+                    variant: 'success',
+                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'success'}/>),
+                });
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     persist: true,
-                    action: closeAction(closeSnackbar),
+                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'secondary'}/>),
                 });
             });
     }
@@ -104,13 +108,17 @@ function SignInSignUpContainer() {
             },
         })
             .then(() => {
-                enqueueSnackbar('successful signup', { variant: 'success' });
+                enqueueSnackbar('successful user signup', {
+                    variant: 'success',
+                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'success'}/>),
+                });
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     persist: true,
                     action: closeAction(closeSnackbar),
+                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'secondary'}/>)
                 });
             });
     }
