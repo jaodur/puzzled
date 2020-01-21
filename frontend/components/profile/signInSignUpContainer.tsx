@@ -1,11 +1,12 @@
 import { useSnackbar, withSnackbar } from 'notistack';
-import * as React from 'react';
 import { useState } from 'react';
+import * as React from 'react';
 import { useMutation } from 'react-apollo-hooks';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { validate } from 'validate.js';
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy, renderElement } from '../../utils/utils';
+import { CustomContentWrapper } from '../commons/customSnackbar';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
@@ -14,7 +15,6 @@ import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
 import SignIn from './signin';
 import SignUp from './signup';
-import { CustomContentWrapper } from "../commons/customSnackbar";
 
 const footerClass: string = 'main-footer';
 
@@ -37,6 +37,12 @@ function SignInSignUpContainer() {
             pictureUrl: '',
             preferredName: '',
             telephone: '',
+        };
+    }
+
+    function renderSnackbar(color: string) {
+        return function customSnackbar(key: any, message: string) {
+            return <CustomContentWrapper key={key} message={message} color={color} />;
         };
     }
 
@@ -77,14 +83,14 @@ function SignInSignUpContainer() {
             .then(() => {
                 enqueueSnackbar('successful', {
                     variant: 'success',
-                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'success'}/>),
+                    content: renderSnackbar('success'),
                 });
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     persist: true,
-                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'secondary'}/>),
+                    content: renderSnackbar('secondary'),
                 });
             });
     }
@@ -110,7 +116,7 @@ function SignInSignUpContainer() {
             .then(() => {
                 enqueueSnackbar('successful user signup', {
                     variant: 'success',
-                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'success'}/>),
+                    content: renderSnackbar('success'),
                 });
             })
             .catch((response: any) => {
@@ -118,7 +124,7 @@ function SignInSignUpContainer() {
                     variant: 'error',
                     persist: true,
                     action: closeAction(closeSnackbar),
-                    content: (key, message) => (<CustomContentWrapper key={key} message={message} color={'secondary'}/>)
+                    content: renderSnackbar('secondary'),
                 });
             });
     }

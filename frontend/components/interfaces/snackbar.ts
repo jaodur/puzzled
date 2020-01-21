@@ -1,5 +1,5 @@
 interface SnackbarInterface {
-    message: any
+    message: any;
 }
 
-export { SnackbarInterface }
+export { SnackbarInterface };

@@ -1,21 +1,21 @@
-import * as React from 'react';
-import { useState } from 'react'
-import classnames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
-import { useSnackbar } from 'notistack';
-import Collapse from '@material-ui/core/Collapse';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloseIcon from '@material-ui/icons/Close';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import classnames from 'classnames';
+import { useSnackbar } from 'notistack';
+import { useState } from 'react';
+import * as React from 'react';
 
-import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 const primary = red[400];
 const success = green[400];
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         padding: '8px 8px 8px 16px',
         backgroundColor: success,
     },
-     actionPrimary: {
+    actionPrimary: {
         padding: '8px 8px 8px 16px',
         backgroundColor: success,
     },
@@ -74,13 +74,16 @@ const useStyles = makeStyles(theme => ({
 
 function getRootColor(key: string) {
     const colorMapper: any = {
-        primary: "actionPrimary", secondary: "actionDanger", success: "actionSuccess", warning: "actionWarning"
+        primary: 'actionPrimary',
+        secondary: 'actionDanger',
+        success: 'actionSuccess',
+        warning: 'actionWarning',
     };
 
-    return colorMapper[key] || "actionWarning";
+    return colorMapper[key] || 'actionWarning';
 }
 
-const CustomContentWrapper = React.forwardRef((props:any, ref:any) => {
+const CustomContentWrapper = React.forwardRef(function CustomSnackbar(props: any, ref: any) {
     const classes: any = useStyles(props);
     const { closeSnackbar } = useSnackbar();
     const [expanded, setExpanded] = useState(false);
@@ -94,15 +97,16 @@ const CustomContentWrapper = React.forwardRef((props:any, ref:any) => {
     };
 
     return (
-        <Card className={classes.card} ref={ref} >
+        <Card className={classes.card} ref={ref}>
             <CardActions classes={{ root: classes[getRootColor(props.color)] }}>
-                <Typography variant="subtitle2" className={classes.typography}>{props.message}</Typography>
+                <Typography variant="subtitle2" className={classes.typography}>
+                    {props.message}
+                </Typography>
                 <div className={classes.icons}>
                     <IconButton
                         aria-label="Show more"
                         className={classnames(classes.expand, { [classes.expandOpen]: expanded })}
-                        onClick={handleExpandClick}
-                    >
+                        onClick={handleExpandClick}>
                         <ExpandMoreIcon />
                     </IconButton>
                     <IconButton className={classes.expand} onClick={handleDismiss}>
@@ -123,4 +127,4 @@ const CustomContentWrapper = React.forwardRef((props:any, ref:any) => {
     );
 });
 
-export { CustomContentWrapper }
+export { CustomContentWrapper };
