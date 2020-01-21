@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jaodur/puzzled#readme",
   "devDependencies": {
+    "@types/classnames": "^2.2.9",
     "@types/graphql": "^14.2.1",
     "@types/lodash": "^4.14.136",
     "@types/react": "^16.8.20",
@@ -62,7 +63,9 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.8.3",
+    "@material-ui/icons": "^4.5.1",
     "apollo-boost": "^0.4.3",
+    "classnames": "^2.2.6",
     "graphql": "^14.3.1",
     "lodash": "^4.17.15",
     "notistack": "^0.9.7",

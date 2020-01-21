@@ -18,6 +18,7 @@ import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { links } from './components/commons/linkUrls';
+import { CustomContentWrapper } from "./components/commons/customSnackbar";
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
@@ -32,7 +33,11 @@ const client = new ApolloClient({
 ReactDOM.render(
     <ApolloProvider client={client}>
         <ApolloHooksProvider client={client}>
-            <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <SnackbarProvider
+                maxSnack={3}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                content={(key, message) => (<CustomContentWrapper key={key} message={message}/>)}
+            >
                 <BrowserRouter forceRefresh={false}>
                     <Switch>
                         <Route exact path={links.HOME} component={Home} />
