@@ -8,7 +8,7 @@ const userLogInConstraints = {
     password: {
         presence: true,
         length: {
-            minimum: 4,
+            minimum: 6,
             message: 'Must be at least 6 characters.',
         },
     },
