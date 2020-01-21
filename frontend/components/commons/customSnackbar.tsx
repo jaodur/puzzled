@@ -1,7 +1,11 @@
+import * as React from 'react';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +16,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classnames from 'classnames';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
-import * as React from 'react';
-
-import green from '@material-ui/core/colors/green';
-import red from '@material-ui/core/colors/red';
 
 const primary = red[400];
 const success = green[400];
@@ -83,7 +83,7 @@ function getRootColor(key: string) {
     return colorMapper[key] || 'actionWarning';
 }
 
-const CustomContentWrapper = React.forwardRef(function CustomSnackbar(props: any, ref: any) {
+const CustomSnackbarContentWrapper = React.forwardRef(function CustomSnackbar(props: any, ref: any) {
     const classes: any = useStyles(props);
     const { closeSnackbar } = useSnackbar();
     const [expanded, setExpanded] = useState(false);
@@ -127,4 +127,4 @@ const CustomContentWrapper = React.forwardRef(function CustomSnackbar(props: any
     );
 });
 
-export { CustomContentWrapper };
+export { CustomSnackbarContentWrapper };

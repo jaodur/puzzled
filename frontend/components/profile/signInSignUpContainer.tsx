@@ -6,7 +6,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { validate } from 'validate.js';
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy, renderElement } from '../../utils/utils';
-import { CustomContentWrapper } from '../commons/customSnackbar';
+import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
@@ -42,7 +42,7 @@ function SignInSignUpContainer() {
 
     function renderSnackbar(color: string) {
         return function customSnackbar(key: any, message: string) {
-            return <CustomContentWrapper key={key} message={message} color={color} />;
+            return <CustomSnackbarContentWrapper key={key} message={message} color={color} />;
         };
     }
 

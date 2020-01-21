@@ -17,7 +17,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
-import { CustomContentWrapper } from './components/commons/customSnackbar';
+import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
 import { links } from './components/commons/linkUrls';
 
 const httpLink = createHttpLink({
@@ -36,7 +36,7 @@ ReactDOM.render(
             <SnackbarProvider
                 maxSnack={3}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                content={(key, message) => <CustomContentWrapper key={key} message={message} />}>
+                content={(key, message) => <CustomSnackbarContentWrapper key={key} message={message} />}>
                 <BrowserRouter forceRefresh={false}>
                     <Switch>
                         <Route exact path={links.HOME} component={Home} />
