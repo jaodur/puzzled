@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
     typography: {
         fontWeight: 'bold',
+        minWidth: '70%',
     },
     actionDanger: {
         padding: '8px 8px 8px 16px',
