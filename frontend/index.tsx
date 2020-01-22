@@ -36,7 +36,7 @@ ReactDOM.render(
             <SnackbarProvider
                 maxSnack={3}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                content={(key, message) => <CustomSnackbarContentWrapper key={key} message={message} />}>
+                content={(key, message) => <CustomSnackbarContentWrapper id={key} message={message} />}>
                 <BrowserRouter forceRefresh={false}>
                     <Switch>
                         <Route exact path={links.HOME} component={Home} />

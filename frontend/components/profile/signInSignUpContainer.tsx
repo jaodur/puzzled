@@ -42,7 +42,7 @@ function SignInSignUpContainer() {
 
     function renderSnackbar(color: string) {
         return function customSnackbar(key: any, message: string) {
-            return <CustomSnackbarContentWrapper key={key} message={message} color={color} />;
+            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
         };
     }
 
