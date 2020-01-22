@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LogoInterface } from '../interfaces';
+import { LogoInterface } from '../interfaces/interfaces';
 import { TextLink } from './links';
 
 function Logo({ primaryLabel, secLabel }: LogoInterface) {

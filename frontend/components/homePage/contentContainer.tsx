@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouterLink } from '../commons/links';
-import { GameIntroInterface } from '../interfaces';
+import { links } from '../commons/linkUrls';
+import { GameIntroInterface } from '../interfaces/interfaces';
 
 const orangeGameContainer: string = 'game-container-orange';
 const blueGameContainer: string = 'game-container-blue';
@@ -47,67 +48,67 @@ function ContentContainer() {
             <GamesIntro />
             <div className={`${mainContent}`}>
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={orangeGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={blueGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={redGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={purpleGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={charmGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={stormGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={purpleGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={orangeGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={purpleGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={charmGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={stormGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={purpleGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />
                 <RouterLink
-                    link="/sudoku/"
+                    link={links.SUDOKU.HOME}
                     component={<Game gameClass={orangeGameContainer} />}
                     styleClass={linkNoStyleCard}
                 />

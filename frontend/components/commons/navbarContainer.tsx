@@ -2,7 +2,7 @@ import * as React from 'react';
 import { AppName } from './appName';
 import { NavBar } from './navBar';
 
-import { NavbarContainerInterface } from '../interfaces';
+import { NavbarContainerInterface } from '../interfaces/interfaces';
 import { defaultNavBarLinks } from './navbarLinks';
 
 function NavBarContainer({ styleClass, showBanner }: NavbarContainerInterface): JSX.Element {
@@ -12,7 +12,7 @@ function NavBarContainer({ styleClass, showBanner }: NavbarContainerInterface): 
                 secLabel={defaultNavBarLinks.secLabel}
                 primaryLabel={defaultNavBarLinks.primaryLabel}
                 links={defaultNavBarLinks.links}
-                linkActiveClass={'sudoku-selected'}
+                linkActiveClass={'main-selected'}
                 key={'main'}
             />
             {!!showBanner && <AppName />}

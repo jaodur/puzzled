@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { LinkInterface, RouteLinkInterface, TextLinkInterface } from '../interfaces';
+import { LinkInterface, RouteLinkInterface, TextLinkInterface } from '../interfaces/interfaces';
 
 function RouterLink({ link, component, styleClass }: RouteLinkInterface) {
     return (

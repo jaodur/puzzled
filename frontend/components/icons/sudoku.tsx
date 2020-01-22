@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SvgIconInterface } from '../interfaces';
+import { SvgIconInterface } from '../interfaces/interfaces';
 
 function EraseIcon({ width }: SvgIconInterface) {
     return (

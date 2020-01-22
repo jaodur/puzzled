@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CongratulationInterface } from '../interfaces';
+import { CongratulationInterface } from '../interfaces/interfaces';
 
 function Congratulation({ className, generatePuzzle }: CongratulationInterface) {
     return (

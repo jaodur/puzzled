@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { LoaderIcon } from '../icons/loaderIcon';
-import { GridTableInterface } from '../interfaces';
+import { GridTableInterface } from '../interfaces/interfaces';
 import { Congratulation } from './congratulation';
 import { Pause } from './pause';
 

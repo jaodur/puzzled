@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FullPuzzleInterface, GridRowInterface, SudokuTableDataInterface } from '../interfaces';
+import { FullPuzzleInterface, GridRowInterface, SudokuTableDataInterface } from '../interfaces/interfaces';
 
 function TableData({ indexKey, puzzle, keyDown, decorateFunc, clickFunc }: SudokuTableDataInterface) {
     function fillValue() {

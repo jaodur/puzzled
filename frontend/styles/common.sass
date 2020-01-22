@@ -5,6 +5,9 @@ $thickBlue: #2662ac
 
 // *********************** mixins ******************************
 
+.content
+  min-height: calc(100vh - 400px - (2 * 2.8rem))
+
 @mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px, $fontFamily: inherent, $fontWeight: inherent)
   font-size: $baseFontSize + $fontSize
   font-family: $fontFamily
@@ -137,15 +140,14 @@ $thickBlue: #2662ac
   @include nav-bar
 
 @mixin footer($bgColor: $thickBlue, $color: white, $marginTop: 5%)
-  min-height: $screenHeight * 0.35
+  height: 400px
   display: flex
   flex-wrap: wrap
   justify-content: center
-  margin-top: $marginTop
   background-color: $bgColor
 
   &__content
-    height: 100%
+    height: 350px
     width: 100%
     font-size: 1.2rem
     color: $color

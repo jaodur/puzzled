@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Timer } from '../commons/timer';
 import { EraseIcon } from '../icons/sudoku';
-import { NumPadInterface, NumPadRowInterface } from '../interfaces';
+import { NumPadInterface, NumPadRowInterface } from '../interfaces/interfaces';
 
 function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface) {
     function CreateNumPadData(num: number, fillValue: number) {

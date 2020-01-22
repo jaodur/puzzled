@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PlaySudokuPadInterface, SolveSudokuPadInterface, TrainerSudokuInterface } from '../interfaces';
+import { PlaySudokuPadInterface, SolveSudokuPadInterface, TrainerSudokuInterface } from '../interfaces/interfaces';
 
 function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveSudokuPadInterface) {
     return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LinkInterface, NavbarInterface } from '../interfaces';
+import { LinkInterface, NavbarInterface } from '../interfaces/interfaces';
 import { NavItemLink } from './links';
 import { Logo } from './logo';
 
