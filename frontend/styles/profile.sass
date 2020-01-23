@@ -1,3 +1,5 @@
+@import "./common"
+
 .signup-container, .signin-container
   display: flex
   flex-direction: column
@@ -35,3 +37,34 @@
 
   &__link_container
     font-size: 1.1rem
+
+.profile
+  display: flex
+  justify-content: center
+  align-items: stretch
+  min-height: $minContentHeight
+  border: 1px solid red
+
+  &__card
+    max-width: 300px
+    height: 100%
+    border: 1px solid green
+
+  &__title-wrapper
+    border: 2px solid blue
+
+  &__media
+    height: 140px
+
+  &__content
+    max-width: 700px
+
+  &__avatar
+    display: flex
+    align-items: center
+    justify-content: center
+    border: 1px solid cyan
+
+    &__avatar
+      width: 100px
+      height: 100px

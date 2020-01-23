@@ -32,4 +32,11 @@ interface SIgnUpInterface extends SignCommonsInterface {
     createUser: (event: any) => any;
 }
 
-export { SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
+interface AvatarInterface {
+    src?: string,
+    profileName: string,
+    avatarLetters: string,
+    styleClass: string,
+}
+
+export { AvatarInterface, SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
