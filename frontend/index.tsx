@@ -5,6 +5,7 @@ import './styles/main';
 import './styles/profile.sass';
 import './styles/snackbar.sass';
 import './styles/sudoku';
+import './styles/sidebarTab'
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
@@ -19,6 +20,7 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
 import { links } from './components/commons/linkUrls';
+import { ProfileContainer} from "./components/profile/profileContainer";
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
@@ -42,6 +44,7 @@ ReactDOM.render(
                         <Route exact path={links.HOME} component={Home} />
                         <Route path={links.SUDOKU.HOME} component={SudokuHome} />
                         <Route path={links.USER.HOME} component={signInSignUpContainer} />
+                        <Route path={'/profile/'} component={ProfileContainer} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </BrowserRouter>
