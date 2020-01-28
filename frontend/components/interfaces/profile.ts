@@ -33,19 +33,25 @@ interface SIgnUpInterface extends SignCommonsInterface {
 }
 
 interface AvatarInterface {
-    src?: string,
-    profileName: string,
-    avatarLetters: string,
-    styleClass: string,
+    src?: string;
+    profileName: string;
+    styleClass: string;
 }
 
 interface MaterialThemeInterface {
-    root: any
+    root: any;
 }
 
 interface AccountOverviewInterface {
-    styleClass: string,
-    themeStyleClass: MaterialThemeInterface,
+    styleClass: string;
+    themeStyleClass: MaterialThemeInterface;
 }
 
-export { AccountOverviewInterface, AvatarInterface, SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
+export {
+    AccountOverviewInterface,
+    AvatarInterface,
+    SignInInterface,
+    SIgnUpInterface,
+    UserErrorsInterface,
+    UserInfoInterface,
+};

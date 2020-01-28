@@ -1,21 +1,22 @@
 import * as React from 'react';
-import {NavBarContainer} from "../commons/navbarContainer";
-import {Footer} from "../commons/footer";
-import { Profile } from "./profile";
+
+import { Footer } from '../commons/footer';
+import { NavBarContainer } from '../commons/navbarContainer';
+import { Profile } from './profile';
 
 const footerClass: string = 'main-footer';
 
-function ProfileContainer(){
+function ProfileContainer() {
     return (
         <>
             <NavBarContainer styleClass={'default-navbar-container'} />
             <div className={'default-nav-strip'} />
             <div className={'content'}>
-                <Profile/>
+                <Profile />
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
         </>
-    )
+    );
 }
 
-export { ProfileContainer }
+export { ProfileContainer };

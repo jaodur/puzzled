@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './styles/inputs';
 import './styles/main';
-import './styles/profile.sass';
-import './styles/snackbar.sass';
+import './styles/profile';
+import './styles/sidebarTab';
+import './styles/snackbar';
 import './styles/sudoku';
-import './styles/sidebarTab'
-import './styles/inputs.sass'
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
@@ -21,7 +21,7 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
 import { links } from './components/commons/linkUrls';
-import { ProfileContainer} from "./components/profile/profileContainer";
+import { ProfileContainer } from './components/profile/profileContainer';
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:8000/graphql/',
