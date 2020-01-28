@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { SidebarTabInterface } from "../interfaces/sidebarTab";
+import { NavLink } from 'react-router-dom';
 
-function SidebarTab({icon, fillText, styleClass}: SidebarTabInterface){
+function SidebarTab({href, icon, fillText, styleClass}: SidebarTabInterface){
     return (
-        <div className={styleClass}>
+        <NavLink to={href} className={styleClass} activeClassName={`${styleClass}__active`}>
             <div/>
             <span>{icon}</span>
             <span>{fillText}</span>
-        </div>
+        </NavLink>
     )
 }
 
