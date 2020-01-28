@@ -39,4 +39,13 @@ interface AvatarInterface {
     styleClass: string,
 }
 
-export { AvatarInterface, SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
+interface MaterialThemeInterface {
+    root: any
+}
+
+interface AccountOverviewInterface {
+    styleClass: string,
+    themeStyleClass: MaterialThemeInterface,
+}
+
+export { AccountOverviewInterface, AvatarInterface, SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
