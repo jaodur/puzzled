@@ -8,7 +8,8 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 // *********************** mixins ******************************
 
 .content
-  min-height: calc(100vh - 400px - (2 * 2.8rem))
+  min-height: $minContentHeight
+  //border: 1px solid cyan
 
 @mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px, $fontFamily: inherent, $fontWeight: inherent)
   font-size: $baseFontSize + $fontSize
