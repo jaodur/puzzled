@@ -10,7 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AccountOverview } from "./accountOverview";
 import { ProfileAvatar } from "../commons/avatar";
 import { SidebarTab } from "../commons/sidebarTab";
-import {renderElement} from "../../utils/utils";
+import { renderElement } from "../../utils/utils";
+import { links } from "../commons/linkUrls";
 
 
 const profileStyleClass: string = 'profile';
@@ -35,10 +36,10 @@ function Profile(){
             <div className={`${profileStyleClass}__title-wrapper`}>
                 <div className={`${profileStyleClass}__card`}>
                     <ProfileAvatar profileName={'Odur j'} avatarLetters={'an'} styleClass={`${profileStyleClass}__avatar`} />
-                    <SidebarTab href={'/profile/account-overview'} icon={<HomeIcon />} fillText={'account overview'} styleClass={sidebarTabStyleClass}/>
-                    <SidebarTab href={'/profile/edit-profile'} icon={<EditOutlinedIcon />} fillText={'edit profile'} styleClass={sidebarTabStyleClass}/>
-                    <SidebarTab href={'/profile/change-password'} icon={<LockOutlinedIcon />} fillText={'change password'} styleClass={sidebarTabStyleClass}/>
-                    <SidebarTab href={'/profile/notifications'} icon={<NotificationOutlinedIcon />} fillText={'notifications'} styleClass={sidebarTabStyleClass}/>
+                    <SidebarTab href={links.USER.PROFILE.ACCOUNT_OVERVIEW} icon={<HomeIcon />} fillText={'account overview'} styleClass={sidebarTabStyleClass}/>
+                    <SidebarTab href={links.USER.PROFILE.EDIT_PROFILE} icon={<EditOutlinedIcon />} fillText={'edit profile'} styleClass={sidebarTabStyleClass}/>
+                    <SidebarTab href={links.USER.PROFILE.CHANGE_PASSWORD} icon={<LockOutlinedIcon />} fillText={'change password'} styleClass={sidebarTabStyleClass}/>
+                    <SidebarTab href={links.USER.PROFILE.NOTIFICATIONS} icon={<NotificationOutlinedIcon />} fillText={'notifications'} styleClass={sidebarTabStyleClass}/>
                 </div>
             </div>
 
@@ -47,7 +48,7 @@ function Profile(){
                 <Switch>
                     <Route
                         exact
-                        path='/profile/account-overview'
+                        path={links.USER.PROFILE.ACCOUNT_OVERVIEW}
                         component={renderElement(
                             <AccountOverview
                                 styleClass={profileStyleClass}
@@ -55,7 +56,7 @@ function Profile(){
                             />
                         )}
                     />
-                    <Redirect to={'/profile/account-overview'}/>
+                    <Redirect to={links.USER.PROFILE.ACCOUNT_OVERVIEW}/>
 
                 </Switch>
             </div>
