@@ -43,7 +43,7 @@
   justify-content: center
   align-items: stretch
   margin: 10px 0
-  min-height: $minContentHeight
+  min-height: ($minContentHeight + 800px)
 
   &__card
     width: 210px
@@ -58,8 +58,11 @@
     height: 140px
 
   &__content
+    display: flex
+    justify-content: center
     max-width: 700px
     background-color: #f1f1f1
+    padding: 4% 0
     //background-color: #f8f8f8
 
     >*
