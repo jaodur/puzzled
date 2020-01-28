@@ -6,17 +6,17 @@ const sudokuLinks = {
 };
 
 const profileLinks = {
-    HOME: '/profile/',
-    ACCOUNT_OVERVIEW: '/profile/account-overview',
-    EDIT_PROFILE: '/profile/edit-profile',
-    CHANGE_PASSWORD: '/profile/change-password',
-    NOTIFICATIONS: '/profile/notifications',
+    HOME: '/u/profile/',
+    ACCOUNT_OVERVIEW: '/u/profile/account-overview',
+    EDIT_PROFILE: '/u/profile/edit-profile',
+    CHANGE_PASSWORD: '/u/profile/change-password',
+    NOTIFICATIONS: '/u/profile/notifications',
 };
 
 const userLinks = {
     HOME: '/u/',
-    SIGN_IN: '/u/signin',
-    SIGN_UP: '/u/signup',
+    SIGN_IN: '/u/sign-in',
+    SIGN_UP: '/u/sign-up',
     PROFILE: profileLinks,
 };
 

@@ -44,8 +44,8 @@ ReactDOM.render(
                     <Switch>
                         <Route exact path={links.HOME} component={Home} />
                         <Route path={links.SUDOKU.HOME} component={SudokuHome} />
-                        <Route path={links.USER.HOME} component={signInSignUpContainer} />
                         <Route path={links.USER.PROFILE.HOME} component={ProfileContainer} />
+                        <Route path={links.USER.HOME} component={signInSignUpContainer} />
                         <Route component={PageNotFound} />
                     </Switch>
                 </BrowserRouter>
