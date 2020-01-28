@@ -1,7 +1,10 @@
+import * as React from 'react';
+
 import Avatar from '@material-ui/core/Avatar';
 import { blue, deepOrange, deepPurple, green, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
-import * as React from 'react';
+
+import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
 import { AvatarInterface } from '../interfaces/profile';
 
 const useStyles = makeStyles(theme => ({
@@ -38,14 +41,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const avatarLetterStyles = ['red', 'blue', 'purple', 'orange', 'green'];
-
 function ProfileAvatar({ src, profileName, styleClass }: AvatarInterface) {
     const classes: any = useStyles({});
-
-    function getRandom(item: string[]) {
-        return item[Math.floor(Math.random() * item.length)];
-    }
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
         const initials = (name.match(/\b\w/g) || []).slice(0, maxLetters);
@@ -58,7 +55,7 @@ function ProfileAvatar({ src, profileName, styleClass }: AvatarInterface) {
             {!!src ? (
                 <Avatar alt={profileName} src={src} />
             ) : (
-                <Avatar className={`${classes[getRandom(avatarLetterStyles)]} ${classes.xlarge}`}>
+                <Avatar className={`${classes[avatarLetterStyleClass]} ${classes.xlarge}`}>
                     {getAvatarLetters(profileName)}
                 </Avatar>
             )}
