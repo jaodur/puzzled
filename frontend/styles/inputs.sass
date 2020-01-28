@@ -1,0 +1,21 @@
+$lightGray: #9e9e9e
+
+.default-linear-input
+  display: flex
+  width: 100%
+  height: 50px
+  //border: 1px solid green
+
+  >*
+    display: flex
+    align-items: center
+    width: 50%
+    font-size: 14px
+    border: none
+    border-bottom: 1px solid $lightGray
+
+    &:focus
+      outline: none
+
+  label
+    color: $lightGray

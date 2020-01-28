@@ -6,6 +6,7 @@ import './styles/profile.sass';
 import './styles/snackbar.sass';
 import './styles/sudoku';
 import './styles/sidebarTab'
+import './styles/inputs.sass'
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
