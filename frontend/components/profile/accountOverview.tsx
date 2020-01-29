@@ -24,7 +24,11 @@ function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterfa
                     <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
                 </div>
                 <div className={`${styleClass}__align_right`}>
-                    <LinkButton href={links.USER.PROFILE.EDIT_PROFILE} label={'edit profile'} styleClass={'save-btn'} />
+                    <LinkButton
+                        href={links.USER.PROFILE.EDIT_PROFILE}
+                        label={'edit profile'}
+                        styleClass={'save-btn std-btn-mt'}
+                    />
                 </div>
             </div>
         </div>
