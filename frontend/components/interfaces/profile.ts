@@ -52,9 +52,15 @@ interface EditProfileInterface {
     themeStyleClass: MaterialThemeInterface;
 }
 
+interface ChangePasswordInterface {
+    styleClass: string;
+    themeStyleClass: MaterialThemeInterface;
+}
+
 export {
     AccountOverviewInterface,
     AvatarInterface,
+    ChangePasswordInterface,
     EditProfileInterface,
     SignInInterface,
     SIgnUpInterface,
