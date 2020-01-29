@@ -1,15 +1,14 @@
 import * as React from 'react';
 
 import Typography from '@material-ui/core/Typography';
+import { LinkButton } from '../commons/button';
 import { LinearInput } from '../commons/inputs';
+import { links } from '../commons/linkUrls';
 import { AccountOverviewInterface } from '../interfaces/profile';
 
-function AccountOverview({ themeStyleClass }: AccountOverviewInterface) {
+function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterface) {
     return (
         <div>
-            <Typography gutterBottom variant="h2" component="h3">
-                Account overview
-            </Typography>
             <div style={{ backgroundColor: 'white', padding: '5%' }}>
                 <Typography gutterBottom variant="h5" component="h2">
                     Profile
@@ -23,6 +22,9 @@ function AccountOverview({ themeStyleClass }: AccountOverviewInterface) {
                     <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
                     <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
                     <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
+                </div>
+                <div className={`${styleClass}__align_right`}>
+                    <LinkButton href={links.USER.PROFILE.EDIT_PROFILE} label={'edit profile'} styleClass={'save-btn'} />
                 </div>
             </div>
         </div>

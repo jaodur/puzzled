@@ -68,7 +68,9 @@ function Profile() {
                     <Route
                         exact
                         path={links.USER.PROFILE.ACCOUNT_OVERVIEW}
-                        component={renderElement(<AccountOverview themeStyleClass={classes} />)}
+                        component={renderElement(
+                            <AccountOverview styleClass={profileStyleClass} themeStyleClass={classes} />
+                        )}
                     />
                     <Route
                         exact

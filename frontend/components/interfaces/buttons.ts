@@ -5,4 +5,8 @@ interface ButtonInterface {
     styleClass?: string;
 }
 
-export { ButtonInterface };
+interface LinkButtonInterface extends ButtonInterface {
+    href: string;
+}
+
+export { ButtonInterface, LinkButtonInterface };
