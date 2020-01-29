@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './styles/buttons';
 import './styles/inputs';
 import './styles/main';
 import './styles/profile';
 import './styles/sidebarTab';
 import './styles/snackbar';
 import './styles/sudoku';
-import './styles/buttons';
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';

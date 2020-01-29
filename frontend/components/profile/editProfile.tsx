@@ -1,13 +1,12 @@
 import * as React from 'react';
 
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography';
 
-import { StackedInput } from "../commons/inputs";
-import { EditProfileInterface } from "../interfaces/profile";
-import { Button } from "../commons/button";
+import { Button } from '../commons/button';
+import { StackedInput } from '../commons/inputs';
+import { EditProfileInterface } from '../interfaces/profile';
 
-
-function EditProfile({styleClass, themeStyleClass}: EditProfileInterface) {
+function EditProfile({ styleClass, themeStyleClass }: EditProfileInterface) {
     return (
         <div>
             <div style={{ backgroundColor: 'white', padding: '5%' }}>
@@ -25,12 +24,12 @@ function EditProfile({styleClass, themeStyleClass}: EditProfileInterface) {
                     <StackedInput label={'Email'} value={'odurjoseph8@gmail.com'} />
                 </div>
                 <div className={`${styleClass}__align_right`}>
-                    <Button label={'cancel'} styleClass={'cancel-btn'}/>
-                    <Button label={'save'} styleClass={'save-btn'}/>
+                    <Button label={'cancel'} styleClass={'cancel-btn'} />
+                    <Button label={'save'} styleClass={'save-btn'} />
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export { EditProfile }
+export { EditProfile };

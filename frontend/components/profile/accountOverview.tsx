@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { LinearInput } from '../commons/inputs';
 import { AccountOverviewInterface } from '../interfaces/profile';
 
-function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterface) {
+function AccountOverview({ themeStyleClass }: AccountOverviewInterface) {
     return (
         <div>
             <Typography gutterBottom variant="h2" component="h3">

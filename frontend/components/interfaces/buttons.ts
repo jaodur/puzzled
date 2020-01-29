@@ -5,4 +5,4 @@ interface ButtonInterface {
     styleClass?: string;
 }
 
-export { ButtonInterface }
+export { ButtonInterface };

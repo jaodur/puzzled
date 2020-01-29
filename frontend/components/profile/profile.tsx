@@ -12,7 +12,7 @@ import { ProfileAvatar } from '../commons/avatar';
 import { links } from '../commons/linkUrls';
 import { SidebarTab } from '../commons/sidebarTab';
 import { AccountOverview } from './accountOverview';
-import { EditProfile } from "./editProfile";
+import { EditProfile } from './editProfile';
 
 const profileStyleClass: string = 'profile';
 const sidebarTabStyleClass: string = 'default-sidebar-tab';
@@ -68,9 +68,7 @@ function Profile() {
                     <Route
                         exact
                         path={links.USER.PROFILE.ACCOUNT_OVERVIEW}
-                        component={renderElement(
-                            <AccountOverview styleClass={profileStyleClass} themeStyleClass={classes} />
-                        )}
+                        component={renderElement(<AccountOverview themeStyleClass={classes} />)}
                     />
                     <Route
                         exact
