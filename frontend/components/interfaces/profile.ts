@@ -43,6 +43,11 @@ interface MaterialThemeInterface {
 }
 
 interface AccountOverviewInterface {
+    styleClass?: string;
+    themeStyleClass: MaterialThemeInterface;
+}
+
+interface EditProfileInterface {
     styleClass: string;
     themeStyleClass: MaterialThemeInterface;
 }
@@ -50,6 +55,7 @@ interface AccountOverviewInterface {
 export {
     AccountOverviewInterface,
     AvatarInterface,
+    EditProfileInterface,
     SignInInterface,
     SIgnUpInterface,
     UserErrorsInterface,
