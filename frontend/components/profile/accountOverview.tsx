@@ -6,7 +6,7 @@ import { AccountOverviewInterface } from '../interfaces/profile';
 
 function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterface) {
     return (
-        <div className={`${styleClass}__incontent`}>
+        <div>
             <Typography gutterBottom variant="h2" component="h3">
                 Account overview
             </Typography>
