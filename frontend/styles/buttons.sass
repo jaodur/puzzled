@@ -1,0 +1,26 @@
+@import "./colors"
+
+@mixin default-btn
+  cursor: pointer
+  font-size: 15px
+  border: 1px solid $thickBlue
+  outline: none
+  min-width: 100px
+  height: 40px
+  margin-left: 10px
+  color: $thickBlue
+  text-transform: capitalize
+
+.default-btn
+  @include default-btn
+
+.save-btn
+  @include default-btn
+  background-color: $thickBlue
+  color: white
+
+.cancel-btn
+  @include default-btn
+  border: 1px solid red
+  background-color: inherit
+  color: red

@@ -7,6 +7,7 @@ import './styles/profile';
 import './styles/sidebarTab';
 import './styles/snackbar';
 import './styles/sudoku';
+import './styles/buttons';
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { Home } from './components/homePage/Home';
