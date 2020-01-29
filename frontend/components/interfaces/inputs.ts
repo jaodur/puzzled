@@ -9,4 +9,8 @@ interface LinearInputInterface extends InputInterface {
     onChange?: (event: any) => any;
 }
 
-export { LinearInputInterface };
+interface StackedInputInterface extends InputInterface {
+    onChange?: (event: any) => any;
+}
+
+export { LinearInputInterface, StackedInputInterface };
