@@ -76,7 +76,26 @@ class LogoutUserMutation(graphene.Mutation):
         return LogoutUserMutation(user=None, logged_in=False)
 
 
+class UserLoginCheckMutation(BaseMutation):
+    logged_in = graphene.Boolean()
+    email = graphene.String(required=False)
+
+    class Meta:
+        description = 'check user login status'
+
+    @classmethod
+    def perform_mutation(cls, info, **kwargs):
+
+        if info.context.user.is_authenticated:
+            return UserLoginCheckMutation(logged_in=True, email=info.context.user.email)
+
+        return UserLoginCheckMutation(logged_in=False)
+
+
 class UserMutation(graphene.ObjectType):
     create_user = CreateUserMutation.Field()
     login_user = LoginUserMutation.Field()
     logout_user = LogoutUserMutation.Field()
+    check_login = UserLoginCheckMutation.Field()
+
+
