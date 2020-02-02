@@ -129,7 +129,7 @@ class BaseMutation(graphene.Mutation):
             key: value for key, value in input_data.items() if key in cls._meta.unique_together
         }
 
-        if cls._meta.model.objects.filter(**filters):
+        if cls._meta.model and cls._meta.model.objects.filter(**filters):
 
             for field in cls._meta.unique_together:
                 errors.extend([
