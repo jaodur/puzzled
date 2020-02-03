@@ -1,6 +1,11 @@
 import json
 from graphene_django.utils.testing import GraphQLTestCase
-from .fixtures import create_user_mutation, create_user_invalid_email_mutation, check_login_mutation, login_user_mutation
+from .fixtures import (
+    create_user_mutation,
+    create_user_invalid_email_mutation,
+    check_login_mutation,
+    login_user_mutation
+)
 from backend.schema import schema
 
 
@@ -60,3 +65,27 @@ class TestUserSchema(GraphQLTestCase):
         self.assertResponseHasErrors(response)
         self.assertEquals(response_content['errors'][0]['field'], 'email')
         self.assertEquals(response_content['errors'][0]['message'], 'Enter a valid email address')
+
+    def test_check_user_login_for_authenticated_user_succeeds(self):
+        email = 'testemail@example.com'
+
+        # create user
+        self.query(create_user_mutation(email=email))
+
+        # login user
+        self.query(login_user_mutation(email=email))
+
+        response = self.query(check_login_mutation())
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertEquals(response_content['data']['checkLogin']['loggedIn'], True)
+        self.assertEquals(response_content['data']['checkLogin']['email'], email)
+
+    def test_check_user_login_returns_false_for_anonymous_user(self):
+        response = self.query(check_login_mutation())
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertEquals(response_content['data']['checkLogin']['loggedIn'], False)
+        self.assertEquals(response_content['data']['checkLogin']['email'], None)

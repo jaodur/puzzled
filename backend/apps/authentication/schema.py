@@ -97,5 +97,3 @@ class UserMutation(graphene.ObjectType):
     login_user = LoginUserMutation.Field()
     logout_user = LogoutUserMutation.Field()
     check_login = UserLoginCheckMutation.Field()
-
-

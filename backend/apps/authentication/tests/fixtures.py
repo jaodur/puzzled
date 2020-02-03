@@ -27,7 +27,7 @@ def user_data():
     }
 
 
-def create_user_mutation():
+def create_user_mutation(first_name="test", last_name="test", email="test@example.com", password="test1234"):
     return (
         f'''
         mutation {{
@@ -72,5 +72,18 @@ def create_user_invalid_email_mutation():
                 }
             }
         }
+        '''
+    )
+
+
+def check_login_mutation():
+    return (
+        '''
+            mutation checkLogin {
+                checkLogin {
+                    loggedIn
+                    email
+                }
+            }
         '''
     )
