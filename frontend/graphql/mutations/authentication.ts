@@ -25,4 +25,13 @@ const CREATE_USER_MUTATION = gql`
     }
 `;
 
-export { LOGIN_USER_MUTATION, CREATE_USER_MUTATION };
+const CHECK_LOGIN_MUTATION = gql`
+    mutation checkLogin {
+        checkLogin {
+            loggedIn
+            email
+        }
+    }
+`;
+
+export { LOGIN_USER_MUTATION, CREATE_USER_MUTATION, CHECK_LOGIN_MUTATION };
