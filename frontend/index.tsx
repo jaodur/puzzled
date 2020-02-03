@@ -14,29 +14,17 @@ import { Home } from './components/homePage/Home';
 import signInSignUpContainer from './components/profile/signInSignUpContainer';
 import { SudokuHome } from './components/sudoku/sudoku';
 
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { ApolloClient } from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
 import { links } from './components/commons/linkUrls';
 import { ProfileContainer } from './components/profile/profileContainer';
-
-const httpLink = createHttpLink({
-    uri: 'http://localhost:8000/graphql/',
-    // uri: 'http://10.20.42.55:8000/graphql/'
-});
-
-const client = new ApolloClient({
-    link: httpLink,
-    cache: new InMemoryCache(),
-});
+import graphqlClient from './lib/graphqlClient';
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
-        <ApolloHooksProvider client={client}>
+    <ApolloProvider client={graphqlClient}>
+        <ApolloHooksProvider client={graphqlClient}>
             <SnackbarProvider
                 maxSnack={3}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
