@@ -4,7 +4,9 @@ from .fixtures import (
     create_user_mutation,
     create_user_invalid_email_mutation,
     check_login_mutation,
-    login_user_mutation
+    login_user_mutation,
+    profiles_query,
+    single_profile_query
 )
 from backend.schema import schema
 
@@ -89,3 +91,34 @@ class TestUserSchema(GraphQLTestCase):
 
         self.assertEquals(response_content['data']['checkLogin']['loggedIn'], False)
         self.assertEquals(response_content['data']['checkLogin']['user'], None)
+
+    def test_querying_all_profiles_succeeds(self):
+        # create user
+        self.query(create_user_mutation())
+
+        response = self.query(profiles_query())
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(len(response_content['data']['profiles']), 1)
+        self.assertEquals(
+            response_content['data']['profiles'][0]['telephone'],
+            'You do not have the required permission to view this field'
+        )
+
+    def test_querying_single_user_succeeds(self):
+        email = 'testemail@example.com'
+
+        # create user
+        self.query(create_user_mutation(email=email))
+
+        # login user
+        self.query(login_user_mutation(email=email))
+
+        response = self.query(single_profile_query(email))
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(response_content['data']['profile']['email'], email)

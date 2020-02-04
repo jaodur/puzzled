@@ -89,3 +89,33 @@ def check_login_mutation():
             }
         '''
     )
+
+
+def profiles_query():
+    return (
+        '''
+            query {
+                profiles {
+                    name
+                    preferredName
+                    telephone
+                    email
+                }
+            }
+        '''
+    )
+
+
+def single_profile_query(email):
+    return (
+        f'''
+            query {{
+                profile(email: "{email}") {{
+                    name
+                    preferredName
+                    telephone
+                    email
+                }}
+            }}
+        '''
+    )
