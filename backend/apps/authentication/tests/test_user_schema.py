@@ -80,7 +80,7 @@ class TestUserSchema(GraphQLTestCase):
         response_content = json.loads(response.content.decode('utf-8'))
 
         self.assertEquals(response_content['data']['checkLogin']['loggedIn'], True)
-        self.assertEquals(response_content['data']['checkLogin']['email'], email)
+        self.assertEquals(response_content['data']['checkLogin']['user']['email'], email)
 
     def test_check_user_login_returns_false_for_anonymous_user(self):
         response = self.query(check_login_mutation())
@@ -88,4 +88,4 @@ class TestUserSchema(GraphQLTestCase):
         response_content = json.loads(response.content.decode('utf-8'))
 
         self.assertEquals(response_content['data']['checkLogin']['loggedIn'], False)
-        self.assertEquals(response_content['data']['checkLogin']['email'], None)
+        self.assertEquals(response_content['data']['checkLogin']['user'], None)

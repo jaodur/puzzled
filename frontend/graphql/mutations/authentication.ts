@@ -29,7 +29,14 @@ const CHECK_LOGIN_MUTATION = gql`
     mutation checkLogin {
         checkLogin {
             loggedIn
-            email
+            user {
+                name
+                preferredName
+                email
+                telephone
+                pictureUrl
+                timezone
+            }
         }
     }
 `;

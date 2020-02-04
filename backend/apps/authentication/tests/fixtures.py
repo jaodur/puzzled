@@ -82,7 +82,9 @@ def check_login_mutation():
             mutation checkLogin {
                 checkLogin {
                     loggedIn
-                    email
+                    user {
+                        email
+                    }
                 }
             }
         '''
