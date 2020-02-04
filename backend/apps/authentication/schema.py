@@ -4,6 +4,7 @@ from graphene_django import DjangoObjectType
 from backend.lib.base import BaseMutation
 from backend.lib.validators import email_validator, url_validator
 from backend.lib.types import Error
+from backend.lib.decorators.permissions import is_owner
 
 
 class CreateUserType(DjangoObjectType):
@@ -12,6 +13,39 @@ class CreateUserType(DjangoObjectType):
 
     def resolve_password(self, info):
         return 'This is a write only field.'
+
+
+class UserProfileType(DjangoObjectType):
+    class Meta:
+        model = get_user_model()
+        exclude_fields = ('email_verified', 'password', 'is_staff', 'is_superuser')
+
+    def resolve_password(self, info):
+        return 'This is a write only field.'
+
+    @is_owner
+    def resolve_email(self, info):
+        return self.email
+
+    @is_owner
+    def resolve_telephone(self, info):
+        return self.telephone
+
+
+class UserLoginInfoType(graphene.ObjectType):
+    logged_in = graphene.Field(graphene.Boolean())
+    email = graphene.Field(graphene.String(), required=False)
+
+
+class UserQuery(graphene.ObjectType):
+    profiles = graphene.List(UserProfileType)
+    profile = graphene.Field(UserProfileType, email=graphene.String())
+
+    def resolve_profiles(self, info, **kwargs):
+        return get_user_model().objects.all()
+
+    def resolve_profile(self, info, email):
+        return get_user_model().objects.get(email=email)
 
 
 class CreateUserMutation(BaseMutation):
