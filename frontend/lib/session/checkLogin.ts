@@ -16,8 +16,18 @@ interface LoginInfoInterface {
 class CheckLogin {
     public _loginInfo: LoginInfoInterface;
 
-    public async checkLogin() {
-        return await graphqlMutate(CHECK_LOGIN_MUTATION);
+    constructor() {
+        this._loginInfo = { loggedIn: false, user: null };
+    }
+
+    public clear() {
+        this._loginInfo = { loggedIn: false, user: null };
+    }
+
+    public async updateLoginInfo() {
+        const data = await graphqlMutate(CHECK_LOGIN_MUTATION).then(data => data.checkLogin);
+        this._loginInfo = data;
+        return data;
     }
 
     public async setLoginInfo(newLoginInfo: LoginInfoInterface) {
@@ -25,15 +35,23 @@ class CheckLogin {
     }
 
     public async getLoginInfo() {
-        if (!this._loginInfo) {
-            this._loginInfo = await this.checkLogin().then(data => data.checkLogin);
-        }
         return this._loginInfo;
     }
 }
 
-const checkLoginInstance = new CheckLogin();
+function asyncUpdateLoginInfo(checkLoginInstance: CheckLogin) {
+    return async (callback: () => any) => {
+        await checkLoginInstance.updateLoginInfo();
+        callback();
+    };
+}
 
-checkLoginInstance.getLoginInfo();
+function asyncSetLoginInfo(checkLoginInstance: CheckLogin) {
+    return async (newLoginInfo: LoginInfoInterface, callback: () => any) => {
+        await checkLoginInstance.setLoginInfo(newLoginInfo);
+        callback();
+    };
+}
 
-export default checkLoginInstance;
+export default new CheckLogin();
+export { asyncUpdateLoginInfo, asyncSetLoginInfo };
