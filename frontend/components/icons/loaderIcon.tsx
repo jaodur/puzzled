@@ -199,4 +199,12 @@ function LoaderIcon({ width = '200px', styleClass }: SvgIconInterface) {
     );
 }
 
-export { LoaderIcon };
+function BigAssLoaderIcon({ width = '200px', styleClass }: SvgIconInterface) {
+    return (
+        <div style={{ display: 'flex', height: '100vh', justifyContent: 'center', alignItems: 'center' }}>
+            <LoaderIcon width={width} styleClass={styleClass} />
+        </div>
+    );
+}
+
+export { BigAssLoaderIcon, LoaderIcon };
