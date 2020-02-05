@@ -16,24 +16,25 @@ import App from './app';
 import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
 import { PuzzledProvider } from './components/commons/puzzleContext';
 import graphqlClient from './lib/graphqlClient';
+import checkLogin, { asyncSetLoginInfo, asyncUpdateLoginInfo } from './lib/session/checkLogin';
+
+const checkloginInitalState = {
+    checkLogin,
+    asyncUpdateLoginInfo: asyncUpdateLoginInfo(checkLogin),
+    asyncSetLoginInfo: asyncSetLoginInfo(checkLogin),
+};
 
 ReactDOM.render(
     <ApolloProvider client={graphqlClient}>
         <ApolloHooksProvider client={graphqlClient}>
-            <SnackbarProvider
-                maxSnack={3}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                content={(key, message) => <CustomSnackbarContentWrapper id={key} message={message} />}>
-                <BrowserRouter forceRefresh={false}>
-                    <Switch>
-                        <Route exact path={links.HOME} component={Home} />
-                        <Route path={links.SUDOKU.HOME} component={SudokuHome} />
-                        <Route path={links.USER.PROFILE.HOME} component={ProfileContainer} />
-                        <Route path={links.USER.HOME} component={signInSignUpContainer} />
-                        <Route component={PageNotFound} />
-                    </Switch>
-                </BrowserRouter>
-            </SnackbarProvider>
+            <PuzzledProvider checkLogin={checkloginInitalState}>
+                <SnackbarProvider
+                    maxSnack={3}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                    content={(key, message) => <CustomSnackbarContentWrapper id={key} message={message} />}>
+                    <App />
+                </SnackbarProvider>
+            </PuzzledProvider>
         </ApolloHooksProvider>
     </ApolloProvider>,
     document.getElementById('react')
