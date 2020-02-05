@@ -14,7 +14,7 @@ function PuzzledProvider({ checkLogin, children }: PuzzledProviderInterface): Re
     return <PuzzledContext.Provider value={contextValue}>{children}</PuzzledContext.Provider>;
 }
 
-function useCheckLogin() {
+function useCheckLoginContext() {
     const { checkLogin } = useContext(PuzzledContext);
 
     if (!checkLogin) {
@@ -24,4 +24,4 @@ function useCheckLogin() {
     return checkLogin;
 }
 
-export { PuzzledContext, PuzzledProvider, useCheckLogin };
+export { PuzzledContext, PuzzledProvider, useCheckLoginContext };

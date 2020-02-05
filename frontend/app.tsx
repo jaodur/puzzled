@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { links } from './components/commons/linkUrls';
-import { useCheckLogin } from './components/commons/puzzleContext';
+import { useCheckLoginContext } from './components/commons/puzzleContext';
 import { Home } from './components/homePage/Home';
 import { BigAssLoaderIcon } from './components/icons/loaderIcon';
 import { ProfileContainer } from './components/profile/profileContainer';
@@ -13,7 +13,7 @@ import { SudokuHome } from './components/sudoku/sudoku';
 
 function App() {
     const [loading, setLoading] = React.useState(true);
-    const { asyncUpdateLoginInfo } = useCheckLogin();
+    const { asyncUpdateLoginInfo } = useCheckLoginContext();
 
     // component did mount
     React.useEffect(() => {
