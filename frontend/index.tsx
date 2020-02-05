@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import './styles/buttons';
 import './styles/inputs';
 import './styles/main';
@@ -9,17 +9,12 @@ import './styles/sidebarTab';
 import './styles/snackbar';
 import './styles/sudoku';
 
-import { PageNotFound } from './components/commons/404PageNotFound';
-import { Home } from './components/homePage/Home';
-import signInSignUpContainer from './components/profile/signInSignUpContainer';
-import { SudokuHome } from './components/sudoku/sudoku';
-
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import App from './app';
 import { CustomSnackbarContentWrapper } from './components/commons/customSnackbar';
-import { links } from './components/commons/linkUrls';
-import { ProfileContainer } from './components/profile/profileContainer';
+import { PuzzledProvider } from './components/commons/puzzleContext';
 import graphqlClient from './lib/graphqlClient';
 
 ReactDOM.render(
