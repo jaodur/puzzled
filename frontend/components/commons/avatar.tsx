@@ -3,6 +3,7 @@ import * as React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { blue, deepOrange, deepPurple, green, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
 import { AvatarInterface } from '../interfaces/profile';
@@ -34,6 +35,13 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.getContrastText(deepPurple[500]),
         backgroundColor: deepPurple[500],
     },
+    xsmall: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '40px',
+        height: '40px',
+        margin: '0',
+    },
     xlarge: {
         width: theme.spacing(20),
         height: theme.spacing(20),
@@ -41,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function ProfileAvatar({ src, profileName, styleClass }: AvatarInterface) {
+function ProfileAvatar({ src, profileName, styleClass, small }: AvatarInterface) {
     const classes: any = useStyles({});
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
@@ -50,17 +58,29 @@ function ProfileAvatar({ src, profileName, styleClass }: AvatarInterface) {
         return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
     }
 
+    const sizeStyle = !!small ? classes.xsmall : classes.xlarge;
+
     return (
         <div className={styleClass}>
             {!!src ? (
                 <Avatar alt={profileName} src={src} />
             ) : (
-                <Avatar className={`${classes[avatarLetterStyleClass]} ${classes.xlarge}`}>
-                    {getAvatarLetters(profileName)}
+                <Avatar className={`${classes[avatarLetterStyleClass]} ${sizeStyle}`}>
+                    {!!small ? getAvatarLetters(profileName, 1) : getAvatarLetters(profileName)}
                 </Avatar>
             )}
         </div>
     );
 }
 
-export { ProfileAvatar };
+function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
+    return (
+        <div className={'navbar-avatar'}>
+            <span>{profileName}</span>
+            <ProfileAvatar src={src} profileName={profileName} small />
+            <ExpandMoreIcon />
+        </div>
+    );
+}
+
+export { NavBarProfileAvatar, ProfileAvatar };
