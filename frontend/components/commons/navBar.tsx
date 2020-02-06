@@ -7,7 +7,15 @@ import { links as urlLinks } from './linkUrls';
 import { Logo } from './logo';
 import { useCheckLoginContext } from './puzzleContext';
 
-function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links, linkActiveClass }: NavbarInterface) {
+function NavBar({
+    onTabClick,
+    primaryLabel,
+    secLabel,
+    navbarClass,
+    links,
+    linkActiveClass,
+    showProfileContainer,
+}: NavbarInterface) {
     const { checkLogin } = useCheckLoginContext();
 
     const signUpSignInLinks: LinkInterface[] = [
@@ -37,13 +45,15 @@ function NavBar({ onTabClick, primaryLabel, secLabel, navbarClass, links, linkAc
         <nav className={navbarClass}>
             <Logo primaryLabel={primaryLabel} secLabel={secLabel} />
             <ul>{createNavLinks(links)}</ul>
-            <div className={'profile-navbar'}>
-                {checkLogin._loginInfo.loggedIn ? (
-                    <NavBarProfileAvatar profileName={checkLogin._loginInfo.user.name} />
-                ) : (
-                    <ul>{createNavLinks(signUpSignInLinks)}</ul>
-                )}
-            </div>
+            {showProfileContainer && (
+                <div className={'profile-navbar'}>
+                    {checkLogin._loginInfo.loggedIn ? (
+                        <NavBarProfileAvatar profileName={checkLogin._loginInfo.user.name} />
+                    ) : (
+                        <ul>{createNavLinks(signUpSignInLinks)}</ul>
+                    )}
+                </div>
+            )}
         </nav>
     );
 }

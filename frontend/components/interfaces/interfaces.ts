@@ -106,6 +106,7 @@ interface NavbarInterface {
     navbarClass?: string;
     links: LinkInterface[];
     linkActiveClass: string;
+    showProfileContainer: boolean;
 }
 
 interface NavbarLinksInterface {
