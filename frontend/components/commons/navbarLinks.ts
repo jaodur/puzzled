@@ -10,8 +10,6 @@ const defaultNavBarLinks: NavbarLinksInterface = {
         { name: 'Games', href: '#' },
         { name: 'Pin', href: '#' },
         { name: null, href: '#', linkClass: 'navbar-separator' },
-        { name: 'Sign In', href: links.USER.SIGN_IN },
-        { name: 'Sign Up', href: links.USER.SIGN_UP },
     ],
 };
 
