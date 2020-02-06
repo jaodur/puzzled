@@ -1,12 +1,17 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
+import Collapse from '@material-ui/core/Collapse';
 import { blue, deepOrange, deepPurple, green, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ProfileIcon from '@material-ui/icons/PersonOutline';
 
 import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
 import { AvatarInterface } from '../interfaces/profile';
+import { links } from './linkUrls';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -79,6 +84,18 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
             <span>{profileName}</span>
             <ProfileAvatar src={src} profileName={profileName} small />
             <ExpandMoreIcon />
+            <Collapse className={'navbar-avatar__dropdown'} in timeout="auto" unmountOnExit>
+                <div>
+                    <Link to={links.USER.PROFILE.HOME}>
+                        <span>
+                            <ProfileIcon /> profile
+                        </span>
+                    </Link>
+                    <span>
+                        <LogoutIcon /> logout
+                    </span>
+                </div>
+            </Collapse>
         </div>
     );
 }
