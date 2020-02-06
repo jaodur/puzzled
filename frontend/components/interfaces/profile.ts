@@ -37,6 +37,7 @@ interface AvatarInterface {
     profileName: string;
     styleClass?: string;
     small?: boolean;
+    onClick?: (event: any) => any;
 }
 
 interface MaterialThemeInterface {

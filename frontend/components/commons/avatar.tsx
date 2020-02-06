@@ -6,6 +6,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { blue, deepOrange, deepPurple, green, red } from '@material-ui/core/colors';
 import { makeStyles } from '@material-ui/core/styles';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProfileIcon from '@material-ui/icons/PersonOutline';
 
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function ProfileAvatar({ src, profileName, styleClass, small }: AvatarInterface) {
+function ProfileAvatar({ src, profileName, onClick, styleClass, small }: AvatarInterface) {
     const classes: any = useStyles({});
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
@@ -66,7 +67,7 @@ function ProfileAvatar({ src, profileName, styleClass, small }: AvatarInterface)
     const sizeStyle = !!small ? classes.xsmall : classes.xlarge;
 
     return (
-        <div className={styleClass}>
+        <div className={styleClass} onClick={onClick}>
             {!!src ? (
                 <Avatar alt={profileName} src={src} />
             ) : (
@@ -79,14 +80,25 @@ function ProfileAvatar({ src, profileName, styleClass, small }: AvatarInterface)
 }
 
 function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
+    const [showDropdown, setShowDropdown] = React.useState(false);
+
+    function toggleShowDropdown() {
+        setShowDropdown(!showDropdown);
+    }
+
     return (
         <div className={'navbar-avatar'}>
-            <span>{profileName}</span>
-            <ProfileAvatar src={src} profileName={profileName} small />
-            <ExpandMoreIcon />
-            <Collapse className={'navbar-avatar__dropdown'} in timeout="auto" unmountOnExit>
+            <span onClick={toggleShowDropdown}>{profileName}</span>
+            <ProfileAvatar src={src} profileName={profileName} small onClick={toggleShowDropdown} />
+            {showDropdown ? (
+                <ExpandLessIcon onClick={toggleShowDropdown} />
+            ) : (
+                <ExpandMoreIcon onClick={toggleShowDropdown} />
+            )}
+
+            <Collapse className={'navbar-avatar__dropdown'} in={showDropdown} timeout="auto" unmountOnExit>
                 <div>
-                    <Link to={links.USER.PROFILE.HOME}>
+                    <Link to={links.USER.PROFILE.HOME} onClick={toggleShowDropdown}>
                         <span>
                             <ProfileIcon /> profile
                         </span>
