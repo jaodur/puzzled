@@ -1,15 +1,18 @@
-import { useSnackbar, withSnackbar } from 'notistack';
-import { useState } from 'react';
 import * as React from 'react';
-import { useMutation } from 'react-apollo-hooks';
+import { useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
+
+import { useSnackbar, withSnackbar } from 'notistack';
+import { useMutation } from 'react-apollo-hooks';
 import { validate } from 'validate.js';
+
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy, renderElement } from '../../utils/utils';
 import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
+import { useCheckLoginContext } from '../commons/puzzleContext';
 import { closeAction } from '../commons/snackBarActions';
 import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
@@ -20,6 +23,7 @@ const footerClass: string = 'main-footer';
 
 function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
+    const { checkLogin } = useCheckLoginContext();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // eslint-disable-next-line
     const [logInUserFunction, setLogInUserFunction] = useMutation(LOGIN_USER_MUTATION);
@@ -129,7 +133,9 @@ function SignInSignUpContainer() {
             });
     }
 
-    return (
+    return checkLogin._loginInfo.loggedIn ? (
+        <Redirect to={links.HOME} />
+    ) : (
         <React.Fragment>
             <NavBarContainer styleClass={'default-navbar-container'} />
             <div className={'default-nav-strip'} />
