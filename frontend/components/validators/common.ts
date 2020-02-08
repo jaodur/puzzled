@@ -8,4 +8,14 @@ const nameFormat = {
     message: 'Must contain english letters, -, _ and space.',
 };
 
-export { emailFormat, nameFormat };
+const numberFormat = {
+    pattern: /^[ 0-9]+$/,
+    message: 'Must contain english letters, -, _ and space.',
+};
+
+const urlFormat = {
+    pattern: /^(ftp|http|https):\/\/[^ "]+$/,
+    message: 'Must contain english letters, -, _ and space.',
+};
+
+export { emailFormat, nameFormat, numberFormat, urlFormat };
