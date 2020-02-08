@@ -44,7 +44,17 @@ interface MaterialThemeInterface {
     root: any;
 }
 
+interface ProfileInterface {
+    name: string;
+    preferredName: string;
+    email: string;
+    telephone?: string;
+    pictureUrl?: string;
+    timezone?: string;
+}
+
 interface AccountOverviewInterface {
+    profile: ProfileInterface;
     styleClass?: string;
     themeStyleClass: MaterialThemeInterface;
 }
