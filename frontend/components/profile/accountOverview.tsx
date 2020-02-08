@@ -6,7 +6,7 @@ import { LinearInput } from '../commons/inputs';
 import { links } from '../commons/linkUrls';
 import { AccountOverviewInterface } from '../interfaces/profile';
 
-function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterface) {
+function AccountOverview({ profile, styleClass, themeStyleClass }: AccountOverviewInterface) {
     return (
         <div>
             <div style={{ backgroundColor: 'white', padding: '5%' }}>
@@ -15,13 +15,12 @@ function AccountOverview({ styleClass, themeStyleClass }: AccountOverviewInterfa
                 </Typography>
 
                 <div className={themeStyleClass.root}>
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
-                    <LinearInput label={'Email'} value={'odurjoseph8@gmail.com'} disabled />
+                    <LinearInput label={'Name'} value={profile.name} disabled />
+                    <LinearInput label={'Preferred Name'} value={profile.preferredName} disabled />
+                    <LinearInput label={'Email'} value={profile.email} disabled />
+                    <LinearInput label={'Telephone Number'} value={profile.telephone || ''} disabled />
+                    <LinearInput label={'Timezone'} value={profile.timezone || ''} disabled />
+                    <LinearInput label={'Picture Url'} value={profile.pictureUrl || ''} disabled />
                 </div>
                 <div className={`${styleClass}__align_right`}>
                     <LinkButton
