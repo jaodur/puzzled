@@ -59,7 +59,7 @@ function renderElement(element: JSX.Element): any {
 }
 
 function deepCopy(object: any) {
-    const output: any = Array.isArray(object) ? [] : {};
+    const output: any = Array.isArray(object) ? [] : object === null ? null : {};
     let v: any;
     let key: any;
 
