@@ -41,12 +41,12 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
         return function(event: EventInterface) {
             preventDefault(event);
 
-            const updatedProfileInfo = deepCopy(defaultProfileValues);
+            const updatedProfileInfo = deepCopy(profile);
             updatedProfileInfo[key] = event.target.value;
             let errors = validateUserInputs(updatedProfileInfo, editProfileConstraints);
 
-            errors = errors || errors;
-            setProfileErrors({ ...profileErrors, ...errors });
+            errors = errors || {};
+            setProfileErrors(errors);
             setProfile(updatedProfileInfo);
         };
     }
