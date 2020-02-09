@@ -57,4 +57,17 @@ const editProfileConstraints = {
     },
 };
 
-export { createUserConstraints, editProfileConstraints, userLogInConstraints };
+const changePasswordConstraints = {
+    newPassword: {
+        presence: true,
+        length: {
+            minimum: 6,
+            message: 'Must be at least 6 characters.',
+        },
+    },
+    confirmPassword: {
+        presence: true,
+    },
+};
+
+export { createUserConstraints, changePasswordConstraints, editProfileConstraints, userLogInConstraints };
