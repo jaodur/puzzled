@@ -15,9 +15,9 @@ function ChangePassword({ styleClass, themeStyleClass }: ChangePasswordInterface
                 </Typography>
 
                 <div className={themeStyleClass.root}>
-                    <StackedInput label={'Current Password'} value={''} />
-                    <StackedInput label={'New Password'} value={''} />
-                    <StackedInput label={'Confirm Password'} value={''} />
+                    <StackedInput label={'Current Password'} defaultValue={''} />
+                    <StackedInput label={'New Password'} defaultValue={''} />
+                    <StackedInput label={'Confirm Password'} defaultValue={''} />
                 </div>
                 <div className={`${styleClass}__align_right`}>
                     <Button label={'cancel'} styleClass={'cancel-btn'} />
