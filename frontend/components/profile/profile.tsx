@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import NotificationOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
 
 import { PROFILE_QUERY } from '../../graphql/mutations/queries/profile';
-import { renderElement } from '../../utils/utils';
+import { deepCopy, renderElement } from '../../utils/utils';
 import { ProfileAvatar } from '../commons/avatar';
 import { links } from '../commons/linkUrls';
 import { useCheckLoginContext } from '../commons/puzzleContext';
@@ -43,7 +43,7 @@ function useQueryProfile(email: string) {
 function Profile() {
     const classes = useStyles({});
     const { checkLogin } = useCheckLoginContext();
-    const [ profile, setProfile ] = React.useState(checkLogin._loginInfo.user);
+    const [profile, setProfile] = React.useState(deepCopy(checkLogin._loginInfo.user));
     const { profileData, profileLoading, profileError } = useQueryProfile(profile.email);
 
     React.useEffect(() => {
@@ -51,7 +51,7 @@ function Profile() {
             if (profileError) {
                 return;
             }
-            setProfile(profileData.profile);
+            setProfile(deepCopy(profileData.profile));
         }
     }, [profileLoading]);
 
@@ -104,7 +104,11 @@ function Profile() {
                         exact
                         path={links.USER.PROFILE.EDIT_PROFILE}
                         component={renderElement(
-                            <EditProfile styleClass={profileStyleClass} themeStyleClass={classes} />
+                            <EditProfile
+                                defaultProfileValues={profile}
+                                styleClass={profileStyleClass}
+                                themeStyleClass={classes}
+                            />
                         )}
                     />
                     <Route

@@ -53,6 +53,15 @@ interface ProfileInterface {
     timezone?: string;
 }
 
+interface ProfileErrorsInterface {
+    name?: string;
+    preferredName?: string;
+    email?: string;
+    telephone?: string;
+    pictureUrl?: string;
+    timezone?: string;
+}
+
 interface AccountOverviewInterface {
     profile: ProfileInterface;
     styleClass?: string;
@@ -60,8 +69,9 @@ interface AccountOverviewInterface {
 }
 
 interface EditProfileInterface {
-    styleClass: string;
-    themeStyleClass: MaterialThemeInterface;
+    defaultProfileValues?: ProfileInterface;
+    styleClass?: string;
+    themeStyleClass?: MaterialThemeInterface;
 }
 
 interface ChangePasswordInterface {
