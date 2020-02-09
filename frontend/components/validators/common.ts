@@ -10,12 +10,12 @@ const nameFormat = {
 
 const numberFormat = {
     pattern: /^[ 0-9]+$/,
-    message: 'Must contain english letters, -, _ and space.',
+    message: 'Must contain only digits',
 };
 
 const urlFormat = {
     pattern: /^(ftp|http|https):\/\/[^ "]+$/,
-    message: 'Must contain english letters, -, _ and space.',
+    message: 'Please provide a valid Url address',
 };
 
 export { emailFormat, nameFormat, numberFormat, urlFormat };

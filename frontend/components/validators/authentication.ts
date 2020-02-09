@@ -29,32 +29,32 @@ const createUserConstraints = {
 const editProfileConstraints = {
     name: {
         presence: true,
-        format: nameFormat
+        format: nameFormat,
     },
     preferredName: {
         presence: true,
-        format: nameFormat
+        format: nameFormat,
     },
-     email: {
+    email: {
         presence: true,
         format: emailFormat,
     },
-     telephone: {
+    telephone: {
         presence: false,
-         format: numberFormat,
+        format: numberFormat,
         length: {
             minimum: 10,
             message: 'Must be at least 10 digits',
         },
     },
     timezone: {
-        presence: true,
-        format: nameFormat
+        presence: false,
+        format: nameFormat,
     },
     pictureUrl: {
-        presence: true,
-        format: urlFormat
+        presence: false,
+        format: urlFormat,
     },
-}
+};
 
 export { createUserConstraints, editProfileConstraints, userLogInConstraints };
