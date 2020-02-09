@@ -4,6 +4,7 @@ interface InputInterface {
     disabled?: boolean;
     styleClass?: string;
     onClick?: (event: any) => any;
+    type?: string;
 }
 
 interface LinearInputInterface extends InputInterface {

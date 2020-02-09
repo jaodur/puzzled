@@ -21,6 +21,7 @@ function StackedInput({
     onClick,
     disabled,
     styleClass,
+    type,
 }: StackedInputInterface) {
     return (
         <div className={styleClass || defaultStackedStyleClass}>
@@ -31,6 +32,7 @@ function StackedInput({
                 disabled={disabled}
                 onChange={onChange}
                 onClick={onClick}
+                type={type || 'text'}
             />
             {errorMsg && <span style={{ color: 'red' }}>{errorMsg}</span>}
         </div>

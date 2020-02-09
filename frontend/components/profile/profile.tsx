@@ -59,7 +59,7 @@ function Profile() {
         <div className={profileStyleClass}>
             <div className={`${profileStyleClass}__title-wrapper`}>
                 <div className={`${profileStyleClass}__card`}>
-                    <ProfileAvatar profileName={'Odur j'} styleClass={`${profileStyleClass}__avatar`} />
+                    <ProfileAvatar profileName={profile.name} styleClass={`${profileStyleClass}__avatar`} />
                     <SidebarTab
                         href={links.USER.PROFILE.ACCOUNT_OVERVIEW}
                         icon={<HomeIcon />}
