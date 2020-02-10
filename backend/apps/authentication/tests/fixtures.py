@@ -135,3 +135,18 @@ def update_profile_mutation(name='test name', preferred_name='test preferred nam
         }}
         '''
     )
+
+def change_password_mutation(password='test1234', new_password='123456'):
+    return (
+        f'''
+        mutation {{
+            changePassword(password: "{password}", newPassword: "{new_password}"){{
+                user{{
+                    id,
+                    name,
+                    email,
+                }}
+            }}
+        }}
+        '''
+    )

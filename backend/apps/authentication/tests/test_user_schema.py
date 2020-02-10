@@ -8,6 +8,7 @@ from .fixtures import (
     profiles_query,
     single_profile_query,
     update_profile_mutation,
+    change_password_mutation,
 )
 from backend.schema import schema
 
@@ -144,7 +145,7 @@ class TestUserSchema(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         self.assertEquals(response_content['data']['updateUser']['user']['name'], name)
 
-    def test_update_profile_with_annonymous_user_fails(self):
+    def test_update_profile_with_anonymous_user_fails(self):
         name = 'new test name'
 
         response = self.query(update_profile_mutation(name=name))
@@ -153,3 +154,25 @@ class TestUserSchema(GraphQLTestCase):
 
         self.assertResponseHasErrors(response)
         self.assertEquals(response_content['errors'][0]['message'], 'User profile not found. Please login.')
+
+    def test_change_password_succeeds(self):
+        email = 'testemail2@example.com'
+        self.login_user(email)
+
+        response = self.query(change_password_mutation())
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(response_content['data']['changePassword']['user']['email'], email)
+
+    def test_change_password_with_invalid_password_fails(self):
+
+        self.login_user()
+
+        response = self.query(change_password_mutation(password='invalid_pass'))
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseHasErrors(response)
+        self.assertEquals(response_content['errors'][0]['message'], 'Invalid Password.')
