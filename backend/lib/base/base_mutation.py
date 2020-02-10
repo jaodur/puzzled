@@ -52,7 +52,7 @@ class BaseMutation(graphene.Mutation):
             error_type_class=None,
             error_type_field=None,
             model=None,
-            unique_together=None,
+            unique_together=(),
             **options):
         if not _meta:
             _meta = MutationOptions(cls)

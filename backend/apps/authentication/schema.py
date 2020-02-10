@@ -81,6 +81,41 @@ class CreateUserMutation(BaseMutation):
         return CreateUserMutation(user=user)
 
 
+class UpdateUserMutation(BaseMutation):
+    user = graphene.Field(CreateUserType)
+
+    class Meta:
+        description = 'Update User'
+        error_type_class = Error
+        error_type_field = "update_user_errors"
+        model = get_user_model()
+
+    class Arguments:
+
+        name = graphene.String(required=False)
+        email = graphene.String(required=False)
+        preferred_name = graphene.String(required=False)
+        telephone = graphene.String(required=False)
+        timezone = graphene.String(required=False)
+        picture_url = graphene.String(required=False)
+
+    class Validators:
+        email = email_validator
+        picture_url = url_validator
+
+    @classmethod
+    def perform_mutation(cls, info, **user_data):
+        user = info.context.user
+
+        if user.is_anonymous:
+            raise Exception('User profile not found. Please login')
+
+        user = get_user_model().objects.filter(email=user.email)
+        user.update(**user_data)
+
+        return UpdateUserMutation(user=user.first())
+
+
 class LoginUserMutation(graphene.Mutation):
     user = graphene.Field(CreateUserType)
     logged_in = graphene.Boolean()
@@ -131,3 +166,4 @@ class UserMutation(graphene.ObjectType):
     login_user = LoginUserMutation.Field()
     logout_user = LogoutUserMutation.Field()
     check_login = UserLoginCheckMutation.Field()
+    update_user = UpdateUserMutation.Field()
