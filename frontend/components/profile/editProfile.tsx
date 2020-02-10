@@ -13,7 +13,6 @@ import { editProfileConstraints } from '../validators/authentication';
 
 function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: EditProfileInterface) {
     const preventDefault = (event: any) => event.preventDefault();
-    // eslint-disable-next-line
     const [profile, setProfile] = React.useState(defaultProfileValues);
     const [profileErrors, setProfileErrors] = React.useState(userInfoInitialState());
 
