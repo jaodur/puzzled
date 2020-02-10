@@ -119,3 +119,19 @@ def single_profile_query(email):
             }}
         '''
     )
+
+
+def update_profile_mutation(name='test name', preferred_name='test preferred name'):
+    return (
+        f'''
+        mutation {{
+            updateUser(name: "{name}", preferredName: "{preferred_name}"){{
+                user{{
+                    id,
+                    name,
+                    email,
+                }}
+            }}
+        }}
+        '''
+    )

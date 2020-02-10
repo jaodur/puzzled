@@ -6,13 +6,22 @@ from .fixtures import (
     check_login_mutation,
     login_user_mutation,
     profiles_query,
-    single_profile_query
+    single_profile_query,
+    update_profile_mutation,
 )
 from backend.schema import schema
 
 
 class TestUserSchema(GraphQLTestCase):
     GRAPHQL_SCHEMA = schema
+
+    def login_user(self, email='testemail@example.com'):
+
+        # create user
+        self.query(create_user_mutation(email=email))
+
+        # login user
+        self.query(login_user_mutation(email=email))
 
     def test_user_creation_with_valid_data_succeeds(self):
         response = self.query(create_user_mutation())
@@ -122,3 +131,25 @@ class TestUserSchema(GraphQLTestCase):
 
         self.assertResponseNoErrors(response)
         self.assertEquals(response_content['data']['profile']['email'], email)
+
+    def test_update_profile_succeeds(self):
+        self.login_user()
+
+        name = 'new test name'
+
+        response = self.query(update_profile_mutation(name=name))
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(response_content['data']['updateUser']['user']['name'], name)
+
+    def test_update_profile_with_annonymous_user_fails(self):
+        name = 'new test name'
+
+        response = self.query(update_profile_mutation(name=name))
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseHasErrors(response)
+        self.assertEquals(response_content['errors'][0]['message'], 'User profile not found. Please login.')
