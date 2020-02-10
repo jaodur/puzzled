@@ -4,7 +4,8 @@ from graphene_django import DjangoObjectType
 from backend.lib.base import BaseMutation
 from backend.lib.validators import email_validator, url_validator
 from backend.lib.types import Error
-from backend.lib.decorators.permissions import is_owner
+from backend.lib.decorators.permissions import is_owner, is_authenticated
+from backend.lib.exceptions import FieldValidationError
 
 
 class CreateUserType(DjangoObjectType):
@@ -104,16 +105,42 @@ class UpdateUserMutation(BaseMutation):
         picture_url = url_validator
 
     @classmethod
+    @is_authenticated
     def perform_mutation(cls, info, **user_data):
         user = info.context.user
-
-        if user.is_anonymous:
-            raise Exception('User profile not found. Please login')
 
         user = get_user_model().objects.filter(email=user.email)
         user.update(**user_data)
 
         return UpdateUserMutation(user=user.first())
+
+
+class UserPasswordChangeMutation(BaseMutation):
+    user = graphene.Field(CreateUserType)
+
+    class Meta:
+        description = 'Change user password'
+        error_type_class = Error
+        error_type_field = "change_password_user_errors"
+        model = get_user_model()
+
+    class Arguments:
+
+        password = graphene.String(required=True)
+        newPassword = graphene.String(required=True)
+
+    @classmethod
+    @is_authenticated
+    def perform_mutation(cls, info, password, newPassword):
+        user = info.context.user
+        user = authenticate(email=user.email, password=password)
+
+        if user is not None:
+            user.set_password(newPassword)
+            user.save()
+            return UserPasswordChangeMutation(user=user)
+
+        raise FieldValidationError('Invalid Password.', field=None, params=None, code='Invalid')
 
 
 class LoginUserMutation(graphene.Mutation):
@@ -167,3 +194,4 @@ class UserMutation(graphene.ObjectType):
     logout_user = LogoutUserMutation.Field()
     check_login = UserLoginCheckMutation.Field()
     update_user = UpdateUserMutation.Field()
+    change_password = UserPasswordChangeMutation.Field()
