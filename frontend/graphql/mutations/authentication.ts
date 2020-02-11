@@ -41,4 +41,33 @@ const CHECK_LOGIN_MUTATION = gql`
     }
 `;
 
-export { LOGIN_USER_MUTATION, CREATE_USER_MUTATION, CHECK_LOGIN_MUTATION };
+const UPDATE_USER_PROFILE_MUTATION = gql`
+    mutation updateUser(
+        $name: String
+        $preferredName: String
+        $email: String
+        $telephone: String
+        $pictureUrl: String
+        $timezone: String
+    ) {
+        updateUser(
+            name: $name
+            preferredName: $preferredName
+            email: $email
+            telephone: $telephone
+            pictureUrl: $pictureUrl
+            timezone: $timezone
+        ) {
+            user {
+                name
+                preferredName
+                email
+                telephone
+                pictureUrl
+                timezone
+            }
+        }
+    }
+`;
+
+export { LOGIN_USER_MUTATION, CREATE_USER_MUTATION, CHECK_LOGIN_MUTATION, UPDATE_USER_PROFILE_MUTATION };
