@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import { LastLocationProvider } from 'react-router-last-location';
+
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { links } from './components/commons/linkUrls';
 import { useCheckLoginContext } from './components/commons/puzzleContext';
@@ -23,13 +25,15 @@ function App() {
         <BigAssLoaderIcon />
     ) : (
         <BrowserRouter forceRefresh={false}>
-            <Switch>
-                <Route exact path={links.HOME} component={Home} />
-                <Route path={links.SUDOKU.HOME} component={SudokuHome} />
-                <Route path={links.USER.PROFILE.HOME} component={ProfileContainer} />
-                <Route path={links.USER.HOME} component={signInSignUpContainer} />
-                <Route component={PageNotFound} />
-            </Switch>
+            <LastLocationProvider>
+                <Switch>
+                    <Route exact path={links.HOME} component={Home} />
+                    <Route path={links.SUDOKU.HOME} component={SudokuHome} />
+                    <Route path={links.USER.PROFILE.HOME} component={ProfileContainer} />
+                    <Route path={links.USER.HOME} component={signInSignUpContainer} />
+                    <Route component={PageNotFound} />
+                </Switch>
+            </LastLocationProvider>
         </BrowserRouter>
     );
 }
