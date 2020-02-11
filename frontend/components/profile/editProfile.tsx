@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
+import { isEqual } from 'lodash';
 import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
 import { validate } from 'validate.js';
@@ -47,6 +48,9 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
             telephone: '',
             timezone: '',
         };
+    }
+    function isCleanForm() {
+        return isEqual({ ...defaultProfileValues, ...checkLogin._loginInfo.user }, profile);
     }
 
     async function updateUserProfile(event: EventInterface) {
@@ -151,7 +155,12 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
                 </div>
                 <div className={`${styleClass}__align_right`}>
                     <Button label={'cancel'} styleClass={'cancel-btn'} onBtnClick={cancelProfileUpdate} />
-                    <Button label={'save'} styleClass={'save-btn'} onBtnClick={updateUserProfile} />
+                    <Button
+                        label={'save'}
+                        styleClass={'save-btn'}
+                        onBtnClick={updateUserProfile}
+                        disabled={isCleanForm()}
+                    />
                 </div>
             </div>
         </div>

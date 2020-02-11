@@ -27,6 +27,7 @@ function StackedInput({
         <div className={styleClass || defaultStackedStyleClass}>
             <label>{label}</label>
             <input
+                className={disabled ? 'disabled-btn' : ''}
                 style={!!errorMsg ? { border: '1px solid red' } : {}}
                 value={value || ''}
                 disabled={disabled}
