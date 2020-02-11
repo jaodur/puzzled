@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, get_user_model, login, logout
 import graphene
 from graphene_django import DjangoObjectType
+import pytz
 from backend.lib.base import BaseMutation
-from backend.lib.validators import email_validator, url_validator
+from backend.lib.validators import email_validator, url_validator, timezone_validator
 from backend.lib.types import Error
 from backend.lib.decorators.permissions import is_owner, is_authenticated
 from backend.lib.exceptions import FieldValidationError
@@ -66,11 +67,13 @@ class CreateUserMutation(BaseMutation):
         password = graphene.String(required=True)
         preferred_name = graphene.String(required=False)
         telephone = graphene.String(required=False)
+        timezone = graphene.String(required=False)
         picture_url = graphene.String(required=False)
 
     class Validators:
         email = email_validator
         picture_url = url_validator
+        timezone = timezone_validator
 
     @classmethod
     def perform_mutation(cls, info, first_name, last_name, email, password, **optional_fields):
@@ -103,10 +106,21 @@ class UpdateUserMutation(BaseMutation):
     class Validators:
         email = email_validator
         picture_url = url_validator
+        timezone = timezone_validator
 
     @classmethod
     @is_authenticated
     def perform_mutation(cls, info, **user_data):
+        timezone = user_data.pop('timezone', '')
+
+        if timezone:
+            try:
+                timezone = pytz.timezone(timezone.replace('_', '/'))
+                user_data.setdefault('timezone', timezone.zone)
+            except pytz.exceptions.UnknownTimeZoneError:
+                # Dont override the current value
+                # Probably log error
+                pass
         user = info.context.user
 
         user = get_user_model().objects.filter(email=user.email)
