@@ -8,6 +8,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import NotificationOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
+import { withSnackbar } from 'notistack';
 
 import { PROFILE_QUERY } from '../../graphql/mutations/queries/profile';
 import { deepCopy, renderElement } from '../../utils/utils';
@@ -125,4 +126,4 @@ function Profile() {
     );
 }
 
-export { Profile };
+export default withSnackbar(Profile);

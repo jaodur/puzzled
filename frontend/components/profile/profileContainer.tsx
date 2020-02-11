@@ -5,7 +5,7 @@ import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { useCheckLoginContext } from '../commons/puzzleContext';
-import { Profile } from './profile';
+import Profile from './profile';
 
 const footerClass: string = 'main-footer';
 
