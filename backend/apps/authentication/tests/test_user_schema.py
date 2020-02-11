@@ -9,6 +9,7 @@ from .fixtures import (
     single_profile_query,
     update_profile_mutation,
     change_password_mutation,
+    logout_mutation,
 )
 from backend.schema import schema
 
@@ -186,3 +187,15 @@ class TestUserSchema(GraphQLTestCase):
 
         self.assertResponseHasErrors(response)
         self.assertEquals(response_content['errors'][0]['message'], 'Invalid Password.')
+
+    def test_logout_user_succeeds(self):
+
+        self.login_user()
+
+        response = self.query(logout_mutation())
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(response_content['data']['logoutUser']['loggedIn'], False)
+        self.assertEquals(response_content['data']['logoutUser']['user'], None)

@@ -151,3 +151,20 @@ def change_password_mutation(password='test1234', new_password='123456'):
         }}
         '''
     )
+
+
+def logout_mutation():
+    return (
+        '''
+        mutation {
+            logoutUser {
+                loggedIn
+                user {
+                    id,
+                    name,
+                    email,
+                }
+            }
+        }
+        '''
+    )
