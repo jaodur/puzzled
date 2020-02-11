@@ -7,7 +7,9 @@ const defaultBtnStyle: string = 'default-btn';
 
 function Button({ label, onBtnClick, disabled, styleClass }: ButtonInterface) {
     return (
-        <button className={styleClass || defaultBtnStyle} onClick={!!!disabled ? onBtnClick || (() => {}) : () => {}}>
+        <button
+            className={`${styleClass || defaultBtnStyle} ${disabled ? 'disabled-btn' : ''}`}
+            onClick={!!!disabled ? onBtnClick || (() => {}) : () => {}}>
             {label}
         </button>
     );
