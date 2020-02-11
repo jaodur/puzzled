@@ -1,23 +1,40 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 
 import Typography from '@material-ui/core/Typography';
+import { useSnackbar } from 'notistack';
+import { useMutation } from 'react-apollo-hooks';
 import { validate } from 'validate.js';
 
+import { UPDATE_USER_PROFILE_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy } from '../../utils/utils';
 import { Button } from '../commons/button';
+import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
 import { StackedInput } from '../commons/inputs';
+import { links } from '../commons/linkUrls';
+import { useCheckLoginContext } from '../commons/puzzleContext';
 import { EventInterface } from '../interfaces/interfaces';
 import { EditProfileInterface } from '../interfaces/profile';
-
 import { editProfileConstraints } from '../validators/authentication';
 
 function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: EditProfileInterface) {
     const preventDefault = (event: any) => event.preventDefault();
-    const [profile, setProfile] = React.useState(defaultProfileValues);
+    const history = useHistory();
+    const { checkLogin, asyncUpdateLoginInfo } = useCheckLoginContext();
+    const [profile, setProfile] = React.useState({ ...defaultProfileValues, ...checkLogin._loginInfo.user });
+    // eslint-disable-next-line
+    const [updateProfile, setUpdateProfile] = useMutation(UPDATE_USER_PROFILE_MUTATION);
     const [profileErrors, setProfileErrors] = React.useState(userInfoInitialState());
+    const { enqueueSnackbar } = useSnackbar();
 
     function checkEmpty(value: string) {
         return !!value ? value[0] : '';
+    }
+
+    function renderSnackbar(color: string) {
+        return function customSnackbar(key: any, message: string) {
+            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
+        };
     }
 
     function userInfoInitialState() {
@@ -30,6 +47,41 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
             telephone: '',
             timezone: '',
         };
+    }
+
+    async function updateUserProfile(event: EventInterface) {
+        preventDefault(event);
+
+        const errors = validateUserInputs(profile, editProfileConstraints);
+
+        if (!!errors) {
+            setProfileErrors(errors || {});
+            return;
+        }
+
+        await updateProfile({ variables: profile })
+            .then(async (response: any) => {
+                await asyncUpdateLoginInfo(() => {
+                    setProfile(response.data.updateUser);
+                });
+                enqueueSnackbar('Profile updated successful', {
+                    variant: 'success',
+                    content: renderSnackbar('success'),
+                });
+                history.push(links.USER.PROFILE.EDIT_PROFILE);
+            })
+            .catch((response: any) => {
+                enqueueSnackbar(response.errors[0].message, {
+                    variant: 'error',
+                    content: renderSnackbar('secondary'),
+                });
+            });
+    }
+
+    function cancelProfileUpdate(event: EventInterface) {
+        preventDefault(event);
+        setProfile(defaultProfileValues);
+        setProfileErrors(userInfoInitialState);
     }
 
     function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
@@ -60,44 +112,46 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
                 <div className={themeStyleClass.root}>
                     <StackedInput
                         label={'Name'}
-                        defaultValue={defaultProfileValues.name}
+                        value={profile.name}
                         onChange={onTextFieldChange('name')}
                         errorMsg={checkEmpty(profileErrors.name)}
                     />
                     <StackedInput
                         label={'Preferred Name'}
-                        defaultValue={defaultProfileValues.preferredName}
+                        value={profile.preferredName}
                         onChange={onTextFieldChange('preferredName')}
                         errorMsg={checkEmpty(profileErrors.preferredName)}
                     />
                     <StackedInput
                         label={'Email'}
-                        defaultValue={defaultProfileValues.email}
+                        value={profile.email}
                         onChange={onTextFieldChange('email')}
                         errorMsg={checkEmpty(profileErrors.email)}
                     />
                     <StackedInput
                         label={'Telephone Number'}
-                        defaultValue={defaultProfileValues.telephone}
+                        value={profile.telephone}
                         onChange={onTextFieldChange('telephone')}
                         errorMsg={checkEmpty(profileErrors.telephone)}
                     />
                     <StackedInput
                         label={'Timezone'}
-                        defaultValue={defaultProfileValues.timezone}
+                        value={profile.timezone}
                         onChange={onTextFieldChange('timezone')}
                         errorMsg={checkEmpty(profileErrors.timezone)}
+                        disabled
                     />
                     <StackedInput
                         label={'Picture Url'}
-                        defaultValue={defaultProfileValues.pictureUrl}
+                        value={profile.pictureUrl}
                         onChange={onTextFieldChange('pictureUrl')}
                         errorMsg={checkEmpty(profileErrors.pictureUrl)}
+                        disabled
                     />
                 </div>
                 <div className={`${styleClass}__align_right`}>
-                    <Button label={'cancel'} styleClass={'cancel-btn'} />
-                    <Button label={'save'} styleClass={'save-btn'} />
+                    <Button label={'cancel'} styleClass={'cancel-btn'} onBtnClick={cancelProfileUpdate} />
+                    <Button label={'save'} styleClass={'save-btn'} onBtnClick={updateUserProfile} />
                 </div>
             </div>
         </div>
