@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
@@ -9,10 +9,14 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProfileIcon from '@material-ui/icons/PersonOutline';
+import { useMutation } from 'react-apollo-hooks';
 
+import { LOGOUT_MUTATION } from '../../graphql/mutations/authentication';
 import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
+import { EventInterface } from '../interfaces/interfaces';
 import { AvatarInterface } from '../interfaces/profile';
 import { links } from './linkUrls';
+import { useCheckLoginContext } from './puzzleContext';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -80,10 +84,24 @@ function ProfileAvatar({ src, profileName, onClick, styleClass, small }: AvatarI
 }
 
 function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
+    const history = useHistory();
     const [showDropdown, setShowDropdown] = React.useState(false);
+    // eslint-disable-next-line
+    const [logoutUserFunc, setLogoutUserFunc] = useMutation(LOGOUT_MUTATION);
+    const { asyncUpdateLoginInfo } = useCheckLoginContext();
 
     function toggleShowDropdown() {
         setShowDropdown(!showDropdown);
+    }
+
+    async function logoutUser(event: EventInterface) {
+        event.preventDefault();
+
+        await logoutUserFunc().then(async () => {
+            await asyncUpdateLoginInfo(() => {});
+        });
+
+        history.push(links.HOME);
     }
 
     return (
@@ -103,7 +121,7 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
                             <ProfileIcon /> profile
                         </span>
                     </Link>
-                    <span>
+                    <span onClick={logoutUser}>
                         <LogoutIcon /> logout
                     </span>
                 </div>
