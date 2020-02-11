@@ -121,11 +121,11 @@ def single_profile_query(email):
     )
 
 
-def update_profile_mutation(name='test name', preferred_name='test preferred name'):
+def update_profile_mutation(name='test name', preferred_name='test preferred name', timezone='Africa_Kampala'):
     return (
         f'''
         mutation {{
-            updateUser(name: "{name}", preferredName: "{preferred_name}"){{
+            updateUser(name: "{name}", preferredName: "{preferred_name}", timezone: "{timezone}"){{
                 user{{
                     id,
                     name,

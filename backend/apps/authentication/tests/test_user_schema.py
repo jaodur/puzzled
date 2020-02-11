@@ -145,6 +145,16 @@ class TestUserSchema(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         self.assertEquals(response_content['data']['updateUser']['user']['name'], name)
 
+    def test_update_profile_with_invalid_timezone_fails(self):
+        self.login_user()
+
+        response = self.query(update_profile_mutation(timezone='invalid_tz'))
+
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseHasErrors(response)
+        self.assertEquals(response_content['errors'][0]['message'], 'Unknown timezone')
+
     def test_update_profile_with_anonymous_user_fails(self):
         name = 'new test name'
 
