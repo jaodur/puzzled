@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import { useSnackbar, withSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
+import { useLastLocation } from 'react-router-last-location';
 import { validate } from 'validate.js';
 
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
@@ -23,7 +24,9 @@ const footerClass: string = 'main-footer';
 
 function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
-    const { checkLogin } = useCheckLoginContext();
+    const history = useHistory();
+    const lastLocation = useLastLocation();
+    const { checkLogin, asyncUpdateLoginInfo } = useCheckLoginContext();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // eslint-disable-next-line
     const [logInUserFunction, setLogInUserFunction] = useMutation(LOGIN_USER_MUTATION);
@@ -84,11 +87,17 @@ function SignInSignUpContainer() {
                 password: userInfo.password,
             },
         })
-            .then(() => {
-                enqueueSnackbar('successful', {
+            .then(async (response: any) => {
+                const preferredName = await response.data.loginUser.user.preferredName;
+
+                await asyncUpdateLoginInfo(() => {});
+
+                enqueueSnackbar(`Login successful, welcome ${preferredName}`, {
                     variant: 'success',
                     content: renderSnackbar('success'),
                 });
+
+                history.push(prevLocation());
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
@@ -118,10 +127,11 @@ function SignInSignUpContainer() {
             },
         })
             .then(() => {
-                enqueueSnackbar('successful user signup', {
+                enqueueSnackbar('Successful signup, please login.', {
                     variant: 'success',
                     content: renderSnackbar('success'),
                 });
+                history.push(links.USER.SIGN_IN);
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
@@ -131,6 +141,14 @@ function SignInSignUpContainer() {
                     content: renderSnackbar('secondary'),
                 });
             });
+    }
+
+    function prevLocation() {
+        if (lastLocation.pathname !== links.USER.SIGN_UP) {
+            return lastLocation.pathname;
+        }
+
+        return links.HOME;
     }
 
     return checkLogin._loginInfo.loggedIn ? (
