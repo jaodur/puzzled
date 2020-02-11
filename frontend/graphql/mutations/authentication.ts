@@ -71,4 +71,26 @@ const UPDATE_USER_PROFILE_MUTATION = gql`
     }
 `;
 
-export { LOGIN_USER_MUTATION, CREATE_USER_MUTATION, CHECK_LOGIN_MUTATION, UPDATE_USER_PROFILE_MUTATION };
+const LOGOUT_MUTATION = gql`
+    mutation logoutUser {
+        logoutUser {
+            loggedIn
+            user {
+                name
+                preferredName
+                email
+                telephone
+                pictureUrl
+                timezone
+            }
+        }
+    }
+`;
+
+export {
+    LOGIN_USER_MUTATION,
+    CREATE_USER_MUTATION,
+    CHECK_LOGIN_MUTATION,
+    UPDATE_USER_PROFILE_MUTATION,
+    LOGOUT_MUTATION,
+};
