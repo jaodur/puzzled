@@ -15,12 +15,12 @@ function LinearInput({ label, value, onChange, disabled, styleClass }: LinearInp
 
 function StackedInput({
     label,
-    defaultValue,
     errorMsg,
     onChange,
     onClick,
     disabled,
     styleClass,
+    value,
     type,
 }: StackedInputInterface) {
     return (
@@ -28,7 +28,7 @@ function StackedInput({
             <label>{label}</label>
             <input
                 style={!!errorMsg ? { border: '1px solid red' } : {}}
-                defaultValue={defaultValue}
+                value={value || ''}
                 disabled={disabled}
                 onChange={onChange}
                 onClick={onClick}

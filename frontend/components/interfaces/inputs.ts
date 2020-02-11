@@ -12,7 +12,7 @@ interface LinearInputInterface extends InputInterface {
 }
 
 interface StackedInputInterface extends InputInterface {
-    defaultValue: string;
+    defaultValue?: string;
     errorMsg?: string;
     onChange?: (event: any) => any;
 }
