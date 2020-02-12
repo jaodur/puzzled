@@ -75,7 +75,7 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
                 history.push(links.USER.PROFILE.EDIT_PROFILE);
             })
             .catch((response: any) => {
-                enqueueSnackbar(response.errors[0].message, {
+                enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     content: renderSnackbar('secondary'),
                 });
