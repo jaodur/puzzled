@@ -27,18 +27,35 @@ def user_data():
     }
 
 
-def create_user_mutation():
+def create_user_mutation(first_name="test", last_name="test", email="test@example.com", password="test1234"):
     return (
-        '''
-        mutation {
-            createUser(firstName:"test", lastName: "test", email:"test@gmail.com", password: "test1234"){
-                user{
+        f'''
+        mutation {{
+            createUser(firstName: "{first_name}", lastName: "{last_name}", email: "{email}", password: "{password}"){{
+                user{{
                     id,
                     name,
                     email
-                }
-            }
-        }
+                }}
+            }}
+        }}
+        '''
+    )
+
+
+def login_user_mutation(email=FAKE.email(), password='test1234'):
+    return (
+        f'''
+        mutation {{
+            loginUser(email: "{email}", password: "{password}"){{
+                user{{
+                    id,
+                    name,
+                    email,
+                }}
+                loggedIn
+            }}
+        }}
         '''
     )
 
@@ -52,6 +69,100 @@ def create_user_invalid_email_mutation():
                     id,
                     name,
                     email
+                }
+            }
+        }
+        '''
+    )
+
+
+def check_login_mutation():
+    return (
+        '''
+            mutation checkLogin {
+                checkLogin {
+                    loggedIn
+                    user {
+                        email
+                    }
+                }
+            }
+        '''
+    )
+
+
+def profiles_query():
+    return (
+        '''
+            query {
+                profiles {
+                    name
+                    preferredName
+                    telephone
+                    email
+                }
+            }
+        '''
+    )
+
+
+def single_profile_query(email):
+    return (
+        f'''
+            query {{
+                profile(email: "{email}") {{
+                    name
+                    preferredName
+                    telephone
+                    email
+                }}
+            }}
+        '''
+    )
+
+
+def update_profile_mutation(name='test name', preferred_name='test preferred name', timezone='Africa_Kampala'):
+    return (
+        f'''
+        mutation {{
+            updateUser(name: "{name}", preferredName: "{preferred_name}", timezone: "{timezone}"){{
+                user{{
+                    id,
+                    name,
+                    email,
+                }}
+            }}
+        }}
+        '''
+    )
+
+
+def change_password_mutation(password='test1234', new_password='123456'):
+    return (
+        f'''
+        mutation {{
+            changePassword(password: "{password}", newPassword: "{new_password}"){{
+                user{{
+                    id,
+                    name,
+                    email,
+                }}
+            }}
+        }}
+        '''
+    )
+
+
+def logout_mutation():
+    return (
+        '''
+        mutation {
+            logoutUser {
+                loggedIn
+                user {
+                    id,
+                    name,
+                    email,
                 }
             }
         }

@@ -19,6 +19,7 @@ function PageNotFound() {
                     links={defaultNavBarLinks.links}
                     linkActiveClass={'sudoku-selected'}
                     key={'main'}
+                    showProfileContainer
                 />
             </div>
             <div className={pageNotFoundContentClass}>

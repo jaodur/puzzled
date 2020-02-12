@@ -1,3 +1,5 @@
+@import "./common"
+
 .signup-container, .signin-container
   display: flex
   flex-direction: column
@@ -35,3 +37,117 @@
 
   &__link_container
     font-size: 1.1rem
+
+.profile
+  display: flex
+  justify-content: center
+  align-items: stretch
+  margin: 10px 0
+  min-height: ($minContentHeight + 800px)
+
+  &__card
+    width: 210px
+    height: 100%
+    background-color: inherit
+
+  &__title-wrapper
+    background-color: $thickBlue
+    border: 1px solid $thickBlue
+
+  &__media
+    height: 140px
+
+  &__content
+    display: flex
+    justify-content: center
+    max-width: 700px
+    background-color: #f1f1f1
+    padding: 4% 0
+    //background-color: #f8f8f8
+
+    >*
+      width: 80%
+
+  &__avatar
+    display: flex
+    align-items: center
+    justify-content: center
+    border-bottom: 1px solid #919496
+    padding: 5px
+
+    &__avatar
+      width: 100px
+      height: 100px
+
+  &__align_right
+    display: flex
+    justify-content: flex-end
+    margin-top: 10px
+
+.profile-navbar
+  display: flex
+  align-items: flex-end
+  height: 100%
+  margin: 0
+  padding: 0
+
+  @include nav-bar-ul($margin: 0, $alignLI: flex-end, $marginLI: 0 1% 0 5%)
+
+  div
+    span
+      text-transform: capitalize !important
+      font-size: 15px !important
+
+.navbar-avatar
+  display: flex
+  flex-wrap: wrap
+  margin: 0
+  justify-content: flex-end
+  align-items: center
+  width: 100%
+  height: 100%
+  position: relative
+
+  *
+    cursor: pointer
+
+  &__avatar
+    display: flex
+    margin: 0 !important
+    padding: 0
+    min-width: 20px
+    font-size: 5px
+    justify-content: center
+    align-items: center
+
+    div
+      font-size: 20px !important
+      border: 1px solid black
+
+  &__dropdown
+    position: absolute
+    top: 110%
+
+    >div
+      min-width: 13.2vw
+      min-height: 100px
+      padding: 5% 0
+      background-color: white
+      border: 1px solid $lightWhite
+
+      a
+        text-decoration: none
+
+      span
+        display: flex
+        align-items: center
+        height: 40px
+        text-transform: capitalize
+        border: 1px solid $lightWhite
+
+        &:hover
+          background-color: $lightWhite
+
+        svg
+          margin: 0 5%
+

@@ -1,6 +1,8 @@
 import re
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from pytz import timezone as pytz_timezone
+from pytz.exceptions import UnknownTimeZoneError
 
 
 mailbox_pat = r"[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*"  # dot-atom
@@ -37,3 +39,12 @@ def email_validator(email):
 
     if not validate_email(email):
         raise ValueError('Enter a valid email address')
+
+
+def timezone_validator(timezone):
+    timezone = str(timezone).replace('_', '/')
+    try:
+        pytz_timezone(timezone)
+
+    except UnknownTimeZoneError:
+        raise ValueError('Unknown timezone')

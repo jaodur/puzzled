@@ -32,4 +32,60 @@ interface SIgnUpInterface extends SignCommonsInterface {
     createUser: (event: any) => any;
 }
 
-export { SignInInterface, SIgnUpInterface, UserErrorsInterface, UserInfoInterface };
+interface AvatarInterface {
+    src?: string;
+    profileName: string;
+    styleClass?: string;
+    small?: boolean;
+    onClick?: (event: any) => any;
+}
+
+interface MaterialThemeInterface {
+    root: any;
+}
+
+interface ProfileInterface {
+    name: string;
+    preferredName: string;
+    email: string;
+    telephone?: string;
+    pictureUrl?: string;
+    timezone?: string;
+}
+
+interface ProfileErrorsInterface {
+    name?: string;
+    preferredName?: string;
+    email?: string;
+    telephone?: string;
+    pictureUrl?: string;
+    timezone?: string;
+}
+
+interface AccountOverviewInterface {
+    profile: ProfileInterface;
+    styleClass?: string;
+    themeStyleClass: MaterialThemeInterface;
+}
+
+interface EditProfileInterface {
+    defaultProfileValues?: ProfileInterface;
+    styleClass?: string;
+    themeStyleClass?: MaterialThemeInterface;
+}
+
+interface ChangePasswordInterface {
+    styleClass: string;
+    themeStyleClass: MaterialThemeInterface;
+}
+
+export {
+    AccountOverviewInterface,
+    AvatarInterface,
+    ChangePasswordInterface,
+    EditProfileInterface,
+    SignInInterface,
+    SIgnUpInterface,
+    UserErrorsInterface,
+    UserInfoInterface,
+};

@@ -42,12 +42,20 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
 
-        first_name = extra_fields.pop('first_name', '').strip()
-        last_name = extra_fields.pop('last_name', '').strip()
+        first_name = extra_fields.pop('first_name', '').strip().capitalize()
+        last_name = extra_fields.pop('last_name', '').strip().capitalize()
         name = u'{} {}'.format(first_name, last_name).strip()
 
         extra_fields.setdefault('name', name)
         extra_fields.setdefault('preferred_name', first_name)
+
+        timezone = extra_fields.pop('timezone', 'Africa/Kampala').strip()
+        try:
+            timezone = pytz.timezone(timezone)
+        except pytz.exceptions.UnknownTimeZoneError:
+            timezone = pytz.timezone('Africa/Kampala')
+
+        extra_fields.setdefault('timezone', timezone.zone)
 
         user = self._create_user(email, password=password, **extra_fields)
         return user

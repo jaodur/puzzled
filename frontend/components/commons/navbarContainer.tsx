@@ -14,6 +14,7 @@ function NavBarContainer({ styleClass, showBanner }: NavbarContainerInterface): 
                 links={defaultNavBarLinks.links}
                 linkActiveClass={'main-selected'}
                 key={'main'}
+                showProfileContainer
             />
             {!!showBanner && <AppName />}
         </div>

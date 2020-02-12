@@ -1,12 +1,12 @@
-$baseFontSize: 14px
-$screenHeight: 100vh
-//$thickBlue: #1b50b9
-$thickBlue: #2662ac
+@import "./colors"
+
+$minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 
 // *********************** mixins ******************************
 
 .content
-  min-height: calc(100vh - 400px - (2 * 2.8rem))
+  min-height: $minContentHeight
+  //border: 1px solid cyan
 
 @mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px, $fontFamily: inherent, $fontWeight: inherent)
   font-size: $baseFontSize + $fontSize
@@ -66,6 +66,38 @@ $thickBlue: #2662ac
       font-size: 1rem
       line-height: 1.4rem
 
+@mixin nav-bar-ul($color: black, $hoverColor: $thickBlue, $margin: 5%, $alignLI: center, $marginLI: 0 1%)
+  >ul
+      height: 100%
+      margin: $margin
+      padding: 0
+      list-style: none
+      display: flex
+      align-items: center
+      justify-content: $alignLI
+      text-transform: capitalize
+      flex: 8 1
+
+      li
+        margin: $marginLI
+        height: 60%
+        font-size: $baseFontSize + 5
+        font-weight: 100
+        line-height: 1
+        display: flex
+        align-items: center
+
+        &:nth-child(3)
+          flex: 1 1 auto
+
+        &:hover
+          a
+            color: $hoverColor
+
+        a
+          color: $color
+          text-decoration: none
+
 @mixin nav-bar($bgColor: white, $color: black, $hoverColor: $thickBlue,$logoColor: grey, $height: 2.8rem)
   nav
     background-color: $bgColor
@@ -76,7 +108,7 @@ $thickBlue: #2662ac
     padding: 0
     margin: 0
 
-    div
+    >div
       flex: 2 2
       color: darken($logoColor, 40%)
       align-self: center
@@ -91,37 +123,7 @@ $thickBlue: #2662ac
         font-size: 1.5rem
         color: $color
 
-    ul
-      height: 100%
-      margin: 5%
-      padding: 0
-      list-style: none
-      display: flex
-      align-items: center
-      flex: 8 1
-
-      li
-        margin: 0 1%
-        height: 60%
-        font-size: $baseFontSize + 5
-        font-weight: 100
-        line-height: 1
-        display: flex
-        align-items: center
-
-        &:first-child
-          align-self: left
-
-        &:nth-child(3)
-          flex: 1 1 auto
-
-        &:hover
-          a
-            color: $hoverColor
-
-        a
-          color: $color
-          text-decoration: none
+    @include nav-bar-ul($color: $color, $hoverColor: $hoverColor)
 
 @mixin navbar-container($height: $screenHeight * 0.4)
   height: $height

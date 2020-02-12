@@ -1,15 +1,19 @@
-import { useSnackbar, withSnackbar } from 'notistack';
-import { useState } from 'react';
 import * as React from 'react';
+import { useState } from 'react';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+
+import { useSnackbar, withSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { validate } from 'validate.js';
+import { useLastLocation } from 'react-router-last-location';
+
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
+import { renderSnackbar } from '../../utils/customSnackbar';
 import { deepCopy, renderElement } from '../../utils/utils';
-import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
+import { validateUserInputs } from '../../utils/validation';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
+import { useCheckLoginContext } from '../commons/puzzleContext';
 import { closeAction } from '../commons/snackBarActions';
 import { EventInterface } from '../interfaces/interfaces';
 import { createUserConstraints, userLogInConstraints } from '../validators/authentication';
@@ -20,6 +24,9 @@ const footerClass: string = 'main-footer';
 
 function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
+    const history = useHistory();
+    const lastLocation = useLastLocation();
+    const { checkLogin, asyncUpdateLoginInfo } = useCheckLoginContext();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     // eslint-disable-next-line
     const [logInUserFunction, setLogInUserFunction] = useMutation(LOGIN_USER_MUTATION);
@@ -40,14 +47,16 @@ function SignInSignUpContainer() {
         };
     }
 
-    function renderSnackbar(color: string) {
-        return function customSnackbar(key: any, message: string) {
-            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
-        };
-    }
+    function prevLocation() {
+        if (
+            !!lastLocation &&
+            lastLocation.pathname !== links.USER.SIGN_UP &&
+            lastLocation.pathname !== links.USER.SIGN_IN
+        ) {
+            return lastLocation.pathname;
+        }
 
-    function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
-        return validate(userInputs, constraints, { fullMessages });
+        return links.HOME;
     }
 
     function onTextFieldChange(constraints: object) {
@@ -63,7 +72,6 @@ function SignInSignUpContainer() {
             };
         };
     }
-
     async function logInUser(event: EventInterface) {
         preventDefault(event);
 
@@ -80,11 +88,17 @@ function SignInSignUpContainer() {
                 password: userInfo.password,
             },
         })
-            .then(() => {
-                enqueueSnackbar('successful', {
+            .then(async (response: any) => {
+                const preferredName = await response.data.loginUser.user.preferredName;
+
+                await asyncUpdateLoginInfo(() => {});
+
+                enqueueSnackbar(`Login successful, welcome ${preferredName}`, {
                     variant: 'success',
                     content: renderSnackbar('success'),
                 });
+
+                history.push(await prevLocation());
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
@@ -114,12 +128,14 @@ function SignInSignUpContainer() {
             },
         })
             .then(() => {
-                enqueueSnackbar('successful user signup', {
+                enqueueSnackbar('Successful signup, please login.', {
                     variant: 'success',
                     content: renderSnackbar('success'),
                 });
+                history.push(links.USER.SIGN_IN);
             })
             .catch((response: any) => {
+                console.log('res', response);
                 enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     persist: true,
@@ -129,7 +145,9 @@ function SignInSignUpContainer() {
             });
     }
 
-    return (
+    return checkLogin._loginInfo.loggedIn ? (
+        <Redirect to={links.HOME} />
+    ) : (
         <React.Fragment>
             <NavBarContainer styleClass={'default-navbar-container'} />
             <div className={'default-nav-strip'} />

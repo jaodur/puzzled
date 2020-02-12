@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/orange';
 import red from '@material-ui/core/colors/red';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
@@ -17,8 +18,9 @@ import classnames from 'classnames';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 
-const primary = red[400];
+const danger = red[400];
 const success = green[400];
+const warning = orange[400];
 
 const useStyles = makeStyles(theme => ({
     card: {
@@ -31,19 +33,27 @@ const useStyles = makeStyles(theme => ({
     },
     actionDanger: {
         padding: '8px 8px 8px 16px',
-        backgroundColor: primary,
+        backgroundColor: danger,
+        color: theme.palette.getContrastText(danger),
+        textAlign: 'center',
     },
     actionWarning: {
         padding: '8px 8px 8px 16px',
-        backgroundColor: '#fddc6c',
+        backgroundColor: warning,
+        color: theme.palette.getContrastText(warning),
+        textAlign: 'center',
     },
     actionSuccess: {
         padding: '8px 8px 8px 16px',
         backgroundColor: success,
+        color: theme.palette.getContrastText(success),
+        textAlign: 'center',
     },
     actionPrimary: {
         padding: '8px 8px 8px 16px',
         backgroundColor: success,
+        color: theme.palette.getContrastText(success),
+        textAlign: 'center',
     },
     icons: {
         marginLeft: 'auto',
@@ -66,6 +76,18 @@ const useStyles = makeStyles(theme => ({
         color: '#b3b3b3',
         paddingRight: 4,
     },
+    iconDanger: {
+        color: theme.palette.getContrastText(danger),
+    },
+    iconWarning: {
+        color: theme.palette.getContrastText(warning),
+    },
+    iconSuccess: {
+        color: theme.palette.getContrastText(success),
+    },
+    iconPrimary: {
+        color: theme.palette.getContrastText(success),
+    },
     button: {
         padding: 0,
         textTransform: 'none',
@@ -81,6 +103,16 @@ function getRootColor(key: string) {
     };
 
     return colorMapper[key] || 'actionWarning';
+}
+
+function getIconColor(key: string) {
+    const iconColorMapper: any = {
+        primary: 'iconPrimary',
+        secondary: 'iconDanger',
+        success: 'iconSuccess',
+        warning: 'iconWarning',
+    };
+    return iconColorMapper[key] || 'actionWarning';
 }
 
 const CustomSnackbarContentWrapper = React.forwardRef(function CustomSnackbar(props: any, ref: any) {
@@ -105,12 +137,16 @@ const CustomSnackbarContentWrapper = React.forwardRef(function CustomSnackbar(pr
                 <div className={classes.icons}>
                     <IconButton
                         aria-label="Show more"
-                        className={classnames(classes.expand, { [classes.expandOpen]: expanded })}
+                        className={classnames(
+                            classes.expand,
+                            { [classes.expandOpen]: expanded },
+                            classes[getIconColor(props.color)]
+                        )}
                         onClick={handleExpandClick}>
                         <ExpandMoreIcon />
                     </IconButton>
                     <IconButton className={classes.expand} onClick={handleDismiss}>
-                        <CloseIcon />
+                        <CloseIcon className={classes[getIconColor(props.color)]} />
                     </IconButton>
                 </div>
             </CardActions>

@@ -19,6 +19,7 @@ function SudokuHome() {
                     onTabClick={() => {}}
                     linkActiveClass={'sudoku-selected'}
                     key={'sudoku'}
+                    showProfileContainer={false}
                 />
             </div>
             <div className={'content'}>
