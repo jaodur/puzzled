@@ -57,6 +57,18 @@ function SignInSignUpContainer() {
         return validate(userInputs, constraints, { fullMessages });
     }
 
+    function prevLocation() {
+        if (
+            !!lastLocation &&
+            lastLocation.pathname !== links.USER.SIGN_UP &&
+            lastLocation.pathname !== links.USER.SIGN_IN
+        ) {
+            return lastLocation.pathname;
+        }
+
+        return links.HOME;
+    }
+
     function onTextFieldChange(constraints: object) {
         return function(key: string) {
             return function(event: EventInterface) {
@@ -70,7 +82,6 @@ function SignInSignUpContainer() {
             };
         };
     }
-
     async function logInUser(event: EventInterface) {
         preventDefault(event);
 
@@ -97,7 +108,7 @@ function SignInSignUpContainer() {
                     content: renderSnackbar('success'),
                 });
 
-                history.push(prevLocation());
+                history.push(await prevLocation());
             })
             .catch((response: any) => {
                 enqueueSnackbar(response.graphQLErrors[0].message, {
@@ -134,6 +145,7 @@ function SignInSignUpContainer() {
                 history.push(links.USER.SIGN_IN);
             })
             .catch((response: any) => {
+                console.log('res', response);
                 enqueueSnackbar(response.graphQLErrors[0].message, {
                     variant: 'error',
                     persist: true,
@@ -141,14 +153,6 @@ function SignInSignUpContainer() {
                     content: renderSnackbar('secondary'),
                 });
             });
-    }
-
-    function prevLocation() {
-        if (lastLocation.pathname !== links.USER.SIGN_UP) {
-            return lastLocation.pathname;
-        }
-
-        return links.HOME;
     }
 
     return checkLogin._loginInfo.loggedIn ? (
