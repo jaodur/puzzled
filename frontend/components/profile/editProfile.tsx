@@ -2,15 +2,14 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
-import { isEqual } from 'lodash';
 import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
-import { validate } from 'validate.js';
 
 import { UPDATE_USER_PROFILE_MUTATION } from '../../graphql/mutations/authentication';
-import { deepCopy } from '../../utils/utils';
+import { renderSnackbar } from '../../utils/customSnackbar';
+import { checkEmpty, deepCopy, isCleanForm } from '../../utils/utils';
+import { validateUserInputs } from '../../utils/validation';
 import { Button } from '../commons/button';
-import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
 import { StackedInput } from '../commons/inputs';
 import { links } from '../commons/linkUrls';
 import { useCheckLoginContext } from '../commons/puzzleContext';
@@ -28,16 +27,6 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
     const [profileErrors, setProfileErrors] = React.useState(userInfoInitialState());
     const { enqueueSnackbar } = useSnackbar();
 
-    function checkEmpty(value: string) {
-        return !!value ? value[0] : '';
-    }
-
-    function renderSnackbar(color: string) {
-        return function customSnackbar(key: any, message: string) {
-            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
-        };
-    }
-
     function userInfoInitialState() {
         return {
             email: '',
@@ -48,9 +37,6 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
             telephone: '',
             timezone: '',
         };
-    }
-    function isCleanForm() {
-        return isEqual({ ...defaultProfileValues, ...checkLogin._loginInfo.user }, profile);
     }
 
     async function updateUserProfile(event: EventInterface) {
@@ -86,10 +72,6 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
         preventDefault(event);
         setProfile(defaultProfileValues);
         setProfileErrors(userInfoInitialState);
-    }
-
-    function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
-        return validate(userInputs, constraints, { fullMessages });
     }
 
     function onTextFieldChange(key: string) {
@@ -159,7 +141,7 @@ function EditProfile({ defaultProfileValues, styleClass, themeStyleClass }: Edit
                         label={'save'}
                         styleClass={'save-btn'}
                         onBtnClick={updateUserProfile}
-                        disabled={isCleanForm()}
+                        disabled={isCleanForm({ ...defaultProfileValues, ...checkLogin._loginInfo.user }, profile)}
                     />
                 </div>
             </div>

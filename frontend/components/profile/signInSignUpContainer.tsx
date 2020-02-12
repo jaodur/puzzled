@@ -5,11 +5,11 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useSnackbar, withSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
 import { useLastLocation } from 'react-router-last-location';
-import { validate } from 'validate.js';
 
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
 import { deepCopy, renderElement } from '../../utils/utils';
-import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
+import { renderSnackbar } from '../../utils/customSnackbar';
+import { validateUserInputs } from '../../utils/validation';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
@@ -45,16 +45,6 @@ function SignInSignUpContainer() {
             preferredName: '',
             telephone: '',
         };
-    }
-
-    function renderSnackbar(color: string) {
-        return function customSnackbar(key: any, message: string) {
-            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
-        };
-    }
-
-    function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
-        return validate(userInputs, constraints, { fullMessages });
     }
 
     function prevLocation() {

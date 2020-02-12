@@ -81,6 +81,14 @@ function between(value: number, min: number, max: number) {
     return value >= min && value < max;
 }
 
+function checkEmpty(value: string) {
+    return !!value ? value[0] : '';
+}
+
+function isCleanForm(initialState: object, state: object) {
+    return _.isEqual(initialState, state);
+}
+
 export {
     noop,
     arraySize,
@@ -93,4 +101,6 @@ export {
     deepCopy,
     pad,
     between,
+    checkEmpty,
+    isCleanForm,
 };

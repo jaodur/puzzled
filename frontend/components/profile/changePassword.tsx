@@ -2,15 +2,14 @@ import * as React from 'react';
 import { useHistory } from 'react-router';
 
 import Typography from '@material-ui/core/Typography';
-import { isEqual } from 'lodash';
 import { useSnackbar } from 'notistack';
 import { useMutation } from 'react-apollo-hooks';
 
-import { validate } from 'validate.js';
 import { CHANGE_PASSWORD_MUTATION } from '../../graphql/mutations/authentication';
-import { deepCopy } from '../../utils/utils';
+import { renderSnackbar } from '../../utils/customSnackbar';
+import { checkEmpty, deepCopy, isCleanForm } from '../../utils/utils';
+import { validateUserInputs } from '../../utils/validation';
 import { Button } from '../commons/button';
-import { CustomSnackbarContentWrapper } from '../commons/customSnackbar';
 import { StackedInput } from '../commons/inputs';
 import { links } from '../commons/linkUrls';
 import { useCheckLoginContext } from '../commons/puzzleContext';
@@ -36,10 +35,6 @@ function ChangePassword({ styleClass, themeStyleClass }: ChangePasswordInterface
         };
     }
 
-    function validateUserInputs(userInputs: object, constraints: object, fullMessages: boolean = false) {
-        return validate(userInputs, constraints, { fullMessages });
-    }
-
     function onPasswordFieldChange(key: string) {
         return function(event: EventInterface) {
             preventDefault(event);
@@ -56,16 +51,6 @@ function ChangePassword({ styleClass, themeStyleClass }: ChangePasswordInterface
 
             setPasswordErrors(errors);
             setPassword(updatedPasswordInfo);
-        };
-    }
-
-    function checkEmpty(value: string) {
-        return !!value ? value[0] : '';
-    }
-
-    function renderSnackbar(color: string) {
-        return function customSnackbar(key: any, message: string) {
-            return <CustomSnackbarContentWrapper id={key} message={message} color={color} />;
         };
     }
 
@@ -95,10 +80,6 @@ function ChangePassword({ styleClass, themeStyleClass }: ChangePasswordInterface
                     content: renderSnackbar('secondary'),
                 });
             });
-    }
-
-    function isCleanForm() {
-        return isEqual(changePasswordInitState(), password);
     }
 
     return (
@@ -136,7 +117,7 @@ function ChangePassword({ styleClass, themeStyleClass }: ChangePasswordInterface
                         label={'set new password'}
                         styleClass={'save-btn'}
                         onBtnClick={changePassword}
-                        disabled={isCleanForm()}
+                        disabled={isCleanForm(changePasswordInitState(), password)}
                     />
                 </div>
             </div>
