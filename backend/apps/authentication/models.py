@@ -42,8 +42,8 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **extra_fields):
 
-        first_name = extra_fields.pop('first_name', '').strip()
-        last_name = extra_fields.pop('last_name', '').strip()
+        first_name = extra_fields.pop('first_name', '').strip().capitalize()
+        last_name = extra_fields.pop('last_name', '').strip().capitalize()
         name = u'{} {}'.format(first_name, last_name).strip()
 
         extra_fields.setdefault('name', name)
