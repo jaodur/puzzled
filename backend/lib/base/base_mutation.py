@@ -4,7 +4,7 @@ from graphene.utils.props import props
 from django.core.exceptions import ImproperlyConfigured
 from backend.lib.exceptions import FieldValidationError, GraphQLValidationError
 from backend.lib.types import Error
-from backend.lib.utils import get_error_code_from_error, snake_to_camel_case
+from backend.lib.utils import get_error_code_from_error, print_exception, snake_to_camel_case
 
 
 def get_error_fields(error_type_class, error_type_field):
@@ -23,6 +23,8 @@ def validation_error_to_error_type(validation_error):
     """Convert a ValidationError into a list of Error types."""
 
     if not isinstance(validation_error, FieldValidationError):
+        print_exception()
+
         raise Exception(
             f'All ValidationError Exceptions must inherit from {FieldValidationError.__name__}') from validation_error
 

@@ -24,6 +24,7 @@ flake8 = "*"
 autopep8 = "*"
 pytz = "*"
 faker = "*"
+termcolor = "*"
 
 [dev-packages]
 

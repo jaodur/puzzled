@@ -1,4 +1,7 @@
+import sys
+from traceback import format_exception
 from enum import Enum
+from termcolor import cprint
 
 DJANGO_VALIDATORS_ERROR_CODES = [
     "invalid",
@@ -52,3 +55,11 @@ def snake_to_camel_case(name):
         split_name = name.split("_")
         return split_name[0] + "".join(map(str.capitalize, split_name[1:]))
     return name
+
+
+def print_exception():
+    exc_type, exc_value, exc_tb = sys.exc_info()
+    exception_info = format_exception(exc_type, exc_value, exc_tb)
+
+    for line in exception_info:
+        cprint(line, 'red')
