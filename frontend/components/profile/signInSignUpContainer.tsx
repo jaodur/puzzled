@@ -7,8 +7,8 @@ import { useMutation } from 'react-apollo-hooks';
 import { useLastLocation } from 'react-router-last-location';
 
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
-import { deepCopy, renderElement } from '../../utils/utils';
 import { renderSnackbar } from '../../utils/customSnackbar';
+import { deepCopy, renderElement } from '../../utils/utils';
 import { validateUserInputs } from '../../utils/validation';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
