@@ -87,10 +87,26 @@ const LOGOUT_MUTATION = gql`
     }
 `;
 
+const CHANGE_PASSWORD_MUTATION = gql`
+    mutation changePassword($password: String!, $newPassword: String!) {
+        changePassword(password: $password, newPassword: $newPassword) {
+            user {
+                name
+                preferredName
+                email
+                telephone
+                pictureUrl
+                timezone
+            }
+        }
+    }
+`;
+
 export {
     LOGIN_USER_MUTATION,
-    CREATE_USER_MUTATION,
-    CHECK_LOGIN_MUTATION,
-    UPDATE_USER_PROFILE_MUTATION,
     LOGOUT_MUTATION,
+    CHANGE_PASSWORD_MUTATION,
+    CHECK_LOGIN_MUTATION,
+    CREATE_USER_MUTATION,
+    UPDATE_USER_PROFILE_MUTATION,
 };
