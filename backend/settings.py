@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # After the default packages
     'graphene_django',
     'backend.apps.authentication',
+    'backend.apps.email',
     'backend.apps.sudoku',
     'frontend',
     'webpack_loader',
