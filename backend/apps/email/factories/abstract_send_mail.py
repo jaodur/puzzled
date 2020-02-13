@@ -41,11 +41,14 @@ class AbstractEmail(metaclass=abc.ABCMeta):
 
     @classmethod
     @abc.abstractmethod
-    def send_template_mail(cls, template, template_data):
+    def send_template_mail(cls, recipients, mail_subject, template, template_data, template_type="html"):
         """Abstract method for sending multiple email messages to different recipients
 
         Args:
+            recipients (list): the receiving email addresses.
+            mail_subject (str): the email subject.
             template (Undefined): a template to use for the email
             template_data (dict): key-value pairs of data to populate the template
+            template_type: (str): The content-type of the template
         """
         pass
