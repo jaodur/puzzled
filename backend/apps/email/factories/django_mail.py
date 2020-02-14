@@ -10,7 +10,7 @@ from django.core.mail import (
 from .abstract_send_mail import AbstractEmail
 
 
-class DjangoMail(AbstractEmail):
+class DjangoMailSender(AbstractEmail):
 
     @classmethod
     def send_email(cls, recipient, mail_subject, mail_body):
