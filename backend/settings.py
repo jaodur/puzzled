@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
+import dj_redis_url
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,13 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # After the default packages
-    'graphene_django',
+    # my apps
     'backend.apps.authentication',
     'backend.apps.email',
     'backend.apps.sudoku',
     'frontend',
+
+    # third party apps
+    'graphene_django',
     'webpack_loader',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +172,17 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
+
+# Django-q configs
+Q_CLUSTER = {
+    'name': 'puzzled',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'cpu_affinity': 1,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'label': 'Puzzled Q',
+    'redis': dj_redis_url.parse(config('REDIS_URL', 'redis://redis:6379/0'))
+}
