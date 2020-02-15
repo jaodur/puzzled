@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
-import dj_redis_url
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -184,5 +183,5 @@ Q_CLUSTER = {
     'save_limit': 250,
     'queue_limit': 500,
     'label': 'Puzzled Q',
-    'redis': dj_redis_url.parse(config('REDIS_URL', 'redis://redis:6379/0'))
+    'redis': config('REDIS_URL', 'redis://localhost:6379/0'),
 }
