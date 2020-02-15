@@ -28,7 +28,7 @@ class DjangoQBackend(BaseEmailBackend):
         for email_message in email_messages:
             if self.use_dicts:
                 email_message = email_to_dict(email_message)
-            async_task('email.backends.django_q.send_message', email_message)
+            async_task('backend.apps.email.backends.django_q.send_message', email_message)
             num_sent += 1
         return num_sent
 

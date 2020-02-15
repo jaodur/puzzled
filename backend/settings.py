@@ -170,7 +170,10 @@ EMAIL_PORT = config('EMAIL_PORT')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = True
+
+DEFAULT_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'backend.apps.email.backends.django_q.DjangoQBackend'
+DJANGO_Q_EMAIL_BACKEND = config('DJANGO_EMAIL_BACKEND', DEFAULT_BACKEND)
 
 # Django-q configs
 Q_CLUSTER = {
