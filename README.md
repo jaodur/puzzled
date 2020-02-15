@@ -14,7 +14,8 @@ The app is built with __Python/Django/Graphene__ for its backend, __Node/Typescr
 * `Pip` [Guide to installing pip](https://github.com/BurntSushi/nfldb/wiki/Python-&-pip-Windows-installation)
 * `Pipenv` [Pipenv documentation](https://docs.pipenv.org/en/latest/)
 * `NodeJs` [Download nodejs](https://nodejs.org/en/download/)
-* `Npm` [npmjs](https://www.npmjs.com/get-npm)
+* `Npm` [NpmJs](https://www.npmjs.com/get-npm)
+* `Redis` [Redis QuickStart](https://redis.io/topics/quickstart)
 
 
 ## __Cloning__
@@ -61,6 +62,16 @@ Auto-fixing JS and Python linting respectively
 
 Running Python tests
 * $ **`inv test-py`**
+
+### __Starting redis and django-q servers__
+
+Run the following commands in separate terminals
+
+Starting redis
+* $ **`redis-server`**
+
+Starting django-q cluster
+* $ **`python manage.py qcluster`**
 
 ## __Author__
 

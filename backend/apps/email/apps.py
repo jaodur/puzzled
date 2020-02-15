@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class TemailConfig(AppConfig):
+class EmailConfig(AppConfig):
     name = 'backend.apps.email'
