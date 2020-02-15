@@ -52,3 +52,20 @@ class AbstractEmail(metaclass=abc.ABCMeta):
             template_type: (str): The content-type of the template
         """
         pass
+
+    @classmethod
+    def __subclasshook__(cls, sub):
+        """Method to check for subclasses and instances (including virtual sub-classes) of AbstractEmail
+
+        :param sub (class): sub class to check
+        :return: boolean True or NotImplemented
+        """
+        return (
+            (
+                hasattr(sub, 'send_email') and callable(sub.send_email) and
+                hasattr(sub, 'send_bulk_emails') and callable(sub.send_bulk_emails) and
+                hasattr(sub, 'send_multiple_emails') and callable(sub.send_multiple_emails) and
+                hasattr(sub, 'send_template_mail') and callable(sub.send_template_mail)
+             )
+            or NotImplemented
+        )
