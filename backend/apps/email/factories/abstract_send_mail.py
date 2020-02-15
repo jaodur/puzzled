@@ -66,6 +66,6 @@ class AbstractEmail(metaclass=abc.ABCMeta):
                 hasattr(sub, 'send_bulk_emails') and callable(sub.send_bulk_emails) and
                 hasattr(sub, 'send_multiple_emails') and callable(sub.send_multiple_emails) and
                 hasattr(sub, 'send_template_mail') and callable(sub.send_template_mail)
-             )
+            )
             or NotImplemented
         )
