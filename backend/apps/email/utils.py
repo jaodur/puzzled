@@ -39,6 +39,16 @@ def email_from_dict(email_message_data):
         EmailMultiAlternatives(alternatives=alternatives, **kwargs))
 
 
+def get_html_text_template_pair(template_name):
+    """
+    Given a template_name returns the names of the text and html templates
+    """
+    html_template = 'html/{}.html'.format(template_name)
+    text_template = 'text/{}.txt'.format(template_name)
+
+    return html_template, text_template
+
+
 def inline_styles(contents):
     if contents is None:
         return None
@@ -82,7 +92,9 @@ def render_template(template_name, context=None, double_render=True):
     """Renders a template from the given name"""
 
     # Get Template object from given template_name
-    template = loader.get_template(template_name)  # jinja2 Template
+    html_template_name, text_template_name = get_html_text_template_pair(template_name)
+    template = loader.get_template(html_template_name)  # jinja2 Template
+    template_text = loader.render_to_string(text_template_name, context, using='jinja2')
 
     # Render Template -> String
     rendered_template_string = template.template.render()
@@ -98,4 +110,4 @@ def render_template(template_name, context=None, double_render=True):
     # Tidy up output
     rendered_template = inline_styles(rendered_template)
 
-    return rendered_template
+    return rendered_template, template_text
