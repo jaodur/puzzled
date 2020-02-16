@@ -7,6 +7,7 @@ from django.core.mail import (
     send_mail,
     send_mass_mail
 )
+from backend.apps.email.utils import render_template
 from .abstract_send_mail import AbstractEmail
 
 
@@ -39,9 +40,10 @@ class DjangoMailSender(AbstractEmail):
                 pass
 
     @classmethod
-    def send_email_alternative(cls, recipient, mail_subject, mail_body, alternative_mail_body, alt_type="text/html"):
-        msg = EmailMultiAlternatives(mail_subject, mail_body, settings.EMAIL_HOST_USER, [recipient])
-        msg.attach_alternative(alternative_mail_body, alt_type)
+    def send_email_alternative(cls, recipients, mail_subject, mail_body, template, template_data, alt_type="text/html"):
+        html_content = render_template(template, template_data)
+        msg = EmailMultiAlternatives(mail_subject, mail_body, settings.EMAIL_HOST_USER, recipients)
+        msg.attach_alternative(html_content, alt_type)
 
         try:
             msg.send()
@@ -49,8 +51,8 @@ class DjangoMailSender(AbstractEmail):
             pass
 
     @classmethod
-    def send_template_mail(cls, recipients, mail_subject, template, template_data, template_type="html"):
-        html_content = template.format(template_data)
+    def send_template_mail(cls, recipients, mail_subject, template, template_data, template_type="text/html"):
+        html_content = render_template(template, template_data)
         msg = EmailMessage(mail_subject, html_content, settings.EMAIL_HOST_USER, recipients)
         msg.content_subtype = template_type
 
