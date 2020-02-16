@@ -28,6 +28,8 @@ pytz = "*"
 faker = "*"
 termcolor = "*"
 redis = "*"
+jinja2 = "*"
+premailer = "*"
 
 [dev-packages]
 

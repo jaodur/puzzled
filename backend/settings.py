@@ -79,6 +79,15 @@ TEMPLATES = [
             ],
         },
     },
+    {
+        'NAME': 'jinja2',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'APP_DIRS': True,  # looks in each "jinja2" directory within apps
+        'OPTIONS': {
+            # callable invoked to create the Jinja2 environment
+            'environment': 'backend.apps.email.jinja2_env.environment',
+        },
+    },
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
