@@ -1,0 +1,27 @@
+.content {
+  min-height: 100px;
+  padding: 40px;
+}
+.content > span {
+  font-size: 16px;
+  width: 60%;
+}
+
+.content-center {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.content-center > div {
+    margin: 10px 0;
+}
+
+.verify-btn {
+    width: 200px;
+    height: 40px;
+    color: white;
+    border: none;
+    background-color: #2662ac;
+    margin: 10px auto;
+    cursor: pointer !important;
+}
