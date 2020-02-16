@@ -1,0 +1,9 @@
+Dear {{ name }},
+
+Please verify your email address to complete your Puzzled Account sign-up process.
+
+
+Email verification link {{ verification_url }}.
+
+Thanks,
+The Puzzled Team.
