@@ -123,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Authentication
 AUTH_USER_MODEL = 'authentication.User'
+LOGIN_URL = '/u/sign-in/'
 
 
 # Internationalization
