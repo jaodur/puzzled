@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Puzzled</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        {% block more_headers %}{% endblock %}
+
+        <style type="text/css" media="screen">
+        {% include "base/base.css" %}
+        {% block extra_css %}{% endblock %}
+        </style>
+    </head>
+
+    <body class="" style="cursor: auto;">
+        <h1 class="app-name">Puzzled</h1>
+        {% block html_body %}{% endblock %}
+
+    </body>
+</html>
