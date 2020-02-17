@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Puzzled</title>
+        <style type="text/css" media="screen">
+            {% include "notifications/notification.css" %}
+            {% block extra_css %}{% endblock %}
+        </style>
+    </head>
+    <body>
+        <a href="{{ redirect_url }}" style="text-decoration: none">
+            <div class="error">{{ message }}</div>
+        </a>
+    </body>
+</html>
