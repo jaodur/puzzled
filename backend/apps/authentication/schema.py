@@ -182,7 +182,6 @@ class LoginUserMutation(graphene.Mutation):
 
         login(info.context, user)
 
-
         return LoginUserMutation(user=user, logged_in=True)
 
 

@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.core.mail import (
     BadHeaderError,
-    EmailMessage,
     EmailMultiAlternatives,
     get_connection,
     send_mail,
