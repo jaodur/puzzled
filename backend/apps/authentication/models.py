@@ -112,6 +112,33 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_email(self, subject, template, context):
         EmailSender.DJANGO_MAIL.send_template_mail([self.email], subject, template, context)
 
+    def confirm_email(self, signed_data):
+        error, message = True, None
+
+        try:
+            data = signing.loads(signed_data, max_age=8 * 60 * 60)
+        except signing.SignatureExpired:
+            message = 'Your email confirmation link has expired. Please generate new link.'
+            return error, message
+
+        except signing.BadSignature:
+            message = 'This email confirmation link is invalid. Please try again.'
+            return error, message
+
+        if self.id != data['id']:
+            message = 'This email confirmation link is for a different account. Please try again.'
+            return error, message
+
+        if self.email != data['new_email']:
+            message = 'The email being verified changed. Please regenerate confirmation link'
+            return error, message
+
+        self.email_verified = True
+        self.save(update_fields=['email_verified'])
+        error = False
+
+        return error, message
+
     def __str__(self):
         short = self.name.strip()
         if short:
