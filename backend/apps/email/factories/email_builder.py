@@ -38,5 +38,14 @@ class EmailSenderMeta(type):
 
 
 class EmailSender(metaclass=EmailSenderMeta):
+    """Class for accessing email sender concrete classes
+
+    Usage:
+        EmailSender('DJANGO_MAIL') to access an instance of the DJANGO_MAIL concrete class
+        EmailSender.DJANGO_MAIL to access the DJANGO_MAIL concrete class
+
+        Both methods expose the same class methods for working with email
+
+    """
 
     DJANGO_MAIL = DjangoMailSender
