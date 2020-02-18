@@ -171,7 +171,17 @@ class LoginUserMutation(graphene.Mutation):
         if user is None:
             raise Exception('Invalid email or password')
 
+        verify_email_data = info.context.session.get('verify_email_data')
+
+        if verify_email_data:
+            # Todo: check for errors and alert user
+            error, message = user.confirm_email(verify_email_data)
+
+            # Todo: figure out what to do with the session key. deleting it for now.
+            del info.context.session['verify_email_data']
+
         login(info.context, user)
+
 
         return LoginUserMutation(user=user, logged_in=True)
 
