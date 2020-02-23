@@ -1,4 +1,6 @@
 import json
+# from unittest.mock import patch
+from django.contrib.auth import get_user_model
 from graphene_django.utils.testing import GraphQLTestCase
 from .fixtures import (
     create_user_mutation,
@@ -199,3 +201,60 @@ class TestUserSchema(GraphQLTestCase):
         self.assertResponseNoErrors(response)
         self.assertEquals(response_content['data']['logoutUser']['loggedIn'], False)
         self.assertEquals(response_content['data']['logoutUser']['user'], None)
+
+    def test_verify_email_check_anonymous_user(self):
+        # create user
+        email = 'testemail2@example.com'
+        self.query(create_user_mutation(email=email))
+
+        user = get_user_model().objects.get(email=email)
+
+        confirm_email_url = user.generate_email_confirmation_url(user.email)
+
+        response = self.client.get(confirm_email_url)
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.url, '/u/sign-in/')
+
+    def test_verify_email_checks_expired_links(self):
+
+        expired_link = 'http://localhost:8000/verification/verify-email/eyJpZCI6MTEsIm5ld19lbW' \
+                        'FpbCI6Im9kdXIuam9zZXBoQGFuZGVsYS5jb20ifQ:1j468X:QJfZRyFGApGhOJDs7TagGRof3xg/'
+        response = self.client.get(expired_link)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'Your email confirmation link has expired. Please generate new link', response.content)
+
+    def test_verify_email_checks_invalid_links(self):
+        invalid_link = 'http://localhost:8000/verification/verify-email/invalid_eyJpZCI6MTEsIm5ld19lbW' \
+                       'FpbCI6Im9kdXIuam9zZXBoQGFuZGVsYS5jb20ifQ:1j468X:QJfZRyFGApGhOJDs7TagGRof3xg/'
+        response = self.client.get(invalid_link)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'This email confirmation link is invalid. Please try again.', response.content)
+
+    # @patch('backend.apps.authentication.views.VerifyEmail')
+    # def test_verify_email_with_authenticated_user_succeeds(self, mock_verify_email):
+    #
+    #     class MockUser:
+    #         is_anonymous = False
+    #
+    #
+    #     mock_verify_email.request.user.return_value = MockUser
+    #
+    #     # create user
+    #     email = 'testemail2@example.com'
+    #
+    #     self.query(create_user_mutation(email=email))
+    #
+    #     # login user
+    #     self.query(login_user_mutation(email=email))
+    #
+    #     user = get_user_model().objects.get(email=email)
+    #
+    #     confirm_email_url = user.generate_email_confirmation_url(user.email)
+    #
+    #     response = self.client.get(confirm_email_url)
+    #
+    #     self.assertEquals(response.status_code, 302)
+    #     self.assertEquals(response.url, '/')
