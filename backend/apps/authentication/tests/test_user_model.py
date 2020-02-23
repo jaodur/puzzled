@@ -32,6 +32,10 @@ class TestUserModel:
         user = get_user_model().objects.create_user(**user_data)
         assert user.name == f'{user_data.get("first_name")} {user_data.get("last_name")}'
 
+    def test_user_creation_with_invalid_tz_succeeds(self, db, user_data):
+        user = get_user_model().objects.create_user(timezone='invalid_tz', **user_data)
+        assert user.name == f'{user_data.get("first_name")} {user_data.get("last_name")}'
+
     def test_user_creation_with_no_password_succeeds(self, db, user_data):
         user_data['password'] = None
         user = get_user_model().objects.create_user(**user_data)
