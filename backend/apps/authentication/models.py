@@ -4,7 +4,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.core import signing
 from django.utils.translation import ugettext_lazy as _
 import pytz
-
+from . import constants
 from backend.apps.email.factories.email_builder import EmailSender
 from backend.lib.exceptions import FieldValidationError
 from backend.lib.validators import validate_email, url_validator
@@ -112,25 +112,25 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_email(self, subject, template, context):
         EmailSender.DJANGO_MAIL.send_template_mail([self.email], subject, template, context)
 
-    def confirm_email(self, signed_data):
+    def confirm_email(self, signed_data, max_age=constants.VERIFY_EMAIL_LINK_AGE):
         error, message = True, None
 
         try:
-            data = signing.loads(signed_data, max_age=8 * 60 * 60)
+            data = signing.loads(signed_data, max_age=max_age)
         except signing.SignatureExpired:
-            message = 'Your email confirmation link has expired. Please generate new link.'
+            message = constants.EXPIRED_LINK_MSG
             return error, message
 
         except signing.BadSignature:
-            message = 'This email confirmation link is invalid. Please try again.'
+            message = constants.INVALID_LINK_MSG
             return error, message
 
         if self.id != data['id']:
-            message = 'This email confirmation link is for a different account. Please try again.'
+            message = constants.DIFFERENT_ACCOUNT_MSG
             return error, message
 
         if self.email != data['new_email']:
-            message = 'The email being verified changed. Please regenerate confirmation link'
+            message = constants.EMAIL_CHANGED_MSG
             return error, message
 
         self.email_verified = True

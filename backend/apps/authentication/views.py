@@ -4,6 +4,7 @@ from django.core import signing
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from backend.lib.urltools import make_absolute
+from backend.apps.authentication import constants
 
 
 class VerifyEmail(View):
@@ -12,12 +13,12 @@ class VerifyEmail(View):
         try:
             signing.loads(signed_data, max_age=8 * 60 * 60)
         except signing.SignatureExpired:
-            message = 'Your email confirmation link has expired. Please generate new link.'
+            message = constants.EXPIRED_LINK_MSG
             context = dict(message=message, redirect_url=make_absolute('/'))
             return render(self.request, 'notifications/error_notification.html', context=context)
 
         except signing.BadSignature:
-            message = 'This email confirmation link is invalid. Please try again.'
+            message = constants.INVALID_LINK_MSG
             context = dict(message=message, redirect_url=make_absolute('/'))
             return render(self.request, 'notifications/error_notification.html', context=context)
 
