@@ -21,7 +21,7 @@ def user_data():
     return {
         'first_name': FAKE.first_name(),
         'last_name': FAKE.last_name(),
-        'email': FAKE.email(),
+        'email': 'test@exmaple.com',
         'password': FAKE.password(),
         'picture_url': FAKE.url()
     }
