@@ -1,5 +1,4 @@
 import json
-# from unittest.mock import patch
 from django.contrib.auth import get_user_model
 from graphene_django.utils.testing import GraphQLTestCase
 from .fixtures import (
@@ -233,28 +232,35 @@ class TestUserSchema(GraphQLTestCase):
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'This email confirmation link is invalid. Please try again.', response.content)
 
-    # @patch('backend.apps.authentication.views.VerifyEmail')
-    # def test_verify_email_with_authenticated_user_succeeds(self, mock_verify_email):
-    #
-    #     class MockUser:
-    #         is_anonymous = False
-    #
-    #
-    #     mock_verify_email.request.user.return_value = MockUser
-    #
-    #     # create user
-    #     email = 'testemail2@example.com'
-    #
-    #     self.query(create_user_mutation(email=email))
-    #
-    #     # login user
-    #     self.query(login_user_mutation(email=email))
-    #
-    #     user = get_user_model().objects.get(email=email)
-    #
-    #     confirm_email_url = user.generate_email_confirmation_url(user.email)
-    #
-    #     response = self.client.get(confirm_email_url)
-    #
-    #     self.assertEquals(response.status_code, 302)
-    #     self.assertEquals(response.url, '/')
+    def test_verify_email_with_authenticated_user_succeeds(self):
+
+        email = 'testemail23@example.com'
+
+        # login user
+        self.login_user(email=email)
+
+        user = get_user_model().objects.get(email=email)
+
+        confirm_email_url = user.generate_email_confirmation_url(user.email)
+
+        # Ensure to use the GraphQl test client self._client to avoid anonymous user redirects
+        response = self._client.get(confirm_email_url)
+
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response.url, '/')
+
+    def test_verify_email_captures_changed_email(self):
+        email = 'testemail23@example.com'
+
+        # login user
+        self.login_user(email=email)
+
+        user = get_user_model().objects.get(email=email)
+
+        confirm_email_url = user.generate_email_confirmation_url('anotherEmail@example.com')
+
+        # Ensure to use the GraphQl test client self._client to avoid anonymous user redirects
+        response = self._client.get(confirm_email_url)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertIn(b'The email being verified changed. Please regenerate confirmation link', response.content)
