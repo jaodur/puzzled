@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    'backend.apps.authentication',
-    'backend.apps.email',
-    'backend.apps.sudoku',
-    'frontend',
+    'backend.apps.authentication.apps.AuthenticationConfig',
+    'backend.apps.email.apps.EmailConfig',
+    'backend.apps.sudoku.apps.SudokuConfig',
+    'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
     'graphene_django',
