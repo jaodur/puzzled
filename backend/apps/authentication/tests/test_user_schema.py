@@ -29,8 +29,11 @@ class TestUserSchema(GraphQLTestCase):
     def test_user_creation_with_valid_data_succeeds(self):
         response = self.query(create_user_mutation())
 
+        response_content = json.loads(response.content.decode('utf-8'))
+
         self.assertResponseNoErrors(response)
         self.assertEquals(response.status_code, 200)
+        self.assertEquals(response_content['data']['createUser']['user']['password'], 'This is a write only field.')
 
     def test_user_login_with_valid_data_succeeds(self):
         email = 'testemail@example.com'

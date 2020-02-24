@@ -35,7 +35,8 @@ def create_user_mutation(first_name="test", last_name="test", email="test@exampl
                 user{{
                     id,
                     name,
-                    email
+                    email,
+                    password,
                 }}
             }}
         }}
