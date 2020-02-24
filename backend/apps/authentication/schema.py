@@ -22,9 +22,6 @@ class UserProfileType(DjangoObjectType):
         model = get_user_model()
         exclude_fields = ('email_verified', 'password', 'is_staff', 'is_superuser')
 
-    def resolve_password(self, info):
-        return 'This is a write only field.'
-
     @is_owner
     def resolve_email(self, info):
         return self.email

@@ -52,6 +52,7 @@ def login_user_mutation(email=FAKE.email(), password='test1234'):
                     id,
                     name,
                     email,
+                    emailVerified,
                 }}
                 loggedIn
             }}

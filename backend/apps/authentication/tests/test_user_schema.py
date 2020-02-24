@@ -264,3 +264,29 @@ class TestUserSchema(GraphQLTestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'The email being verified changed. Please regenerate confirmation link', response.content)
+
+    def test_verify_email_runs_on_anonymous_user_login(self):
+
+        email = 'testEmail@example.com'
+
+        # create user
+        self.query(create_user_mutation(email=email))
+
+        user = get_user_model().objects.get(email=email)
+
+        confirm_email_url = user.generate_email_confirmation_url(user.email)
+
+        # Ensure to use the GraphQl test client self._client to avoid anonymous user redirects
+        verify_email_response = self._client.get(confirm_email_url)
+
+        self.assertEquals(verify_email_response.status_code, 302)
+        self.assertEquals(verify_email_response.url, '/u/sign-in/')
+        self.assertIn('verify_email_data', self._client.session.keys())
+
+        # login user
+        login_response = self.query(login_user_mutation(email=email))
+
+        response_content = json.loads(login_response.content.decode('utf-8'))
+
+        self.assertEquals(login_response.status_code, 200)
+        self.assertTrue(response_content['data']['loginUser']['user']['emailVerified'])
