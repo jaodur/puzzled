@@ -80,3 +80,42 @@ class TestDjangoMailSender(TestCase):
         DjangoMailSender.send_bulk_emails(recipients, subject, body)
 
         self.assertRaises(IndexError, lambda: mail.outbox[0])
+
+    def test_send_multiple_emails(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipients1, subject1, body1 = self.valid_mail_data()
+        recipients2, subject2, body2 = self.valid_mail_data()
+
+        messages = (
+            mail.EmailMessage(subject=subject1, body=body1, to=recipients1),
+            mail.EmailMessage(subject=subject2, body=body2, to=recipients2),
+        )
+
+        DjangoMailSender.send_multiple_emails(*messages)
+
+        email1 = mail.outbox[0]
+        email2 = mail.outbox[1]
+
+        self.assertEquals(subject1, email1.subject)
+        self.assertEquals(body1, email1.body)
+        self.assertEquals(recipients1, email1.recipients())
+
+        self.assertEquals(subject2, email2.subject)
+        self.assertEquals(body2, email2.body)
+        self.assertEquals(recipients2, email2.recipients())
+
+    def test_send_multiple_emails_handles_bad_headers(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipients1, subject1, body1 = self.invalid_mail_data()
+        recipients2, subject2, body2 = self.invalid_mail_data()
+
+        messages = (
+            mail.EmailMessage(subject=subject1, body=body1, to=recipients1),
+            mail.EmailMessage(subject=subject2, body=body2, to=recipients2),
+        )
+
+        DjangoMailSender.send_multiple_emails(*messages)
+
+        self.assertRaises(IndexError, lambda: mail.outbox[0])
