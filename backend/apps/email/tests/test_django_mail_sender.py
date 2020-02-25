@@ -22,3 +22,14 @@ class TestDjangoMailSender(TestCase):
         self.assertEquals(subject, email.subject)
         self.assertEquals(body, email.body)
         self.assertEquals(recipient, email.recipients()[0])
+
+    def test_send_mail_handles_bad_headers(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipient = 'test.email@example.com'
+        subject = 'test subject\nInjection tests'
+        body = 'test body'
+
+        DjangoMailSender.send_email(recipient, subject, body)
+
+        self.assertRaises(IndexError, lambda: mail.outbox[0])
