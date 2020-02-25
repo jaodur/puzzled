@@ -30,7 +30,7 @@ class EmailSenderMeta(type):
             sender_class = getattr(klass, sender, False)
 
             if not sender_class:
-                raise AttributeError(f'{klass.__name__} has no attribute {sender}')
+                raise AttributeError(f'{klass.__class__.__name__} has no attribute {sender}')
 
             return sender_class()
 
