@@ -119,3 +119,30 @@ class TestDjangoMailSender(TestCase):
         DjangoMailSender.send_multiple_emails(*messages)
 
         self.assertRaises(IndexError, lambda: mail.outbox[0])
+
+    def test_send_template_mail(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipients, subject, _ = self.valid_mail_data()
+
+        template = 'verify_email'
+        context_data = {'name': 'test_name', 'verification_url': 'https://test-url'}
+
+        DjangoMailSender.send_template_mail(recipients, subject, template, context_data)
+
+        email = mail.outbox[0]
+
+        self.assertEquals(subject, email.subject)
+        self.assertEquals(recipients, email.recipients())
+
+    def test_send_template_mail_handles_bad_headers(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipients, subject, _ = self.invalid_mail_data()
+
+        template = 'verify_email'
+        context_data = {'name': 'test_name', 'verification_url': 'https://test-url'}
+
+        DjangoMailSender.send_template_mail(recipients, subject, template, context_data)
+
+        self.assertRaises(IndexError, lambda: mail.outbox[0])
