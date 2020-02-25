@@ -33,3 +33,29 @@ class TestDjangoMailSender(TestCase):
         DjangoMailSender.send_email(recipient, subject, body)
 
         self.assertRaises(IndexError, lambda: mail.outbox[0])
+
+    def test_send_bulk_mails(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipients = ['test.email@example.com', 'test2.email@example.com']
+        subject = 'test subject'
+        body = 'test body'
+
+        DjangoMailSender.send_bulk_emails(recipients, subject, body)
+
+        email = mail.outbox[0]
+
+        self.assertEquals(subject, email.subject)
+        self.assertEquals(body, email.body)
+        self.assertEquals(recipients, email.recipients())
+
+    def test_send_bulk_mails_handles_bad_headers(self, mock_async_task):
+        mock_async_task.return_value = mock_django_q_async_send_message
+
+        recipient = ['test.email@example.com', 'test2.email@example.com']
+        subject = 'test subject\nInjection tests'
+        body = 'test body'
+
+        DjangoMailSender.send_bulk_emails(recipient, subject, body)
+
+        self.assertRaises(IndexError, lambda: mail.outbox[0])
