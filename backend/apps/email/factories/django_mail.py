@@ -22,10 +22,12 @@ class DjangoMailSender(AbstractEmail):
             pass
 
     @classmethod
-    def send_bulk_emails(cls, recipients, mail_subject, mail_body):
+    def send_bulk_emails(cls, recipients, mail_subject, mail_body, *extra_messages):
+
+        message = (mail_subject, mail_body, settings.EMAIL_HOST_USER, recipients)
 
         try:
-            send_mass_mail((mail_subject, mail_body, settings.EMAIL_HOST_USER, recipients))
+            send_mass_mail((message, *extra_messages))
         except BadHeaderError:
             pass
 
