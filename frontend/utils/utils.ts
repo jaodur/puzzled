@@ -89,6 +89,10 @@ function isCleanForm(initialState: object, state: object) {
     return _.isEqual(initialState, state);
 }
 
+function stripTrailingSlash(url: string) {
+    return url.replace(/\/$/, '');
+}
+
 export {
     noop,
     arraySize,
@@ -103,4 +107,5 @@ export {
     between,
     checkEmpty,
     isCleanForm,
+    stripTrailingSlash,
 };
