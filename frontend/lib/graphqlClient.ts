@@ -2,9 +2,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 
+import { stripTrailingSlash } from '../utils/utils';
+
 const httpLink = createHttpLink({
-    uri: 'http://localhost:8000/graphql/',
-    // uri: 'http://10.20.42.55:8000/graphql/'
+    uri: `${stripTrailingSlash(process.env.BASE_URL)}/graphql/`,
 });
 
 const client = new ApolloClient({
