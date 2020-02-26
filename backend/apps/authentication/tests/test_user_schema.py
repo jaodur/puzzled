@@ -221,7 +221,7 @@ class TestUserSchema(GraphQLTestCase):
     def test_verify_email_checks_expired_links(self):
 
         expired_link = 'http://localhost:8000/verification/verify-email/eyJpZCI6MTEsIm5ld19lbW' \
-                        'FpbCI6Im9kdXIuam9zZXBoQGFuZGVsYS5jb20ifQ:1j468X:QJfZRyFGApGhOJDs7TagGRof3xg/'
+                       'FpbCI6Im9kdXIuam9zZXBoQGFuZGVsYS5jb20ifQ:1j468X:QJfZRyFGApGhOJDs7TagGRof3xg/'
         response = self.client.get(expired_link)
 
         self.assertEquals(response.status_code, 200)
