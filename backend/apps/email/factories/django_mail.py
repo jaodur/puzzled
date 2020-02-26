@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.mail import (
     BadHeaderError,
     EmailMultiAlternatives,
+    get_connection,
     send_mail,
     send_mass_mail
 )
@@ -33,12 +34,11 @@ class DjangoMailSender(AbstractEmail):
     @classmethod
     def send_multiple_emails(cls, *messages):
 
-        for message in messages:
-            try:
-                message.send()
+        try:
+            get_connection().send_messages(messages)
 
-            except BadHeaderError:
-                pass
+        except BadHeaderError:
+            pass
 
     @classmethod
     def send_template_mail(cls, recipients, mail_subject, template, template_data, alt_type="text/html"):
