@@ -1,11 +1,14 @@
 from django.db import models, transaction
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.core import signing
 from django.utils.translation import ugettext_lazy as _
 import pytz
-
+from . import constants
+from backend.apps.email.factories.email_builder import EmailSender
 from backend.lib.exceptions import FieldValidationError
 from backend.lib.validators import validate_email, url_validator
+from backend.lib.urltools import reverse_absolute
 
 
 class UserManager(BaseUserManager):
@@ -37,6 +40,9 @@ class UserManager(BaseUserManager):
             else:
                 user.set_unusable_password()
             user.save(using=self._db)
+
+        context_data = {'name': user.name, 'verification_url': user.generate_email_confirmation_url(user.email)}
+        user.send_email('Email Verification', 'verify_email', context_data)
 
         return user
 
@@ -92,6 +98,46 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     NAME_FIELD = 'name'
+
+    def generate_email_confirmation_url(self, new_email):
+        data = {
+            'id': self.id,
+            'new_email': new_email,
+        }
+
+        signed_data = signing.dumps(data)
+
+        return reverse_absolute('authentication:verify_email', args=(signed_data,))
+
+    def send_email(self, subject, template, context):
+        EmailSender.DJANGO_MAIL.send_template_mail([self.email], subject, template, context)
+
+    def confirm_email(self, signed_data, max_age=constants.VERIFY_EMAIL_LINK_AGE):
+        error, message = True, None
+
+        try:
+            data = signing.loads(signed_data, max_age=max_age)
+        except signing.SignatureExpired:
+            message = constants.EXPIRED_LINK_MSG
+            return error, message
+
+        except signing.BadSignature:
+            message = constants.INVALID_LINK_MSG
+            return error, message
+
+        if self.id != data['id']:
+            message = constants.DIFFERENT_ACCOUNT_MSG
+            return error, message
+
+        if self.email != data['new_email']:
+            message = constants.EMAIL_CHANGED_MSG
+            return error, message
+
+        self.email_verified = True
+        self.save(update_fields=['email_verified'])
+        error = False
+
+        return error, message
 
     def __str__(self):
         short = self.name.strip()

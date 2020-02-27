@@ -22,9 +22,6 @@ class UserProfileType(DjangoObjectType):
         model = get_user_model()
         exclude_fields = ('email_verified', 'password', 'is_staff', 'is_superuser')
 
-    def resolve_password(self, info):
-        return 'This is a write only field.'
-
     @is_owner
     def resolve_email(self, info):
         return self.email
@@ -170,6 +167,15 @@ class LoginUserMutation(graphene.Mutation):
 
         if user is None:
             raise Exception('Invalid email or password')
+
+        verify_email_data = info.context.session.get('verify_email_data')
+
+        if verify_email_data:
+            # Todo: check for errors and alert user
+            error, message = user.confirm_email(verify_email_data)
+
+            # Todo: figure out what to do with the session key. deleting it for now.
+            del info.context.session['verify_email_data']
 
         login(info.context, user)
 

@@ -21,7 +21,7 @@ def user_data():
     return {
         'first_name': FAKE.first_name(),
         'last_name': FAKE.last_name(),
-        'email': FAKE.email(),
+        'email': 'test@exmaple.com',
         'password': FAKE.password(),
         'picture_url': FAKE.url()
     }
@@ -35,7 +35,8 @@ def create_user_mutation(first_name="test", last_name="test", email="test@exampl
                 user{{
                     id,
                     name,
-                    email
+                    email,
+                    password,
                 }}
             }}
         }}
@@ -52,6 +53,7 @@ def login_user_mutation(email=FAKE.email(), password='test1234'):
                     id,
                     name,
                     email,
+                    emailVerified,
                 }}
                 loggedIn
             }}

@@ -1,54 +1,69 @@
 const path = require('path');
+const dotenv = require('dotenv');
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
 
-module.exports = {
-    context: __dirname,
+const config = () => {
 
-    entry:'./frontend/index.tsx',
+    const env = dotenv.config().parsed;
 
-    output: {
-        path: path.resolve('./frontend/static/bundles/'),
-        filename: '[name]-[hash].js'
-    },
+    const envKeys = Object.keys(env).reduce((prev, next) => {
+        prev[`process.env.${next}`] = JSON.stringify(env[next]);
+        return prev;
+      }, {});
 
-    plugins: [],
+    return {
+        context: __dirname,
 
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                exclude: /node_modules/,
-                use: ['awesome-typescript-loader']
-            },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: ['babel-loader']
-            },
-            {
-                test: /\.sass$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
-            },
-            {
-                test: /\.(png|je?pg|webp|svg)$/,
-                use: ['url-loader']
-            },
-            {
-                test: /\.html$/,
-                use: ['html-loader']
-            },
-            {
-                enforce: "pre",
-                test: /\.js$/,
-                loader: "source-map-loader"
-            }
-        ]
-    },
+        entry: './frontend/index.tsx',
 
-    resolve: {
-        modules: ['node_modules'],
-        extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.sass', '.png']
-    },
+        output: {
+            path: path.resolve('./frontend/static/bundles/'),
+            filename: '[name]-[hash].js'
+        },
 
+        plugins: [
+            new webpack.DefinePlugin(envKeys)
+        ],
+
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    exclude: /node_modules/,
+                    use: ['awesome-typescript-loader']
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: ['babel-loader']
+                },
+                {
+                    test: /\.sass$/,
+                    use: ['style-loader', 'css-loader', 'sass-loader']
+                },
+                {
+                    test: /\.(png|je?pg|webp|svg)$/,
+                    use: ['url-loader']
+                },
+                {
+                    test: /\.html$/,
+                    use: ['html-loader']
+                },
+                {
+                    enforce: "pre",
+                    test: /\.js$/,
+                    loader: "source-map-loader"
+                }
+            ]
+        },
+
+        resolve: {
+            modules: ['node_modules'],
+            extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.scss', '.sass', '.png']
+        },
+
+    };
 };
+
+module.exports = config();

@@ -29,10 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
+BASE_URL = config('BASE_URL', 'http://localhost:8000/')
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,12 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # After the default packages
+    # my apps
+    'backend.apps.authentication.apps.AuthenticationConfig',
+    'backend.apps.email.apps.EmailConfig',
+    'backend.apps.sudoku.apps.SudokuConfig',
+    'frontend.apps.PuzzledFrontConfig',
+
+    # third party apps
     'graphene_django',
-    'backend.apps.authentication',
-    'backend.apps.sudoku',
-    'frontend',
     'webpack_loader',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +79,15 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+        },
+    },
+    {
+        'NAME': 'jinja2',
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'APP_DIRS': True,  # looks in each "jinja2" directory within apps
+        'OPTIONS': {
+            # callable invoked to create the Jinja2 environment
+            'environment': 'backend.apps.email.jinja2_env.environment',
         },
     },
 ]
@@ -107,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Authentication
 AUTH_USER_MODEL = 'authentication.User'
+LOGIN_URL = '/u/sign-in/'
 
 
 # Internationalization
@@ -158,3 +175,28 @@ if not DEBUG:
         'BUNDLE_DIR_NAME': 'dist/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats-prod.json')
     })
+
+# Django Email config
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+
+DEFAULT_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'backend.apps.email.backends.django_q.DjangoQBackend'
+DJANGO_Q_EMAIL_BACKEND = config('DJANGO_EMAIL_BACKEND', DEFAULT_BACKEND)
+
+# Django-q configs
+Q_CLUSTER = {
+    'name': 'puzzled',
+    'workers': 8,
+    'recycle': 500,
+    'timeout': 60,
+    'compress': True,
+    'cpu_affinity': 1,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'label': 'Puzzled Q',
+    'redis': config('REDIS_URL', 'redis://localhost:6379/0'),
+}

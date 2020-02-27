@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block extra_css %}
+   {% include "styles/verify_email.css" %}
+{% endblock %}
+
+{% block html_body %}
+    <div class="content">
+        <div class="content-center">
+            <div>Dear <strong>{{ name }}</strong>,</div>
+            <span>
+                Please verify your email address to complete your Puzzled Account sign-up process.
+            </span>
+
+            <a  href={{ verification_url }}>
+                <button class="verify-btn">Verify email address</button>
+            </a>
+
+
+        </div>
+    </div>
+{% endblock %}

@@ -20,6 +20,7 @@ from backend.lib.base import BaseGraphQLView
 from .schema import schema
 
 urlpatterns = [
+    path('verification/', include('backend.apps.authentication.urls')),
     path('admin/', admin.site.urls),
     path('graphql/', csrf_exempt(BaseGraphQLView.as_view(graphiql=True, schema=schema))),
     path('', include('frontend.urls')),

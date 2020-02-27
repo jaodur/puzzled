@@ -18,13 +18,18 @@ pytest-django = "*"
 pytest-mock = "*"
 psycopg2-binary = "*"
 dj_database_url = "*"
+dj-redis-url = "*"
 django-webpack-loader  = "*"
+django-q = "*"
 invoke = "*"
 flake8 = "*"
 autopep8 = "*"
 pytz = "*"
 faker = "*"
 termcolor = "*"
+redis = "*"
+jinja2 = "*"
+premailer = "*"
 
 [dev-packages]
 
