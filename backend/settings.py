@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'graphene_django',
     'webpack_loader',
     'django_q',
+    'channels',
+    'channels_api',
 ]
 
 MIDDLEWARE = [
@@ -159,8 +161,18 @@ STATIC_URL = '/static/'
 if not DEBUG:
     raise ImproperlyConfigured('Please set the static-server')
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "backend.routing.channel_routes",  # Our project routing
+    },
+}
+
 GRAPHENE = {
-    'SCHEMA': 'backend.schema'
+    'SCHEMA': 'backend.schema',
+    'MIDDLEWARE': [
+        'graphene_django_subscriptions.depromise_subscription',
+    ],
 }
 
 WEBPACK_LOADER = {
