@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'backend.apps.authentication.apps.AuthenticationConfig',
     'backend.apps.email.apps.EmailConfig',
     'backend.apps.sudoku.apps.SudokuConfig',
+    'backend.apps.chat.apps.ChatConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
@@ -171,7 +172,7 @@ CHANNEL_LAYERS = {
 GRAPHENE = {
     'SCHEMA': 'backend.schema',
     'MIDDLEWARE': [
-        'graphene_django_subscriptions.depromise_subscription',
+        'graphene_django_subscriptions.middleware.SubscriptionMiddleware',
     ],
 }
 
