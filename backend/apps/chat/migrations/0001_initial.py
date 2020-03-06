@@ -42,7 +42,8 @@ class Migration(migrations.Migration):
                 ('updated_by', models.CharField(blank=True, max_length=50, null=True)),
                 ('deleted_by', models.CharField(blank=True, max_length=50, null=True)),
                 ('name', models.CharField(max_length=50, unique=True)),
-                ('type', models.CharField(blank=True, choices=[('Public', 'Public'), ('Private', 'Private'), ('Direct', 'Direct')], max_length=50)),
+                ('type', models.CharField(blank=True, choices=[
+                 ('Public', 'Public'), ('Private', 'Private'), ('Direct', 'Direct')], max_length=50)),
                 ('messages', models.ManyToManyField(to='chat.Message')),
                 ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
