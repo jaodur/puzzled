@@ -13,7 +13,7 @@ const hasSubscriptionOperation = ({ query: { definitions } }: any) =>
     );
 
 const webSocketLink = new WebSocketLink({
-    uri: `${stripTrailingSlash(process.env.BASE_WS_URL)}/chat/`,
+    uri: `${stripTrailingSlash(process.env.BASE_WS_URL)}/subscriptions/`,
     options: {
         reconnect: true,
     },

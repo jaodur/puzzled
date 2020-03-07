@@ -10,6 +10,4 @@ class ChatDemultiplexer(GraphqlAPIDemultiplexer):
     }
 
 
-app_routes = [
-    route_class(ChatDemultiplexer)
-]
+chat_routes = route_class(ChatDemultiplexer)
