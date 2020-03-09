@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'django_q',
     'channels',
-    'channels_api',
+    'graphene_subscriptions',
 ]
 
 MIDDLEWARE = [
@@ -96,6 +96,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = "backend.routing.application"
 
 
 # Database
@@ -164,16 +165,12 @@ if not DEBUG:
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
-        "ROUTING": "backend.routing.channel_routes",  # Our project routing
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
 
 GRAPHENE = {
     'SCHEMA': 'backend.schema',
-    'MIDDLEWARE': [
-        'graphene_django_subscriptions.middleware.SubscriptionMiddleware',
-    ],
 }
 
 WEBPACK_LOADER = {
