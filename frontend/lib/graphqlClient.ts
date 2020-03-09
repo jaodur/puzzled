@@ -3,6 +3,7 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
 import { createHttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
+import { SubscriptionClient } from "subscriptions-transport-ws";
 
 import { stripTrailingSlash } from '../utils/utils';
 
@@ -12,12 +13,14 @@ const hasSubscriptionOperation = ({ query: { definitions } }: any) =>
             kind === 'OperationDefinition' && operation === 'subscription'
     );
 
-const webSocketLink = new WebSocketLink({
-    uri: `${stripTrailingSlash(process.env.BASE_WS_URL)}/subscriptions/`,
-    options: {
+const wsClient = new SubscriptionClient(
+   `${stripTrailingSlash(process.env.BASE_WS_URL)}/subscriptions/`,
+    {
         reconnect: true,
-    },
-});
+    }
+);
+
+const webSocketLink = new WebSocketLink(wsClient);
 
 const httpLink = createHttpLink({
     uri: `${stripTrailingSlash(process.env.BASE_URL)}/graphql/`,
