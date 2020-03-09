@@ -1,10 +1,10 @@
-from channels import include
-from backend.apps.chat.routing import chat_routes
+from channels.routing import ProtocolTypeRouter, URLRouter
+from django.urls import path
 
-app_routes = {
-    'chat': chat_routes
-}
+from graphene_subscriptions.consumers import GraphqlSubscriptionConsumer
 
-channel_routes = [
-    include(app_routes.values(), path=r"^/subscriptions/"),
-]
+application = ProtocolTypeRouter({
+    'websocket': URLRouter([
+        path('subscriptions/', GraphqlSubscriptionConsumer)
+    ])
+})
