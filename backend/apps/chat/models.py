@@ -8,7 +8,7 @@ class Message(AuditableBaseModel):
     message = models.TextField()
 
 
-class Channel(AuditableBaseModel):
+class ChatChannel(AuditableBaseModel):
     TYPE_CHOICES = (
         ('Public', 'Public'),
         ('Private', 'Private'),
