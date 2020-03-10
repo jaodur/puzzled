@@ -43,7 +43,8 @@ class BaseSubscription(BaseMutation):
 
         if not all(action in SubscriptionEventEnum.values() for action in actions):
             raise ImproperlyConfigured(
-                f'actions sequence contain(s) invalid action(s). Here are valid actions {SubscriptionEventEnum.values()}'
+                f'actions sequence contain(s) invalid action(s). '
+                f'Here are valid actions {SubscriptionEventEnum.values()}'
             )
 
         _meta.actions = actions
@@ -55,8 +56,9 @@ class BaseSubscription(BaseMutation):
     @classmethod
     def mutate(cls, root, info, instance_id, *args, **kwargs):
         return root.filter(
-            lambda event:
-            event.operation == cls._meta.actions and isinstance(event.instance, cls._meta.model) and event.instance.id == int(
-                instance_id)
+            lambda event: (
+                event.operation == cls._meta.actions
+                and isinstance(event.instance, cls._meta.model)
+                and event.instance.id == int(instance_id)
+            )
         ).map(lambda event: event.instance)
-

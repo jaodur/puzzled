@@ -6,4 +6,4 @@ class ChatConfig(AppConfig):
     label = 'chat'
 
     def ready(self):
-        import backend.apps.chat.signals
+        import backend.apps.chat.signals  # noqa: F401
