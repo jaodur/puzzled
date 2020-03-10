@@ -1,6 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from graphene_subscriptions.events import UPDATED
+from backend.lib.base.base_subscription import BaseSubscription
 
 from .models import ChatChannel, Message
 
@@ -15,32 +16,14 @@ class MessageModelType(DjangoObjectType):
         model = Message
 
 
-class ChatSubscription(graphene.ObjectType):
+class ChatChannelSubscription(BaseSubscription):
+
     chat_channel_updated = graphene.Field(ChatChannelModelType, id=graphene.ID())
 
-    def resolve_chat_channel_updated(self, root, info, instance_id):
-        return root.filter(
-            lambda event:
-                event.operattion == UPDATED and isinstance(event.instance, ChatChannel) and event.instance.id == int(instance_id)
-        ).map(lambda event: event.instance)
+    class Meta:
+        model = ChatChannel
+        actions = [UPDATED]
+        description = 'ChatChannel Subscription'
 
-    # @classmethod
-    # def Field(cls, *args, **kwargs):
-    #     kwargs.update({'description': 'Subscription for {} model'})
-    #     return graphene.Field(cls, args=cls._meta.arguments, resolver=cls.resolve_chat_channel_updated, **kwargs)
-
-
-# class ChannelSubscription(Subscription):
-#
-#     class Meta:
-#         serializer_class = ChannelSerializer
-#         stream = 'channels'
-#         description = 'Channel Subscription'
-#
-#
-# class MessageSubscription(Subscription):
-#
-#     class Meta:
-#         serializer_class = MessageSerializer
-#         stream = 'messages'
-#         description = 'Message Subscription'
+    class Arguments:
+        instance_id = graphene.String(required=True)
