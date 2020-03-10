@@ -1,7 +1,6 @@
 import graphene
-from .subscriptions import ChatSubscription as ChatSubscriptions
+from .subscriptions import ChatChannelSubscription
 
 
-# class ChatSubscriptions(graphene.ObjectType):
-#     channel_subscription = ChatSubscription.Field()
-    # message_subscription = MessageSubscription.Field()
+class ChatSubscriptions(graphene.ObjectType):
+    chat_channel_subscription = ChatChannelSubscription.Field()
