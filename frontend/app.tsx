@@ -6,6 +6,7 @@ import { LastLocationProvider } from 'react-router-last-location';
 import { PageNotFound } from './components/commons/404PageNotFound';
 import { links } from './components/commons/linkUrls';
 import { useCheckLoginContext } from './components/commons/puzzleContext';
+import { DrawerContainer } from './components/drawer/drawerContainer';
 import { Home } from './components/homePage/Home';
 import { BigAssLoaderIcon } from './components/icons/loaderIcon';
 import { ProfileContainer } from './components/profile/profileContainer';
@@ -26,6 +27,7 @@ function App() {
     ) : (
         <BrowserRouter forceRefresh={false}>
             <LastLocationProvider>
+                <DrawerContainer />
                 <Switch>
                     <Route exact path={links.HOME} component={Home} />
                     <Route path={links.SUDOKU.HOME} component={SudokuHome} />
