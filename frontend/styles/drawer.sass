@@ -1,0 +1,25 @@
+$defaultDrawerWidth: 2vw
+$defaultDrawerHeight: 10vh
+$thickGrey: #757575
+
+@mixin drawer($width: $defaultDrawerWidth, $height: $defaultDrawerHeight, $leftPosition: 100vw)
+  display: flex
+  align-items: center
+  justify-content: center
+  width: $width
+  min-height: $height
+  border: 1px solid $thickGrey
+  border-right: none
+  position: fixed
+  top: 50vh - $height/2
+  left: $leftPosition - $width
+  color: $thickGrey
+  cursor: pointer
+  z-index: 10000
+
+.default-drawer
+  @include drawer
+
+.default-drawer-open
+  @include drawer($leftPosition: 75vw)
+  background-color: #ffffff
