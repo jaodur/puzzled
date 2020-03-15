@@ -11,6 +11,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 
 import { TemporaryDrawerInterface } from '../interfaces/drawer';
+import { SearchBar } from './searchBar';
 
 const useStyles = makeStyles({
     list: {
@@ -24,8 +25,48 @@ const useStyles = makeStyles({
 function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawerInterface) {
     const classes = useStyles({});
 
+    const languages = [
+        {
+            name: 'C',
+            year: 1972,
+        },
+        {
+            name: 'Elm',
+            year: 2012,
+        },
+        {
+            name: 'Java',
+            year: 1990,
+        },
+        {
+            name: 'Javascript',
+            year: 1997,
+        },
+        {
+            name: 'Python',
+            year: 1991,
+        },
+    ];
+
+    const renderSuggestion = (suggestion: any) => <div>{suggestion.name}</div>;
+
+    const getSuggestionValue = (suggestion: any) => suggestion.name;
+
+    function filterFunc(input: any, possibleValues: any): any {
+        return possibleValues.filter(
+            (possibleValue: any): boolean => possibleValue.name.toLowerCase().slice(0, input.length) === input
+        );
+    }
+
     const sideList = () => (
-        <div className={classes.list} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
+        <div className={classes.list} role="presentation">
+            <SearchBar
+                placeholder={'Search to start a new conversation'}
+                possibleSuggestions={languages}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                suggestionFilterFunc={filterFunc}
+            />
             <List>
                 {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem button key={text}>
