@@ -16,6 +16,7 @@ const PROFILE_QUERY = gql`
 const PROFILES_QUERY = gql`
     query {
         profiles {
+            id
             name
             preferredName
             email
@@ -26,4 +27,17 @@ const PROFILES_QUERY = gql`
     }
 `;
 
-export { PROFILE_QUERY, PROFILES_QUERY };
+
+const PROFILES_SEARCH_QUERY = gql`
+    query {
+        profiles {
+            id
+            name
+            preferredName
+            timezone
+            pictureUrl
+        }
+    }
+`;
+
+export { PROFILE_QUERY, PROFILES_QUERY, PROFILES_SEARCH_QUERY };
