@@ -6,6 +6,7 @@ import './styles/drawer';
 import './styles/inputs';
 import './styles/main';
 import './styles/profile';
+import './styles/searchBar';
 import './styles/sidebarTab';
 import './styles/snackbar';
 import './styles/sudoku';
