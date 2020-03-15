@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+import './styles/background';
+import './styles/banner';
 import './styles/buttons';
 import './styles/drawer';
 import './styles/inputs';
