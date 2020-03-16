@@ -27,7 +27,6 @@ const PROFILES_QUERY = gql`
     }
 `;
 
-
 const PROFILES_SEARCH_QUERY = gql`
     query {
         profiles {
