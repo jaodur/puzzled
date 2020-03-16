@@ -47,7 +47,7 @@ interface MaterialThemeInterface {
 interface ProfileInterface {
     name: string;
     preferredName: string;
-    email: string;
+    email?: string;
     telephone?: string;
     pictureUrl?: string;
     timezone?: string;
@@ -88,4 +88,5 @@ export {
     SIgnUpInterface,
     UserErrorsInterface,
     UserInfoInterface,
+    ProfileInterface,
 };

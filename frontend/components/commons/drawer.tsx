@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useQueryProfiles } from '../../graphql/customHooks/profiles';
 import { deepCopy } from '../../utils/utils';
 import { TemporaryDrawerInterface } from '../interfaces/drawer';
+import { ProfileInterface } from '../interfaces/profile';
 import { ProfileAvatar } from './avatar';
 import { SearchBar } from './searchBar';
 
@@ -28,7 +29,7 @@ function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawer
         setProfiles(deepCopy(results.profilesData.profiles))
     );
 
-    const renderSuggestion = (suggestion: any) => {
+    const renderSuggestion = (suggestion: ProfileInterface) => {
         return (
             <div>
                 <ProfileAvatar
@@ -42,12 +43,17 @@ function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawer
         );
     };
 
-    const getSuggestionValue = (suggestion: any) => suggestion.name;
+    const getSuggestionValue = (suggestion: ProfileInterface) => suggestion.name;
 
     function filterFunc(input: any, possibleValues: any): any {
-        return possibleValues.filter(
-            (possibleValue: any): boolean => possibleValue.name.toLowerCase().slice(0, input.length) === input
-        );
+        return possibleValues.filter((possibleValue: ProfileInterface): boolean => {
+            const searchToBoolean = (result: number) => !(result === -1);
+            return (
+                possibleValue.name.toLowerCase().slice(0, input.length) === input ||
+                searchToBoolean(possibleValue.name.toLowerCase().search(input)) ||
+                searchToBoolean(possibleValue.preferredName.toLowerCase().search(input))
+            );
+        });
     }
 
     const sideList = () => (
