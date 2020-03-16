@@ -1,3 +1,5 @@
+@import "colors"
+
 $defaultDrawerWidth: 2vw
 $defaultDrawerHeight: 10vh
 $thickGrey: #757575
@@ -22,4 +24,5 @@ $thickGrey: #757575
 
 .default-drawer-open
   @include drawer($leftPosition: 75vw)
-  background-color: #ffffff
+  background-color: $thickBlue
+  color: white

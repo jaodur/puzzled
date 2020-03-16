@@ -7,7 +7,7 @@ import { InputPropsInterface, SearchBarInterface, ThemeInterface } from '../inte
 import { ThickBlueBackground } from './background';
 import { Banner } from './banner';
 
-const defaultSearchBarStyleClass = 'defaultSearchBar';
+const defaultSearchBarStyleClass = 'default-search-bar';
 
 function createTheme(className?: string): ThemeInterface {
     const classname = className ? className : defaultSearchBarStyleClass;
