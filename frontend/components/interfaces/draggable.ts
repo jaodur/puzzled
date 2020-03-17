@@ -50,7 +50,7 @@ interface DraggableCoreInterface {
 }
 
 interface DraggableInterface extends DraggableCoreInterface {
-    render: ReactElement;
+    render: () => ReactElement;
 }
 
 export { DraggableInterface as default, DraggableCoreInterface };
