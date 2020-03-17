@@ -4,6 +4,7 @@ import * as ReactDOM from 'react-dom';
 import './styles/background';
 import './styles/banner';
 import './styles/buttons';
+import './styles/draggable';
 import './styles/drawer';
 import './styles/inputs';
 import './styles/main';
