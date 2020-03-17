@@ -1,18 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import './styles/background';
-import './styles/banner';
-import './styles/buttons';
-import './styles/draggable';
-import './styles/drawer';
-import './styles/inputs';
-import './styles/main';
-import './styles/profile';
-import './styles/searchBar';
-import './styles/sidebarTab';
-import './styles/snackbar';
-import './styles/sudoku';
+import './styles/index';
 
 import { SnackbarProvider } from 'notistack';
 import { ApolloProvider } from 'react-apollo';
