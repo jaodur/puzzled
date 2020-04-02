@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ReactDraggable from 'react-draggable';
 
+import { DEFAULT_DRAGGABLE_CLASSNAME, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
 import DraggableInterface from '../interfaces/draggable';
-import { DEFAULT_DRAGGABLE_CLASSNAME, DEFAULT_DRAGGABLE_HANDLE } from "../../constants/draggable";
 
 function Draggable({ children, ...draggableProps }: DraggableInterface) {
     if (!draggableProps.defaultClassName) {

@@ -1,15 +1,15 @@
 import * as React from 'react';
 
+import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 import SendIcon from '@material-ui/icons/SendOutlined';
-import Input from '@material-ui/core/Input';
 
+import { CHAT_PLACEHOLDER } from '../../constants/chat';
+import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
 import { Draggable } from '../commons/draggable';
 import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
-import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from "../../constants/draggable";
-import { CHAT_PLACEHOLDER } from "../../constants/chat";
 
 const useStyles = makeStyles({
     root: {
