@@ -19,7 +19,7 @@ function Chat({ styleClass }: ChatInterface) {
     const classes = useStyles({});
     return (
         <div className={styleClass || defaultChatStyleClass}>
-            <div>
+            <div className={'default-react-draggable__default-handle'}>
                 <span>
                     <ChatIcon className={classes.root} />
                     <span>chat</span>
