@@ -1,14 +1,13 @@
 @import "colors"
 
 .default-draggable-chat
-  border: 1px solid $thickBlue
   border: 1px solid #fafafa
   background-color: #fafafa
   width: 27vw
   min-height: 20vh
   font-family: Muli, Roboto, Helvetica, Arial, "sans-serif"
 
-  div
+  >div:first-child
     display: flex
     flex-wrap: wrap
     align-items: center
@@ -24,12 +23,41 @@
       display: inline-block
       padding: 0 5%
       width: 80%
-      //border: 1px solid green
 
     span:first-child
       display: flex
       align-items: center
       padding: 0 5%
       flex-basis: 100%
-      //border: 1px solid white
 
+  &__chat_body
+    display: flex
+    align-items: stretch
+    height: 70vh
+
+    div:first-child
+      border-right: 1px solid #e8e8e8
+      flex-basis: 20%
+
+    >div:last-child
+      display: flex
+      flex-wrap: wrap
+      align-items: flex-end
+      flex-basis: 80%
+      border-left: 1px solid #e8e8e8
+      background-color: #e8e8e8
+
+      span
+        border: 1px solid purple
+
+      >div:last-child
+        height: 12%
+        //border: 1px solid red
+        //background-color: $thickBlue
+        border-top: 1px solid $thickBlue
+        border-top: 1px solid white
+        flex-basis: 100%
+
+    >div
+      border: 1px solid #d5d5d5
+      //box-shadow: -6px 0 0 -5px #e8e8e8

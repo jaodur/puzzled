@@ -3,6 +3,8 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
+import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
 
 import { Draggable } from '../commons/draggable';
 import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
@@ -14,6 +16,20 @@ const useStyles = makeStyles({
         fontSize: '32px',
     },
 });
+
+function ChatBody({ styleClass }: ChatBodyInterface) {
+    return (
+        <div className={styleClass}>
+            <div> chat side bar</div>
+            <div>
+                <span>Chat room</span>
+                <div>
+                    <Input placeholder={CHAT_PLACEHOLDER} />
+                </div>
+            </div>
+        </div>
+    );
+}
 
 function Chat({ styleClass }: ChatInterface) {
     const classes = useStyles({});

@@ -6,4 +6,6 @@ interface ChatInterface {
 
 interface DraggableChatInterface extends ChatInterface, DraggableCoreInterface {}
 
-export { ChatInterface, DraggableChatInterface };
+interface ChatBodyInterface extends ChatInterface {}
+
+export { ChatBodyInterface, ChatInterface, DraggableChatInterface };
