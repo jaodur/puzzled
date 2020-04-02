@@ -5,9 +5,9 @@ import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 
 import { Draggable } from '../commons/draggable';
-import { ChatInterface, DraggableChatInterface } from '../interfaces/chat';
-
-const defaultChatStyleClass = 'default-draggable-chat';
+import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
+import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from "../../constants/draggable";
+import { CHAT_PLACEHOLDER } from "../../constants/chat";
 
 const useStyles = makeStyles({
     root: {
@@ -18,14 +18,15 @@ const useStyles = makeStyles({
 function Chat({ styleClass }: ChatInterface) {
     const classes = useStyles({});
     return (
-        <div className={styleClass || defaultChatStyleClass}>
-            <div className={'default-react-draggable__default-handle'}>
+        <div className={styleClass || DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}>
+            <div className={DEFAULT_DRAGGABLE_HANDLE.CLASSNAME}>
                 <span>
                     <ChatIcon className={classes.root} />
                     <span>chat</span>
                     <CloseIcon className={classes.root} />
                 </span>
             </div>
+            <ChatBody styleClass={`${DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}__chat_body`} />
         </div>
     );
 }
