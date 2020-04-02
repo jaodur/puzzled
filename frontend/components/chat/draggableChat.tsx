@@ -3,8 +3,8 @@ import * as React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
+import SendIcon from '@material-ui/icons/SendOutlined';
 import Input from '@material-ui/core/Input';
-import TextField from '@material-ui/core/TextField';
 
 import { Draggable } from '../commons/draggable';
 import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
@@ -23,8 +23,9 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
             <div> chat side bar</div>
             <div>
                 <span>Chat room</span>
-                <div>
-                    <Input placeholder={CHAT_PLACEHOLDER} />
+                <div className={`${styleClass}__message-send`}>
+                    <Input autoFocus multiline disableUnderline placeholder={CHAT_PLACEHOLDER} />
+                    <SendIcon />
                 </div>
             </div>
         </div>
