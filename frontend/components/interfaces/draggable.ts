@@ -1,4 +1,4 @@
-import { default as React, ReactElement } from 'react';
+import * as React from 'react';
 
 type AxisType = 'both' | 'x' | 'y' | 'none';
 
@@ -50,7 +50,7 @@ interface DraggableCoreInterface {
 }
 
 interface DraggableInterface extends DraggableCoreInterface {
-    render: () => ReactElement;
+    children: React.ReactElement;
 }
 
 export { DraggableInterface as default, DraggableCoreInterface };

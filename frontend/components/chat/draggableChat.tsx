@@ -31,7 +31,11 @@ function Chat({ styleClass }: ChatInterface) {
 }
 
 function DraggableChat({  }: DraggableChatInterface) {
-    return <Draggable render={() => <Chat />} scale={1} />;
+    return (
+        <Draggable scale={1}>
+            <Chat />
+        </Draggable>
+    );
 }
 
 export { Chat, DraggableChat };
