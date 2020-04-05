@@ -32,7 +32,6 @@
 
   &__chat_body
     display: flex
-    align-items: stretch
     height: 70vh
 
     >div:first-child
@@ -41,26 +40,23 @@
 
     >div:last-child
       display: flex
+      flex-direction: column
       flex-wrap: wrap
-      align-items: flex-end
+      justify-content: flex-end
       flex-basis: 80%
       border-left: 1px solid #e8e8e8
       background-color: #e8e8e8
 
-      span
-        border: 1px solid purple
+      >div:first-child
+        flex-grow: 1
 
       >div:last-child
         min-height: 12%
-        //border: 1px solid red
-        //background-color: $thickBlue
         border-top: 1px solid $thickBlue
         border-top: 1px solid white
-        flex-basis: 100%
 
     >div
       border: 1px solid #d5d5d5
-      //box-shadow: -6px 0 0 -5px #e8e8e8
 
     &__message-send
       display: flex
@@ -70,7 +66,7 @@
       >div
         border: 1px solid $thickBlue
         margin: 2%
-        padding: 0 2%
+        padding: 4% 2%
         flex-basis: 80%
         max-height: 30vh
         overflow: scroll
