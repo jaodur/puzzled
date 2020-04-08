@@ -106,8 +106,9 @@ function Chat({ styleClass }: ChatInterface) {
 }
 
 function DraggableChat({  }: DraggableChatInterface) {
+    const defaultPosition = { x: 500, y: 150 };
     return (
-        <Draggable scale={1}>
+        <Draggable defaultPosition={defaultPosition}>
             <Chat />
         </Draggable>
     );
