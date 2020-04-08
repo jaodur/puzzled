@@ -2,7 +2,7 @@ import { DraggableCoreInterface } from './draggable';
 
 type FloatType = 'left' | 'right';
 
-type TriPosition =
+type TriPositionType =
     | 'left-top'
     | 'left-in'
     | 'btm-left'
@@ -24,8 +24,15 @@ interface MessageDialogueInterface {
     message?: string;
     border?: boolean;
     round?: boolean;
-    triPosition?: TriPosition;
+    triPosition?: TriPositionType;
     float?: FloatType;
 }
 
-export { ChatBodyInterface, ChatInterface, DraggableChatInterface, MessageDialogueInterface };
+export {
+    ChatBodyInterface,
+    ChatInterface,
+    DraggableChatInterface,
+    MessageDialogueInterface,
+    TriPositionType,
+    FloatType,
+};

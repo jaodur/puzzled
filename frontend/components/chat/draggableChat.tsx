@@ -9,7 +9,9 @@ import SendIcon from '@material-ui/icons/SendOutlined';
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
 import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
 import { Draggable } from '../commons/draggable';
+import { Flowable } from '../commons/flowable';
 import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
+import { MessageDialogue } from './messageDialogue';
 
 const useStyles = makeStyles({
     root: {
@@ -22,7 +24,62 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
         <div className={styleClass}>
             <div> chat side bar</div>
             <div>
-                <span>Chat room</span>
+                <Flowable>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round float={'right'}>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>Lol</MessageDialogue>
+
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>L</MessageDialogue>
+
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round>Lol</MessageDialogue>
+
+                    <MessageDialogue round>T</MessageDialogue>
+                    <MessageDialogue round float={'right'}>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round float={'right'}>
+                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
+                        to specify the location test.
+                    </MessageDialogue>
+                    <MessageDialogue round float={'right'}>
+                        t
+                    </MessageDialogue>
+                </Flowable>
                 <div className={`${styleClass}__message-send`}>
                     <Input autoFocus multiline disableUnderline placeholder={CHAT_PLACEHOLDER} />
                     <SendIcon />
