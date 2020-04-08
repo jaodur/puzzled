@@ -7,7 +7,7 @@ function Flowable({ children, styleClass }: FlowableInterface) {
     return (
         <div className={OVERFLOW_CONTENT_WRAPPER}>
             <div className={OVERFLOW_CONTAINER}>
-                <div className={OVERFLOW_CONTENT}>{children}</div>
+                <div className={`${OVERFLOW_CONTENT} ${styleClass || ''}`}>{children}</div>
             </div>
         </div>
     );
