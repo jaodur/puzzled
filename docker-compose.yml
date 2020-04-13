@@ -1,0 +1,73 @@
+version: "3.5"
+
+services:
+  db:
+    image: postgres:9.6.10-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASS: 13811381xx
+      POSTGRES_DB: puzzled
+#    volumes:
+#      - db_data:/var/lib/postgresql/data
+#    restart: unless-stopped
+    networks:
+      - puzzled-network
+
+  redis:
+    image: redis
+    expose:
+      - 6379
+    networks:
+      - puzzled-network
+
+  django:
+    build:
+      context: .
+      dockerfile: .docker/django.dockerfile
+    image: app
+    command: runserver 0.0.0.0:8000
+    stdin_open: true
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+
+  migration:
+    image: app
+    command: migrate
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+      - django
+
+  django-q:
+    image: app
+    command: qcluster
+    stdin_open: true
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+      - redis
+      - migration
+
+
+networks:
+  puzzled-network:
+    driver: bridge
