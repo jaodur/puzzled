@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Footer } from '../commons/footer';
-import { NavBar as SudokuNavBar } from '../commons/NavBar';
+import { NavBar as SudokuNavBar } from '../commons/navBar';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { sudokuNavBarLinks } from '../commons/navbarLinks';
 import { SudokuGrid } from './sudokuGrid';
