@@ -9,6 +9,7 @@ config.devServer = {
         headers: { 'Access-Control-Allow-Origin': '*' },
         compress: true,
         hot: true,
+        host:'0.0.0.0',
     };
 
 // override django's STATIC_URL for webpack bundles
