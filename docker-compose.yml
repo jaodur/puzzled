@@ -5,8 +5,8 @@ services:
     image: postgres:9.6.10-alpine
     user: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASS: 13811381xx
+      POSTGRES_USER: docker
+      POSTGRES_PASS: docker
       POSTGRES_DB: puzzled
 #    volumes:
 #      - db_data:/var/lib/postgresql/data
@@ -21,12 +21,27 @@ services:
     networks:
       - puzzled-network
 
-  django:
+  migration:
     build:
       context: .
-      dockerfile: .docker/django.dockerfile
+      dockerfile: .docker/web_app.dockerfile
     image: app
-    command: runserver 0.0.0.0:8000
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+
+  web:
+    build:
+      context: .
+      dockerfile: .docker/web_app.dockerfile
+    image: app
+    command: python manage.py runserver 0.0.0.0:8000
     stdin_open: true
     volumes:
       - .:/app
@@ -37,24 +52,11 @@ services:
     networks:
       - puzzled-network
     depends_on:
-      - db
-
-  migration:
-    image: app
-    command: migrate
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    networks:
-      - puzzled-network
-    depends_on:
-      - db
-      - django
+      - migration
 
   django-q:
     image: app
-    command: qcluster
+    command: python manage.py qcluster
     stdin_open: true
     volumes:
       - .:/app
@@ -63,9 +65,21 @@ services:
     networks:
       - puzzled-network
     depends_on:
-      - db
+      - web
       - redis
-      - migration
+
+  build-watch:
+    image: app
+    command: bash -c "npm rebuild node-sass && npm run watch"
+    stdin_open: true
+    volumes:
+      - .:/app
+    ports:
+    - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
 
 
 networks:
