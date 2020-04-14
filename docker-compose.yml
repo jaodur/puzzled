@@ -8,9 +8,9 @@ services:
       POSTGRES_USER: docker
       POSTGRES_PASS: docker
       POSTGRES_DB: puzzled
-#    volumes:
-#      - db_data:/var/lib/postgresql/data
-#    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
     networks:
       - puzzled-network
 
@@ -98,3 +98,6 @@ services:
 networks:
   puzzled-network:
     driver: bridge
+
+volumes:
+  db_data: {}
