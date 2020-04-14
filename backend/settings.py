@@ -27,7 +27,7 @@ SECRET_KEY = '2&-hb@n-ld#&^-%)g1hgt-v91i(qyrp(7$-v@^mugi5466-+)i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 BASE_URL = config('BASE_URL', 'http://localhost:8000/')
 

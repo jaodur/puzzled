@@ -21,12 +21,12 @@ services:
     networks:
       - puzzled-network
 
-  migration:
+  build-app-image:
     build:
       context: .
       dockerfile: .docker/web_app.dockerfile
-    image: app
-    command: python manage.py migrate
+    image: jaodur/puzzled
+    command: echo image build complete
     volumes:
       - .:/app
     env_file:
@@ -36,11 +36,24 @@ services:
     depends_on:
       - db
 
-  web:
+  migration:
     build:
       context: .
       dockerfile: .docker/web_app.dockerfile
-    image: app
+    image: jaodur/puzzled
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+      - build-app-image
+
+  web:
+    image: jaodur/puzzled
     command: python manage.py runserver 0.0.0.0:8000
     stdin_open: true
     volumes:
@@ -55,7 +68,7 @@ services:
       - migration
 
   django-q:
-    image: app
+    image: jaodur/puzzled
     command: python manage.py qcluster
     stdin_open: true
     volumes:
@@ -69,7 +82,7 @@ services:
       - redis
 
   build-watch:
-    image: app
+    image: jaodur/puzzled
     command: bash -c "npm rebuild node-sass && npm run watch"
     stdin_open: true
     volumes:
