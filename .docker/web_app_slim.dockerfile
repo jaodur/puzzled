@@ -18,8 +18,8 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN pip install --upgrade pip && pip install pip-tools pipenv-to-requirements pipenv
 ADD Pipfile .
 RUN pipenv run pipenv_to_requirements -o requirements-custom.in
-RUN pip-compile requirements-custom.in > requirements.txt && pip-sync
-RUN pip install -r requirements-custom.in && rm requirements-custom.in requirements.txt
+RUN pip-compile requirements-custom.in -o requirements.txt && pip-sync
+RUN pip install -r requirements.txt && rm requirements-custom.in requirements.txt
 
 ## add and install node requirements
 RUN mkdir /root/node_dependencies
