@@ -24,7 +24,7 @@ services:
   build-app-image:
     build:
       context: .
-      dockerfile: .docker/web_app.dockerfile
+      dockerfile: .docker/web_app_slim.dockerfile
     image: jaodur/puzzled
     command: echo image build complete
     volumes:
@@ -37,9 +37,6 @@ services:
       - db
 
   migration:
-    build:
-      context: .
-      dockerfile: .docker/web_app.dockerfile
     image: jaodur/puzzled
     command: python manage.py migrate
     volumes:
