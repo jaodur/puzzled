@@ -16,6 +16,7 @@ The app is built with __Python/Django/Graphene__ for its backend, __Node/Typescr
 * `NodeJs` [Download nodejs](https://nodejs.org/en/download/)
 * `Npm` [NpmJs](https://www.npmjs.com/get-npm)
 * `Redis` [Redis QuickStart](https://redis.io/topics/quickstart)
+* optional `Docker` [Docker QuickStart](https://docs.docker.com/)
 
 
 ## __Cloning__
@@ -23,6 +24,25 @@ The app is built with __Python/Django/Graphene__ for its backend, __Node/Typescr
 using this command `git clone -b develop https://github.com/ja-odur/puzzled.git`
 * Change into the newly cloned repo through `cd puzzled`
 
+# __Docker Installation__
+## __Key docker environment variables__
+After the setting up the `.env` file following the `.env_sample`. ensure to have the following keys with 
+the following docker image values;
+
+__DATABASE_URI__
+* $**`postgresql://docker:docker@db:5432/puzzled`**
+
+__REDIS_URL__
+* $**`redis://redis:6379/0`**
+
+## __Starting the development application__
+Build the docker images using
+* $ **`docker-compose build`**
+
+Starting the development application
+* $ **`docker-compose up`**
+
+# __Manual Installation__
 ## __Installing virtual environment and installing dependencies__
 Using pipenv, start the environment and install requirements
 * $ **`pipenv shell`**

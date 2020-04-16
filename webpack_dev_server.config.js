@@ -9,10 +9,11 @@ config.devServer = {
         headers: { 'Access-Control-Allow-Origin': '*' },
         compress: true,
         hot: true,
+        host:'0.0.0.0',
     };
 
 // override django's STATIC_URL for webpack bundles
-config.output.publicPath = 'http://localhost:3000/frontend/static/bundles/';
+config.output.publicPath = `${process.env.BASE_STATIC_URL}frontend/static/bundles/`;
 
 // Add HotModuleReplacementPlugin and BundleTracker plugins
 config.plugins =  config.plugins.concat([

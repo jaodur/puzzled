@@ -1,0 +1,100 @@
+version: "3.5"
+
+services:
+  db:
+    image: postgres:9.6.10-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASS: docker
+      POSTGRES_DB: puzzled
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - puzzled-network
+
+  redis:
+    image: redis
+    expose:
+      - 6379
+    networks:
+      - puzzled-network
+
+  build-app-image:
+    build:
+      context: .
+      dockerfile: .docker/web_app_slim.dockerfile
+    image: jaodur/puzzled
+    command: echo image build complete
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+
+  migration:
+    image: jaodur/puzzled
+    command: python manage.py migrate
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - db
+      - build-app-image
+
+  web:
+    image: jaodur/puzzled
+    command: python manage.py runserver 0.0.0.0:8000
+    stdin_open: true
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    networks:
+      - puzzled-network
+    depends_on:
+      - migration
+
+  django-q:
+    image: jaodur/puzzled
+    command: python manage.py qcluster
+    stdin_open: true
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+    depends_on:
+      - web
+      - redis
+
+  build-watch:
+    image: jaodur/puzzled
+    command: bash -c "npm rebuild node-sass && npm run watch"
+    stdin_open: true
+    volumes:
+      - .:/app
+    ports:
+    - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - puzzled-network
+
+
+networks:
+  puzzled-network:
+    driver: bridge
+
+volumes:
+  db_data: {}
