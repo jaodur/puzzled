@@ -31,21 +31,26 @@ RUN npm install
 ## build-image
 FROM python:3.6-slim-buster
 
+MAINTAINER Odur Joseph <odurjoseph8@gmail.com>
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV PATH="/opt/venv/bin:$PATH"
+
 ## copy Python and node dependencies from build image
 COPY --from=build-requirements /opt/venv /opt/venv
 COPY --from=build-requirements /root/node_dependencies/node_modules /app/node_modules
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl && apt-get clean
-RUN  curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt install -y nodejs
+## install nodejs
+RUN apt-get update && apt-get install -y --no-install-recommends curl && \
+    curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+    apt install -y nodejs && \
+    apt-get clean
 
 WORKDIR /app
 ADD . /app/
 
 ENV DJANGO_SETTINGS_MODULE backend.settings
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV PATH="/opt/venv/bin:$PATH"
 
 RUN /bin/bash -c "source ./bin/functions/set_node_path.sh && setNodePath"
 
