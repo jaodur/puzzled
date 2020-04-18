@@ -38,6 +38,7 @@ interface AvatarInterface {
     styleClass?: string;
     small?: boolean;
     onClick?: (event: any) => any;
+    maxLetters?: number;
 }
 
 interface MaterialThemeInterface {
@@ -79,6 +80,10 @@ interface ChangePasswordInterface {
     themeStyleClass: MaterialThemeInterface;
 }
 
+interface ChatProfileAvatarInterface extends AvatarInterface {
+    containerStyleClass?: string;
+}
+
 export {
     AccountOverviewInterface,
     AvatarInterface,
@@ -89,4 +94,5 @@ export {
     UserErrorsInterface,
     UserInfoInterface,
     ProfileInterface,
+    ChatProfileAvatarInterface,
 };
