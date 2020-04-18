@@ -8,6 +8,7 @@ import SendIcon from '@material-ui/icons/SendOutlined';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
 import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
+import { ChatProfileAvatar } from '../commons/avatar';
 import { Draggable } from '../commons/draggable';
 import { Flowable } from '../commons/flowable';
 import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
@@ -22,7 +23,137 @@ const useStyles = makeStyles({
 function ChatBody({ styleClass }: ChatBodyInterface) {
     return (
         <div className={styleClass}>
-            <div> chat side bar</div>
+            <div style={{ display: 'flex' }}>
+                <Flowable>
+                    <ChatProfileAvatar profileName={'Odur Joseph'} small maxLetters={2} />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Ocaa jacob'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://unsplash.com/photos/5E5N49RWtbA'}
+                        profileName={'Fred Yiga'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                    <ChatProfileAvatar
+                        src={'https://source.unsplash.com/random'}
+                        profileName={'Okello Josh'}
+                        small
+                        maxLetters={2}
+                    />
+                </Flowable>
+            </div>
             <div>
                 <Flowable>
                     <MessageDialogue round>
