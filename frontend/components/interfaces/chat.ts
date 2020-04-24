@@ -28,9 +28,15 @@ interface MessageDialogueInterface {
     float?: FloatType;
 }
 
+interface ChatMessageInterface {
+    float: FloatType;
+    content: string;
+}
+
 export {
     ChatBodyInterface,
     ChatInterface,
+    ChatMessageInterface,
     DraggableChatInterface,
     MessageDialogueInterface,
     TriPositionType,

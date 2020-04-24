@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 interface FlowableInterface {
-    children: ReactElement[];
+    children: ReactElement[] | any[];
     styleClass?: string;
     scrollContainerId?: string;
 }
