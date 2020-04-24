@@ -12,7 +12,8 @@ import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '..
 import { ChatProfileAvatar } from '../commons/avatar';
 import { Draggable } from '../commons/draggable';
 import { Flowable } from '../commons/flowable';
-import { ChatBodyInterface, ChatInterface, DraggableChatInterface } from '../interfaces/chat';
+import { ChatBodyInterface, ChatInterface, ChatMessageInterface, DraggableChatInterface } from '../interfaces/chat';
+import { EventInterface } from '../interfaces/interfaces';
 import { MessageDialogue } from './messageDialogue';
 
 const useStyles = makeStyles({
@@ -23,17 +24,43 @@ const useStyles = makeStyles({
 
 function ChatBody({ styleClass }: ChatBodyInterface) {
     const messageScrollContainerID = 'messageScrollContainerID';
+    const defaultMessage: ChatMessageInterface = { float: 'right', content: '' };
+    const [messages, setMessages] = React.useState([]);
+    const [message, setMessage] = React.useState(defaultMessage);
 
     // componentDidMount
     React.useEffect(() => {
         scrollToBottom();
     }, []);
 
+    React.useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     const scrollToBottom = () => {
         animateScroll.scrollToBottom({
             containerId: messageScrollContainerID,
         });
     };
+
+    const sendMessage = () => {
+        if (message.content) {
+            setMessages([...messages, message]);
+            setMessage({ ...message, content: '' });
+        }
+    };
+
+    function onMessageChange(event: EventInterface) {
+        event.preventDefault();
+        const msg: ChatMessageInterface = { ...message, content: event.target.value };
+        setMessage(msg);
+    }
+
+    function onMessageSendClick(event: EventInterface) {
+        event.preventDefault();
+        sendMessage();
+    }
+
     return (
         <div className={styleClass}>
             <div style={{ display: 'flex' }}>
@@ -48,96 +75,6 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                     <ChatProfileAvatar
                         src={'https://unsplash.com/photos/5E5N49RWtbA'}
                         profileName={'Fred Yiga'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
                         small
                         maxLetters={2}
                     />
@@ -223,10 +160,22 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                     <MessageDialogue round float={'right'}>
                         t
                     </MessageDialogue>
+                    {messages.map((msg: ChatMessageInterface, key) => (
+                        <MessageDialogue round float={msg.float} key={key}>
+                            {msg.content}
+                        </MessageDialogue>
+                    ))}
                 </Flowable>
                 <div className={`${styleClass}__message-send`}>
-                    <Input autoFocus multiline disableUnderline placeholder={CHAT_PLACEHOLDER} />
-                    <SendIcon />
+                    <Input
+                        value={message.content}
+                        autoFocus
+                        multiline
+                        disableUnderline
+                        placeholder={CHAT_PLACEHOLDER}
+                        onChange={onMessageChange}
+                    />
+                    <SendIcon onClick={onMessageSendClick} />
                 </div>
             </div>
         </div>
