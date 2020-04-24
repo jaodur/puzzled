@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 import SendIcon from '@material-ui/icons/SendOutlined';
+import { animateScroll } from 'react-scroll';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
 import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
@@ -21,6 +22,18 @@ const useStyles = makeStyles({
 });
 
 function ChatBody({ styleClass }: ChatBodyInterface) {
+    const messageScrollContainerID = 'messageScrollContainerID';
+
+    // componentDidMount
+    React.useEffect(() => {
+        scrollToBottom();
+    }, []);
+
+    const scrollToBottom = () => {
+        animateScroll.scrollToBottom({
+            containerId: messageScrollContainerID,
+        });
+    };
     return (
         <div className={styleClass}>
             <div style={{ display: 'flex' }}>
@@ -155,7 +168,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                 </Flowable>
             </div>
             <div>
-                <Flowable>
+                <Flowable scrollContainerId={messageScrollContainerID}>
                     <MessageDialogue round>
                         This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
                         to specify the location test.
