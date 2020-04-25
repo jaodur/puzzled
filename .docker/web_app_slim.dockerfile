@@ -46,16 +46,17 @@ MAINTAINER Odur Joseph <odurjoseph8@gmail.com>
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PATH="/opt/venv/bin:$PATH"
+ARG HOME='/app'
 
 ## copy Python and node dependencies from build image
 COPY --from=build-requirements /opt/venv /opt/venv
 COPY --from=build-requirements /root/node_dependencies/node_modules /app/node_modules
 
-WORKDIR /app
-ADD . /app/
+WORKDIR $HOME
+ADD . $HOME/
 
 ENV DJANGO_SETTINGS_MODULE backend.settings
 
-RUN /bin/bash -c "source ./bin/functions/set_node_path.sh && setNodePath"
+ENV PATH="${PATH}:${HOME}/node_modules/.bin"
 
 EXPOSE 3000 8000
