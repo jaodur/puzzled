@@ -29,6 +29,7 @@ interface EventInterface {
     key?: any;
     preventDefault?: any;
     keyCode?: number;
+    [key: string]: any;
 }
 
 interface RouteLinkInterface {

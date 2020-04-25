@@ -40,6 +40,9 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
     const scrollToBottom = () => {
         animateScroll.scrollToBottom({
             containerId: messageScrollContainerID,
+            duration: 400,
+            delay: 0,
+            smooth: 'easeInOutQuart',
         });
     };
 
@@ -59,6 +62,13 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
     function onMessageSendClick(event: EventInterface) {
         event.preventDefault();
         sendMessage();
+    }
+
+    function onMessageKeyDown(event: EventInterface) {
+        if (!event.shiftKey && event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
     }
 
     return (
@@ -174,6 +184,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                         disableUnderline
                         placeholder={CHAT_PLACEHOLDER}
                         onChange={onMessageChange}
+                        onKeyDown={onMessageKeyDown}
                     />
                     <SendIcon onClick={onMessageSendClick} />
                 </div>
