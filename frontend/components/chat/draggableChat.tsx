@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
-import ChatIcon from '@material-ui/icons/ChatOutlined';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import { animateScroll } from 'react-scroll';
@@ -199,7 +198,7 @@ function Chat({ styleClass }: ChatInterface) {
         <div className={styleClass || DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}>
             <div className={DEFAULT_DRAGGABLE_HANDLE.CLASSNAME}>
                 <span>
-                    <ChatIcon className={classes.root} />
+                    <ChatIcon />
                     <span>chat</span>
                     <CloseIcon className={classes.root} />
                 </span>
