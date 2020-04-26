@@ -33,9 +33,14 @@ interface ChatMessageInterface {
     content: string;
 }
 
+interface ChatIconInterface {
+    size?: string;
+}
+
 export {
     ChatBodyInterface,
     ChatInterface,
+    ChatIconInterface,
     ChatMessageInterface,
     DraggableChatInterface,
     MessageDialogueInterface,

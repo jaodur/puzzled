@@ -13,6 +13,8 @@ import { Draggable } from '../commons/draggable';
 import { Flowable } from '../commons/flowable';
 import { ChatBodyInterface, ChatInterface, ChatMessageInterface, DraggableChatInterface } from '../interfaces/chat';
 import { EventInterface } from '../interfaces/interfaces';
+import { EmptyChat } from './emptyChat';
+import { ChatIcon } from './icons';
 import { MessageDialogue } from './messageDialogue';
 
 const useStyles = makeStyles({
@@ -115,65 +117,15 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
             </div>
             <div>
                 <Flowable scrollContainerId={messageScrollContainerID}>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round float={'right'}>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>Lol</MessageDialogue>
-
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>L</MessageDialogue>
-
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round>Lol</MessageDialogue>
-
-                    <MessageDialogue round>T</MessageDialogue>
-                    <MessageDialogue round float={'right'}>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round float={'right'}>
-                        This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top
-                        to specify the location test.
-                    </MessageDialogue>
-                    <MessageDialogue round float={'right'}>
-                        t
-                    </MessageDialogue>
-                    {messages.map((msg: ChatMessageInterface, key) => (
-                        <MessageDialogue round float={msg.float} key={key}>
-                            {msg.content}
-                        </MessageDialogue>
-                    ))}
+                    {messages.length !== 0 ? (
+                        messages.map((msg: ChatMessageInterface, key) => (
+                            <MessageDialogue round float={msg.float} key={key}>
+                                {msg.content}
+                            </MessageDialogue>
+                        ))
+                    ) : (
+                        <EmptyChat />
+                    )}
                 </Flowable>
                 <div className={`${styleClass}__message-send`}>
                     <Input
