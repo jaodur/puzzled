@@ -1,10 +1,10 @@
 import graphene
 from backend.apps.sudoku.schema import SudokuMutation, SudokuQuery
 from backend.apps.authentication.schema import UserMutation, UserQuery
-from backend.apps.chat.schema import ChatSubscriptions
+from backend.apps.chat.schema import ChatMutations, ChatSubscriptions
 
 
-class Mutation(UserMutation, SudokuMutation, graphene.ObjectType):
+class Mutation(UserMutation, SudokuMutation, ChatMutations, graphene.ObjectType):
     pass
 
 
