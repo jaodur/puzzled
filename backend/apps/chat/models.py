@@ -15,6 +15,7 @@ class ChatChannel(AuditableBaseModel):
         ('Direct', 'Direct'),
     )
 
+    room_id = models.CharField(max_length=150, null=False, blank=True, unique=True)
     name = models.CharField(max_length=50, null=False, blank=False, unique=True)
     type = models.CharField(max_length=50, null=False, blank=False, choices=TYPE_CHOICES)
     messages = models.ManyToManyField(Message)
