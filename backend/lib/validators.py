@@ -1,4 +1,5 @@
 import re
+from enum import Enum
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from pytz import timezone as pytz_timezone
@@ -48,3 +49,19 @@ def timezone_validator(timezone):
 
     except UnknownTimeZoneError:
         raise ValueError('Unknown timezone')
+
+
+class ChatTypeEnum(Enum):
+    PUBLIC = 'Public'
+    PRIVATE = 'Private'
+    DIRECT = 'Direct'
+
+    @classmethod
+    def values(cls):
+        return [e.value for e in cls]
+
+
+def chat_type_validator(chat_type):
+
+    if chat_type not in ChatTypeEnum.values():
+        raise ValueError(f'Invalid chatType. Possible types are {ChatTypeEnum.values()}')
