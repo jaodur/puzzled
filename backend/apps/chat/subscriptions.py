@@ -1,19 +1,9 @@
 import graphene
-from graphene_django import DjangoObjectType
 from graphene_subscriptions.events import UPDATED
 from backend.lib.base.base_subscription import BaseSubscription
 
-from .models import ChatChannel, Message
-
-
-class ChatChannelModelType(DjangoObjectType):
-    class Meta:
-        model = ChatChannel
-
-
-class MessageModelType(DjangoObjectType):
-    class Meta:
-        model = Message
+from .models import ChatChannel
+from .model_types import ChatChannelModelType
 
 
 class ChatChannelSubscription(BaseSubscription):
