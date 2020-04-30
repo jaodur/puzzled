@@ -1,5 +1,5 @@
 import graphene
-from .mutations import CreateOrGetChatChannelMutation
+from .mutations import CreateOrGetDirectChatChannelMutation, CreateOrGetMultiUserChatChannelMutation
 from .subscriptions import ChatChannelSubscription
 
 
@@ -8,4 +8,5 @@ class ChatSubscriptions(graphene.ObjectType):
 
 
 class ChatMutations(graphene.ObjectType):
-    create_or_get_chat_channel = CreateOrGetChatChannelMutation.Field()
+    create_or_get_direct_chat = CreateOrGetDirectChatChannelMutation.Field()
+    create_or_get_multi_user_chat = CreateOrGetMultiUserChatChannelMutation.Field()
