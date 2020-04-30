@@ -136,7 +136,7 @@ class AddMessage(BaseMutation):
 
     class Arguments:
         channel_id = graphene.String(required=True)
-        message = graphene.String(required=False)
+        message = graphene.String(required=True)
 
     @classmethod
     @is_authenticated
@@ -156,3 +156,43 @@ class AddMessage(BaseMutation):
         channel.messages.add(msg)
 
         return AddMessage(chat_message=msg)
+
+
+class EditMessage(BaseMutation):
+    chat_message = graphene.Field(MessageModelType)
+
+    class Meta:
+        description = 'Edit existing message'
+        error_type_class = Error
+        error_type_field = "edit_message_errors"
+        model = Message
+
+    class Arguments:
+        message_id = graphene.String(required=True)
+        message = graphene.String(required=True)
+
+    @classmethod
+    @is_authenticated
+    def perform_mutation(cls, root, message_id, message):
+        try:
+            msg = Message.objects.get(id=message_id)
+        except Message.DoesNotExist:
+            raise FieldValidationError(
+                field='message_id',
+                message=f'message with id {message_id} not found',
+                code='invalid',
+                params=message_id
+            )
+
+        if msg.user != root.context.user:
+            raise FieldValidationError(
+                field=None,
+                message='Permission Denied',
+                code='invalid',
+                params=message_id
+            )
+
+        msg.message = message
+        msg.save()
+
+        return EditMessage(chat_message=msg)
