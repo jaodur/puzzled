@@ -7,7 +7,7 @@ from backend.lib.types import Error
 from backend.lib.decorators.permissions import is_authenticated
 from backend.lib.exceptions import FieldValidationError
 from backend.lib.validators import chat_type_validator, get_invalid_model_unique_keys, ChatTypeEnum
-from .model_types import ChatChannel, ChatChannelModelType
+from .model_types import Message, ChatChannel, ChatChannelModelType, MessageModelType
 
 
 def generate_room_id(user_ids=(), non_reusable=False):
@@ -123,3 +123,36 @@ class CreateOrGetMultiUserChatChannelMutation(BaseMutation):
             chat_channel.users.set(user_ids)
 
         return CreateOrGetDirectChatChannelMutation(chat_channel=chat_channel)
+
+
+class AddMessage(BaseMutation):
+    chat_message = graphene.Field(MessageModelType)
+
+    class Meta:
+        description = 'Add message to Chat Channel'
+        error_type_class = Error
+        error_type_field = "add_message_errors"
+        model = Message
+
+    class Arguments:
+        channel_id = graphene.String(required=True)
+        message = graphene.String(required=False)
+
+    @classmethod
+    @is_authenticated
+    def perform_mutation(cls, root, channel_id, message):
+        try:
+            channel = ChatChannel.objects.get(id=channel_id)
+        except ChatChannel.DoesNotExist:
+            raise FieldValidationError(
+                field='channel_id',
+                message=f'channel with id {channel_id} not found',
+                code='invalid',
+                params=channel_id
+            )
+
+        msg = Message(user=root.context.user, message=message)
+        msg.save()
+        channel.messages.add(msg)
+
+        return AddMessage(chat_message=msg)
