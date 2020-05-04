@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import './styles/index';
 
@@ -11,6 +12,7 @@ import { CustomSnackbarContentWrapper } from './components/commons/customSnackba
 import { PuzzledProvider } from './components/commons/puzzleContext';
 import graphqlClient from './lib/graphqlClient';
 import checkLogin, { asyncSetLoginInfo, asyncUpdateLoginInfo } from './lib/session/checkLogin';
+import { createReduxStore } from './state/redux';
 
 const checkloginInitalState = {
     checkLogin,
@@ -18,17 +20,21 @@ const checkloginInitalState = {
     asyncSetLoginInfo: asyncSetLoginInfo(checkLogin),
 };
 
+const store = createReduxStore();
+
 ReactDOM.render(
     <ApolloProvider client={graphqlClient}>
         <ApolloHooksProvider client={graphqlClient}>
-            <PuzzledProvider checkLogin={checkloginInitalState}>
-                <SnackbarProvider
-                    maxSnack={3}
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    content={(key, message) => <CustomSnackbarContentWrapper id={key} message={message} />}>
-                    <App />
-                </SnackbarProvider>
-            </PuzzledProvider>
+            <ReduxProvider store={store}>
+                <PuzzledProvider checkLogin={checkloginInitalState}>
+                    <SnackbarProvider
+                        maxSnack={3}
+                        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        content={(key, message) => <CustomSnackbarContentWrapper id={key} message={message} />}>
+                        <App />
+                    </SnackbarProvider>
+                </PuzzledProvider>
+            </ReduxProvider>
         </ApolloHooksProvider>
     </ApolloProvider>,
     document.getElementById('react')
