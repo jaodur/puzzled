@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import { useDispatch } from 'react-redux';
 import { LastLocationProvider } from 'react-router-last-location';
 
 import { DraggableChat } from './components/chat/draggableChat';
@@ -13,13 +14,20 @@ import { BigAssLoaderIcon } from './components/icons/loaderIcon';
 import { ProfileContainer } from './components/profile/profileContainer';
 import signInSignUpContainer from './components/profile/signInSignUpContainer';
 import { SudokuHome } from './components/sudoku/sudoku';
+import { loadProfiles } from './state/userProfile';
+
+const initialStoreDispatch = (dispatch: any) => {
+    dispatch(loadProfiles());
+};
 
 function App() {
     const [loading, setLoading] = React.useState(true);
     const { asyncUpdateLoginInfo } = useCheckLoginContext();
+    const dispatch = useDispatch();
 
     // component did mount
     React.useEffect(() => {
+        initialStoreDispatch(dispatch);
         asyncUpdateLoginInfo(() => setLoading(false));
     }, []);
 
