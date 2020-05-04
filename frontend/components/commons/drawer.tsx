@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import UIDrawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
-import { useQueryProfiles } from '../../graphql/customHooks/profiles';
-import { deepCopy } from '../../utils/utils';
+import { AppState } from '../../state/redux/types';
 import { TemporaryDrawerInterface } from '../interfaces/drawer';
 import { ProfileInterface } from '../interfaces/profile';
 import { ProfileAvatar } from './avatar';
@@ -24,10 +24,7 @@ const useStyles = makeStyles({
 function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawerInterface) {
     const classes = useStyles({});
 
-    const [profiles, setProfiles] = React.useState([]);
-    const { profilesData, error } = useQueryProfiles((results: any) =>
-        setProfiles(deepCopy(results.profilesData.profiles))
-    );
+    const profiles = useSelector((state: AppState) => state.userProfiles);
 
     const renderSuggestion = (suggestion: ProfileInterface) => {
         return (
