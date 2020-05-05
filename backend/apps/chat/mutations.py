@@ -1,3 +1,4 @@
+from hashlib import sha512
 import uuid
 import graphene
 from django.db.utils import IntegrityError
@@ -13,7 +14,7 @@ from .model_types import Message, ChatChannel, ChatChannelModelType, MessageMode
 def generate_room_id(user_ids=(), non_reusable=False):
     if non_reusable:
         return str(uuid.uuid1())
-    return hash(''.join(sorted(set(user_ids))))
+    return sha512(''.join(sorted(set(user_ids))).encode()).hexdigest()
 
 
 class CreateOrGetDirectChatChannelMutation(BaseMutation):
