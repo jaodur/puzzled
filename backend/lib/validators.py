@@ -1,5 +1,4 @@
 import re
-from itertools import zip_longest
 from enum import Enum
 from django.db.models import Model
 from django.core.exceptions import ValidationError
@@ -69,19 +68,12 @@ def chat_type_validator(chat_type):
         raise ValueError(f'Invalid chatType. Possible types are {ChatTypeEnum.values()}')
 
 
-def get_invalid_model_unique_keys(django_model, key_values, key='id', sort_func=lambda val: val):
+def get_invalid_model_unique_keys(django_model, key_values, key='id'):
 
     if not issubclass(django_model, Model):
         raise Exception(f'{django_model} is not a valid django model')
 
-    invalid_keys = []
     filter_mapper = {f'{key}__in': key_values}
     queryset = django_model.objects.filter(**filter_mapper).values_list(key, flat=True)
 
-    paired_values = zip_longest(sorted(key_values, key=sort_func), sorted(queryset, key=sort_func))
-
-    for input_val, db_val in paired_values:
-        if db_val is None:
-            invalid_keys.append(input_val)
-
-    return invalid_keys
+    return [key for key in key_values if key not in map(str, queryset)]
