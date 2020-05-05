@@ -14,11 +14,7 @@ import { BigAssLoaderIcon } from './components/icons/loaderIcon';
 import { ProfileContainer } from './components/profile/profileContainer';
 import signInSignUpContainer from './components/profile/signInSignUpContainer';
 import { SudokuHome } from './components/sudoku/sudoku';
-import { loadProfiles } from './state/userProfile';
-
-const initialStoreDispatch = (dispatch: any) => {
-    dispatch(loadProfiles());
-};
+import initialStoreDispatch from './state/redux/initialStoreDispatch'
 
 function App() {
     const [loading, setLoading] = React.useState(true);
