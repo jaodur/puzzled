@@ -5,6 +5,9 @@ import { ChannelsInterface, IdentifierInterface, MessagesInterface } from './typ
 export const LOAD_CHAT_IDENTIFIERS_SUCCESS = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_SUCCESS';
 export const loadChatIdentifiersSuccess = createAction(LOAD_CHAT_IDENTIFIERS_SUCCESS)<IdentifierInterface>();
 
+export const CHAT_IDENTIFIERS_FOUND_SUCCESS = 'chat/identifiers/CHAT_IDENTIFIERS_FOUND_SUCCESS';
+export const chatIdentifierFoundSuccess = createAction(CHAT_IDENTIFIERS_FOUND_SUCCESS)();
+
 export const LOAD_CHAT_IDENTIFIERS_FAILURE = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_FAILURE';
 export const loadChatIdentifiersFailure = createAction(LOAD_CHAT_IDENTIFIERS_FAILURE)();
 

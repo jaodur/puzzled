@@ -1,13 +1,21 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
 import Input from '@material-ui/core/Input';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 import SendIcon from '@material-ui/icons/SendOutlined';
+import { useMutation } from 'react-apollo-hooks';
 import { animateScroll } from 'react-scroll';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
 import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
+import {
+    ADD_MESSAGE_MUTATION,
+    CREATE_OR_GET_DIRECT_CHAT_MUTATION,
+    EDIT_MESSAGE_MUTATION,
+} from '../../graphql/mutations/chat';
+import { AppState } from '../../state/redux/types';
 import { ChatProfileAvatar } from '../commons/avatar';
 import { Draggable } from '../commons/draggable';
 import { Flowable } from '../commons/flowable';
@@ -25,9 +33,13 @@ const useStyles = makeStyles({
 
 function ChatBody({ styleClass }: ChatBodyInterface) {
     const messageScrollContainerID = 'messageScrollContainerID';
-    const defaultMessage: ChatMessageInterface = { float: 'right', content: '' };
+    const defaultMessage: ChatMessageInterface = { float: 'right', message: '' };
+    const [directChat, _] = useMutation(CREATE_OR_GET_DIRECT_CHAT_MUTATION);
+    const [addMessage, __] = useMutation(ADD_MESSAGE_MUTATION);
+    const [editMessage, ___] = useMutation(EDIT_MESSAGE_MUTATION);
     const [messages, setMessages] = React.useState([]);
-    const [message, setMessage] = React.useState(defaultMessage);
+    const [msg, setMsg] = React.useState(defaultMessage);
+    const profiles = useSelector((state: AppState) => state.userProfiles);
 
     // componentDidMount
     React.useEffect(() => {
@@ -48,16 +60,16 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
     };
 
     const sendMessage = () => {
-        if (message.content) {
-            setMessages([...messages, message]);
-            setMessage({ ...message, content: '' });
+        if (msg.message) {
+            setMessages([...messages, msg]);
+            setMsg({ ...msg, message: '' });
         }
     };
 
     function onMessageChange(event: EventInterface) {
         event.preventDefault();
-        const msg: ChatMessageInterface = { ...message, content: event.target.value };
-        setMessage(msg);
+        const newMsg: ChatMessageInterface = { ...msg, message: event.target.value };
+        setMsg(newMsg);
     }
 
     function onMessageSendClick(event: EventInterface) {
@@ -76,43 +88,16 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
         <div className={styleClass}>
             <div style={{ display: 'flex' }}>
                 <Flowable>
-                    <ChatProfileAvatar profileName={'Odur Joseph'} small maxLetters={2} />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Ocaa jacob'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://unsplash.com/photos/5E5N49RWtbA'}
-                        profileName={'Fred Yiga'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
-                    <ChatProfileAvatar
-                        src={'https://source.unsplash.com/random'}
-                        profileName={'Okello Josh'}
-                        small
-                        maxLetters={2}
-                    />
+                    {profiles &&
+                        profiles.map((profile, key) => (
+                            <ChatProfileAvatar
+                                src={profile.pictureUrl}
+                                profileName={profile.name}
+                                small
+                                maxLetters={2}
+                                key={key}
+                            />
+                        ))}
                 </Flowable>
             </div>
             <div>
@@ -120,7 +105,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                     {messages.length !== 0 ? (
                         messages.map((msg: ChatMessageInterface, key) => (
                             <MessageDialogue round float={msg.float} key={key}>
-                                {msg.content}
+                                {msg.message}
                             </MessageDialogue>
                         ))
                     ) : (
@@ -129,7 +114,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                 </Flowable>
                 <div className={`${styleClass}__message-send`}>
                     <Input
-                        value={message.content}
+                        value={msg.message}
                         autoFocus
                         multiline
                         disableUnderline

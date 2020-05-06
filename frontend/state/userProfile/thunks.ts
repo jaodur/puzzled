@@ -1,12 +1,11 @@
-import { ThunkDispatch } from 'redux-thunk';
-
 import { PROFILES_SEARCH_QUERY } from '../../graphql/queries/profile';
 import { graphqlQuery } from '../../lib/api/graphqlHttp';
 import { getAppStateInterface } from '../redux/types';
+import { AppThunkDispatch } from '../redux/types';
 import { loadUserProfilesFailure, loadUserProfilesSuccess } from './actions';
 
 const loadProfiles = (forceRefresh: boolean = false) => {
-    return async (dispatch: ThunkDispatch<any, any, any>, getState: getAppStateInterface) => {
+    return async (dispatch: AppThunkDispatch, getState: getAppStateInterface) => {
         const userProfiles = getState().userProfiles;
 
         if (!forceRefresh && !!userProfiles && userProfiles.length > 0) {

@@ -93,6 +93,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "subscriptions-transport-ws": "^0.9.16",
     "typesafe-actions": "^5.1.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
