@@ -1,4 +1,5 @@
 import { DraggableCoreInterface } from './draggable';
+import { ProfileInterface } from './profile';
 
 type FloatType = 'left' | 'right';
 
@@ -30,7 +31,16 @@ interface MessageDialogueInterface {
 
 interface ChatMessageInterface {
     float: FloatType;
-    content: string;
+    message: string;
+    user?: ProfileInterface;
+}
+
+interface ChatChannelInterface {
+    id: string;
+    roomId: string;
+    name: string;
+    users: ProfileInterface[];
+    messages: ChatMessageInterface[];
 }
 
 interface ChatIconInterface {
@@ -39,6 +49,7 @@ interface ChatIconInterface {
 
 export {
     ChatBodyInterface,
+    ChatChannelInterface,
     ChatInterface,
     ChatIconInterface,
     ChatMessageInterface,
