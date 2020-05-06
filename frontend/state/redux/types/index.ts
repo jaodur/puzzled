@@ -1,3 +1,5 @@
+import { Action } from 'redux';
+
 import { ProfileInterface } from '../../../components/interfaces/profile';
 import { ChatAction } from '../../chat/types';
 
@@ -5,7 +7,13 @@ import { ChatAction } from '../../chat/types';
 type AppAction = ChatAction;
 
 /** A reducer that manages a slice of state given any AppAction */
-type AppReducer<S, A extends AppAction = AppAction> = (state: S | undefined, action: A) => S;
+type AppReducer<S, A extends Action = AppAction> = (state: S | undefined, action: A) => S;
+
+type ReducerHandler<S, A extends Action = AppAction> = (state: S | undefined, action: A) => S;
+
+interface ReducerHandlers<S, A extends Action = AppAction> {
+    [key: string]: ReducerHandler<S, A>;
+}
 
 interface AppState {
     userProfiles: ProfileInterface[];
@@ -13,4 +21,4 @@ interface AppState {
 
 type getAppStateInterface = () => AppState;
 
-export { AppAction, AppReducer, AppState, getAppStateInterface };
+export { AppAction, AppReducer, AppState, getAppStateInterface, ReducerHandler, ReducerHandlers };
