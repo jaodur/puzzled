@@ -16,6 +16,7 @@ const CREATE_OR_GET_DIRECT_CHAT_MUTATION = gql`
                     updatedAt
                     id
                     message
+                    float
                     user {
                         id
                         name
@@ -42,6 +43,7 @@ const CREATE_OR_GET_MULTI_USER_CHAT_MUTATION = gql`
                     updatedAt
                     id
                     message
+                    float
                     user {
                         id
                         name
@@ -60,6 +62,7 @@ const ADD_MESSAGE_MUTATION = gql`
                 createdAt
                 updatedAt
                 message
+                float
                 user {
                     id
                     name
@@ -78,6 +81,7 @@ const EDIT_MESSAGE_MUTATION = gql`
                 createdAt
                 updatedAt
                 message
+                float
                 user {
                     id
                     name
