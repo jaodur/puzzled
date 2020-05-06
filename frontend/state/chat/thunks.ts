@@ -1,6 +1,7 @@
 import { CREATE_OR_GET_DIRECT_CHAT_MUTATION } from '../../graphql/mutations/chat';
 import { graphqlMutate } from '../../lib/api/graphqlHttp';
 import { getAppStateInterface } from '../redux/types';
+import { AppThunkDispatch } from '../redux/types';
 import {
     chatIdentifierFoundSuccess,
     loadChatChannelsSuccess,
@@ -10,7 +11,7 @@ import {
 } from './actions';
 
 const loadDirectChatChannel = (userIds: string[]) => {
-    return async (dispatch: ThunkDispatch<any, any, any>, getState: getAppStateInterface) => {
+    return async (dispatch: AppThunkDispatch, getState: getAppStateInterface) => {
         userIds.sort();
         const identifier = userIds.join('-');
         const chatId = getState().chat.identifier[identifier] || false;

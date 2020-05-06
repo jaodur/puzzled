@@ -1,4 +1,5 @@
 import { Action } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 
 import { ProfileInterface } from '../../../components/interfaces/profile';
 import { ChatAction, ChatStateInterface } from '../../chat';
@@ -16,6 +17,12 @@ interface ReducerHandlers<S, A extends Action = AppAction> {
     [key: string]: ReducerHandler<S, A>;
 }
 
+/** The dependencies object that will be provided to redux-thunk */
+interface AppDependencies {}
+
+/** A dispatch function that accepts regular app actions as well as thunk actions */
+type AppThunkDispatch = ThunkDispatch<AppState, AppDependencies, AppAction>;
+
 interface AppState {
     userProfiles: ProfileInterface[];
     chat: ChatStateInterface;
@@ -23,4 +30,4 @@ interface AppState {
 
 type getAppStateInterface = () => AppState;
 
-export { AppAction, AppReducer, AppState, getAppStateInterface, ReducerHandler, ReducerHandlers };
+export { AppAction, AppReducer, AppState, AppThunkDispatch, getAppStateInterface, ReducerHandler, ReducerHandlers };

@@ -1,6 +1,7 @@
 import { loadProfiles } from '../userProfile';
+import { AppThunkDispatch } from './types';
 
-const initialStoreDispatch = (dispatch: any) => {
+const initialStoreDispatch = (dispatch: AppThunkDispatch) => {
     dispatch(loadProfiles());
 };
 
