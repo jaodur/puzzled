@@ -1,9 +1,25 @@
-import { ActionType } from 'typesafe-actions';
+import { PayloadAction } from 'typesafe-actions';
 
-import * as actions from './actions';
+import { ChatChannelInterface, ChatMessageInterface } from '../../components/interfaces/chat';
 
-type ChatAction = ActionType<typeof actions>;
+type ChatAction = PayloadAction<string, any>;
 
-interface ChatState {}
+interface IdentifierInterface {
+    [key: string]: string;
+}
 
-export { ChatAction, ChatState };
+interface ChannelsInterface {
+    [key: string]: ChatChannelInterface;
+}
+
+interface MessagesInterface {
+    [key: string]: ChatMessageInterface[];
+}
+
+interface ChatStateInterface {
+    identifier: IdentifierInterface;
+    channels: ChannelsInterface;
+    messages: MessagesInterface;
+}
+
+export { ChatAction, ChatStateInterface, IdentifierInterface, ChannelsInterface, MessagesInterface };

@@ -1,6 +1,19 @@
 import { createAction } from 'typesafe-actions';
 
-export const LOAD_USER_PROFILE_REQUEST = 'chat/userProfiles/LOAD_USER_PROFILE_REQUEST';
-export const LOAD_USER_PROFILE_SUCCESS = 'chat/userProfiles/LOAD_USER_PROFILE_SUCCESS';
-export const LOAD_USER_PROFILE_FAILURE = 'chat/userProfiles/LOAD_USER_PROFILE_FAILURE';
-export const loadUserProfileRequest = createAction(LOAD_USER_PROFILE_REQUEST)();
+import { ChannelsInterface, IdentifierInterface, MessagesInterface } from './types';
+
+export const LOAD_CHAT_IDENTIFIERS_SUCCESS = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_SUCCESS';
+export const loadChatIdentifiersSuccess = createAction(LOAD_CHAT_IDENTIFIERS_SUCCESS)<IdentifierInterface>();
+
+export const LOAD_CHAT_IDENTIFIERS_FAILURE = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_FAILURE';
+export const loadChatIdentifiersFailure = createAction(LOAD_CHAT_IDENTIFIERS_FAILURE)();
+
+export const LOAD_CHAT_CHANNELS_SUCCESS = 'chat/channels/ LOAD_CHAT_CHANNELS_SUCCESS';
+export const loadChatChannelsSuccess = createAction(LOAD_CHAT_CHANNELS_SUCCESS)<ChannelsInterface>();
+
+export const LOAD_CHAT_CHANNELS_FAILURE = 'chat/channels/ LOAD_CHAT_CHANNELS_FAILURE';
+
+export const LOAD_CHAT_MESSAGES_SUCCESS = 'chat/messages/LOAD_CHAT_MESSAGES_SUCCESS';
+export const loadChatMessagesSuccess = createAction(LOAD_CHAT_MESSAGES_SUCCESS)<MessagesInterface>();
+
+export const LOAD_CHAT_MESSAGES_FAILURE = 'chat/messages/LOAD_CHAT_MESSAGES_FAILURE';
