@@ -11,6 +11,7 @@ const loadProfiles = (forceRefresh: boolean = false) => {
 
         if (!forceRefresh && !!userProfiles && userProfiles.length > 0) {
             dispatch(loadUserProfilesSuccess(userProfiles));
+            return;
         }
         await graphqlQuery(PROFILES_SEARCH_QUERY, {}, { fetchPolicy: 'no-cache' })
             .then(data => {
