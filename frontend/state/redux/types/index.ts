@@ -1,10 +1,11 @@
 import { Action } from 'redux';
 
 import { ProfileInterface } from '../../../components/interfaces/profile';
-import { ChatAction } from '../../chat/types';
+import { ChatAction, ChatStateInterface } from '../../chat';
+import { UserProfilesAction } from '../../userProfile';
 
 /** A union type of every action that may be dispatched to the app's Redux store */
-type AppAction = ChatAction;
+type AppAction = UserProfilesAction | ChatAction;
 
 /** A reducer that manages a slice of state given any AppAction */
 type AppReducer<S, A extends Action = AppAction> = (state: S | undefined, action: A) => S;
@@ -17,6 +18,7 @@ interface ReducerHandlers<S, A extends Action = AppAction> {
 
 interface AppState {
     userProfiles: ProfileInterface[];
+    chat: ChatStateInterface;
 }
 
 type getAppStateInterface = () => AppState;
