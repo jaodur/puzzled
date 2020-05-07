@@ -1,31 +1,26 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
+import Input from '@material-ui/core/Input';
+import SendIcon from '@material-ui/icons/SendOutlined';
+import { animateScroll } from 'react-scroll';
 
-import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
-import { setMiniChatOpen } from '../../state/chat/thunks';
+import { CHAT_PLACEHOLDER } from '../../constants/chat';
+import { addMessage } from '../../state/chat/thunks';
 import { AppState } from '../../state/redux/types';
-import { Draggable } from '../commons/draggable';
-import { ChatInterface, DraggableChatInterface } from '../interfaces/chat';
+import { ChatProfileAvatar } from '../commons/avatar';
+import { Flowable } from '../commons/flowable';
+import { ChatBodyInterface, ChatMessageInterface } from '../interfaces/chat';
 import { EventInterface } from '../interfaces/interfaces';
-import { ChatBody } from './chatBody';
-import { ChatIcon } from './icons';
-
-const useStyles = makeStyles({
-    root: {
-        fontSize: '32px',
-    },
-});
+import { EmptyChat } from './emptyChat';
+import { MessageDialogue } from './messageDialogue';
 
 function ChatBody({ styleClass }: ChatBodyInterface) {
+    const dispatch = useDispatch();
     const messageScrollContainerID = 'messageScrollContainerID';
+    const currentChatChannelId = useSelector((state: AppState) => state.chat.currentChannel.id);
+    const messages = useSelector((state: AppState) => state.chat.messages[currentChatChannelId]);
     const defaultMessage: ChatMessageInterface = { float: 'right', message: '' };
-    const [directChat, _] = useMutation(CREATE_OR_GET_DIRECT_CHAT_MUTATION);
-    const [addMessage, __] = useMutation(ADD_MESSAGE_MUTATION);
-    const [editMessage, ___] = useMutation(EDIT_MESSAGE_MUTATION);
-    const [messages, setMessages] = React.useState([]);
     const [msg, setMsg] = React.useState(defaultMessage);
     const profiles = useSelector((state: AppState) => state.userProfiles);
 
@@ -49,7 +44,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
 
     const sendMessage = () => {
         if (msg.message) {
-            setMessages([...messages, msg]);
+            dispatch(addMessage(currentChatChannelId, msg));
             setMsg({ ...msg, message: '' });
         }
     };
@@ -90,7 +85,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
             </div>
             <div>
                 <Flowable scrollContainerId={messageScrollContainerID}>
-                    {messages.length !== 0 ? (
+                    {messages && messages.length !== 0 ? (
                         messages.map((msg: ChatMessageInterface, key) => (
                             <MessageDialogue round float={msg.float} key={key}>
                                 {msg.message}
@@ -117,29 +112,4 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
     );
 }
 
-function Chat({ styleClass }: ChatInterface) {
-    const classes = useStyles({});
-    return (
-        <div className={styleClass || DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}>
-            <div className={DEFAULT_DRAGGABLE_HANDLE.CLASSNAME}>
-                <span>
-                    <ChatIcon />
-                    <span>chat</span>
-                    <CloseIcon className={classes.root} onClick={onCloseIconClick} />
-                </span>
-            </div>
-            <ChatBody styleClass={`${DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}__chat_body`} />
-        </div>
-    );
-}
-
-function DraggableChat({  }: DraggableChatInterface) {
-    const defaultPosition = { x: 500, y: 150 };
-    return (
-        <Draggable defaultPosition={defaultPosition}>
-            <Chat />
-        </Draggable>
-    );
-}
-
-export { Chat, DraggableChat };
+export { ChatBody };
