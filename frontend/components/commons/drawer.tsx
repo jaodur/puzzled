@@ -34,7 +34,7 @@ function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawer
 
     const onRenderedSuggestionClick = (suggestion: ProfileInterface) => (event: EventInterface) => {
         event.preventDefault();
-        toggleDrawer(false);
+        toggleDrawer(false)(event); // need to pass in event since it's manually triggered
         dispatch(loadDirectChatChannel([currentUserId, suggestion.id]));
         dispatch(setMiniChatOpen(true));
     };
