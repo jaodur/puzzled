@@ -1,6 +1,12 @@
 import * as actions from '../chat/actions';
 import { combineReducers, createReducer } from '../redux/utils';
-import { ChannelsInterface, ChatStateInterface, IdentifierInterface, MessagesInterface } from './types';
+import {
+    ChannelsInterface,
+    ChatStateInterface,
+    CurrentChannelInterface,
+    IdentifierInterface,
+    MessagesInterface,
+} from './types';
 import { ChatAction } from './types';
 
 const identifierReducer = createReducer<IdentifierInterface, ChatAction>(() => ({}), {
@@ -24,7 +30,26 @@ const messagesReducer = createReducer<MessagesInterface, ChatAction>(() => ({}),
     },
 });
 
+const currentChannelReducer = createReducer<CurrentChannelInterface, ChatAction>(
+    () => ({ id: null, name: null, roomId: null }),
+    {
+        [actions.SET_CURRENT_CHANNEL_SUCCESS]: (draftState, { payload: currentChannel }) => {
+            draftState = currentChannel;
+            return draftState;
+        },
+    }
+);
+
+const isMiniChatOpenReducer = createReducer<boolean, ChatAction>(() => false, {
+    [actions.SET_MINI_CHAT_OPEN_SUCCESS]: (draftState, { payload: isMiniChatOpen }) => {
+        draftState = isMiniChatOpen;
+        return draftState;
+    },
+});
+
 const chatReducer = combineReducers<ChatStateInterface>({
+    currentChannel: currentChannelReducer,
+    isMiniChatOpen: isMiniChatOpenReducer,
     identifier: identifierReducer,
     channels: channelsReducer,
     messages: messagesReducer,
