@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/CloseOutlined';
 
 import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '../../constants/draggable';
+import { useIsMiniChatOpen } from '../../state/chat';
 import { setMiniChatOpen } from '../../state/chat/thunks';
-import { AppState } from '../../state/redux/types';
 import { Draggable } from '../commons/draggable';
 import { IsLoggedIn } from '../commons/loggedIn';
 import { ChatInterface, DraggableChatInterface } from '../interfaces/chat';
@@ -51,7 +51,7 @@ function Chat({ styleClass }: ChatInterface) {
 
 function DraggableChat({  }: DraggableChatInterface) {
     const defaultPosition = { x: 500, y: 150 };
-    const isMiniChatOpen = useSelector((state: AppState) => state.chat.isMiniChatOpen);
+    const isMiniChatOpen = useIsMiniChatOpen();
     return (
         <IsLoggedIn>
             <Draggable show={isMiniChatOpen} defaultPosition={defaultPosition}>

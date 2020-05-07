@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import UIDrawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { loadDirectChatChannel, setMiniChatOpen } from '../../state/chat/thunks';
-import { AppState } from '../../state/redux/types';
+import { useLoginInfo, useUserProfiles } from '../../state/userProfile';
 import { TemporaryDrawerInterface } from '../interfaces/drawer';
 import { EventInterface } from '../interfaces/interfaces';
 import { ProfileInterface } from '../interfaces/profile';
@@ -27,10 +27,10 @@ function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawer
     const classes = useStyles({});
 
     const dispatch = useDispatch();
-    const profiles = useSelector((state: AppState) => state.userProfiles);
-    const currentUserId = useSelector((state: AppState) => {
-        return (state.currentUser.user && state.currentUser.user.id) || null;
-    });
+    const profiles = useUserProfiles();
+    const {
+        user: { id: currentUserId },
+    } = useLoginInfo();
 
     const onRenderedSuggestionClick = (suggestion: ProfileInterface) => (event: EventInterface) => {
         event.preventDefault();

@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { useloginInfo } from '../../state/userProfile';
+import { useLoginInfo } from '../../state/userProfile';
 import { IsLoggedInInterface } from '../interfaces/isLoggedIn';
 
 const IsLoggedIn = ({ children }: IsLoggedInInterface) => {
-    const currentUser = useloginInfo();
+    const currentUser = useLoginInfo();
     return currentUser.loggedIn ? children : <></>;
 };
 

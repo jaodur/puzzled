@@ -1,8 +1,13 @@
 import { useSelector } from 'react-redux';
+
 import { AppState } from '../redux/types';
 
-const useloginInfo = () => {
+const useLoginInfo = () => {
     return useSelector((state: AppState) => state.currentUser);
 };
 
-export { useloginInfo };
+const useUserProfiles = () => {
+    return useSelector((state: AppState) => state.userProfiles);
+};
+
+export { useLoginInfo, useUserProfiles };

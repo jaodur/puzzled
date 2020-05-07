@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Input from '@material-ui/core/Input';
 import SendIcon from '@material-ui/icons/SendOutlined';
@@ -7,7 +7,7 @@ import { animateScroll } from 'react-scroll';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
 import { addMessage, loadDirectChatChannel } from '../../state/chat/thunks';
-import { AppState } from '../../state/redux/types';
+import { useLoginInfo, useUserProfiles } from '../../state/userProfile';
 import { ChatProfileAvatar } from '../commons/avatar';
 import { Flowable } from '../commons/flowable';
 import { ChatBodyInterface, ChatMessageInterface } from '../interfaces/chat';
@@ -19,14 +19,14 @@ import { MessageDialogue } from './messageDialogue';
 function ChatBody({ styleClass }: ChatBodyInterface) {
     const dispatch = useDispatch();
     const messageScrollContainerID = 'messageScrollContainerID';
-    const currentChatChannelId = useSelector((state: AppState) => state.chat.currentChannel.id);
-    const messages = useSelector((state: AppState) => state.chat.messages[currentChatChannelId]);
     const defaultMessage: ChatMessageInterface = { float: 'right', message: '' };
     const [msg, setMsg] = React.useState(defaultMessage);
-    const profiles = useSelector((state: AppState) => state.userProfiles);
-    const currentUserId = useSelector((state: AppState) => {
-        return (state.currentUser.user && state.currentUser.user.id) || null;
-    });
+    const { id: currentChatChannelId } = useCurrentChatChannel();
+    const messages = useChannelMessages(currentChatChannelId);
+    const profiles = useUserProfiles();
+    const {
+        user: { id: currentUserId },
+    } = useLoginInfo();
 
     // componentDidMount
     React.useEffect(() => {
