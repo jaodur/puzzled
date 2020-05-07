@@ -8,6 +8,8 @@ import {
     loadChatIdentifiersFailure,
     loadChatIdentifiersSuccess,
     loadChatMessagesSuccess,
+    setCurrentChannelSuccess,
+    setMiniChatOpenSuccess,
 } from './actions';
 
 const loadDirectChatChannel = (userIds: string[]) => {
@@ -17,7 +19,9 @@ const loadDirectChatChannel = (userIds: string[]) => {
         const chatId = getState().chat.identifier[identifier] || false;
 
         if (chatId) {
+            const channel = getState().chat.channels[chatId];
             dispatch(chatIdentifierFoundSuccess);
+            dispatch(setCurrentChannelSuccess({ id: channel.id, name: channel.name, roomId: channel.roomId }));
             return;
         }
         await graphqlMutate(CREATE_OR_GET_DIRECT_CHAT_MUTATION, { userIds }, { fetchPolicy: 'no-cache' })
@@ -25,6 +29,7 @@ const loadDirectChatChannel = (userIds: string[]) => {
                 dispatch(loadChatIdentifiersSuccess({ [identifier]: channel.id }));
                 dispatch(loadChatChannelsSuccess({ [channel.id]: channel }));
                 dispatch(loadChatMessagesSuccess({ [channel.id]: channel.messages }));
+                dispatch(setCurrentChannelSuccess({ id: channel.id, name: channel.name, roomId: channel.roomId }));
             })
             .catch(err => {
                 dispatch(loadChatIdentifiersFailure);
@@ -32,4 +37,10 @@ const loadDirectChatChannel = (userIds: string[]) => {
     };
 };
 
-export { loadDirectChatChannel };
+const setMiniChatOpen = (miniChatOpen: boolean) => {
+    return async (dispatch: AppThunkDispatch) => {
+        dispatch(setMiniChatOpenSuccess(miniChatOpen));
+    };
+};
+
+export { loadDirectChatChannel, setMiniChatOpen };
