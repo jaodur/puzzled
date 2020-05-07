@@ -23,11 +23,33 @@ interface AppDependencies {}
 /** A dispatch function that accepts regular app actions as well as thunk actions */
 type AppThunkDispatch = ThunkDispatch<AppState, AppDependencies, AppAction>;
 
+interface loggedInUserInterface {
+    id: string;
+    name: string;
+    preferredName: string;
+    email: string;
+}
+
+interface CurrentUserInterface {
+    loggedIn: boolean;
+    user: loggedInUserInterface | null;
+}
+
 interface AppState {
+    currentUser: CurrentUserInterface;
     userProfiles: ProfileInterface[];
     chat: ChatStateInterface;
 }
 
 type getAppStateInterface = () => AppState;
 
-export { AppAction, AppReducer, AppState, AppThunkDispatch, getAppStateInterface, ReducerHandler, ReducerHandlers };
+export {
+    AppAction,
+    AppReducer,
+    AppState,
+    AppThunkDispatch,
+    CurrentUserInterface,
+    getAppStateInterface,
+    ReducerHandler,
+    ReducerHandlers,
+};

@@ -1,8 +1,14 @@
+import { CHECK_LOGIN_MUTATION } from '../../graphql/mutations/authentication';
 import { PROFILES_SEARCH_QUERY } from '../../graphql/queries/profile';
-import { graphqlQuery } from '../../lib/api/graphqlHttp';
+import { graphqlMutate, graphqlQuery } from '../../lib/api/graphqlHttp';
 import { getAppStateInterface } from '../redux/types';
 import { AppThunkDispatch } from '../redux/types';
-import { loadUserProfilesFailure, loadUserProfilesSuccess } from './actions';
+import {
+    loadCurrentUserFailure,
+    loadCurrentUserSuccess,
+    loadUserProfilesFailure,
+    loadUserProfilesSuccess,
+} from './actions';
 
 const loadProfiles = (forceRefresh: boolean = false) => {
     return async (dispatch: AppThunkDispatch, getState: getAppStateInterface) => {
@@ -22,4 +28,16 @@ const loadProfiles = (forceRefresh: boolean = false) => {
     };
 };
 
-export { loadProfiles };
+const loadCurrentUser = () => {
+    return async (dispatch: AppThunkDispatch) => {
+        await graphqlMutate(CHECK_LOGIN_MUTATION, {}, { fetchPolicy: 'no-cache' })
+            .then(({ checkLogin }) => {
+                dispatch(loadCurrentUserSuccess(checkLogin));
+            })
+            .catch(err => {
+                dispatch(loadCurrentUserFailure);
+            });
+    };
+};
+
+export { loadCurrentUser, loadProfiles };
