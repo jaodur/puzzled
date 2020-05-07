@@ -6,12 +6,13 @@ import SendIcon from '@material-ui/icons/SendOutlined';
 import { animateScroll } from 'react-scroll';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
-import { addMessage } from '../../state/chat/thunks';
+import { addMessage, loadDirectChatChannel } from '../../state/chat/thunks';
 import { AppState } from '../../state/redux/types';
 import { ChatProfileAvatar } from '../commons/avatar';
 import { Flowable } from '../commons/flowable';
 import { ChatBodyInterface, ChatMessageInterface } from '../interfaces/chat';
 import { EventInterface } from '../interfaces/interfaces';
+import { ProfileInterface } from '../interfaces/profile';
 import { EmptyChat } from './emptyChat';
 import { MessageDialogue } from './messageDialogue';
 
@@ -23,6 +24,9 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
     const defaultMessage: ChatMessageInterface = { float: 'right', message: '' };
     const [msg, setMsg] = React.useState(defaultMessage);
     const profiles = useSelector((state: AppState) => state.userProfiles);
+    const currentUserId = useSelector((state: AppState) => {
+        return (state.currentUser.user && state.currentUser.user.id) || null;
+    });
 
     // componentDidMount
     React.useEffect(() => {
@@ -67,6 +71,11 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
         }
     }
 
+    const onProfileAvatarClick = (profile: ProfileInterface) => (event: EventInterface) => {
+        event.preventDefault();
+        dispatch(loadDirectChatChannel([currentUserId, profile.id]));
+    };
+
     return (
         <div className={styleClass}>
             <div style={{ display: 'flex' }}>
@@ -79,6 +88,7 @@ function ChatBody({ styleClass }: ChatBodyInterface) {
                                 small
                                 maxLetters={2}
                                 key={key}
+                                onClick={onProfileAvatarClick(profile)}
                             />
                         ))}
                 </Flowable>
