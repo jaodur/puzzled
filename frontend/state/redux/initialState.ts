@@ -1,12 +1,9 @@
+import { chatInitialState } from '../chat';
 import { AppState } from './types';
 
 const initialState: AppState = {
     userProfiles: [],
-    chat: {
-        identifier: {},
-        channels: {},
-        messages: {},
-    },
+    chat: chatInitialState,
 };
 
 export { initialState as default };
