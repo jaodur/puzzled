@@ -8,6 +8,7 @@ import { DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS, DEFAULT_DRAGGABLE_HANDLE } from '..
 import { setMiniChatOpen } from '../../state/chat/thunks';
 import { AppState } from '../../state/redux/types';
 import { Draggable } from '../commons/draggable';
+import { IsLoggedIn } from '../commons/loggedIn';
 import { ChatInterface, DraggableChatInterface } from '../interfaces/chat';
 import { EventInterface } from '../interfaces/interfaces';
 import { ChatBody } from './chatBody';
@@ -52,9 +53,11 @@ function DraggableChat({  }: DraggableChatInterface) {
     const defaultPosition = { x: 500, y: 150 };
     const isMiniChatOpen = useSelector((state: AppState) => state.chat.isMiniChatOpen);
     return (
-        <Draggable show={isMiniChatOpen} defaultPosition={defaultPosition}>
-            <Chat />
-        </Draggable>
+        <IsLoggedIn>
+            <Draggable show={isMiniChatOpen} defaultPosition={defaultPosition}>
+                <Chat />
+            </Draggable>
+        </IsLoggedIn>
     );
 }
 

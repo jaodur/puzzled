@@ -4,6 +4,7 @@ import ArrowLeft from '@material-ui/icons/ArrowLeft';
 import ArrowRight from '@material-ui/icons/ArrowRight';
 
 import { TemporaryDrawer } from '../commons/drawer';
+import { IsLoggedIn } from '../commons/loggedIn';
 
 const defaultDrawerStyle = 'default-drawer';
 const defaultDrawerOpenStyle = 'default-drawer-open';
@@ -19,12 +20,14 @@ function DrawerContainer() {
         setIsOpen(isOpen);
     };
     return (
-        <>
-            <div className={isOpen ? defaultDrawerOpenStyle : defaultDrawerStyle} onClick={toggleDrawer(!isOpen)}>
-                {isOpen ? <ArrowRight /> : <ArrowLeft />}
-            </div>
-            <TemporaryDrawer elements={[]} side={'right'} open={isOpen} toggleDrawer={toggleDrawer} />
-        </>
+        <IsLoggedIn>
+            <>
+                <div className={isOpen ? defaultDrawerOpenStyle : defaultDrawerStyle} onClick={toggleDrawer(!isOpen)}>
+                    {isOpen ? <ArrowRight /> : <ArrowLeft />}
+                </div>
+                <TemporaryDrawer elements={[]} side={'right'} open={isOpen} toggleDrawer={toggleDrawer} />
+            </>
+        </IsLoggedIn>
     );
 }
 
