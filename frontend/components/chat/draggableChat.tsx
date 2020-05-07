@@ -16,109 +16,24 @@ import { ChatIcon } from './icons';
 const useStyles = makeStyles({
     root: {
         fontSize: '32px',
+        '&:hover': {
+            borderRadius: '30px',
+            backgroundColor: 'red',
+            cursor: 'pointer',
+            transition: 'background 0.5s',
+        },
     },
 });
 
-function ChatBody({ styleClass }: ChatBodyInterface) {
-    const messageScrollContainerID = 'messageScrollContainerID';
-    const defaultMessage: ChatMessageInterface = { float: 'right', message: '' };
-    const [directChat, _] = useMutation(CREATE_OR_GET_DIRECT_CHAT_MUTATION);
-    const [addMessage, __] = useMutation(ADD_MESSAGE_MUTATION);
-    const [editMessage, ___] = useMutation(EDIT_MESSAGE_MUTATION);
-    const [messages, setMessages] = React.useState([]);
-    const [msg, setMsg] = React.useState(defaultMessage);
-    const profiles = useSelector((state: AppState) => state.userProfiles);
-
-    // componentDidMount
-    React.useEffect(() => {
-        scrollToBottom();
-    }, []);
-
-    React.useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
-
-    const scrollToBottom = () => {
-        animateScroll.scrollToBottom({
-            containerId: messageScrollContainerID,
-            duration: 400,
-            delay: 0,
-            smooth: 'easeInOutQuart',
-        });
-    };
-
-    const sendMessage = () => {
-        if (msg.message) {
-            setMessages([...messages, msg]);
-            setMsg({ ...msg, message: '' });
-        }
-    };
-
-    function onMessageChange(event: EventInterface) {
-        event.preventDefault();
-        const newMsg: ChatMessageInterface = { ...msg, message: event.target.value };
-        setMsg(newMsg);
-    }
-
-    function onMessageSendClick(event: EventInterface) {
-        event.preventDefault();
-        sendMessage();
-    }
-
-    function onMessageKeyDown(event: EventInterface) {
-        if (!event.shiftKey && event.key === 'Enter') {
-            event.preventDefault();
-            sendMessage();
-        }
-    }
-
-    return (
-        <div className={styleClass}>
-            <div style={{ display: 'flex' }}>
-                <Flowable>
-                    {profiles &&
-                        profiles.map((profile, key) => (
-                            <ChatProfileAvatar
-                                src={profile.pictureUrl}
-                                profileName={profile.name}
-                                small
-                                maxLetters={2}
-                                key={key}
-                            />
-                        ))}
-                </Flowable>
-            </div>
-            <div>
-                <Flowable scrollContainerId={messageScrollContainerID}>
-                    {messages.length !== 0 ? (
-                        messages.map((msg: ChatMessageInterface, key) => (
-                            <MessageDialogue round float={msg.float} key={key}>
-                                {msg.message}
-                            </MessageDialogue>
-                        ))
-                    ) : (
-                        <EmptyChat />
-                    )}
-                </Flowable>
-                <div className={`${styleClass}__message-send`}>
-                    <Input
-                        value={msg.message}
-                        autoFocus
-                        multiline
-                        disableUnderline
-                        placeholder={CHAT_PLACEHOLDER}
-                        onChange={onMessageChange}
-                        onKeyDown={onMessageKeyDown}
-                    />
-                    <SendIcon onClick={onMessageSendClick} />
-                </div>
-            </div>
-        </div>
-    );
-}
-
 function Chat({ styleClass }: ChatInterface) {
     const classes = useStyles({});
+    const dispatch = useDispatch();
+
+    const onCloseIconClick = (event: EventInterface) => {
+        event.preventDefault();
+        dispatch(setMiniChatOpen(false));
+    };
+
     return (
         <div className={styleClass || DEFAULT_DRAGGABLE_CHAT_STYLE_CLASS}>
             <div className={DEFAULT_DRAGGABLE_HANDLE.CLASSNAME}>
@@ -135,8 +50,9 @@ function Chat({ styleClass }: ChatInterface) {
 
 function DraggableChat({  }: DraggableChatInterface) {
     const defaultPosition = { x: 500, y: 150 };
+    const isMiniChatOpen = useSelector((state: AppState) => state.chat.isMiniChatOpen);
     return (
-        <Draggable defaultPosition={defaultPosition}>
+        <Draggable show={isMiniChatOpen} defaultPosition={defaultPosition}>
             <Chat />
         </Draggable>
     );

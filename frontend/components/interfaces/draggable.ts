@@ -51,6 +51,7 @@ interface DraggableCoreInterface {
 
 interface DraggableInterface extends DraggableCoreInterface {
     children: React.ReactElement;
+    show: boolean;
 }
 
 export { DraggableInterface as default, DraggableCoreInterface };

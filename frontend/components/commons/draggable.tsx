@@ -10,10 +10,12 @@ function Draggable({ children, ...draggableProps }: DraggableInterface) {
     }
     draggableProps.handle = !!draggableProps.handle ? draggableProps.handle : DEFAULT_DRAGGABLE_HANDLE.IDENTIFIER;
 
-    return (
+    return draggableProps.show ? (
         <ReactDraggable {...draggableProps}>
             <div style={{ display: 'inline-block', width: 'auto' }}>{children}</div>
         </ReactDraggable>
+    ) : (
+        <></>
     );
 }
 
