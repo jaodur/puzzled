@@ -46,6 +46,7 @@ interface MaterialThemeInterface {
 }
 
 interface ProfileInterface {
+    id?: string;
     name: string;
     preferredName: string;
     email?: string;

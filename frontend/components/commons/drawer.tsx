@@ -1,11 +1,13 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import UIDrawer from '@material-ui/core/Drawer';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector } from 'react-redux';
 
+import { loadDirectChatChannel, setMiniChatOpen } from '../../state/chat/thunks';
 import { AppState } from '../../state/redux/types';
 import { TemporaryDrawerInterface } from '../interfaces/drawer';
+import { EventInterface } from '../interfaces/interfaces';
 import { ProfileInterface } from '../interfaces/profile';
 import { ProfileAvatar } from './avatar';
 import { SearchBar } from './searchBar';
@@ -24,11 +26,22 @@ const useStyles = makeStyles({
 function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawerInterface) {
     const classes = useStyles({});
 
+    const dispatch = useDispatch();
     const profiles = useSelector((state: AppState) => state.userProfiles);
+    const currentUserId = useSelector((state: AppState) => {
+        return (state.currentUser.user && state.currentUser.user.id) || null;
+    });
+
+    const onRenderedSuggestionClick = (suggestion: ProfileInterface) => (event: EventInterface) => {
+        event.preventDefault();
+        toggleDrawer(false);
+        dispatch(loadDirectChatChannel([currentUserId, suggestion.id]));
+        dispatch(setMiniChatOpen(true));
+    };
 
     const renderSuggestion = (suggestion: ProfileInterface) => {
         return (
-            <div>
+            <div onClick={onRenderedSuggestionClick(suggestion)}>
                 <ProfileAvatar
                     styleClass={'default-search-bar__avatar'}
                     small
