@@ -16,10 +16,25 @@ interface MessagesInterface {
     [key: string]: ChatMessageInterface[];
 }
 
+interface CurrentChannelInterface {
+    id: string | null;
+    name: string | null;
+    roomId: string | null;
+}
+
 interface ChatStateInterface {
+    currentChannel: CurrentChannelInterface;
+    isMiniChatOpen: boolean;
     identifier: IdentifierInterface;
     channels: ChannelsInterface;
     messages: MessagesInterface;
 }
 
-export { ChatAction, ChatStateInterface, IdentifierInterface, ChannelsInterface, MessagesInterface };
+export {
+    ChatAction,
+    ChatStateInterface,
+    CurrentChannelInterface,
+    IdentifierInterface,
+    ChannelsInterface,
+    MessagesInterface,
+};
