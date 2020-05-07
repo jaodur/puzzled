@@ -1,6 +1,12 @@
 import { createAction } from 'typesafe-actions';
 
-import { ChannelsInterface, CurrentChannelInterface, IdentifierInterface, MessagesInterface } from './types';
+import {
+    ChannelsInterface,
+    ChatMessageInterface,
+    CurrentChannelInterface,
+    IdentifierInterface,
+    MessagesInterface,
+} from './types';
 
 export const LOAD_CHAT_IDENTIFIERS_SUCCESS = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_SUCCESS';
 export const loadChatIdentifiersSuccess = createAction(LOAD_CHAT_IDENTIFIERS_SUCCESS)<IdentifierInterface>();
@@ -18,6 +24,12 @@ export const LOAD_CHAT_CHANNELS_FAILURE = 'chat/channels/ LOAD_CHAT_CHANNELS_FAI
 
 export const LOAD_CHAT_MESSAGES_SUCCESS = 'chat/messages/LOAD_CHAT_MESSAGES_SUCCESS';
 export const loadChatMessagesSuccess = createAction(LOAD_CHAT_MESSAGES_SUCCESS)<MessagesInterface>();
+
+export const ADD_CHAT_MESSAGE_SUCCESS = 'chat/messages/ADD_CHAT_MESSAGE_SUCCESS';
+export const addChatMessageSuccess = createAction(ADD_CHAT_MESSAGE_SUCCESS)<{
+    channelId: string;
+    message: ChatMessageInterface;
+}>();
 
 export const LOAD_CHAT_MESSAGES_FAILURE = 'chat/messages/LOAD_CHAT_MESSAGES_FAILURE';
 

@@ -28,6 +28,10 @@ const messagesReducer = createReducer<MessagesInterface, ChatAction>(() => ({}),
         draftState = { ...draftState, ...newMessage };
         return draftState;
     },
+    [actions.ADD_CHAT_MESSAGE_SUCCESS]: (draftState, { payload }) => {
+        draftState[payload.channelId].push(payload.message);
+        return draftState;
+    },
 });
 
 const currentChannelReducer = createReducer<CurrentChannelInterface, ChatAction>(

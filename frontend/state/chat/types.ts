@@ -32,6 +32,7 @@ interface ChatStateInterface {
 
 export {
     ChatAction,
+    ChatMessageInterface,
     ChatStateInterface,
     CurrentChannelInterface,
     IdentifierInterface,

@@ -3,6 +3,7 @@ import { graphqlMutate } from '../../lib/api/graphqlHttp';
 import { getAppStateInterface } from '../redux/types';
 import { AppThunkDispatch } from '../redux/types';
 import {
+    addChatMessageSuccess,
     chatIdentifierFoundSuccess,
     loadChatChannelsSuccess,
     loadChatIdentifiersFailure,
@@ -11,6 +12,7 @@ import {
     setCurrentChannelSuccess,
     setMiniChatOpenSuccess,
 } from './actions';
+import { ChatMessageInterface } from './types';
 
 const loadDirectChatChannel = (userIds: string[]) => {
     return async (dispatch: AppThunkDispatch, getState: getAppStateInterface) => {
@@ -43,4 +45,10 @@ const setMiniChatOpen = (miniChatOpen: boolean) => {
     };
 };
 
-export { loadDirectChatChannel, setMiniChatOpen };
+const addMessage = (channelId: string, message: ChatMessageInterface) => {
+    return async (dispatch: AppThunkDispatch) => {
+        dispatch(addChatMessageSuccess({ channelId, message }));
+    };
+};
+
+export { addMessage, loadDirectChatChannel, setMiniChatOpen };
