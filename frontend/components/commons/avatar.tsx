@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -12,6 +13,7 @@ import ProfileIcon from '@material-ui/icons/PersonOutline';
 import { useMutation } from 'react-apollo-hooks';
 
 import { LOGOUT_MUTATION } from '../../graphql/mutations/authentication';
+import { loadCurrentUser } from '../../state/userProfile';
 import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
 import { EventInterface } from '../interfaces/interfaces';
 import { AvatarInterface, ChatProfileAvatarInterface } from '../interfaces/profile';
@@ -89,6 +91,7 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
     // eslint-disable-next-line
     const [logoutUserFunc, setLogoutUserFunc] = useMutation(LOGOUT_MUTATION);
     const { asyncUpdateLoginInfo } = useCheckLoginContext();
+    const dispatch = useDispatch();
 
     function toggleShowDropdown() {
         setShowDropdown(!showDropdown);
@@ -98,6 +101,7 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
         event.preventDefault();
 
         await logoutUserFunc().then(async () => {
+            await dispatch(loadCurrentUser());
             await asyncUpdateLoginInfo(() => {});
         });
 

@@ -6,6 +6,7 @@ import SendIcon from '@material-ui/icons/SendOutlined';
 import { animateScroll } from 'react-scroll';
 
 import { CHAT_PLACEHOLDER } from '../../constants/chat';
+import { useChannelMessages, useCurrentChatChannel } from '../../state/chat';
 import { addMessage, loadDirectChatChannel } from '../../state/chat/thunks';
 import { useLoginInfo, useUserProfiles } from '../../state/userProfile';
 import { ChatProfileAvatar } from '../commons/avatar';
