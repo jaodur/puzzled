@@ -40,4 +40,4 @@ async function graphqlSubscribe(
     return graphqlClient.subscribe({ query, variables, ...extraOptions });
 }
 
-export { graphqlMutate, graphqlQuery };
+export { graphqlMutate, graphqlQuery, graphqlSubscribe };
