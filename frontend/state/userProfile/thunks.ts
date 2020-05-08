@@ -18,7 +18,7 @@ const loadProfiles = (forceRefresh: boolean = false) => {
             dispatch(loadUserProfilesSuccess(userProfiles));
             return;
         }
-        await graphqlQuery(PROFILES_SEARCH_QUERY, {}, { fetchPolicy: 'no-cache' })
+        await graphqlQuery(PROFILES_SEARCH_QUERY)
             .then(data => {
                 dispatch(loadUserProfilesSuccess(data.profiles));
             })
@@ -30,7 +30,7 @@ const loadProfiles = (forceRefresh: boolean = false) => {
 
 const loadCurrentUser = () => {
     return async (dispatch: AppThunkDispatch) => {
-        await graphqlMutate(CHECK_LOGIN_MUTATION, {}, { fetchPolicy: 'no-cache' })
+        await graphqlMutate(CHECK_LOGIN_MUTATION)
             .then(({ checkLogin }) => {
                 dispatch(loadCurrentUserSuccess(checkLogin));
             })

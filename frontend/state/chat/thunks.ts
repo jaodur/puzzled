@@ -26,7 +26,7 @@ const loadDirectChatChannel = (userIds: string[]) => {
             dispatch(setCurrentChannelSuccess({ id: channel.id, name: channel.name, roomId: channel.roomId }));
             return;
         }
-        await graphqlMutate(CREATE_OR_GET_DIRECT_CHAT_MUTATION, { userIds }, { fetchPolicy: 'no-cache' })
+        await graphqlMutate(CREATE_OR_GET_DIRECT_CHAT_MUTATION, { userIds })
             .then(({ createOrGetDirectChat: { chatChannel: channel } }) => {
                 dispatch(loadChatIdentifiersSuccess({ [identifier]: channel.id }));
                 dispatch(loadChatChannelsSuccess({ [channel.id]: channel }));
