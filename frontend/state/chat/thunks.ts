@@ -1,16 +1,20 @@
 import { CREATE_OR_GET_DIRECT_CHAT_MUTATION } from '../../graphql/mutations/chat';
-import { graphqlMutate } from '../../lib/api/graphqlHttp';
+import { CHAT_CHANNEL_SUBSCRIPTION } from '../../graphql/subscriptions/chat';
+import { graphqlMutate, graphqlSubscribe } from '../../lib/api/graphqlHttp';
 import { getAppStateInterface } from '../redux/types';
 import { AppThunkDispatch } from '../redux/types';
 import {
     addChatMessageSuccess,
     chatIdentifierFoundSuccess,
+    chatSubscriptionUpdateMessageFailure,
+    chatSubscriptionUpdateMessageSuccess,
     loadChatChannelsSuccess,
     loadChatIdentifiersFailure,
     loadChatIdentifiersSuccess,
     loadChatMessagesSuccess,
     setCurrentChannelSuccess,
     setMiniChatOpenSuccess,
+    subscribeChatChannelSuccess,
 } from './actions';
 import { ChatMessageInterface } from './types';
 
@@ -32,6 +36,7 @@ const loadDirectChatChannel = (userIds: string[]) => {
                 dispatch(loadChatChannelsSuccess({ [channel.id]: channel }));
                 dispatch(loadChatMessagesSuccess({ [channel.id]: channel.messages }));
                 dispatch(setCurrentChannelSuccess({ id: channel.id, name: channel.name, roomId: channel.roomId }));
+                dispatch(subscribeToChatChannel(channel.id));
             })
             .catch(err => {
                 dispatch(loadChatIdentifiersFailure);
@@ -51,4 +56,30 @@ const addMessage = (channelId: string, message: ChatMessageInterface) => {
     };
 };
 
-export { addMessage, loadDirectChatChannel, setMiniChatOpen };
+const subscribeToChatChannel = (channelId: string) => {
+    return async (dispatch: AppThunkDispatch, getState: getAppStateInterface) => {
+        const isSubscribed = getState().chat.subscribedChannels[channelId];
+        if (!isSubscribed) {
+            const currentUserId = getState().currentUser.user.id;
+            dispatch(subscribeChatChannelSuccess({ [channelId]: channelId }));
+            graphqlSubscribe(
+                CHAT_CHANNEL_SUBSCRIPTION,
+                { chatChannelId: channelId },
+                {
+                    next({ data }: any) {
+                        const {
+                            chatChannelUpdated: { id: channelId, latestMessage: message },
+                        } = data;
+                        message.float = currentUserId === message.user.id ? 'right' : message.float;
+                        dispatch(chatSubscriptionUpdateMessageSuccess({ channelId, message }));
+                    },
+                    error(err: any) {
+                        dispatch(chatSubscriptionUpdateMessageFailure);
+                    },
+                }
+            );
+        }
+    };
+};
+
+export { addMessage, loadDirectChatChannel, setMiniChatOpen, subscribeToChatChannel };
