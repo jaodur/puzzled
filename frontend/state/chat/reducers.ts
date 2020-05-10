@@ -23,12 +23,23 @@ const channelsReducer = createReducer<ChannelsInterface, ChatAction>(() => ({}),
     },
 });
 
+const subscribedChannelsReducer = createReducer<ChannelsInterface, ChatAction>(() => ({}), {
+    [actions.SUBSCRIBE_CHAT_CHANNEL_SUCCESS]: (draftState, { payload: newChannel }) => {
+        draftState = { ...draftState, ...newChannel };
+        return draftState;
+    },
+});
+
 const messagesReducer = createReducer<MessagesInterface, ChatAction>(() => ({}), {
     [actions.LOAD_CHAT_MESSAGES_SUCCESS]: (draftState, { payload: newMessage }) => {
         draftState = { ...draftState, ...newMessage };
         return draftState;
     },
     [actions.ADD_CHAT_MESSAGE_SUCCESS]: (draftState, { payload }) => {
+        draftState[payload.channelId].push(payload.message);
+        return draftState;
+    },
+    [actions.CHAT_SUBSCRIPTION_UPDATE_MESSAGE_SUCCESS]: (draftState, { payload }) => {
         draftState[payload.channelId].push(payload.message);
         return draftState;
     },
@@ -56,6 +67,7 @@ const chatReducer = combineReducers<ChatStateInterface>({
     isMiniChatOpen: isMiniChatOpenReducer,
     identifier: identifierReducer,
     channels: channelsReducer,
+    subscribedChannels: subscribedChannelsReducer,
     messages: messagesReducer,
 });
 
