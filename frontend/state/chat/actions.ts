@@ -50,3 +50,9 @@ export const chatSubscriptionUpdateMessageSuccess = createAction(CHAT_SUBSCRIPTI
 
 export const CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE = 'chat/channels/CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE';
 export const chatSubscriptionUpdateMessageFailure = createAction(CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE)();
+
+export const UPDATE_MESSAGES_FROM_SUBSCRIPTION_SUCCESS = 'chat/messsges/UPDATE_MESSAGE_FROM_SUBSCRIPTION_SUCCESS';
+export const updateMessagesFromSubscriptionSuccess = createAction(UPDATE_MESSAGES_FROM_SUBSCRIPTION_SUCCESS)<{
+    channelId: string;
+    messageId: string;
+}>();

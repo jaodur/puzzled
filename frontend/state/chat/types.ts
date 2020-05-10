@@ -26,12 +26,19 @@ interface CurrentChannelInterface {
     roomId: string | null;
 }
 
+interface MessagesFromSubscriptionInterface {
+    [key: string]: {
+        [key: string]: string;
+    };
+}
+
 interface ChatStateInterface {
     currentChannel: CurrentChannelInterface;
     isMiniChatOpen: boolean;
     identifier: IdentifierInterface;
     channels: ChannelsInterface;
     subscribedChannels: SubscribedChannelsInterface;
+    messagesFromSubscription: MessagesFromSubscriptionInterface;
     messages: MessagesInterface;
 }
 
@@ -43,4 +50,5 @@ export {
     IdentifierInterface,
     ChannelsInterface,
     MessagesInterface,
+    MessagesFromSubscriptionInterface,
 };

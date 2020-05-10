@@ -6,6 +6,7 @@ const ChatInitialState: ChatStateInterface = {
     identifier: {},
     channels: {},
     subscribedChannels: {},
+    messagesFromSubscription: {},
     messages: {},
 };
 
