@@ -1,9 +1,10 @@
-from django.db.models.signals import post_save, post_delete
-from graphene_subscriptions.signals import post_save_subscription, post_delete_subscription
-from .models import ChatChannel, Message
+from django.db.models.signals import m2m_changed
 
-post_save.connect(post_save_subscription, sender=ChatChannel, dispatch_uid='chat.ChatChannel_post_save')
-post_delete.connect(post_delete_subscription, sender=ChatChannel, dispatch_uid='chat.ChatChannel_post_delete')
+from .models import ChatChannel
+from backend.lib.signal_handlers import m2m_changed_subscription
 
-post_save.connect(post_save_subscription, sender=Message, dispatch_uid='chat.Message_post_save')
-post_delete.connect(post_delete_subscription, sender=Message, dispatch_uid='chat.Message_post_delete')
+m2m_changed.connect(
+    m2m_changed_subscription,
+    sender=ChatChannel.messages.through,
+    dispatch_uid='chat.ChatChannel_m2m_changed_subscription'
+)
