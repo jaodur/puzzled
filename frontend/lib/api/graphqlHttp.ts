@@ -41,7 +41,7 @@ async function graphqlSubscribe(
     query: DocumentNode,
     variables: object = {},
     observerOrNext: ObserverOrNextInterface,
-    extraOptions: ExtraOptionsInterface = { fetchPolicy: 'cache-first' }
+    extraOptions: ExtraOptionsInterface = { fetchPolicy: 'no-cache' }
 ) {
     return graphqlClient.subscribe({ query, variables, ...extraOptions }).subscribe(observerOrNext);
 }

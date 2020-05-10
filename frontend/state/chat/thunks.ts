@@ -15,6 +15,7 @@ import {
     setCurrentChannelSuccess,
     setMiniChatOpenSuccess,
     subscribeChatChannelSuccess,
+    updateMessagesFromSubscriptionSuccess,
 } from './actions';
 import { ChatMessageInterface } from './types';
 
@@ -70,8 +71,17 @@ const subscribeToChatChannel = (channelId: string) => {
                         const {
                             chatChannelUpdated: { id: channelId, latestMessage: message },
                         } = data;
-                        message.float = currentUserId === message.user.id ? 'right' : message.float;
-                        dispatch(chatSubscriptionUpdateMessageSuccess({ channelId, message }));
+                        const owner = currentUserId === message.user.id;
+                        if (owner) {
+                            return;
+                        }
+                        const msgFromSubscriptions = getState().chat.messagesFromSubscription[channelId];
+                        const msgExists = (msgFromSubscriptions && msgFromSubscriptions[message.id]) || false;
+
+                        if (!msgExists) {
+                            dispatch(chatSubscriptionUpdateMessageSuccess({ channelId, message }));
+                            dispatch(updateMessagesFromSubscriptionSuccess({ channelId, messageId: message.id }));
+                        }
                     },
                     error(err: any) {
                         dispatch(chatSubscriptionUpdateMessageFailure);
