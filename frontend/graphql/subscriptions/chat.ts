@@ -1,23 +1,21 @@
 import gql from 'graphql-tag';
 
 const CHAT_CHANNEL_SUBSCRIPTION = gql`
-    subscription chatChannelSubscription($chatChannelId: String!) {
-        chatChannelSubscription(instanceId: $chatChannelId) {
-            chatChannelUpdated {
+    subscription chatChannelSubscription($chatChannelId: ID!) {
+        chatChannelUpdated(id: $chatChannelId) {
+            id
+            roomId
+            name
+            latestMessage {
                 id
-                roomId
-                name
-                messages {
+                createdAt
+                updatedAt
+                message
+                float
+                user {
                     id
-                    createdAt
-                    updatedAt
-                    message
-                    float
-                    user {
-                        id
-                        name
-                        preferredName
-                    }
+                    name
+                    preferredName
                 }
             }
         }

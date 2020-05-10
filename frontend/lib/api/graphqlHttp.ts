@@ -12,6 +12,11 @@ interface ExtraOptionsInterface {
     refetchQueries?: any;
 }
 
+interface ObserverOrNextInterface {
+    next: any;
+    error: any;
+}
+
 async function graphqlMutate(
     mutation: DocumentNode,
     variables: object = {},
@@ -35,9 +40,10 @@ async function graphqlQuery(
 async function graphqlSubscribe(
     query: DocumentNode,
     variables: object = {},
+    observerOrNext: ObserverOrNextInterface,
     extraOptions: ExtraOptionsInterface = { fetchPolicy: 'cache-first' }
 ) {
-    return graphqlClient.subscribe({ query, variables, ...extraOptions });
+    return graphqlClient.subscribe({ query, variables, ...extraOptions }).subscribe(observerOrNext);
 }
 
 export { graphqlMutate, graphqlQuery, graphqlSubscribe };
