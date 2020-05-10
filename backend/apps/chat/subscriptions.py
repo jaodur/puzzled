@@ -1,19 +1,17 @@
 import graphene
-from graphene_subscriptions.events import UPDATED
-from backend.lib.base.base_subscription import BaseSubscription
+from backend.lib.signal_handlers.m2m_events import POST_ADD
 
 from .models import ChatChannel
 from .model_types import ChatChannelModelType
 
 
-class ChatChannelSubscription(BaseSubscription):
-
+class ChatChannelUpdatedType(graphene.ObjectType):
     chat_channel_updated = graphene.Field(ChatChannelModelType, id=graphene.ID())
 
-    class Meta:
-        model = ChatChannel
-        actions = [UPDATED]
-        description = 'ChatChannel Subscription'
-
-    class Arguments:
-        instance_id = graphene.String(required=True)
+    def resolve_chat_channel_updated(root, info, id):
+        return root.filter(
+            lambda event:
+                event.operation == POST_ADD and
+                isinstance(event.instance, ChatChannel) and
+                event.instance.pk == int(id)
+        ).map(lambda event: event.instance)

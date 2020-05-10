@@ -5,11 +5,11 @@ from .mutations import (
     CreateOrGetDirectChatChannelMutation,
     CreateOrGetMultiUserChatChannelMutation
 )
-from .subscriptions import ChatChannelSubscription
+from .subscriptions import ChatChannelUpdatedType
 
 
-class ChatSubscriptions(graphene.ObjectType):
-    chat_channel_subscription = ChatChannelSubscription.Field()
+class ChatSubscriptions(ChatChannelUpdatedType, graphene.ObjectType):
+    pass
 
 
 class ChatMutations(graphene.ObjectType):
