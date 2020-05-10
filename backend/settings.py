@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2&-hb@n-ld#&^-%)g1hgt-v91i(qyrp(7$-v@^mugi5466-+)i'
+SECRET_KEY = config('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(config('DEBUG'))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -165,12 +165,15 @@ if not DEBUG:
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+                    "hosts": [config('REDIS_URL', 'redis://localhost:6379/0')],
+                },
     },
 }
 
 GRAPHENE = {
-    'SCHEMA': 'backend.schema',
+    'SCHEMA': 'backend.schema.schema',
 }
 
 WEBPACK_LOADER = {
