@@ -5,6 +5,7 @@ import {
     ChatStateInterface,
     CurrentChannelInterface,
     IdentifierInterface,
+    MessagesFromSubscriptionInterface,
     MessagesInterface,
 } from './types';
 import { ChatAction } from './types';
@@ -26,6 +27,14 @@ const channelsReducer = createReducer<ChannelsInterface, ChatAction>(() => ({}),
 const subscribedChannelsReducer = createReducer<ChannelsInterface, ChatAction>(() => ({}), {
     [actions.SUBSCRIBE_CHAT_CHANNEL_SUCCESS]: (draftState, { payload: newChannel }) => {
         draftState = { ...draftState, ...newChannel };
+        return draftState;
+    },
+});
+
+const messagesFromSubscriptionReducer = createReducer<MessagesFromSubscriptionInterface, ChatAction>(() => ({}), {
+    [actions.UPDATE_MESSAGES_FROM_SUBSCRIPTION_SUCCESS]: (draftState, { payload: newMessage }) => {
+        const { channelId, messageId } = newMessage;
+        draftState[channelId] = { ...draftState[channelId], [messageId]: messageId };
         return draftState;
     },
 });
@@ -68,6 +77,7 @@ const chatReducer = combineReducers<ChatStateInterface>({
     identifier: identifierReducer,
     channels: channelsReducer,
     subscribedChannels: subscribedChannelsReducer,
+    messagesFromSubscription: messagesFromSubscriptionReducer,
     messages: messagesReducer,
 });
 
