@@ -38,3 +38,15 @@ export const setCurrentChannelSuccess = createAction(SET_CURRENT_CHANNEL_SUCCESS
 
 export const SET_MINI_CHAT_OPEN_SUCCESS = 'chat/miniChatOpen/SET_MINI_CHAT_OPEN_SUCCESS';
 export const setMiniChatOpenSuccess = createAction(SET_MINI_CHAT_OPEN_SUCCESS)<boolean>();
+
+export const SUBSCRIBE_CHAT_CHANNEL_SUCCESS = 'chat/channels/SUBSCRIBE_CHAT_CHANNEL_SUCCESS';
+export const subscribeChatChannelSuccess = createAction(SUBSCRIBE_CHAT_CHANNEL_SUCCESS)<{ [key: string]: string }>();
+
+export const CHAT_SUBSCRIPTION_UPDATE_MESSAGE_SUCCESS = 'chat/channels/CHAT_SUBSCRIPTION_UPDATE_MESSAGE_SUCCESS';
+export const chatSubscriptionUpdateMessageSuccess = createAction(CHAT_SUBSCRIPTION_UPDATE_MESSAGE_SUCCESS)<{
+    channelId: string;
+    message: ChatMessageInterface;
+}>();
+
+export const CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE = 'chat/channels/CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE';
+export const chatSubscriptionUpdateMessageFailure = createAction(CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE)();

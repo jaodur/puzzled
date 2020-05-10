@@ -5,6 +5,7 @@ const ChatInitialState: ChatStateInterface = {
     isMiniChatOpen: false,
     identifier: {},
     channels: {},
+    subscribedChannels: {},
     messages: {},
 };
 

@@ -12,6 +12,10 @@ interface ChannelsInterface {
     [key: string]: ChatChannelInterface;
 }
 
+interface SubscribedChannelsInterface {
+    [key: string]: ChatChannelInterface;
+}
+
 interface MessagesInterface {
     [key: string]: ChatMessageInterface[];
 }
@@ -27,6 +31,7 @@ interface ChatStateInterface {
     isMiniChatOpen: boolean;
     identifier: IdentifierInterface;
     channels: ChannelsInterface;
+    subscribedChannels: SubscribedChannelsInterface;
     messages: MessagesInterface;
 }
 
