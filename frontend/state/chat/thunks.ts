@@ -40,7 +40,7 @@ const loadDirectChatChannel = (userIds: string[]) => {
                 dispatch(subscribeToChatChannel(channel.id));
             })
             .catch(err => {
-                dispatch(loadChatIdentifiersFailure);
+                dispatch(loadChatIdentifiersFailure({ err }));
             });
     };
 };
@@ -84,7 +84,7 @@ const subscribeToChatChannel = (channelId: string) => {
                         }
                     },
                     error(err: any) {
-                        dispatch(chatSubscriptionUpdateMessageFailure);
+                        dispatch(chatSubscriptionUpdateMessageFailure({ err }));
                     },
                 }
             );

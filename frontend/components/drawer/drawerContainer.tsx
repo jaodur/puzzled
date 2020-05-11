@@ -25,7 +25,7 @@ function DrawerContainer() {
                 <div className={isOpen ? defaultDrawerOpenStyle : defaultDrawerStyle} onClick={toggleDrawer(!isOpen)}>
                     {isOpen ? <ArrowRight /> : <ArrowLeft />}
                 </div>
-                <TemporaryDrawer elements={[]} side={'right'} open={isOpen} toggleDrawer={toggleDrawer} />
+                <TemporaryDrawer side={'right'} open={isOpen} toggleDrawer={toggleDrawer} />
             </>
         </IsLoggedIn>
     );

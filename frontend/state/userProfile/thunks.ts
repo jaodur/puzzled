@@ -23,7 +23,7 @@ const loadProfiles = (forceRefresh: boolean = false) => {
                 dispatch(loadUserProfilesSuccess(data.profiles));
             })
             .catch(err => {
-                dispatch(loadUserProfilesFailure);
+                dispatch(loadUserProfilesFailure({ err }));
             });
     };
 };
@@ -35,7 +35,7 @@ const loadCurrentUser = () => {
                 dispatch(loadCurrentUserSuccess(checkLogin));
             })
             .catch(err => {
-                dispatch(loadCurrentUserFailure);
+                dispatch(loadCurrentUserFailure({ err }));
             });
     };
 };

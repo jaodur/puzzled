@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
 });
 
-function TemporaryDrawer({ elements, side, open, toggleDrawer }: TemporaryDrawerInterface) {
+function TemporaryDrawer({ side, open, toggleDrawer }: TemporaryDrawerInterface) {
     const classes = useStyles({});
 
     const dispatch = useDispatch();

@@ -18,12 +18,13 @@ interface ReducerHandlers<S, A extends Action = AppAction> {
 }
 
 /** The dependencies object that will be provided to redux-thunk */
+// eslint-disable-next-line
 interface AppDependencies {}
 
 /** A dispatch function that accepts regular app actions as well as thunk actions */
 type AppThunkDispatch = ThunkDispatch<AppState, AppDependencies, AppAction>;
 
-interface loggedInUserInterface {
+interface LoggedInUserInterface {
     id: string;
     name: string;
     preferredName: string;
@@ -32,7 +33,7 @@ interface loggedInUserInterface {
 
 interface CurrentUserInterface {
     loggedIn: boolean;
-    user: loggedInUserInterface | null;
+    user: LoggedInUserInterface | null;
 }
 
 interface AppState {

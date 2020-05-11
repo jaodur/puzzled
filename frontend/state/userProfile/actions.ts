@@ -10,10 +10,10 @@ export const LOAD_USER_PROFILES_SUCCESS = 'user/userProfiles/LOAD_USER_PROFILE_S
 export const loadUserProfilesSuccess = createAction(LOAD_USER_PROFILES_SUCCESS)<ProfileInterface[]>();
 
 export const LOAD_USER_PROFILES_FAILURE = 'user/userProfiles/LOAD_USER_PROFILE_FAILURE';
-export const loadUserProfilesFailure = createAction(LOAD_USER_PROFILES_FAILURE)();
+export const loadUserProfilesFailure = createAction(LOAD_USER_PROFILES_FAILURE)<{ err: object }>();
 
 export const LOAD_CURRENT_USER_SUCCESS = 'user/currentUser/LOAD_CURRENT_USER_SUCCESS';
 export const loadCurrentUserSuccess = createAction(LOAD_CURRENT_USER_SUCCESS)<CurrentUserInterface>();
 
 export const LOAD_CURRENT_USER_FAILURE = 'user/currentUser/LOAD_CURRENT_USER_FAILURE';
-export const loadCurrentUserFailure = createAction(LOAD_CURRENT_USER_FAILURE)();
+export const loadCurrentUserFailure = createAction(LOAD_CURRENT_USER_FAILURE)<{ err: object }>();

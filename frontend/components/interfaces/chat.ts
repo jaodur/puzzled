@@ -18,7 +18,7 @@ interface ChatInterface {
 
 interface DraggableChatInterface extends ChatInterface, DraggableCoreInterface {}
 
-interface ChatBodyInterface extends ChatInterface {}
+type ChatBodyInterface = ChatInterface;
 
 interface MessageDialogueInterface {
     children?: string;

@@ -15,7 +15,7 @@ export const CHAT_IDENTIFIERS_FOUND_SUCCESS = 'chat/identifiers/CHAT_IDENTIFIERS
 export const chatIdentifierFoundSuccess = createAction(CHAT_IDENTIFIERS_FOUND_SUCCESS)();
 
 export const LOAD_CHAT_IDENTIFIERS_FAILURE = 'chat/identifiers/LOAD_CHAT_IDENTIFIERS_FAILURE';
-export const loadChatIdentifiersFailure = createAction(LOAD_CHAT_IDENTIFIERS_FAILURE)();
+export const loadChatIdentifiersFailure = createAction(LOAD_CHAT_IDENTIFIERS_FAILURE)<{ err: object }>();
 
 export const LOAD_CHAT_CHANNELS_SUCCESS = 'chat/channels/ LOAD_CHAT_CHANNELS_SUCCESS';
 export const loadChatChannelsSuccess = createAction(LOAD_CHAT_CHANNELS_SUCCESS)<ChannelsInterface>();
@@ -49,7 +49,9 @@ export const chatSubscriptionUpdateMessageSuccess = createAction(CHAT_SUBSCRIPTI
 }>();
 
 export const CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE = 'chat/channels/CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE';
-export const chatSubscriptionUpdateMessageFailure = createAction(CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE)();
+export const chatSubscriptionUpdateMessageFailure = createAction(CHAT_SUBSCRIPTION_UPDATE_MESSAGE_FAILURE)<{
+    err: object;
+}>();
 
 export const UPDATE_MESSAGES_FROM_SUBSCRIPTION_SUCCESS = 'chat/messsges/UPDATE_MESSAGE_FROM_SUBSCRIPTION_SUCCESS';
 export const updateMessagesFromSubscriptionSuccess = createAction(UPDATE_MESSAGES_FROM_SUBSCRIPTION_SUCCESS)<{
