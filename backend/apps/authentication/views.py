@@ -11,7 +11,7 @@ class VerifyEmail(View):
 
     def get(self, request, signed_data, *args, **kwargs):
         try:
-            signing.loads(signed_data, max_age=8 * 60 * 60)
+            signing.loads(signed_data, max_age=settings.VERIFY_EMAIL_LINK_AGE)
         except signing.SignatureExpired:
             message = constants.EXPIRED_LINK_MSG
             context = dict(message=message, redirect_url=make_absolute('/'))
