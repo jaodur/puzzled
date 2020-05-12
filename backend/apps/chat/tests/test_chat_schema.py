@@ -1,8 +1,17 @@
 import json
+from unittest.mock import patch
 from graphene_django.utils.testing import GraphQLTestCase
 from backend.apps.authentication.tests.fixtures import create_user_mutation, login_user_mutation
-from .fixtures import create_direct_chat_mutation, create_multi_user_chat_mutation
+from .fixtures import add_message_mutation, create_direct_chat_mutation, create_multi_user_chat_mutation
 from backend.schema import schema
+
+
+class MockChatChannel:
+    messages = set()
+
+
+class MockChatChannelQuerySet:
+    objects = {'1': MockChatChannel()}
 
 
 class TestChatSchema(GraphQLTestCase):
@@ -98,4 +107,36 @@ class TestChatSchema(GraphQLTestCase):
         self.assertEquals(response_content['errors'][0]['field'], 'userIds')
         self.assertEquals(response_content['errors'][0]['code'], 'invalid')
         self.assertEquals(response_content['errors'][0]['message'], "user(s) with ids ['1', '2000'] not found")
+
+    @patch('backend.apps.chat.mutations.ChatChannel')
+    def test_add_message_to_channel_succeeds(self, mock_chat_channel):
+
+        mock_chat_channel.return_value = MockChatChannelQuerySet
+
+        user_ids = self.login_user()
+
+        test_message = 'test message'
+
+        response = self.query(add_message_mutation('1', test_message))
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseNoErrors(response)
+        self.assertEquals(response_content['data']['addMessage']['chatMessage']['message'], test_message)
+        self.assertEquals(response_content['data']['addMessage']['chatMessage']['float'], 'right')
+        self.assertEquals(response_content['data']['addMessage']['chatMessage']['user']['id'], user_ids[0])
+
+    def test_add_message_to_invalid_channel_id_fails(self):
+        user_ids = self.login_user()
+
+        test_message = 'test message'
+        invalid_channel_id = '1000'
+
+        response = self.query(add_message_mutation(invalid_channel_id, test_message))
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseHasErrors(response)
+        self.assertResponseHasErrors(response)
+        self.assertEquals(response_content['errors'][0]['field'], 'channelId')
+        self.assertEquals(response_content['errors'][0]['code'], 'invalid')
+        self.assertEquals(response_content['errors'][0]['message'], f'channel with id {invalid_channel_id} not found')
 

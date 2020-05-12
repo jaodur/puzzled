@@ -96,3 +96,26 @@ def create_multi_user_chat_mutation(name, chat_type, user_ids):
         }}
         '''
     )
+
+
+def add_message_mutation(channel_id, message):
+    return (
+        f'''
+        mutation {{
+        addMessage(channelId: "{channel_id}", message: "{message}") {{
+            chatMessage {{
+                id
+                createdAt
+                updatedAt
+                message
+                float
+                user {{
+                    id
+                    name
+                    preferredName
+                }}
+            }}
+        }}
+    }}
+    '''
+    )
