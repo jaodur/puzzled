@@ -1,7 +1,5 @@
 from django.contrib.auth import get_user_model
 import faker
-# from graphene.test import Client
-# from backend.schema import schema
 import pytest
 
 from backend.apps.chat.models import Message, ChatChannel
@@ -70,7 +68,7 @@ def create_multi_user_chat_mutation(name, chat_type, user_ids):
     return (
         f'''
         mutation {{
-          createOrGetMultiUserChat(name: "{name}", chatType: "{chat_type}", userIds: ["{user_ids[0]}", "{user_ids[1]}"]) 
+        createOrGetMultiUserChat(name: "{name}", chatType: "{chat_type}", userIds: ["{user_ids[0]}", "{user_ids[1]}"])
             {{
                 chatChannel {{
                     id
@@ -103,6 +101,29 @@ def add_message_mutation(channel_id, message):
         f'''
         mutation {{
         addMessage(channelId: "{channel_id}", message: "{message}") {{
+            chatMessage {{
+                id
+                createdAt
+                updatedAt
+                message
+                float
+                user {{
+                    id
+                    name
+                    preferredName
+                }}
+            }}
+        }}
+    }}
+    '''
+    )
+
+
+def edit_message_mutation(message_id, message):
+    return (
+        f'''
+        mutation {{
+        editMessage(messageId: "{message_id}", message: "{message}") {{
             chatMessage {{
                 id
                 createdAt

@@ -288,7 +288,6 @@ class TestUserSchema(GraphQLTestCase):
 
         # login user
         login_response = self.query(login_user_mutation(email=email))
-
         response_content = json.loads(login_response.content.decode('utf-8'))
 
         self.assertEquals(login_response.status_code, 200)

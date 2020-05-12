@@ -75,7 +75,7 @@ const ADD_MESSAGE_MUTATION = gql`
 
 const EDIT_MESSAGE_MUTATION = gql`
     mutation addMessage($messageId: String!, $message: String!) {
-        addMessage(messageId: $messageId, message: $message) {
+        editMessage(messageId: $messageId, message: $message) {
             chatMessage {
                 id
                 createdAt
