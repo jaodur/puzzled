@@ -1,3 +1,4 @@
+import numpy as np
 from ..game_logic import Sudoku
 import pytest
 from .fixtures import (
@@ -76,6 +77,64 @@ class TestSudoku:
         next_cell = Sudoku(puzzle, 3)._find_next_empty_cell()
 
         assert next_cell == (-1, -1, -1)
+
+    def test_row_col_mapper(self, puzzle):
+        row_col_mapper = Sudoku(puzzle, 3).row_col_mapper()
+
+        assert row_col_mapper == \
+            {2: [0, 1], 1: [0, 2], 0: [1, 2], 5: [3, 4], 4: [3, 5], 3: [4, 5], 8: [6, 7], 7: [6, 8], 6: [7, 8]}
+
+    def test_row_col_translate_translate_row(self, puzzle):
+        translator = Sudoku.row_col_translate(translate_row=True)
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = translator(puzzle, puzzle_type)
+
+        assert not np.array_equal(translated, original_puzzle)
+
+    def test_row_col_translate_translate_column(self, puzzle):
+        translator = Sudoku.row_col_translate(translate_row=False)
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = translator(puzzle, puzzle_type)
+
+        assert not np.array_equal(translated, original_puzzle)
+
+    def test_row_col_exchange_translate_translate_row(self, puzzle):
+        translator = Sudoku.row_col_exchange_translate(translate_row=True)
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = translator(puzzle, puzzle_type)
+
+        assert not np.array_equal(translated, original_puzzle)
+
+    def test_row_col_exchange_translate_translate_column(self, puzzle):
+        translator = Sudoku.row_col_exchange_translate(translate_row=False)
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = translator(puzzle, puzzle_type)
+
+        assert not np.array_equal(translated, original_puzzle)
+
+    def test_roll_translate(self, puzzle):
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = Sudoku.roll_translate(puzzle)
+
+        assert not np.array_equal(translated, original_puzzle)
+
+    def test_translate_puzzle(self, puzzle):
+        puzzle_type = 3
+        puzzle = Sudoku(puzzle, puzzle_type).puzzle
+        original_puzzle = np.array(puzzle)
+        translated = Sudoku.translate_puzzle(puzzle, puzzle_type)
+
+        assert not np.array_equal(translated, original_puzzle)
 
     def test_invalid_type_fails(self):
         with pytest.raises(Exception) as err:
