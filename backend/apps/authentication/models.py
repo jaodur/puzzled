@@ -1,4 +1,5 @@
 from django.db import models, transaction
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core import signing
@@ -112,7 +113,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def send_email(self, subject, template, context):
         EmailSender.DJANGO_MAIL.send_template_mail([self.email], subject, template, context)
 
-    def confirm_email(self, signed_data, max_age=constants.VERIFY_EMAIL_LINK_AGE):
+    def confirm_email(self, signed_data, max_age=settings.VERIFY_EMAIL_LINK_AGE):
         error, message = True, None
 
         try:

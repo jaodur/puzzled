@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import { useSnackbar, withSnackbar } from 'notistack';
@@ -7,6 +8,7 @@ import { useMutation } from 'react-apollo-hooks';
 import { useLastLocation } from 'react-router-last-location';
 
 import { CREATE_USER_MUTATION, LOGIN_USER_MUTATION } from '../../graphql/mutations/authentication';
+import { loadCurrentUser } from '../../state/userProfile';
 import { renderSnackbar } from '../../utils/customSnackbar';
 import { deepCopy, renderElement } from '../../utils/utils';
 import { validateUserInputs } from '../../utils/validation';
@@ -24,6 +26,7 @@ const footerClass: string = 'main-footer';
 
 function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
+    const dispatch = useDispatch();
     const history = useHistory();
     const lastLocation = useLastLocation();
     const { checkLogin, asyncUpdateLoginInfo } = useCheckLoginContext();
@@ -91,6 +94,7 @@ function SignInSignUpContainer() {
             .then(async (response: any) => {
                 const preferredName = await response.data.loginUser.user.preferredName;
 
+                await dispatch(loadCurrentUser());
                 await asyncUpdateLoginInfo(() => {});
 
                 enqueueSnackbar(`Login successful, welcome ${preferredName}`, {

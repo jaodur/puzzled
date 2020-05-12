@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -12,9 +13,10 @@ import ProfileIcon from '@material-ui/icons/PersonOutline';
 import { useMutation } from 'react-apollo-hooks';
 
 import { LOGOUT_MUTATION } from '../../graphql/mutations/authentication';
+import { loadCurrentUser } from '../../state/userProfile';
 import { avatarLetterStyleClass } from '../../utils/singletons/avatar';
 import { EventInterface } from '../interfaces/interfaces';
-import { AvatarInterface } from '../interfaces/profile';
+import { AvatarInterface, ChatProfileAvatarInterface } from '../interfaces/profile';
 import { links } from './linkUrls';
 import { useCheckLoginContext } from './puzzleContext';
 
@@ -59,7 +61,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function ProfileAvatar({ src, profileName, onClick, styleClass, small }: AvatarInterface) {
+function ProfileAvatar({ src, profileName, onClick, styleClass, small, maxLetters }: AvatarInterface) {
     const classes: any = useStyles({});
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
@@ -76,7 +78,7 @@ function ProfileAvatar({ src, profileName, onClick, styleClass, small }: AvatarI
                 <Avatar alt={profileName} src={src} />
             ) : (
                 <Avatar className={`${classes[avatarLetterStyleClass]} ${sizeStyle}`}>
-                    {!!small ? getAvatarLetters(profileName, 1) : getAvatarLetters(profileName)}
+                    {!!small ? getAvatarLetters(profileName, maxLetters || 1) : getAvatarLetters(profileName)}
                 </Avatar>
             )}
         </div>
@@ -89,6 +91,7 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
     // eslint-disable-next-line
     const [logoutUserFunc, setLogoutUserFunc] = useMutation(LOGOUT_MUTATION);
     const { asyncUpdateLoginInfo } = useCheckLoginContext();
+    const dispatch = useDispatch();
 
     function toggleShowDropdown() {
         setShowDropdown(!showDropdown);
@@ -98,6 +101,7 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
         event.preventDefault();
 
         await logoutUserFunc().then(async () => {
+            await dispatch(loadCurrentUser());
             await asyncUpdateLoginInfo(() => {});
         });
 
@@ -130,4 +134,12 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
     );
 }
 
-export { NavBarProfileAvatar, ProfileAvatar };
+function ChatProfileAvatar({ containerStyleClass, ...AvatarProps }: ChatProfileAvatarInterface) {
+    return (
+        <div className={containerStyleClass || 'default-chat-profile-wrapper'}>
+            <ProfileAvatar {...AvatarProps} />
+        </div>
+    );
+}
+
+export { ChatProfileAvatar, NavBarProfileAvatar, ProfileAvatar };

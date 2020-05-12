@@ -8,6 +8,8 @@ services:
       POSTGRES_USER: docker
       POSTGRES_PASS: docker
       POSTGRES_DB: puzzled
+    ports:
+      - "5555:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     restart: unless-stopped

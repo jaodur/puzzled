@@ -1,3 +1,4 @@
+from time import sleep
 from django.contrib.auth import get_user_model
 from django.core import signing
 import pytest
@@ -67,11 +68,18 @@ class TestUserModel:
         assert str(err.value) == 'Not a valid url'
 
     def test_confirm_email_captures_expired_data(self, db, user_data):
-        expired_data = 'eyJpZCI6NSwibmV3X2VtYWlsIjoidGVzdEBnbWFpbC5jb20ifQ:1j5vYg:ssYktPALd2OHFybk3ACe1f4RC8o'
 
         user = get_user_model().objects.create_user(**user_data)
+        data = {
+            'id': user.id,
+            'new_email': user.email,
+        }
 
-        error, message = user.confirm_email(expired_data, max_age=60)
+        expired_data = signing.dumps(data)
+
+        sleep(2)
+
+        error, message = user.confirm_email(expired_data)
 
         assert error
 

@@ -9,8 +9,9 @@ class TestEmailSenderMeta(TestCase):
 
         with pytest.raises(Exception) as error:
             class TestEmailSender(metaclass=EmailSenderMeta):
-                # E731
-                TEST_SENDER = lambda: 'INVALID_SENDER'
+
+                def TEST_SENDER(self):
+                    return 'INVALID_SENDER'
 
         self.assertEquals(error.value.args[0], 'TEST_SENDER attribute must inherit from AbstractEmail')
 

@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+channels = "*"
+channels_redis = "*"
 django = "*"
 djangorestframework = "*"
 graphene_django = "*"
@@ -30,6 +32,7 @@ termcolor = "*"
 redis = "*"
 jinja2 = "*"
 premailer = "*"
+graphene-subscriptions = "*"
 
 [dev-packages]
 

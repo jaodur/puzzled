@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import NotificationOutlinedIcon from '@material-ui/icons/NotificationsOutlined';
 import { withSnackbar } from 'notistack';
 
-import { PROFILE_QUERY } from '../../graphql/mutations/queries/profile';
+import { PROFILE_QUERY } from '../../graphql/queries/profile';
 import { deepCopy, renderElement } from '../../utils/utils';
 import { ProfileAvatar } from '../commons/avatar';
 import { links } from '../commons/linkUrls';

@@ -22,10 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2&-hb@n-ld#&^-%)g1hgt-v91i(qyrp(7$-v@^mugi5466-+)i'
+SECRET_KEY = config('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(config('DEBUG'))
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -47,12 +47,15 @@ INSTALLED_APPS = [
     'backend.apps.authentication.apps.AuthenticationConfig',
     'backend.apps.email.apps.EmailConfig',
     'backend.apps.sudoku.apps.SudokuConfig',
+    'backend.apps.chat.apps.ChatConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
     'graphene_django',
     'webpack_loader',
     'django_q',
+    'channels',
+    'graphene_subscriptions',
 ]
 
 MIDDLEWARE = [
@@ -93,6 +96,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = "backend.routing.application"
 
 
 # Database
@@ -159,8 +163,17 @@ STATIC_URL = '/static/'
 if not DEBUG:
     raise ImproperlyConfigured('Please set the static-server')
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [config('REDIS_URL', 'redis://localhost:6379/0')],
+        },
+    },
+}
+
 GRAPHENE = {
-    'SCHEMA': 'backend.schema'
+    'SCHEMA': 'backend.schema.schema',
 }
 
 WEBPACK_LOADER = {
@@ -186,6 +199,7 @@ EMAIL_USE_TLS = True
 DEFAULT_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'backend.apps.email.backends.django_q.DjangoQBackend'
 DJANGO_Q_EMAIL_BACKEND = config('DJANGO_EMAIL_BACKEND', DEFAULT_BACKEND)
+VERIFY_EMAIL_LINK_AGE = int(config('VERIFY_EMAIL_LINK_AGE', 8 * 60 * 60))  # 8-days
 
 # Django-q configs
 Q_CLUSTER = {

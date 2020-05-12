@@ -1,4 +1,6 @@
 import re
+from enum import Enum
+from django.db.models import Model
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from pytz import timezone as pytz_timezone
@@ -48,3 +50,30 @@ def timezone_validator(timezone):
 
     except UnknownTimeZoneError:
         raise ValueError('Unknown timezone')
+
+
+class ChatTypeEnum(Enum):
+    PUBLIC = 'Public'
+    PRIVATE = 'Private'
+    DIRECT = 'Direct'
+
+    @classmethod
+    def values(cls):
+        return [e.value for e in cls]
+
+
+def chat_type_validator(chat_type):
+
+    if chat_type not in ChatTypeEnum.values():
+        raise ValueError(f'Invalid chatType. Possible types are {ChatTypeEnum.values()}')
+
+
+def get_invalid_model_unique_keys(django_model, key_values, key='id'):
+
+    if not issubclass(django_model, Model):
+        raise Exception(f'{django_model} is not a valid django model')
+
+    filter_mapper = {f'{key}__in': key_values}
+    queryset = django_model.objects.filter(**filter_mapper).values_list(key, flat=True)
+
+    return [key for key in key_values if key not in map(str, queryset)]

@@ -17,6 +17,7 @@ RUN apt-get update && \
 
 ## virtualenv
 ENV VIRTUAL_ENV=/opt/venv
+ARG NODE_ROOT=/root/node_dependencies
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
@@ -30,9 +31,9 @@ RUN pipenv run pipenv_to_requirements -o requirements-custom.in && \
     rm requirements-custom.in requirements.txt
 
 ## add and install node requirements
-RUN mkdir /root/node_dependencies
-ADD package.json /root/node_dependencies
-WORKDIR /root/node_dependencies
+RUN mkdir $NODE_ROOT
+ADD package.json $NODE_ROOT
+WORKDIR $NODE_ROOT
 
 RUN npm install
 
@@ -45,17 +46,20 @@ MAINTAINER Odur Joseph <odurjoseph8@gmail.com>
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PATH="/opt/venv/bin:$PATH"
+ARG VIRTUAL_ENV=/opt/venv
+ARG NODE_ROOT=/root/node_dependencies
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ARG HOME='/app'
 
 ## copy Python and node dependencies from build image
-COPY --from=build-requirements /opt/venv /opt/venv
-COPY --from=build-requirements /root/node_dependencies/node_modules /app/node_modules
+COPY --from=build-requirements $VIRTUAL_ENV $VIRTUAL_ENV
+COPY --from=build-requirements $NODE_ROOT/node_modules $HOME/node_modules
 
-WORKDIR /app
-ADD . /app/
+WORKDIR $HOME
+ADD . $HOME/
 
 ENV DJANGO_SETTINGS_MODULE backend.settings
 
-RUN /bin/bash -c "source ./bin/functions/set_node_path.sh && setNodePath"
+ENV PATH="${PATH}:${HOME}/node_modules/.bin"
 
 EXPOSE 3000 8000

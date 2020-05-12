@@ -31,6 +31,7 @@ const CHECK_LOGIN_MUTATION = gql`
         checkLogin {
             loggedIn
             user {
+                id
                 name
                 preferredName
                 email
