@@ -1,4 +1,5 @@
 import json
+from time import sleep
 from django.contrib.auth import get_user_model
 from graphene_django.utils.testing import GraphQLTestCase
 from .fixtures import (
@@ -219,11 +220,14 @@ class TestUserSchema(GraphQLTestCase):
         self.assertEquals(response.url, '/u/sign-in/')
 
     def test_verify_email_checks_expired_links(self):
+        email = 'testemail23@example.com'
 
-        expired_link = 'http://localhost:8000/verification/verify-email/eyJpZCI6MTEsIm5ld19lbW' \
-                       'FpbCI6Im9kdXIuam9zZXBoQGFuZGVsYS5jb20ifQ:1j468X:QJfZRyFGApGhOJDs7TagGRof3xg/'
+        self.login_user(email=email)
+
+        user = get_user_model().objects.get(email=email)
+        expired_link = user.generate_email_confirmation_url(user.email)
+        sleep(2)
         response = self.client.get(expired_link)
-
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'Your email confirmation link has expired. Please generate new link', response.content)
 
