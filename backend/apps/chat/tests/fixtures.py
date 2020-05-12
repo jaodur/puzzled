@@ -42,6 +42,10 @@ def create_direct_chat_mutation(user_id1, user_id2, name="channelTestName"):
                         id
                         roomId
                         name
+                        latestMessage {{
+                            id
+                            message
+                        }}
                         users {{
                             id
                             name

@@ -10,9 +10,7 @@ class MessageModelType(DjangoObjectType):
     float = graphene.String()
 
     def resolve_float(self, info):
-        if self.user == info.context.user:
-            return 'right'
-        return 'left'
+        return 'right' if self.user == info.context.user else 'left'
 
 
 class ChatChannelModelType(DjangoObjectType):

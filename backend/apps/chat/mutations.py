@@ -109,17 +109,8 @@ class CreateOrGetMultiUserChatChannelMutation(BaseMutation):
                     code='invalid',
                     params=user_ids
                 )
-            try:
-                chat_channel = ChatChannel(room_id=generate_room_id(non_reusable=True), name=name, type=chat_type)
-                chat_channel.save()
-
-            except IntegrityError:
-                raise FieldValidationError(
-                    field='name',
-                    message=f"ChatChannel with name '{name}' already exists",
-                    code='invalid',
-                    params=name
-                )
+            chat_channel = ChatChannel(room_id=generate_room_id(non_reusable=True), name=name, type=chat_type)
+            chat_channel.save()
 
             chat_channel.users.set(user_ids)
 

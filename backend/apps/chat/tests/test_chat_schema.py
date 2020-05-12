@@ -103,6 +103,19 @@ class TestChatSchema(GraphQLTestCase):
             response_content['errors'][0]['message'],
             "Invalid chatType. Possible types are ['Public', 'Private', 'Direct']")
 
+    def test_multi_user_chat_creation_with_direct_chat_type_fails(self):
+        user_ids = self.login_user()
+
+        response = self.query(create_multi_user_chat_mutation('public_chat', 'Direct', user_ids))
+        response_content = json.loads(response.content.decode('utf-8'))
+
+        self.assertResponseHasErrors(response)
+        self.assertEquals(response_content['errors'][0]['field'], 'chatType')
+        self.assertEquals(response_content['errors'][0]['code'], 'invalid')
+        self.assertEquals(
+            response_content['errors'][0]['message'],
+            'This mutation is only used to create Private or Public chat channels')
+
     def test_multi_user_chat_creation_with_invalid_user_id_fails(self):
         self.login_user()
 
