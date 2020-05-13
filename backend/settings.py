@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'backend.apps.email.apps.EmailConfig',
     'backend.apps.sudoku.apps.SudokuConfig',
     'backend.apps.chat.apps.ChatConfig',
+    'backend.apps.poker.apps.PokerConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
