@@ -1,6 +1,16 @@
 from reprlib import repr
 
 
+class Hand:
+    def __init__(self, hand):
+        self.raw_hand = hand
+        self.rank = ''
+        self.suite = ''
+
+    def __repr__(self):
+        return f'<Hand {self.raw_hand}>'
+
+
 class Poker:
     def __init__(self, deck_size=1, wild_cards=False):
         self.deck_size = deck_size
