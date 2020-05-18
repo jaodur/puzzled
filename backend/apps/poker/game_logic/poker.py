@@ -51,10 +51,18 @@ class Hand:
             self.VALUES.HIGH_CARD
         )
 
+    def full_house(self):
+        kind_3 = self.kind(3)
+        if not kind_3:
+            return False
+        kind_2 = self.kind(2)
+        if not kind_2:
+            return False
+        return self.VALUES.FULL_HOUSE, kind_3[1], kind_2[1]
+
     def flush(self):
         if len(set(self.suite)) == 1:
-            self.value = (self.VALUES.FLUSH, self.RANK_MAPPER.index(self.rank[0]))
-            return True
+            return self.VALUES.FLUSH, self.RANK_MAPPER.index(self.rank[0])
         return False
 
     def straight(self):
@@ -64,8 +72,7 @@ class Hand:
             if self.RANK_MAPPER.index(self.rank[index]) - self.RANK_MAPPER.index(r) != 1:
                 return False
 
-        self.value = (self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0]))
-        return True
+        return self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0])
 
     def kind(self, kind_value):
         if kind_value <= 1:
@@ -90,8 +97,7 @@ class Hand:
                     self.VALUES.KIND_2 if kind_value == 3 else
                     None
                 )
-                self.value = (rank_value, self.RANK_MAPPER.index(current_rank))
-                return True
+                return rank_value, self.RANK_MAPPER.index(current_rank)
 
             count = 1
 
@@ -119,8 +125,7 @@ class Hand:
                 self.VALUES.PAIRS_2 if pair_value == 2 else
                 None
             )
-            self.value = (rank_value, *pairs)
-            return True
+            return (rank_value, *pairs)
         return False
 
     def __repr__(self):
