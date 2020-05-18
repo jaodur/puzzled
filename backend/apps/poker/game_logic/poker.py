@@ -51,6 +51,15 @@ class Hand:
             self.VALUES.HIGH_CARD
         )
 
+    def straight_flush(self):
+        straight = self.straight()
+        if not straight:
+            return False
+        flush = self.flush()
+        if not flush:
+            return False
+        return self.VALUES.STRAIGHT_FLUSH, straight[1]
+
     def full_house(self):
         kind_3 = self.kind(3)
         if not kind_3:
