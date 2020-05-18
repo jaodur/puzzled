@@ -1,16 +1,18 @@
 from reprlib import repr
-from .utils import PokerSuites
+from .utils import PokerHandValue, PokerSuites
 
 
 class Hand:
     VOID = '-'
     SUITES = PokerSuites
     RANK_MAPPER = f'{VOID}{VOID}23456789TJQKA'
+    VALUES = PokerHandValue
 
     def __init__(self, hand):
         self.rank = None
         self.suite = None
         self.name = None
+        self.value = None
         self.raw_hand = hand
 
     @property
@@ -37,7 +39,32 @@ class Hand:
         self.__raw_hand = hand
 
     def rank_hand(self):
-        pass
+        return (
+            self.VALUES.STRAIGHT_FLUSH if self.straight_flush() else
+            self.VALUES.KIND_4 if self.kind(4) else
+            self.VALUES.FULL_HOUSE if self.full_house() else
+            self.VALUES.FLUSH if self.flush() else
+            self.VALUES.STRAIGHT if self.straight() else
+            self.VALUES.KIND_3 if self.kind(3) else
+            self.VALUES.PAIRS_2 if self.pairs(2) else
+            self.VALUES.KIND_2 if self.kind(2) else
+            self.VALUES.HIGH_CARD
+        )
+
+    def flush(self):
+        if len(set(self.suite)) == 1:
+            return True
+        return False
+
+    def straight(self):
+        for index, r in enumerate(self.rank):
+            if not index:
+                continue
+            if self.RANK_MAPPER.index(self.rank[index]) - self.RANK_MAPPER.index(r) != 1:
+                return False
+
+        self.value = (self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0]))
+        return True
 
     def __repr__(self):
         return f'<Hand {self.raw_hand}>'
