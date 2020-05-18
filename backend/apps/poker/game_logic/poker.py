@@ -39,17 +39,18 @@ class Hand:
         self.__raw_hand = hand
 
     def rank_hand(self):
-        return (
-            self.VALUES.STRAIGHT_FLUSH if self.straight_flush() else
-            self.VALUES.KIND_4 if self.kind(4) else
-            self.VALUES.FULL_HOUSE if self.full_house() else
-            self.VALUES.FLUSH if self.flush() else
-            self.VALUES.STRAIGHT if self.straight() else
-            self.VALUES.KIND_3 if self.kind(3) else
-            self.VALUES.PAIRS_2 if self.pairs(2) else
-            self.VALUES.KIND_2 if self.kind(2) else
-            self.VALUES.HIGH_CARD
+        self.value = (
+            self.straight_flush() or
+            self.kind(4) or
+            self.full_house() or
+            self.flush() or
+            self.straight() or
+            self.kind(3) or
+            self.pairs(2) or
+            self.kind(2) or
+            (self.VALUES.HIGH_CARD, self.RANK_MAPPER.index(self.rank[0]))
         )
+        return self.value
 
     def straight_flush(self):
         straight = self.straight()
