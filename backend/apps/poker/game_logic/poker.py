@@ -53,6 +53,7 @@ class Hand:
 
     def flush(self):
         if len(set(self.suite)) == 1:
+            self.value = (self.VALUES.FLUSH, self.RANK_MAPPER.index(self.rank[0]))
             return True
         return False
 
@@ -65,6 +66,36 @@ class Hand:
 
         self.value = (self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0]))
         return True
+
+    def kind(self, kind_value):
+        if kind_value <= 1:
+            raise
+
+        count = 0
+        current_rank = None
+        for index, r in self.rank:
+            if not index:
+                count += 1
+                continue
+            elif self.rank[index] == r:
+                count += 1
+                current_rank = r
+                continue
+
+            if count == kind_value:
+                rank_value = (
+                    self.VALUES.KIND_5 if kind_value == 5 else
+                    self.VALUES.KIND_4 if kind_value == 4 else
+                    self.VALUES.KIND_3 if kind_value == 3 else
+                    self.VALUES.KIND_2 if kind_value == 3 else
+                    None
+                )
+                self.value = (rank_value, self.RANK_MAPPER.index(current_rank))
+                return True
+
+            count = 1
+
+        return False
 
     def __repr__(self):
         return f'<Hand {self.raw_hand}>'
