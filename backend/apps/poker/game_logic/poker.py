@@ -1,15 +1,40 @@
 from reprlib import repr
+from .utils import PokerSuites
 
 
 class Hand:
-    def __init__(self, hand):
-        self.raw_hand = hand
-        self.rank = ''
-        self.suite = ''
-        self.name = ''
+    VOID = '-'
+    SUITES = PokerSuites
+    RANK_MAPPER = f'{VOID}{VOID}23456789TJQKA'
 
-    def sort_hand(self):
-        pass
+    def __init__(self, hand):
+        self.rank = None
+        self.suite = None
+        self.name = None
+        self.raw_hand = hand
+
+    @property
+    def raw_hand(self):
+        return self.__raw_hand
+
+    @raw_hand.setter
+    def raw_hand(self, hand):
+        rank, suite = [], []
+        try:
+            hand = sorted(map(str.upper, hand), key=lambda val: self.RANK_MAPPER.index(val[0]), reverse=True)
+        except ValueError:
+            raise Exception('invalid rank')
+        for r, s in hand:
+            if r == self.VOID:
+                raise Exception('invalid rank')
+            if s.upper() not in self.SUITES.values():
+                raise Exception('invalid suite')
+            rank.append(r.upper())
+            suite.append(s.upper())
+
+        self.rank = rank
+        self.suite = suite
+        self.__raw_hand = hand
 
     def rank_hand(self):
         pass
