@@ -73,7 +73,7 @@ class Hand:
 
         count = 0
         current_rank = None
-        for index, r in self.rank:
+        for index, r in enumerate(self.rank):
             if not index:
                 count += 1
                 continue
@@ -95,6 +95,32 @@ class Hand:
 
             count = 1
 
+        return False
+
+    def pairs(self, pair_value):
+        count = 0
+        pair_count = 0
+        pairs = []
+
+        for index, r in enumerate(self.rank):
+            if not index:
+                count += 1
+                continue
+            elif self.rank[index] == r:
+                count += 1
+                continue
+            if count == 2:
+                pairs.append(r)
+                pair_count += 1
+            count = 1
+
+        if len(pairs) == pair_value:
+            rank_value = (
+                self.VALUES.PAIRS_2 if pair_value == 2 else
+                None
+            )
+            self.value = (rank_value, *pairs)
+            return True
         return False
 
     def __repr__(self):
