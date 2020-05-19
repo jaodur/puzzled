@@ -99,10 +99,11 @@ class Hand:
         count = 0
         current_rank = None
         for index, r in enumerate(self.rank):
+            prev_index = index - 1
             if not index:
                 count += 1
                 continue
-            elif self.rank[index] == r:
+            elif self.rank[prev_index] == r:
                 count += 1
                 current_rank = r
                 continue
@@ -112,7 +113,7 @@ class Hand:
                     self.VALUES.KIND_5 if kind_value == 5 else
                     self.VALUES.KIND_4 if kind_value == 4 else
                     self.VALUES.KIND_3 if kind_value == 3 else
-                    self.VALUES.KIND_2 if kind_value == 3 else
+                    self.VALUES.KIND_2 if kind_value == 2 else
                     None
                 )
                 return rank_value, self.RANK_MAPPER.index(current_rank)
