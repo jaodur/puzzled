@@ -53,7 +53,7 @@ class Hand:
             self.kind(3) or
             self.pairs(2) or
             self.kind(2) or
-            (self.VALUES.HIGH_CARD, self.RANK_MAPPER.index(self.rank[0]))
+            (self.VALUES.HIGH_CARD.value, self.RANK_MAPPER.index(self.rank[0]))
         )
         return self.value
 
@@ -64,7 +64,7 @@ class Hand:
         flush = self.flush()
         if not flush:
             return False
-        return self.VALUES.STRAIGHT_FLUSH, straight[1]
+        return self.VALUES.STRAIGHT_FLUSH.value, straight[1]
 
     def full_house(self):
         kind_3 = self.kind(3)
@@ -73,11 +73,11 @@ class Hand:
         kind_2 = self.kind(2)
         if not kind_2:
             return False
-        return self.VALUES.FULL_HOUSE, kind_3[1], kind_2[1]
+        return self.VALUES.FULL_HOUSE.value, kind_3[1], kind_2[1]
 
     def flush(self):
         if len(set(self.suite)) == 1:
-            return self.VALUES.FLUSH, self.RANK_MAPPER.index(self.rank[0])
+            return self.VALUES.FLUSH.value, self.RANK_MAPPER.index(self.rank[0])
         return False
 
     def straight(self):
@@ -90,7 +90,7 @@ class Hand:
             if abs(prev_rank_value - current_rank_value) != 1:
                 return False
 
-        return self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0])
+        return self.VALUES.STRAIGHT.value, self.RANK_MAPPER.index(self.rank[0])
 
     def kind(self, kind_value):
         if kind_value <= 1:
@@ -123,14 +123,14 @@ class Hand:
                 self.VALUES.KIND_2 if kind_value == 2 else
                 None
             )
-            return rank_value, self.RANK_MAPPER.index(current_rank)
+            return rank_value.value, self.RANK_MAPPER.index(current_rank)
 
         return False
 
     def pairs(self, pair_value):
         count = 0
         pair_count = 0
-        pairs = set()
+        pairs = []
 
         for index, r in enumerate(self.rank):
             prev_index = index - 1
@@ -141,13 +141,13 @@ class Hand:
                 count += 1
                 continue
             if count == 2:
-                pairs.add(self.rank[prev_index])
+                pairs.append(self.RANK_MAPPER.index(self.rank[prev_index]))
                 pair_count += 1
             count = 1
 
         # do final pair check in case pair is at the end
         if count == 2:
-            pairs.add(self.rank[-1])
+            pairs.append(self.RANK_MAPPER.index(self.rank[-1]))
             pair_count += 1
 
         if len(pairs) == pair_value:
@@ -155,8 +155,8 @@ class Hand:
                 self.VALUES.PAIRS_2 if pair_value == 2 else
                 None
             )
-            return (rank_value, *pairs)
+            return (rank_value.value, *pairs)
         return False
 
     def __repr__(self):
-        return f'{self.hand}>'
+        return f'{self.hand}'
