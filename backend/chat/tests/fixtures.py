@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 import faker
 import pytest
 
-from backend.apps.chat.models import Message, ChatChannel
+from backend.chat.models import Message, ChatChannel
 
 FAKE = faker.Faker()
 

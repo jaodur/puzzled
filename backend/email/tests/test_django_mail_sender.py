@@ -2,11 +2,11 @@ import random
 from unittest.mock import patch
 from django.test import TestCase
 from django.core import mail
-from backend.apps.email.factories.django_mail import DjangoMailSender
+from backend.email.factories.django_mail import DjangoMailSender
 from .mocks import mock_django_q_async_send_message
 
 
-@patch('backend.apps.email.backends.django_q.async_task')
+@patch('backend.email.backends.django_q.async_task')
 class TestDjangoMailSender(TestCase):
 
     @staticmethod

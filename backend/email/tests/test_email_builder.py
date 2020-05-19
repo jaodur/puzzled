@@ -1,6 +1,6 @@
 from django.test import TestCase
 import pytest
-from backend.apps.email.factories.email_builder import DjangoMailSender, EmailSender, EmailSenderMeta
+from backend.email.factories.email_builder import DjangoMailSender, EmailSender, EmailSenderMeta
 
 
 class TestEmailSenderMeta(TestCase):

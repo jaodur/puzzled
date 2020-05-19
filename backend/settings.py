@@ -44,11 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
-    'backend.apps.authentication.apps.AuthenticationConfig',
-    'backend.apps.email.apps.EmailConfig',
-    'backend.apps.sudoku.apps.SudokuConfig',
-    'backend.apps.chat.apps.ChatConfig',
-    'backend.apps.poker.apps.PokerConfig',
+    'backend.authentication.apps.AuthenticationConfig',
+    'backend.email.apps.EmailConfig',
+    'backend.sudoku.apps.SudokuConfig',
+    'backend.chat.apps.ChatConfig',
+    'backend.poker.apps.PokerConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
@@ -91,7 +91,7 @@ TEMPLATES = [
         'APP_DIRS': True,  # looks in each "jinja2" directory within apps
         'OPTIONS': {
             # callable invoked to create the Jinja2 environment
-            'environment': 'backend.apps.email.jinja2_env.environment',
+            'environment': 'backend.email.jinja2_env.environment',
         },
     },
 ]
@@ -198,7 +198,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 
 DEFAULT_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'backend.apps.email.backends.django_q.DjangoQBackend'
+EMAIL_BACKEND = 'backend.email.backends.django_q.DjangoQBackend'
 DJANGO_Q_EMAIL_BACKEND = config('DJANGO_EMAIL_BACKEND', DEFAULT_BACKEND)
 VERIFY_EMAIL_LINK_AGE = int(config('VERIFY_EMAIL_LINK_AGE', 8 * 60 * 60))  # 8-days
 

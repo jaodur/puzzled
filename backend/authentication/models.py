@@ -6,7 +6,7 @@ from django.core import signing
 from django.utils.translation import ugettext_lazy as _
 import pytz
 from . import constants
-from backend.apps.email.factories.email_builder import EmailSender
+from backend.email.factories.email_builder import EmailSender
 from backend.lib.exceptions import FieldValidationError
 from backend.lib.validators import validate_email, url_validator
 from backend.lib.urltools import reverse_absolute

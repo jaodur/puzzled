@@ -6,7 +6,7 @@ from django.core.mail import (
     send_mail,
     send_mass_mail
 )
-from backend.apps.email.utils import render_template
+from backend.email.utils import render_template
 from .abstract_send_mail import AbstractEmail
 
 

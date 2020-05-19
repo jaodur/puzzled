@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class ChatConfig(AppConfig):
-    name = 'backend.apps.chat'
+    name = 'backend.chat'
     label = 'chat'
 
     def ready(self):
-        import backend.apps.chat.signals  # noqa: F401
+        import backend.chat.signals  # noqa: F401

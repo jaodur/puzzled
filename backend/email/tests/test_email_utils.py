@@ -1,7 +1,7 @@
 import random
 from django.test import TestCase
 from django.core.mail.message import EmailMessage, EmailMultiAlternatives
-from backend.apps.email.utils import email_from_dict, email_to_dict
+from backend.email.utils import email_from_dict, email_to_dict
 
 
 class TestEmailUtils(TestCase):

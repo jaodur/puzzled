@@ -4,7 +4,7 @@ from django.core import signing
 from django.shortcuts import redirect, render
 from django.views.generic import View
 from backend.lib.urltools import make_absolute
-from backend.apps.authentication import constants
+from backend.authentication import constants
 
 
 class VerifyEmail(View):

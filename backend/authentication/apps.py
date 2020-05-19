@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class AuthenticationConfig(AppConfig):
-    name = 'backend.apps.authentication'
+    name = 'backend.authentication'
     label = 'authentication'

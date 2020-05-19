@@ -1,7 +1,7 @@
 import json
 from unittest.mock import patch
 from graphene_django.utils.testing import GraphQLTestCase
-from backend.apps.authentication.tests.fixtures import create_user_mutation, login_user_mutation, logout_mutation
+from backend.authentication.tests.fixtures import create_user_mutation, login_user_mutation, logout_mutation
 from .fixtures import (
     add_message_mutation,
     edit_message_mutation,
@@ -127,7 +127,7 @@ class TestChatSchema(GraphQLTestCase):
         self.assertEquals(response_content['errors'][0]['code'], 'invalid')
         self.assertEquals(response_content['errors'][0]['message'], "user(s) with ids ['1', '2000'] not found")
 
-    @patch('backend.apps.chat.mutations.ChatChannel')
+    @patch('backend.chat.mutations.ChatChannel')
     def test_add_message_to_channel_succeeds(self, mock_chat_channel):
 
         mock_chat_channel.return_value = MockChatChannelQuerySet
@@ -158,7 +158,7 @@ class TestChatSchema(GraphQLTestCase):
         self.assertEquals(response_content['errors'][0]['code'], 'invalid')
         self.assertEquals(response_content['errors'][0]['message'], f'channel with id {invalid_channel_id} not found')
 
-    @patch('backend.apps.chat.mutations.ChatChannel')
+    @patch('backend.chat.mutations.ChatChannel')
     def test_edit_message_succeeds(self, mock_chat_channel):
         mock_chat_channel.return_value = MockChatChannelQuerySet
         user_ids = self.login_user()
@@ -194,7 +194,7 @@ class TestChatSchema(GraphQLTestCase):
         self.assertEquals(response_content['errors'][0]['code'], 'invalid')
         self.assertEquals(response_content['errors'][0]['message'], f'message with id {invalid_message_id} not found')
 
-    @patch('backend.apps.chat.mutations.ChatChannel')
+    @patch('backend.chat.mutations.ChatChannel')
     def test_edit_message_by_another_fails(self, mock_chat_channel):
         mock_chat_channel.return_value = MockChatChannelQuerySet
         self.login_user()
