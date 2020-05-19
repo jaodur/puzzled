@@ -12,6 +12,7 @@ class Hand:
         self.suite = None
         self.name = None
         self.value = None
+        self.hand = None
         self.raw_hand = hand
 
     @property
@@ -20,21 +21,26 @@ class Hand:
 
     @raw_hand.setter
     def raw_hand(self, hand):
-        rank, suite = [], []
+        rank, suite, beautified_hand = [], [], []
+        suite_mapper = self.SUITES.get_mapper()
         try:
             hand = sorted(map(str.upper, hand), key=lambda val: self.RANK_MAPPER.index(val[0]), reverse=True)
         except ValueError:
-            raise Exception('invalid rank')
+            raise Exception('Hand contains an invalid rank')
         for r, s in hand:
+            r = r.upper()
+            s = s.upper()
             if r == self.VOID:
-                raise Exception('invalid rank')
-            if s.upper() not in self.SUITES.values():
-                raise Exception('invalid suite')
-            rank.append(r.upper())
-            suite.append(s.upper())
+                raise Exception('Hand contains an invalid rank')
+            if s not in self.SUITES.list_values():
+                raise Exception(f'Hand contains and invalid suite. Valid suites are {self.SUITES.list_values()}')
+            rank.append(r)
+            suite.append(s)
+            beautified_hand.append(f'{r}{suite_mapper[s][-1]}')
 
         self.rank = rank
         self.suite = suite
+        self.hand = beautified_hand
         self.__raw_hand = hand
 
     def rank_hand(self):
@@ -78,7 +84,10 @@ class Hand:
         for index, r in enumerate(self.rank):
             if not index:
                 continue
-            if self.RANK_MAPPER.index(self.rank[index]) - self.RANK_MAPPER.index(r) != 1:
+            prev_rank = self.rank[index - 1]
+            prev_rank_value = self.RANK_MAPPER.index(prev_rank)
+            current_rank_value = self.RANK_MAPPER.index(r)
+            if abs(prev_rank_value - current_rank_value) != 1:
                 return False
 
         return self.VALUES.STRAIGHT, self.RANK_MAPPER.index(self.rank[0])
