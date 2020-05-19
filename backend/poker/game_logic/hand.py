@@ -130,19 +130,25 @@ class Hand:
     def pairs(self, pair_value):
         count = 0
         pair_count = 0
-        pairs = []
+        pairs = set()
 
         for index, r in enumerate(self.rank):
+            prev_index = index - 1
             if not index:
                 count += 1
                 continue
-            elif self.rank[index] == r:
+            elif self.rank[prev_index] == r:
                 count += 1
                 continue
             if count == 2:
-                pairs.append(r)
+                pairs.add(self.rank[prev_index])
                 pair_count += 1
             count = 1
+
+        # do final pair check in case pair is at the end
+        if count == 2:
+            pairs.add(self.rank[-1])
+            pair_count += 1
 
         if len(pairs) == pair_value:
             rank_value = (
@@ -153,4 +159,4 @@ class Hand:
         return False
 
     def __repr__(self):
-        return f'<Hand {self.hand} name={self.name}>'
+        return f'{self.hand}>'
