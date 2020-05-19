@@ -94,10 +94,11 @@ class Hand:
 
     def kind(self, kind_value):
         if kind_value <= 1:
-            raise
+            raise Exception('Value must be greater than 1')
 
         count = 0
         current_rank = None
+        kind_found = False
         for index, r in enumerate(self.rank):
             prev_index = index - 1
             if not index:
@@ -109,16 +110,20 @@ class Hand:
                 continue
 
             if count == kind_value:
-                rank_value = (
-                    self.VALUES.KIND_5 if kind_value == 5 else
-                    self.VALUES.KIND_4 if kind_value == 4 else
-                    self.VALUES.KIND_3 if kind_value == 3 else
-                    self.VALUES.KIND_2 if kind_value == 2 else
-                    None
-                )
-                return rank_value, self.RANK_MAPPER.index(current_rank)
+                kind_found = True
+                break
 
             count = 1
+
+        if kind_found or count == kind_value:
+            rank_value = (
+                self.VALUES.KIND_5 if kind_value == 5 else
+                self.VALUES.KIND_4 if kind_value == 4 else
+                self.VALUES.KIND_3 if kind_value == 3 else
+                self.VALUES.KIND_2 if kind_value == 2 else
+                None
+            )
+            return rank_value, self.RANK_MAPPER.index(current_rank)
 
         return False
 
@@ -148,4 +153,4 @@ class Hand:
         return False
 
     def __repr__(self):
-        return f'<Hand {self.raw_hand}>'
+        return f'<Hand {self.hand} name={self.name}>'
