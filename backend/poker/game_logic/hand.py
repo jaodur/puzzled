@@ -135,5 +135,20 @@ class Hand:
             return (rank_value.value, *pairs)
         return False
 
+    def __getitem__(self, index):
+        return self.hand[index]
+
+    def __next__(self):
+        return next(self.hand)
+
+    def __iter__(self):
+        return iter(self.hand)
+
+    def __len__(self):
+        return len(self.hand)
+
+    def __str__(self):
+        return f'{[str(card) for card in self]}'
+
     def __repr__(self):
         return f'{self.__class__.__name__}({self.raw_hand})'
