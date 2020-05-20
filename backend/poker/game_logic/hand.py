@@ -1,15 +1,11 @@
-from .utils import PokerHandValue, PokerSuites
+from .card import Card
+from .utils import PokerHandValue
 
 
 class Hand:
-    VOID = '-'
-    SUITES = PokerSuites
-    RANK_MAPPER = f'{VOID}{VOID}23456789TJQKA'
     VALUES = PokerHandValue
 
     def __init__(self, hand):
-        self.rank = None
-        self.suite = None
         self.name = None
         self.value = None
         self.hand = None
@@ -21,27 +17,8 @@ class Hand:
 
     @raw_hand.setter
     def raw_hand(self, hand):
-        rank, suite, beautified_hand = [], [], []
-        suite_mapper = self.SUITES.get_mapper()
-        try:
-            hand = sorted(map(str.upper, hand), key=lambda val: self.RANK_MAPPER.index(val[0]), reverse=True)
-        except ValueError:
-            raise Exception('Hand contains an invalid rank')
-        for r, s in hand:
-            r = r.upper()
-            s = s.upper()
-            if r == self.VOID:
-                raise Exception('Hand contains an invalid rank')
-            if s not in self.SUITES.list_values():
-                raise Exception(f'Hand contains and invalid suite. Valid suites are {self.SUITES.list_values()}')
-            rank.append(r)
-            suite.append(s)
-            beautified_hand.append(f'{r}{suite_mapper[s][-1]}')
-
-        self.rank = rank
-        self.suite = suite
-        self.hand = beautified_hand
-        self.__raw_hand = hand
+        self.hand = sorted([Card(card) for card in  hand], reverse=True)
+        self.__raw_hand = [card.upper() for card in hand]
 
     def rank_hand(self):
         self.value = (
@@ -53,7 +30,7 @@ class Hand:
             self.kind(3) or
             self.pairs(2) or
             self.kind(2) or
-            (self.VALUES.HIGH_CARD.value, self.RANK_MAPPER.index(self.rank[0]))
+            (self.VALUES.HIGH_CARD.value, self[0].value)
         )
         return self.value
 
@@ -76,37 +53,37 @@ class Hand:
         return self.VALUES.FULL_HOUSE.value, kind_3[1], kind_2[1]
 
     def flush(self):
-        if len(set(self.suite)) == 1:
-            return self.VALUES.FLUSH.value, self.RANK_MAPPER.index(self.rank[0])
+        suites = [card.suite for card in self]
+        if len(set(suites)) == 1:
+            first_card = self[0]
+            return self.VALUES.FLUSH.value, first_card.value
         return False
 
     def straight(self):
-        for index, r in enumerate(self.rank):
+        for index, card in enumerate(self):
             if not index:
                 continue
-            prev_rank = self.rank[index - 1]
-            prev_rank_value = self.RANK_MAPPER.index(prev_rank)
-            current_rank_value = self.RANK_MAPPER.index(r)
-            if abs(prev_rank_value - current_rank_value) != 1:
+            prev_card = self[index - 1]
+            if abs(prev_card.value - card.value) != 1:
                 return False
-
-        return self.VALUES.STRAIGHT.value, self.RANK_MAPPER.index(self.rank[0])
+        first_card = self[0]
+        return self.VALUES.STRAIGHT.value, first_card.value
 
     def kind(self, kind_value):
         if kind_value <= 1:
             raise Exception('Value must be greater than 1')
 
         count = 0
-        current_rank = None
+        current_card = None
         kind_found = False
-        for index, r in enumerate(self.rank):
+        for index, card in enumerate(self):
             prev_index = index - 1
             if not index:
                 count += 1
                 continue
-            elif self.rank[prev_index] == r:
+            elif self[prev_index].rank == card.rank:
                 count += 1
-                current_rank = r
+                current_card = card
                 continue
 
             if count == kind_value:
@@ -123,7 +100,7 @@ class Hand:
                 self.VALUES.KIND_2 if kind_value == 2 else
                 None
             )
-            return rank_value.value, self.RANK_MAPPER.index(current_rank)
+            return rank_value.value, current_card.value
 
         return False
 
@@ -132,22 +109,22 @@ class Hand:
         pair_count = 0
         pairs = []
 
-        for index, r in enumerate(self.rank):
+        for index, card in enumerate(self):
             prev_index = index - 1
             if not index:
                 count += 1
                 continue
-            elif self.rank[prev_index] == r:
+            elif self[prev_index].rank == card.rank:
                 count += 1
                 continue
             if count == 2:
-                pairs.append(self.RANK_MAPPER.index(self.rank[prev_index]))
+                pairs.append(self[prev_index].value)
                 pair_count += 1
             count = 1
 
         # do final pair check in case pair is at the end
         if count == 2:
-            pairs.append(self.RANK_MAPPER.index(self.rank[-1]))
+            pairs.append(self[-1].value)
             pair_count += 1
 
         if len(pairs) == pair_value:
@@ -159,4 +136,4 @@ class Hand:
         return False
 
     def __repr__(self):
-        return f'{self.hand}'
+        return f'{self.__class__.__name__}({self.raw_hand})'
