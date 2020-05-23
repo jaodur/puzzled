@@ -22,18 +22,19 @@ class Hand:
         self.__raw_hand = [card.upper() for card in hand]
 
     def rank_hand(self):
-        self.value = (
-            self.straight_flush() or
-            self.kind(4) or
-            self.full_house() or
-            self.flush() or
-            self.straight() or
-            self.kind(3) or
-            self.pairs(2) or
-            self.kind(2) or
-            (self.VALUES.HIGH_CARD.value, self[0].value)
-        )
-        self.name = self.NAMES.get(self.value[0])
+        if not self.value:
+            self.value = (
+                self.straight_flush() or
+                self.kind(4) or
+                self.full_house() or
+                self.flush() or
+                self.straight() or
+                self.kind(3) or
+                self.pairs(2) or
+                self.kind(2) or
+                (self.VALUES.HIGH_CARD.value, self[0].value)
+            )
+            self.name = self.NAMES.get(self.value[0])
         return self.value
 
     def straight_flush(self):
@@ -131,6 +132,28 @@ class Hand:
             )
             return (rank_value.value, *pairs)
         return False
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            self.rank_hand()
+            other.rank_hand()
+            if self.value != other.value:
+                return False
+            rank = [card.rank for card in self]
+            rank_other = [card.rank for card in other]
+            return rank == rank_other
+
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            self.rank_hand()
+            other.rank_hand()
+            rank = [card.rank for card in self]
+            rank_other = [card.rank for card in other]
+            return self.value != other.value and rank != rank_other
+
+        return NotImplemented
 
     def __getitem__(self, index):
         return self.hand[index]
