@@ -21,7 +21,8 @@ class Card:
     @card.setter
     def card(self, value):
         rank, suite = value
-        rank = rank.upper(); suite = suite.upper()
+        rank = rank.upper()
+        suite = suite.upper()
         try:
             rank_value = RANK_MAPPER.index(rank)
         except ValueError:
