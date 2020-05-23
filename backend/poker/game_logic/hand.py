@@ -155,6 +155,17 @@ class Hand:
 
         return NotImplemented
 
+    def __gt__(self, other):
+        if isinstance(other, self.__class__):
+            value = list(self.rank_hand())
+            value_other = list(other.rank_hand())
+            value.extend([card.rank for card in self])
+            value_other.extend([card.rank for card in other])
+
+            return value > value_other
+
+        return NotImplemented
+
     def __getitem__(self, index):
         return self.hand[index]
 
