@@ -84,6 +84,78 @@ class TestHand(TestCase):
         self.assertEquals((2, 13, 6), hand.rank_hand())
 
 
+class HandComparisonTest(TestCase):
+    royal_flush = Hand(['as', 'ks', 'qs', 'js', 'ts'])
+    straight_flush = Hand(['kc', 'qc', 'jc', 'tc', '9c'])
+    straight_flush_less = Hand(['qd', 'jd', 'td', '9d', '8d'])
+    straight_flush_wheeler = Hand(['5d', '4d', '3d', '2d', 'ad'])
+    kind_4 = Hand(['as', 'ad', 'ac', 'ah', 'kh'])
+    kind_4_less = Hand(['tc', 'td', 'th', 'ts', 'kh'])
+    full_house = Hand(['as', 'ad', 'ac', 'kd', 'kh'])
+    full_house_less = Hand(['as', 'ac', 'kd', 'kc', 'kh'])
+    flush = Hand(['kh', '9h', '8h', '4h', '2h'])
+    flush_less = Hand(['th', '9h', '8h', '5h', '2h'])
+    straight = Hand(['9d', '8c', '7c', '6s', '5h'])
+    straight_less = Hand(['4d', '8c', '7c', '6s', '5h'])
+    kind_3 = Hand(['9d', '8c', '7c', '7s', '7h'])
+    kind_3_less = Hand(['9d', '8c', '2c', '2s', '2h'])
+    pairs_2 = Hand(['9d', '9c', '7c', '7s', 'ah'])
+    pairs_2_less = Hand(['9d', '9c', '7c', '7s', '2h'])
+    pairs_1 = Hand(['9d', '9c', '5c', '7s', 'ah'])
+    pairs_1_less = Hand(['td', 'qc', '4c', '4s', 'ah'])
+    high_card = Hand(['9d', 'tc', 'jc', '7s', 'ah'])
+    high_card_less = Hand(['2d', 'tc', 'jc', '7s', 'ah'])
+
+    def test_greater_than_hands(self):
+        self.assertFalse(self.royal_flush > self.royal_flush)
+        self.assertTrue(self.royal_flush > self.straight_flush)
+        self.assertTrue(self.straight_flush > self.straight_flush_less)
+        self.assertTrue(self.straight_flush_less > self.kind_4)
+        self.assertTrue(self.kind_4 > self.kind_4_less)
+        self.assertTrue(self.kind_4_less > self.full_house)
+        self.assertTrue(self.full_house > self.full_house_less)
+        self.assertTrue(self.full_house_less > self.flush)
+        self.assertTrue(self.flush > self.flush_less)
+        self.assertTrue(self.flush_less > self.straight)
+        self.assertTrue(self.straight > self.straight_less)
+        self.assertTrue(self.straight_less > self.kind_3)
+        self.assertTrue(self.kind_3 > self.kind_3_less)
+        self.assertTrue(self.kind_3_less > self.pairs_2)
+        self.assertTrue(self.pairs_2 > self.pairs_2_less)
+        self.assertTrue(self.pairs_2_less > self.pairs_1)
+        self.assertTrue(self.pairs_1 > self.pairs_1_less)
+        self.assertTrue(self.pairs_1_less > self.high_card)
+        self.assertTrue(self.high_card > self.high_card_less)
+
+    def test_wheel_straight_flush(self):
+        self.assertTrue(self.straight_flush_wheeler > self.kind_4)
+
+    def test_less_than_hands(self):
+        self.assertFalse(self.royal_flush < self.straight_flush)
+        self.assertFalse(self.straight_flush < self.straight_flush_less)
+        self.assertFalse(self.straight_flush_less < self.kind_4)
+        self.assertFalse(self.kind_4 < self.kind_4_less)
+        self.assertFalse(self.kind_4_less < self.full_house)
+        self.assertFalse(self.full_house < self.full_house_less)
+        self.assertFalse(self.full_house_less < self.flush)
+        self.assertFalse(self.flush < self.flush_less)
+        self.assertFalse(self.flush_less < self.straight)
+        self.assertFalse(self.straight < self.straight_less)
+        self.assertFalse(self.straight_less < self.kind_3)
+        self.assertFalse(self.kind_3 < self.kind_3_less)
+        self.assertFalse(self.kind_3_less < self.pairs_2)
+        self.assertFalse(self.pairs_2 < self.pairs_2_less)
+        self.assertFalse(self.pairs_2_less < self.pairs_1)
+        self.assertFalse(self.pairs_1 < self.pairs_1_less)
+        self.assertFalse(self.pairs_1_less < self.high_card)
+        self.assertFalse(self.high_card < self.high_card_less)
+        self.assertFalse(self.royal_flush < self.royal_flush)
+
+    def test_equal_hands(self):
+        self.assertTrue(self.royal_flush == Hand(['ad', 'kd', 'qd', 'jd', 'td']))
+        self.assertTrue(self.straight_flush_wheeler == self.straight_flush_wheeler)
+
+
 class TestHandSequenceProtocol(TestCase):
 
     test_hand = Hand(['6d', '6c', '4h', 'qd', 'kh'])
