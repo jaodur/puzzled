@@ -1,9 +1,10 @@
 from .card import Card
-from .utils import PokerHandValue
+from .utils import PokerHandValue, PokerHandName
 
 
 class Hand:
     VALUES = PokerHandValue
+    NAMES = PokerHandName.get_mapper()
 
     def __init__(self, hand):
         self.name = None
@@ -32,6 +33,7 @@ class Hand:
             self.kind(2) or
             (self.VALUES.HIGH_CARD.value, self[0].value)
         )
+        self.name = self.NAMES.get(self.value[0])
         return self.value
 
     def straight_flush(self):

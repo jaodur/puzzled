@@ -9,6 +9,12 @@ class TestHand(TestCase):
         self.assertEquals(hand.name, None)
         self.assertEquals(hand.raw_hand, ['AC', '5D', 'TD', '8C', 'JC'])
 
+    def test_hand_name(self):
+        hand = Hand(['6d', '9d', 'td', '8c', '7c'])
+        self.assertEquals(hand.name, None)
+        hand.rank_hand()
+        self.assertEquals(hand.name, 'Straight')
+
     def test_straight_card_succeeds(self):
         hand = Hand(['6d', '9d', 'td', '8c', '7c'])
         self.assertTrue(hand.straight())
