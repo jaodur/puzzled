@@ -116,16 +116,11 @@ class Hand:
                 continue
             elif self[prev_index].rank == card.rank:
                 count += 1
-                continue
-            if count == 2:
-                pairs.append(self[prev_index].value)
-                pair_count += 1
+                if count == 2:
+                    pairs.append(self[prev_index].value)
+                    pair_count += 1
+                    continue
             count = 1
-
-        # do final pair check in case pair is at the end
-        if count == 2:
-            pairs.append(self[-1].value)
-            pair_count += 1
 
         if len(pairs) == pair_value:
             rank_value = (
@@ -139,7 +134,7 @@ class Hand:
         return self.hand[index]
 
     def __next__(self):
-        return next(self.hand)
+        return next(card for card in self.hand)
 
     def __iter__(self):
         return iter(self.hand)
