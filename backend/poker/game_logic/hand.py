@@ -38,6 +38,9 @@ class Hand:
         return self.value
 
     def straight_flush(self):
+        wheel_straight = self.wheeler_straight_flush()
+        if wheel_straight:
+            return self.VALUES.STRAIGHT_FLUSH.value, wheel_straight[1]
         straight = self.straight()
         if not straight:
             return False
@@ -45,6 +48,14 @@ class Hand:
         if not flush:
             return False
         return self.VALUES.STRAIGHT_FLUSH.value, straight[1]
+
+    def wheeler_straight_flush(self):
+        wheeler = sorted([Card(card) for card in  ['as', '5s', '4s', '3s', '2s']], reverse=True)
+        if self.hand == wheeler:
+            self[0].value = 1
+            self.hand = self[1:] + [self[0]]
+            return self.VALUES.STRAIGHT_FLUSH.value, self[0].value
+        return False
 
     def full_house(self):
         kind_3 = self.kind(3)
