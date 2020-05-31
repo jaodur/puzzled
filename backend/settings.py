@@ -31,6 +31,11 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 BASE_URL = config('BASE_URL', 'http://localhost:8000/')
 
+REDIS_URL = config('REDIS_URL', 'redis://localhost:6379/0')
+
+REDIS_CACHE_PREFIX = None
+
+DYNAMIC_CONFIGURATION_FILE = config('DYNAMIC_CONFIGURATION_FILE', None)
 
 # Application definition
 
@@ -168,7 +173,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [config('REDIS_URL', 'redis://localhost:6379/0')],
+            "hosts": [REDIS_URL],
         },
     },
 }
