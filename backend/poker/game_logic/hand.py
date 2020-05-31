@@ -18,7 +18,7 @@ class Hand:
 
     @raw_hand.setter
     def raw_hand(self, hand):
-        self.hand = sorted([Card(card) for card in  hand], reverse=True)
+        self.hand = sorted([Card(card) for card in hand], reverse=True)
         self.__raw_hand = [card.upper() for card in hand]
 
     def rank_hand(self):
@@ -50,7 +50,7 @@ class Hand:
         return self.VALUES.STRAIGHT_FLUSH.value, straight[1]
 
     def wheeler_straight_flush(self):
-        wheeler = sorted([Card(card) for card in  ['as', '5s', '4s', '3s', '2s']], reverse=True)
+        wheeler = sorted([Card(card) for card in ['as', '5s', '4s', '3s', '2s']], reverse=True)
         if self.hand == wheeler:
             self[0].value = 1
             self.hand = self[1:] + [self[0]]

@@ -59,4 +59,3 @@ class PokerHandName(Enum):
             val = e.value
             mapper[val[0]] = val[-1]
         return mapper
-
