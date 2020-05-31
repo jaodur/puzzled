@@ -127,6 +127,9 @@ class HandComparisonTest(TestCase):
         self.assertTrue(self.pairs_1_less > self.high_card)
         self.assertTrue(self.high_card > self.high_card_less)
 
+    def test_gt_not_implemented(self):
+        self.assertRaises(TypeError, lambda: self.royal_flush > ['ad', 'kd', 'qd', 'jd', 'td'])
+
     def test_wheel_straight_flush(self):
         self.assertTrue(self.straight_flush_wheeler > self.kind_4)
 
@@ -153,7 +156,14 @@ class HandComparisonTest(TestCase):
 
     def test_equal_hands(self):
         self.assertTrue(self.royal_flush == Hand(['ad', 'kd', 'qd', 'jd', 'td']))
+        self.assertFalse(self.royal_flush == ['ad', 'kd', 'qd', 'jd', 'td'])
+        self.assertFalse(self.royal_flush == self.flush)
         self.assertTrue(self.straight_flush_wheeler == self.straight_flush_wheeler)
+
+    def test_no_equal_hands(self):
+        self.assertFalse(self.straight_flush_wheeler != self.straight_flush_wheeler)
+        self.assertTrue(self.straight_flush_wheeler != self.straight_flush)
+        self.assertTrue(self.straight_flush_wheeler != ['kc', 'qc', 'jc', 'tc', '9c'])
 
 
 class TestHandSequenceProtocol(TestCase):
