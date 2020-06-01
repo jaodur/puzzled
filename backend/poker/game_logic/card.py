@@ -1,8 +1,10 @@
 from .utils import PokerSuites
 
 VOID = '-'
+RANKS = '23456789TJQKA'
+RANK_MAPPER = f'{VOID}{VOID}{RANKS}'
 SUITE_MAPPER = PokerSuites.get_mapper()
-RANK_MAPPER = f'{VOID}{VOID}23456789TJQKA'
+SUITES = SUITE_MAPPER.keys()
 
 
 class Card:
