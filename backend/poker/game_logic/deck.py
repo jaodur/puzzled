@@ -4,11 +4,16 @@ from .card import Card, RANKS, SUITES
 
 class Deck:
 
-    def __init__(self, deck_size=1):
+    def __init__(self, from_deck=None, deck_size=1):
         self.deck_size = deck_size
-        self._cards = [Card(f'{rank}{suite}') for _ in range(deck_size) for rank in RANKS for suite in SUITES]
-        self._banned_cards = []
-        random.shuffle(self._cards)
+        if not from_deck:
+            self._cards = [Card(f'{rank}{suite}') for _ in range(deck_size) for rank in RANKS for suite in SUITES]
+            self._banned_cards = []
+            self.shuffle()
+        else:
+            cards, banned_cards = from_deck
+            self._cards = [Card(f'{rank}{suite}') for rank, suite in cards.strip().split()]
+            self._banned_cards = [Card(f'{rank}{suite}') for rank, suite in banned_cards.strip().split()]
 
     def pop_cards(self, num_cards=1):
         if len(self) < num_cards:
@@ -19,6 +24,9 @@ class Deck:
 
     def ban_card(self):
         self._banned_cards.append(self.pop_cards())
+
+    def shuffle(self):
+        random.shuffle(self._cards)
 
     def __len__(self):
         return len(self._cards)
