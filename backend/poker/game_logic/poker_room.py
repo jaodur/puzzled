@@ -119,6 +119,22 @@ class CurrentHand:
         # if len(current_bets) == 1 or len(current_bets) == 1 and self.current_player.seat == active_players[-1].seat:
         if len(current_bets) == 1:
             self.next_round()
+            self.state.current_player = self.get_next_player()
+            return
+
+        self.state.current_player = self.get_next_player(new_round=False)
+
+    def get_next_player(self, new_round=True):
+        if new_round:
+            active_players = [player for player in self.players if player.active]
+            return active_players[0]
+
+        current_player_index = self.state.current_player.seat
+        while not self.state.end:
+            player = self.players[(current_player_index + 1) % len(self.players)]
+            if player.active:
+                return player
+            current_player_index += 1
 
     def next_round(self):
         if self.state.round == PokerRoundTypes.PRE_FLOP:
@@ -159,7 +175,6 @@ class CurrentHand:
         elif action_type == PokerActions.FOLD.value:
             player.active = False
             self.banned_cards.append(player.hold_cards)
-        self.current_player = self.players[(player_index + 1) % len(self.players)]
 
     def generate_hold_cards(self, hold_size=2):
         served_cards = []
