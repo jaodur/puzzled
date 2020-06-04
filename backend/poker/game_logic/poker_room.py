@@ -78,6 +78,17 @@ class PokerPlayers:
         return f'{self.__class__.__name__}(players={repr(self._players)})'
 
 
+class HandState:
+    def __init__(self, current_player, poker_round, end=False):
+        self.current_player = current_player
+        self.round = poker_round
+        self.end = end
+
+    def __repr__(self):
+        return (f'{self.__class__.__name__}(current_player={self.current_player}, poker_round={self.round}), '
+                f'end={self.end}')
+
+
 class CurrentHand:
     def __init__(self, poker_room, type, small_blind, big_blind, players, dealer_button=0, from_deck=None, deck_size=1):
         self.poker_room = poker_room
@@ -92,10 +103,8 @@ class CurrentHand:
         self.small_blind = small_blind
         self.big_blind = big_blind
         self.players = players
-        self.state = {'round': PokerRoundTypes.PRE_FLOP, 'end': False}
+        self.state = HandState(current_player=players[dealer_button], poker_round=PokerRoundTypes.PRE_FLOP)
         self.last_bet = 0
-        self.current_player = None
-        self.current_player = players[dealer_button]
 
     def play_hand(self, player_index, action):
         self.take_action(player_index, action)
@@ -104,7 +113,7 @@ class CurrentHand:
     def update_hand_state(self):
         active_players = [player for player in self.players if player.active]
         if len(active_players) <= 1:
-            self.state.update({'end': True})
+            self.state.end = True
             return
         current_bets = set(player.bet for player in self.players if player.active)
         # if len(current_bets) == 1 or len(current_bets) == 1 and self.current_player.seat == active_players[-1].seat:
@@ -112,24 +121,24 @@ class CurrentHand:
             self.next_round()
 
     def next_round(self):
-        if self.state['round'] == PokerRoundTypes.PRE_FLOP:
-            self.state['round'] = PokerRoundTypes.FLOP
+        if self.state.round == PokerRoundTypes.PRE_FLOP:
+            self.state.round = PokerRoundTypes.FLOP
             self.next_community_cards()
 
-        elif self.state['round'] == PokerRoundTypes.FLOP:
-            self.state['round'] = PokerRoundTypes.TURN
+        elif self.state.round == PokerRoundTypes.FLOP:
+            self.state.round = PokerRoundTypes.TURN
             self.next_community_cards()
 
-        elif self.state['round'] == PokerRoundTypes.TURN:
-            self.state['round'] = PokerRoundTypes.RIVER
+        elif self.state.round == PokerRoundTypes.TURN:
+            self.state.round = PokerRoundTypes.RIVER
             self.next_community_cards()
 
-        elif self.state['round'] == PokerRoundTypes.RIVER:
-            self.state['round'] = PokerRoundTypes.SHOWDOWN
+        elif self.state.round == PokerRoundTypes.RIVER:
+            self.state.round = PokerRoundTypes.SHOWDOWN
             self.next_community_cards()
 
-        if self.state['round'] == PokerRoundTypes.SHOWDOWN:
-            self.state['end'] = True
+        if self.state.round == PokerRoundTypes.SHOWDOWN:
+            self.state.end = True
 
     def take_action(self, player_index, action):
         player = self.players[player_index]
