@@ -6,10 +6,11 @@ class Hand:
     VALUES = PokerHandValue
     NAMES = PokerHandName.get_mapper()
 
-    def __init__(self, hand):
+    def __init__(self, hand, from_raw=True):
         self.name = None
         self.value = None
         self.hand = None
+        self.from_raw = from_raw
         self.raw_hand = hand
 
     @property
@@ -18,8 +19,11 @@ class Hand:
 
     @raw_hand.setter
     def raw_hand(self, hand):
-        self.hand = sorted([Card(card) for card in hand], reverse=True)
-        self.__raw_hand = [card.upper() for card in hand]
+        self.hand = (
+            sorted([Card(card) for card in hand], reverse=True) if self.from_raw else
+            sorted(hand, reverse=True)
+        )
+        self.__raw_hand = [str(card).upper() for card in hand]
 
     def rank_hand(self):
         if not self.value:

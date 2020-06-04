@@ -13,7 +13,7 @@ class Card:
         self.suite = None
         self.value = None
         self.rank = None
-        self.raw_value = card.upper()
+        self.raw_value = str(card).upper()
         self.card = card
 
     @property
