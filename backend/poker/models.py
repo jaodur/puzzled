@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from backend.lib.base import AuditableBaseModel
+from .game_logic import PokerActions, PokerDeckTypes, PokerGameTypes, PokerRoundTypes
 
 
 class PokerPlayer(AuditableBaseModel):
     ACTION_CHOICES = (
-        ('Fold', 'Fold'),
-        ('Call', 'Call'),
-        ('Raise', 'Raise'),
+        (PokerActions.FOLD.value, PokerActions.FOLD.value),
+        (PokerActions.CALL.value, PokerActions.CALL.value),
+        (PokerActions.RAISE.value, PokerActions.RAISE.value),
     )
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     hold_cards = models.CharField(max_length=50, null=False, blank=False)
@@ -22,17 +23,17 @@ class PokerRoom(AuditableBaseModel):
 
 class PokerHand(AuditableBaseModel):
     TYPE_CHOICES = (
-        ('TexasHoldEm', 'TexasHoldEm'),
+        (PokerGameTypes.TEXAS_HOLD_EM.value, PokerGameTypes.TEXAS_HOLD_EM.value),
     )
     DECK_CHOICES = (
-        ('StandardSingle', 'StandardSingle'),
+        (PokerDeckTypes.STANDARD_SINGLE.value, PokerDeckTypes.STANDARD_SINGLE.value),
     )
     ROUND_CHOICES = (
-        ('PreFlop', 'PreFlop'),
-        ('Flop', 'Flop'),
-        ('Turn', 'Turn'),
-        ('River', 'River'),
-        ('Showdown', 'Showdown'),
+        (PokerRoundTypes.PRE_FLOP.value, PokerRoundTypes.PRE_FLOP.value),
+        (PokerRoundTypes.FLOP.value, PokerRoundTypes.FLOP.value),
+        (PokerRoundTypes.TURN.value, PokerRoundTypes.TURN.value),
+        (PokerRoundTypes.RIVER.value, PokerRoundTypes.RIVER.value),
+        (PokerRoundTypes.SHOWDOWN.value, PokerRoundTypes.SHOWDOWN.value),
     )
 
     poker_room = models.ForeignKey(PokerRoom, on_delete=models.CASCADE)

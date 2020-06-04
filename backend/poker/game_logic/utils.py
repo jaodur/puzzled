@@ -59,3 +59,25 @@ class PokerHandName(Enum):
             val = e.value
             mapper[val[0]] = val[-1]
         return mapper
+
+
+class PokerActions(Enum):
+    FOLD = 'Fold'
+    CALL = 'Call'
+    RAISE = 'Raise'
+
+
+class PokerGameTypes(Enum):
+    TEXAS_HOLD_EM = 'TexasHoldEm'
+
+
+class PokerDeckTypes(Enum):
+    STANDARD_SINGLE = 'StandardSingle'
+
+
+class PokerRoundTypes(Enum):
+    PRE_FLOP = 'PreFlop'
+    FLOP = 'Flop'
+    TURN = 'Turn'
+    RIVER = 'River'
+    SHOWDOWN = 'Showdown'
