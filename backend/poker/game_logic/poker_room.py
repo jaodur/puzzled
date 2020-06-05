@@ -89,6 +89,34 @@ class HandState:
                 f'end={self.end}')
 
 
+class Pot:
+    def __init__(self, size=0):
+        self._size = size
+        self._round_bet = {}
+        self.last_bet = 0
+
+    def handle_bet(self, player, bet):
+        if not player.active:
+            return
+
+        prev_bet = self._round_bet.get(player.seat, 0)
+        actual_bet = bet - prev_bet
+        self._size += actual_bet
+        player.bet = bet
+        player.amount -= actual_bet
+        self._round_bet[player.seat] = bet
+        self.last_bet = bet
+
+    def new_round(self):
+        self._round_bet = {}
+
+    def split_pot(self, winners):
+        pass
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(size={self._size})'
+
+
 class CurrentHand:
     def __init__(self, poker_room, type, small_blind, big_blind, players, dealer_button=0, from_deck=None, deck_size=1):
         self.poker_room = poker_room
@@ -96,7 +124,7 @@ class CurrentHand:
         self.from_deck = from_deck
         self.deck_size = deck_size
         self.deck = Deck(from_deck, deck_size)
-        self.pot_size = 0
+        self.pot = Pot()
         self.dealer_button = dealer_button
         self.community_cards = []
         self.banned_cards = []
@@ -104,7 +132,6 @@ class CurrentHand:
         self.big_blind = big_blind
         self.players = players
         self.state = HandState(current_player=players[dealer_button], poker_round=PokerRoundTypes.PRE_FLOP)
-        self.last_bet = 0
 
     def play_hand(self, player_index, action):
         self.take_action(player_index, action)
@@ -164,13 +191,10 @@ class CurrentHand:
             raise
 
         if action_type == PokerActions.CALL.value:
-            player.bet = self.last_bet
-            self.pot_size += self.last_bet
+            self.pot.handle_bet(player, self.pot.last_bet)
 
         elif action_type == PokerActions.RAISE.value:
-            player.bet = action_bet
-            self.last_bet = action_bet
-            self.pot_size += self.last_bet
+            self.pot.handle_bet(player, action_bet)
 
         elif action_type == PokerActions.FOLD.value:
             player.active = False
