@@ -86,29 +86,39 @@ class HandState:
 
     def __repr__(self):
         return (f'{self.__class__.__name__}(current_player={self.current_player}, poker_round={self.round}), '
-                f'end={self.end}')
+                f'end={self.end})')
 
 
 class Pot:
     def __init__(self, size=0):
         self._size = size
-        self._round_bet = {}
+        self._round_bets = {}
+        self._folded_bets = {}
         self.last_bet = 0
 
     def handle_bet(self, player, bet):
         if not player.active:
             return
 
-        prev_bet = self._round_bet.get(player.seat, 0)
+        prev_bet = self._round_bets.get(player.seat, 0)
         actual_bet = bet - prev_bet
         self._size += actual_bet
         player.bet = bet
         player.amount -= actual_bet
-        self._round_bet[player.seat] = bet
+        self._round_bets[player.seat] = bet
         self.last_bet = bet
 
+    def fold_bet(self, player):
+        if self._round_bets.get(player.seat):
+            self._folded_bets[player.seat] = self._round_bets.pop(player.seat)
+
     def new_round(self):
-        self._round_bet = {}
+        self._round_bets = {}
+
+    def bet_round_complete(self, num_active_players):
+        round_bets = set(self._round_bets.values())
+        active_player_count = len(self._round_bets)
+        return len(round_bets) == 1 and active_player_count == num_active_players
 
     def split_pot(self, winners):
         pass
@@ -139,12 +149,13 @@ class CurrentHand:
 
     def update_hand_state(self):
         active_players = [player for player in self.players if player.active]
-        if len(active_players) <= 1:
+        num_active_players = len(active_players)
+
+        if num_active_players <= 1:
             self.state.end = True
             return
-        current_bets = set(player.bet for player in self.players if player.active)
-        # if len(current_bets) == 1 or len(current_bets) == 1 and self.current_player.seat == active_players[-1].seat:
-        if len(current_bets) == 1:
+
+        if self.pot.bet_round_complete(num_active_players=num_active_players):
             self.next_round()
             self.state.current_player = self.get_next_player()
             return
@@ -176,6 +187,8 @@ class CurrentHand:
         self.state.round = new_round
         self.next_community_cards()
         self.pot.new_round()
+        if new_round == PokerRoundTypes.SHOWDOWN:
+            self.end_hand()
 
     def end_hand(self):
         self.state.end = True
@@ -195,6 +208,7 @@ class CurrentHand:
 
         elif action_type == PokerActions.FOLD.value:
             player.active = False
+            self.pot.fold_bet(player)
             self.banned_cards.append(player.hold_cards)
 
     def generate_hold_cards(self, hold_size=2):
