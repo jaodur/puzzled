@@ -165,6 +165,9 @@ class HandComparisonTest(TestCase):
         self.assertTrue(self.straight_flush_wheeler != self.straight_flush)
         self.assertTrue(self.straight_flush_wheeler != ['kc', 'qc', 'jc', 'tc', '9c'])
 
+    def test_high_kicker_gt(self):
+        self.assertTrue(Hand(['4c', '6d', '2d', '6c', 'ac']) > Hand(['kh', '4c', '6d', '2d', '6c']))
+
 
 class TestHandSequenceProtocol(TestCase):
 

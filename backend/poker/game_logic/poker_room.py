@@ -24,25 +24,25 @@ class PokerPlayer:
                 hand = Hand(cards + hold_card, from_raw=False)
                 if self.best_hand is None:
                     self.best_hand = hand
-                elif hand.rank_hand() > self.best_hand.rank_hand():
+                elif hand > self.best_hand:
                     self.best_hand = hand
         return self.best_hand
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            if not (self.active or other.active):
+            if not other.active:
                 return False
             return self.best_hand == other.best_hand
 
     def __ne__(self, other):
         if isinstance(other, self.__class__):
-            if not (self.active or other.active):
+            if not other.active:
                 return True
             return self.best_hand != other.best_hand
 
     def __gt__(self, other):
         if isinstance(other, self.__class__):
-            if not (self.active or other.active):
+            if not other.active:
                 return False
             return self.best_hand > other.best_hand
 
@@ -184,19 +184,19 @@ class CurrentHand:
         self.players.assign_hold_cards(zip(*served_cards))
 
     def next_community_cards(self):
-        if self.state['round'] == PokerRoundTypes.FLOP:
+        if self.state.round == PokerRoundTypes.FLOP:
             self.banned_cards.append(self.deck.pop_cards(num_cards=1))
             next_community_cards = self.deck.pop_cards(num_cards=3)
             self.community_cards.extend(next_community_cards)
             return next_community_cards
 
-        if self.state['round'] == PokerRoundTypes.TURN or self.state['round'] == PokerRoundTypes.RIVER:
+        if self.state.round == PokerRoundTypes.TURN or self.state.round == PokerRoundTypes.RIVER:
             self.banned_cards.append(self.deck.pop_cards(num_cards=1))
             next_community_card = self.deck.pop_cards(num_cards=1)
             self.community_cards.append(next_community_card)
             return next_community_card
 
-        if self.state['round'] == PokerRoundTypes.SHOWDOWN:
+        if self.state.round == PokerRoundTypes.SHOWDOWN:
             return
 
         raise NotImplementedError
@@ -206,11 +206,13 @@ class CurrentHand:
         for player in self.players:
             player.get_best_hand(self.community_cards)
             if not winners:
-                winners.append(player)
-                continue
-            if player > winners[0]:
+                if player.active:
+                    winners.append(player)
+
+            elif player > winners[0]:
                 winners = [player]
-            if player == winners[0]:
+
+            elif player == winners[0]:
                 winners.append(player)
         return winners
 

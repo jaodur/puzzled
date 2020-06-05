@@ -154,8 +154,8 @@ class Hand:
             other.rank_hand()
             if self.value != other.value:
                 return False
-            rank = [card.rank for card in self]
-            rank_other = [card.rank for card in other]
+            rank = [card.value for card in self]
+            rank_other = [card.value for card in other]
             return rank == rank_other
 
         return NotImplemented
@@ -174,8 +174,8 @@ class Hand:
         if isinstance(other, self.__class__):
             value = list(self.rank_hand())
             value_other = list(other.rank_hand())
-            value.extend([card.rank for card in self])
-            value_other.extend([card.rank for card in other])
+            value.extend([card.value for card in self])
+            value_other.extend([card.value for card in other])
 
             return value > value_other
 
