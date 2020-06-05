@@ -164,24 +164,21 @@ class CurrentHand:
             current_player_index += 1
 
     def next_round(self):
-        if self.state.round == PokerRoundTypes.PRE_FLOP:
-            self.state.round = PokerRoundTypes.FLOP
-            self.next_community_cards()
+        return (
+            self.set_new_round(PokerRoundTypes.FLOP) if self.state.round == PokerRoundTypes.PRE_FLOP else
+            self.set_new_round(PokerRoundTypes.TURN) if self.state.round == PokerRoundTypes.FLOP else
+            self.set_new_round(PokerRoundTypes.RIVER) if self.state.round == PokerRoundTypes.TURN else
+            self.set_new_round(PokerRoundTypes.SHOWDOWN) if self.state.round == PokerRoundTypes.RIVER else
+            self.end_hand()
+        )
 
-        elif self.state.round == PokerRoundTypes.FLOP:
-            self.state.round = PokerRoundTypes.TURN
-            self.next_community_cards()
+    def set_new_round(self, new_round):
+        self.state.round = new_round
+        self.next_community_cards()
+        self.pot.new_round()
 
-        elif self.state.round == PokerRoundTypes.TURN:
-            self.state.round = PokerRoundTypes.RIVER
-            self.next_community_cards()
-
-        elif self.state.round == PokerRoundTypes.RIVER:
-            self.state.round = PokerRoundTypes.SHOWDOWN
-            self.next_community_cards()
-
-        if self.state.round == PokerRoundTypes.SHOWDOWN:
-            self.state.end = True
+    def end_hand(self):
+        self.state.end = True
 
     def take_action(self, player_index, action):
         player = self.players[player_index]
