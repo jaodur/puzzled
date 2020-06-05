@@ -1,81 +1,7 @@
-from itertools import combinations
 from reprlib import repr
 from .deck import Deck
-from .hand import Hand
+from .pot import Pot
 from .utils import PokerActions, PokerRoundTypes
-
-
-class PokerPlayer:
-    def __init__(self, user_id, amount, seat):
-        self.user = user_id
-        self.hold_cards = None
-        self.bet = 0
-        self.action = None
-        self.amount = amount
-        self.active = True
-        self.seat = seat
-        self.best_hand = None
-
-    def get_best_hand(self, community_cards, num_of_hold_cards_included=2):
-        community_cards = combinations(community_cards, len(community_cards) - num_of_hold_cards_included)
-        hold_cards = combinations(self.hold_cards, num_of_hold_cards_included)
-        for hold_card in hold_cards:
-            for cards in community_cards:
-                hand = Hand(cards + hold_card, from_raw=False)
-                if self.best_hand is None:
-                    self.best_hand = hand
-                elif hand > self.best_hand:
-                    self.best_hand = hand
-        return self.best_hand
-
-    def __eq__(self, other):
-        if isinstance(other, self.__class__):
-            if not other.active:
-                return False
-            return self.best_hand == other.best_hand
-
-    def __ne__(self, other):
-        if isinstance(other, self.__class__):
-            if not other.active:
-                return True
-            return self.best_hand != other.best_hand
-
-    def __gt__(self, other):
-        if isinstance(other, self.__class__):
-            if not other.active:
-                return False
-            return self.best_hand > other.best_hand
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}({self.user, self.amount})'
-
-
-class PokerPlayers:
-    def __init__(self, players):
-        self._players = players
-        self.active_players = self.get_active_players()
-
-    def get_active_players(self):
-        return [player for player in self._players if player.active]
-
-    def assign_hold_cards(self, hold_cards):
-        for player, holds_ in zip(self._players, hold_cards):
-            player.hold_cards = holds_
-
-    def __len__(self):
-        return len(self._players)
-
-    def __getitem__(self, index):
-        return self._players[index]
-
-    def __iter__(self):
-        return iter(self._players)
-
-    def __next__(self):
-        return next(player for player in self._players)
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}(players={repr(self._players)})'
 
 
 class HandState:
@@ -87,44 +13,6 @@ class HandState:
     def __repr__(self):
         return (f'{self.__class__.__name__}(current_player={self.current_player}, poker_round={self.round}), '
                 f'end={self.end})')
-
-
-class Pot:
-    def __init__(self, size=0):
-        self._size = size
-        self._round_bets = {}
-        self._folded_bets = {}
-        self.last_bet = 0
-
-    def handle_bet(self, player, bet):
-        if not player.active:
-            return
-
-        prev_bet = self._round_bets.get(player.seat, 0)
-        actual_bet = bet - prev_bet
-        self._size += actual_bet
-        player.bet = bet
-        player.amount -= actual_bet
-        self._round_bets[player.seat] = bet
-        self.last_bet = bet
-
-    def fold_bet(self, player):
-        if self._round_bets.get(player.seat):
-            self._folded_bets[player.seat] = self._round_bets.pop(player.seat)
-
-    def new_round(self):
-        self._round_bets = {}
-
-    def bet_round_complete(self, num_active_players):
-        round_bets = set(self._round_bets.values())
-        active_player_count = len(self._round_bets)
-        return len(round_bets) == 1 and active_player_count == num_active_players
-
-    def split_pot(self, winners):
-        pass
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}(size={self._size})'
 
 
 class CurrentHand:
