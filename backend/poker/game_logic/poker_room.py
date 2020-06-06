@@ -16,20 +16,19 @@ class HandState:
 
 
 class CurrentHand:
-    def __init__(self, poker_room, type, small_blind, big_blind, players, dealer_button=0, from_deck=None, deck_size=1):
+    def __init__(self, poker_room, type, small_blind, big_blind, players, from_deck=None, deck_size=1):
         self.poker_room = poker_room
         self.type = type
         self.from_deck = from_deck
         self.deck_size = deck_size
         self.deck = Deck(from_deck, deck_size)
         self.pot = Pot()
-        self.dealer_button = dealer_button
         self.community_cards = []
         self.banned_cards = []
         self.small_blind = small_blind
         self.big_blind = big_blind
         self.players = players
-        self.state = HandState(current_player=players[dealer_button], poker_round=PokerRoundTypes.PRE_FLOP)
+        self.state = HandState(current_player=self.get_next_player(), poker_round=PokerRoundTypes.PRE_FLOP)
 
     def play_hand(self, player_index, action):
         self.take_action(player_index, action)
@@ -51,16 +50,19 @@ class CurrentHand:
         self.state.current_player = self.get_next_player(new_round=False)
 
     def get_next_player(self, new_round=True):
+        active_players = self.players.get_active_players()
         if new_round:
-            active_players = [player for player in self.players if player.active]
             return active_players[0]
 
         current_player_index = self.state.current_player.seat
-        while not self.state.end:
+        num_active_players = len(active_players)
+        player_count = 0
+        while player_count < num_active_players:
             player = self.players[(current_player_index + 1) % len(self.players)]
             if player.active:
                 return player
             current_player_index += 1
+            player_count += 1
 
     def next_round(self):
         return (
@@ -144,9 +146,9 @@ class CurrentHand:
 
     def __repr__(self):
         return (
-            f'{self.__class__.__name__}({self.poker_room}, {self.type}, {self.small_blind}, {self.big_blind}, '
-            f'{self.players}, dealer_button={self.dealer_button}, from_deck={self.from_deck}, '
-            f'deck_size={self.deck_size})'
+            f'{self.__class__.__name__}(poker_room={self.poker_room}, type={self.type}, '
+            f'small_blind={self.small_blind}, big_blind={self.big_blind}, players={self.players}, '
+            f'from_deck={self.from_deck}, deck_size={self.deck_size})'
         )
 
 
