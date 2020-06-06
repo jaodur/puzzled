@@ -107,17 +107,17 @@ class CurrentHand:
         self.players.assign_hold_cards(zip(*served_cards))
 
     def next_community_cards(self):
+        def get_next_community_cards(num_cards, ban_cards=1):
+            self.banned_cards.extend(self.deck.ban_cards(num_cards=ban_cards))
+            _next_cards = self.deck.pop_cards(num_cards=num_cards)
+            self.community_cards.extend(_next_cards)
+            return _next_cards
+
         if self.state.round == PokerRoundTypes.FLOP:
-            self.banned_cards.append(self.deck.pop_cards(num_cards=1))
-            next_community_cards = self.deck.pop_cards(num_cards=3)
-            self.community_cards.extend(next_community_cards)
-            return next_community_cards
+            return get_next_community_cards(num_cards=3)
 
         if self.state.round == PokerRoundTypes.TURN or self.state.round == PokerRoundTypes.RIVER:
-            self.banned_cards.append(self.deck.pop_cards(num_cards=1))
-            next_community_card = self.deck.pop_cards(num_cards=1)
-            self.community_cards.append(next_community_card)
-            return next_community_card
+            return get_next_community_cards(num_cards=1)
 
         if self.state.round == PokerRoundTypes.SHOWDOWN:
             return

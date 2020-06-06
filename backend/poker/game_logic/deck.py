@@ -19,11 +19,13 @@ class Deck:
         if len(self) < num_cards:
             raise Exception("Few cards to pop from")
         if num_cards <= 1:
-            return self._cards.pop()
+            return [self._cards.pop()]
         return [self._cards.pop() for _ in range(num_cards)]
 
-    def ban_card(self):
-        self._banned_cards.append(self.pop_cards())
+    def ban_cards(self, num_cards=1):
+        _banned_cards = self.pop_cards(num_cards=num_cards)
+        self._banned_cards.extend(_banned_cards)
+        return _banned_cards
 
     def shuffle(self):
         random.shuffle(self._cards)
