@@ -44,7 +44,7 @@ class PokerPlayer:
             return self.best_hand > other.best_hand
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.user, self.amount})'
+        return f'{self.__class__.__name__}(user_id={self.user}, amount={self.amount}, seat={self.seat})'
 
 
 class PokerPlayers:
@@ -58,6 +58,20 @@ class PokerPlayers:
     def assign_hold_cards(self, hold_cards):
         for player, holds_ in zip(self._players, hold_cards):
             player.hold_cards = holds_
+
+    def reset_player_states(self):
+        for player in self._players:
+            player.active = True
+
+    def arrange_players(self, dealer):
+        small_binder = dealer + 1
+        return self.__class__(self._players[small_binder:] + self._players[:small_binder])
+
+    def add_player(self):
+        pass
+
+    def remove_player(self):
+        pass
 
     def __len__(self):
         return len(self._players)
