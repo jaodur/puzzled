@@ -1,5 +1,5 @@
-from reprlib import repr
 from .deck import Deck
+from .poker_player import PokerPlayers
 from .pot import Pot
 from .utils import PokerActions, PokerRoundTypes
 
@@ -28,6 +28,7 @@ class CurrentHand:
         self.small_blind = small_blind
         self.big_blind = big_blind
         self.players = players
+        self.seat_offset = players[0].seat
         self.state = HandState(current_player=self.get_next_player(), poker_round=PokerRoundTypes.PRE_FLOP)
 
     def play_hand(self, player_index, action):
@@ -54,7 +55,7 @@ class CurrentHand:
         if new_round:
             return active_players[0]
 
-        current_player_index = self.state.current_player.seat
+        current_player_index = self.state.current_player.seat - self.seat_offset
         num_active_players = len(active_players)
         player_count = 0
         while player_count < num_active_players:
@@ -87,8 +88,8 @@ class CurrentHand:
         player = self.players[player_index]
         action_type = action['type']
         action_bet = action.get('bet')
-        if player_index != player.seat:
-            raise
+        if player.user != self.state.current_player.user:
+            raise Exception('Not the current player to act')
 
         if action_type == PokerActions.CALL.value:
             self.pot.handle_bet(player, self.pot.last_bet)
@@ -153,28 +154,41 @@ class CurrentHand:
 
 
 class PokerRoom:
-    def __init__(self, poker_room, type, small_blind, big_blind, players, name=None, from_deck=None, deck_size=1):
-        self.pot = 0
+    def __init__(self, poker_room, poker_type, small_blind, big_blind, players=(),
+                 name=None, from_deck=None, deck_size=1, dealer=None):
+        self.poker_room = poker_room
+        self.poker_type = poker_type
         self.small_blind = small_blind
         self.big_blind = big_blind
-        self.dealer_button = 0
-        self.all_players = []
+        self.players = PokerPlayers(players)
         self.name = name
-        self.poker_room = poker_room
+        self.from_deck = from_deck
         self.deck_size = deck_size
-        self.current_hand = CurrentHand(poker_room, type, small_blind, big_blind, players, from_deck, deck_size)
+        self.dealer = dealer
+        self.current_hand = None
 
-    def __iter__(self):
-        return iter(self.hands)
+    def new_hand(self):
+        if self.current_hand is None or self.current_hand.state.end:
+            if self.dealer is None:
+                self.dealer = 0
+            else:
+                self.dealer += 1
 
-    def __next__(self):
-        return next(self.hands)
+            self.players.reset_player_states()
+            players = self.players.arrange_players(self.dealer)
+            self.current_hand = CurrentHand(self.poker_room, self.poker_type, self.small_blind, self.big_blind,
+                                            players, self.from_deck, self.deck_size)
+        return self.current_hand
 
-    def __len__(self):
-        return len(self.hands)
+    def add_player(self, user_id):
+        pass
 
-    def __getitem__(self, index):
-        return self.hands[index]
+    def remove_player(self, user_id):
+        pass
 
     def __repr__(self):
-        return f'<Poker hand_size={len(self)}, hands={repr(self.hands)}>'
+        return (
+            f'{self.__class__.__name__}(poker_room={self.poker_room}, type={self.poker_type}, '
+            f'small_blind={self.small_blind}, big_blind={self.big_blind}, players={self.players}, name={self.name}, '
+            f'from_deck={self.from_deck}, deck_size={self.deck_size}, dealer={self.dealer})'
+        )
