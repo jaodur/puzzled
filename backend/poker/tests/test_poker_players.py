@@ -1,5 +1,5 @@
 from django.test import TestCase
-from backend.poker import Card, Hand, PokerPlayer
+from backend.poker import Card, Deck, Hand, PokerPlayer, PokerPlayers
 
 
 class TestPokerPlayer(TestCase):
@@ -84,3 +84,70 @@ class TestPokerPlayer(TestCase):
     def test_poker_player_representation(self):
         player = PokerPlayer(self.USER_ID, self.AMOUNT, self.SEAT)
         self.assertEquals(repr(player), 'PokerPlayer(user_id=1, amount=200, seat=5)')
+
+
+class TestPokerPlayers(TestCase):
+
+    def players(self):
+        player1 = PokerPlayer(1, 200, 0)
+        player2 = PokerPlayer(2, 200, 1)
+        player3 = PokerPlayer(3, 200, 2)
+        player4 = PokerPlayer(4, 200, 3)
+
+        return [player1, player2, player3, player4]
+
+    def test_players_creation_succeeds(self):
+        players = PokerPlayers(self.players())
+
+        self.assertEquals(players._players, self.players())
+        self.assertEquals(len(players.active_players), len(self.players()))
+
+    def test_arrange_players_succeeds(self):
+        players = PokerPlayers(self.players())
+        players = players.arrange_players(dealer=0)
+
+        self.assertEquals(self.players()[0], players[-1])
+
+    def test_reset_player_states_succeeds(self):
+        players = PokerPlayers(self.players())
+        players[0].active = False
+        self.assertEquals(len(players.get_active_players()), len(players) -  1)
+        players.reset_player_states()
+        self.assertEquals(len(players.get_active_players()), len(players))
+
+    def test_assign_hold_cards_succeeds(self):
+        players = PokerPlayers(self.players())
+        deck = Deck()
+        first_serve = deck.pop_cards(num_cards=len(players))
+        second_serve = deck.pop_cards(num_cards=len(players))
+        hold_cards = list(zip(first_serve, second_serve))
+        players.assign_hold_cards(hold_cards=hold_cards)
+
+        for player in players:
+            self.assertEquals(len(player.hold_cards), 2)
+
+    def test_player_length(self):
+        players = PokerPlayers(self.players())
+        self.assertEquals(len(players), len(self.players()))
+
+    def test_getitem_succeeds(self):
+        players = PokerPlayers(self.players())
+        self.assertEquals(players[0], self.players()[0])
+
+    def test_iteration_succeeds(self):
+        players = PokerPlayers(self.players())
+        for index, player in enumerate(players):
+            self.assertEquals(player, players[index])
+
+    def test_next_succeeds(self):
+        players = PokerPlayers(self.players())
+        self.assertEquals(next(players), players[0])
+
+    def test_representation(self):
+        players = PokerPlayers(self.players())
+        self.assertEquals(
+            repr(players),
+            'PokerPlayers(players=[PokerPlayer(user_id=1, amount=200, seat=0), '
+            'PokerPlayer(user_id=2, amount=200, seat=1), PokerPlayer(user_id=3, amount=200, seat=2), '
+            'PokerPlayer(user_id=4, amount=200, seat=3)])')
+
