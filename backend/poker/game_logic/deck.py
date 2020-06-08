@@ -1,4 +1,5 @@
 import random
+from reprlib import repr
 from .card import Card, RANKS, SUITES
 
 
@@ -6,6 +7,7 @@ class Deck:
 
     def __init__(self, from_deck=None, deck_size=1):
         self.deck_size = deck_size
+        self.from_deck = from_deck
         if not from_deck:
             self._cards = [Card(f'{rank}{suite}') for _ in range(deck_size) for rank in RANKS for suite in SUITES]
             self._banned_cards = []
@@ -27,6 +29,9 @@ class Deck:
         self._banned_cards.extend(_banned_cards)
         return _banned_cards
 
+    def extract(self):
+        return [' '.join(c.raw_value for c in self._cards), ' '.join(c.raw_value for c in self._banned_cards)]
+
     def shuffle(self):
         random.shuffle(self._cards)
 
@@ -43,4 +48,4 @@ class Deck:
         return self._cards[index]
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(deck_size={self.deck_size})'
+        return f'{self.__class__.__name__}(from_deck={repr(self.from_deck)}, deck_size={self.deck_size})'
