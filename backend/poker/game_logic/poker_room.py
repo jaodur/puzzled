@@ -55,7 +55,7 @@ class CurrentHand:
         if new_round:
             return active_players[0]
 
-        current_player_index = self.state.current_player.seat - self.seat_offset
+        current_player_index = self.get_player_index(self.state.current_player.seat)
         num_active_players = len(active_players)
         player_count = 0
         while player_count < num_active_players:
@@ -64,6 +64,9 @@ class CurrentHand:
                 return player
             current_player_index += 1
             player_count += 1
+
+    def get_player_index(self, player_seat):
+        return player_seat - self.seat_offset
 
     def next_round(self):
         return (
@@ -84,8 +87,11 @@ class CurrentHand:
     def end_hand(self):
         self.state.end = True
 
-    def take_action(self, player_index, action):
-        player = self.players[player_index]
+    def take_action(self, player_seat, action):
+        if self.state.end:
+            raise Exception("Hand completed, no more actions allowed")
+
+        player = self.players[self.get_player_index(player_seat)]
         action_type = action['type']
         action_bet = action.get('bet')
         if player.user != self.state.current_player.user:

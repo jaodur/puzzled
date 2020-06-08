@@ -62,6 +62,8 @@ class PokerPlayers:
     def reset_player_states(self):
         for player in self._players:
             player.active = True
+            player.best_hand = None
+            player.hold_cards = None
 
     def arrange_players(self, dealer):
         small_binder = dealer + 1
