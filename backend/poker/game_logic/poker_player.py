@@ -31,17 +31,23 @@ class PokerPlayer:
                 return False
             return self.best_hand == other.best_hand
 
+        return NotImplemented
+
     def __ne__(self, other):
         if isinstance(other, self.__class__):
             if not other.active:
                 return True
             return self.best_hand != other.best_hand
 
+        return NotImplemented
+
     def __gt__(self, other):
         if isinstance(other, self.__class__):
             if not other.active:
                 return False
             return self.best_hand > other.best_hand
+
+        return NotImplemented
 
     def __repr__(self):
         return f'{self.__class__.__name__}(user_id={self.user}, amount={self.amount}, seat={self.seat})'

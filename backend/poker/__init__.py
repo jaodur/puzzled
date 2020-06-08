@@ -9,4 +9,6 @@ from .game_logic import (
     PokerDeckTypes,
     PokerGameTypes,
     PokerRoundTypes,
+    PokerPlayer,
+    PokerPlayers,
 )
