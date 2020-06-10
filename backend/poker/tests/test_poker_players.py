@@ -111,7 +111,7 @@ class TestPokerPlayers(TestCase):
     def test_reset_player_states_succeeds(self):
         players = PokerPlayers(self.players())
         players[0].active = False
-        self.assertEquals(len(players.get_active_players()), len(players) -  1)
+        self.assertEquals(len(players.get_active_players()), len(players) - 1)
         players.reset_player_states()
         self.assertEquals(len(players.get_active_players()), len(players))
 
@@ -150,4 +150,3 @@ class TestPokerPlayers(TestCase):
             'PokerPlayers(players=[PokerPlayer(user_id=1, amount=200, seat=0), '
             'PokerPlayer(user_id=2, amount=200, seat=1), PokerPlayer(user_id=3, amount=200, seat=2), '
             'PokerPlayer(user_id=4, amount=200, seat=3)])')
-
