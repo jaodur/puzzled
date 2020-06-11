@@ -205,11 +205,23 @@ class PokerRoom:
                                             players, self.from_deck, self.deck_size)
         return self.current_hand
 
-    def add_player(self, user_id):
-        pass
+    def add_player(self, new_player):
+        """Method that adds new player to the the poker room. The new placed in Under-The-Gun seat
+        Args:
+            new_player (PokerPlayer): new player to added
+        """
+        index = self.dealer + 3
+        if self.players.add_player(player=new_player, index=index):
+            self.re_arrange_seats()
 
     def remove_player(self, user_id):
-        pass
+        """Method to remove player from the poker room"""
+        return self.players.remove_player(user_id=user_id)
+
+    def re_arrange_seats(self):
+        """Method to re-arrange player seats when a new player is added"""
+        for index, player in enumerate(self.players):
+            player.seat = index
 
     def __repr__(self):
         return (

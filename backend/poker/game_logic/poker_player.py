@@ -75,11 +75,18 @@ class PokerPlayers:
         small_binder = dealer + 1
         return self.__class__(self._players[small_binder:] + self._players[:small_binder])
 
-    def add_player(self):
-        pass
+    def add_player(self, player, index):
+        if player.user in [player.user for player in self._players]:
+            raise Exception('Player already exists')
+        self._players.insert(index, player)
+        return True
 
-    def remove_player(self):
-        pass
+    def remove_player(self, user_id):
+        for index in range(len(self._players)):
+            player = self._players[index]
+            if player.user == user_id:
+                self._players.remove(player)
+                return player
 
     def __len__(self):
         return len(self._players)
