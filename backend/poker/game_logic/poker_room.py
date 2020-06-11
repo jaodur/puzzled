@@ -4,6 +4,26 @@ from .pot import Pot
 from .utils import PokerActions, PokerRoundTypes
 
 
+class Action:
+    def __init__(self, action_type, bet=None):
+        self.type = action_type
+        self.bet = bet
+
+    @property
+    def type(self):
+        return self.__type
+
+    @type.setter
+    def type(self, action_type):
+        if action_type.capitalize() not in PokerActions.list_values():
+            raise Exception('Invalid poker action type')
+
+        self.__type = action_type.capitalize()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(action_type={self.type}, bet={self.bet})'
+
+
 class HandState:
     def __init__(self, current_player, poker_round, end=False):
         self.current_player = current_player
@@ -31,8 +51,8 @@ class CurrentHand:
         self.seat_offset = players[0].seat
         self.state = HandState(current_player=self.get_next_player(), poker_round=PokerRoundTypes.PRE_FLOP)
 
-    def play_hand(self, player_index, action):
-        self.take_action(player_index, action)
+    def play_hand(self, player_seat, action):
+        self.take_action(player_seat, action)
         self.update_hand_state()
 
     def update_hand_state(self):
@@ -92,18 +112,17 @@ class CurrentHand:
             raise Exception("Hand completed, no more actions allowed")
 
         player = self.players[self.get_player_index(player_seat)]
-        action_type = action['type']
-        action_bet = action.get('bet')
+
         if player.user != self.state.current_player.user:
             raise Exception('Not the current player to act')
 
-        if action_type == PokerActions.CALL.value:
+        if action.type == PokerActions.CALL.value:
             self.pot.handle_bet(player, self.pot.last_bet)
 
-        elif action_type == PokerActions.RAISE.value:
-            self.pot.handle_bet(player, action_bet)
+        elif action.type == PokerActions.RAISE.value:
+            self.pot.handle_bet(player, action.bet)
 
-        elif action_type == PokerActions.FOLD.value:
+        elif action.type == PokerActions.FOLD.value:
             player.active = False
             self.pot.fold_bet(player)
             self.banned_cards.append(player.hold_cards)

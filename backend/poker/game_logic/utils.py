@@ -1,15 +1,18 @@
 from enum import Enum
 
 
-class PokerSuites(Enum):
-    CLUBS = 'C', 'c', 'clubs', '♣'
-    HEARTS = 'H', 'h', 'hearts', '♥'
-    SPADES = 'S', 's', 'spades', '♠'
-    DIAMONDS = 'D', 'd', 'diamonds', '♦'
+class CustomEnum(Enum):
 
     @classmethod
     def values(cls):
         return [e.value for e in cls]
+
+
+class PokerSuites(CustomEnum):
+    CLUBS = 'C', 'c', 'clubs', '♣'
+    HEARTS = 'H', 'h', 'hearts', '♥'
+    SPADES = 'S', 's', 'spades', '♠'
+    DIAMONDS = 'D', 'd', 'diamonds', '♦'
 
     @classmethod
     def list_values(cls):
@@ -27,7 +30,7 @@ class PokerSuites(Enum):
         return mapper
 
 
-class PokerHandValue(Enum):
+class PokerHandValue(CustomEnum):
     KIND_5 = 9
     STRAIGHT_FLUSH = 8
     KIND_4 = 7
@@ -40,7 +43,7 @@ class PokerHandValue(Enum):
     HIGH_CARD = 0
 
 
-class PokerHandName(Enum):
+class PokerHandName(CustomEnum):
     KIND_5 = 9, 'Five of a Kind'
     STRAIGHT_FLUSH = 8, 'Straight Flush'
     KIND_4 = 7, 'Four of a Kind'
@@ -61,17 +64,17 @@ class PokerHandName(Enum):
         return mapper
 
 
-class PokerActions(Enum):
+class PokerActions(CustomEnum):
     FOLD = 'Fold'
     CALL = 'Call'
     RAISE = 'Raise'
 
 
-class PokerGameTypes(Enum):
+class PokerGameTypes(CustomEnum):
     TEXAS_HOLD_EM = 'TexasHoldEm'
 
 
-class PokerDeckTypes(Enum):
+class PokerDeckTypes(CustomEnum):
     STANDARD_SINGLE = 'StandardSingle'
 
 
