@@ -7,10 +7,10 @@ class TestPokerPot(TestCase):
         pot_size = 8
         pot = Pot(pot_size)
 
-        self.assertEquals(pot._size, pot_size)
+        self.assertEquals(pot.size, pot_size)
         self.assertEquals(pot.last_bet, 0)
-        self.assertEquals(pot._round_bets, {})
-        self.assertEquals(pot._folded_bets, {})
+        self.assertEquals(pot.round_bets, {})
+        self.assertEquals(pot.folded_bets, {})
 
     def test_pot_handles_player_bet(self):
         bet = 10
@@ -19,10 +19,10 @@ class TestPokerPot(TestCase):
         player = PokerPlayer(user_id=1, amount=amount, seat=5)
         pot.handle_bet(player=player, bet=bet)
 
-        self.assertEquals(pot._size, bet)
+        self.assertEquals(pot.size, bet)
         self.assertEquals(player.bet, bet)
         self.assertEquals(player.amount, amount - bet)
-        self.assertEquals(pot._round_bets[player.seat], bet)
+        self.assertEquals(pot.round_bets[player.seat], bet)
         self.assertEquals(pot.last_bet, bet)
 
     def test_pot_handles_inactive_player_bet(self):
@@ -31,10 +31,10 @@ class TestPokerPot(TestCase):
         player.active = False
         pot.handle_bet(player=player, bet=10)
 
-        self.assertEquals(pot._size, 0)
+        self.assertEquals(pot.size, 0)
         self.assertEquals(pot.last_bet, 0)
-        self.assertEquals(pot._round_bets, {})
-        self.assertEquals(pot._folded_bets, {})
+        self.assertEquals(pot.round_bets, {})
+        self.assertEquals(pot.folded_bets, {})
 
     def test_pot_fold_bet(self):
         bet = 10
@@ -43,11 +43,11 @@ class TestPokerPot(TestCase):
         player = PokerPlayer(user_id=1, amount=amount, seat=5)
         pot.handle_bet(player=player, bet=bet)
 
-        self.assertEquals(pot._round_bets[player.seat], bet)
+        self.assertEquals(pot.round_bets[player.seat], bet)
         self.assertEquals(pot.last_bet, bet)
 
         pot.fold_bet(player=player)
-        self.assertEquals(pot._round_bets, {})
+        self.assertEquals(pot.round_bets, {})
 
     def test_pot_new_round_reset(self):
         bet = 10
@@ -57,7 +57,7 @@ class TestPokerPot(TestCase):
         pot.handle_bet(player=player, bet=bet)
         pot.new_round()
 
-        self.assertEquals(pot._round_bets, {})
+        self.assertEquals(pot.round_bets, {})
 
     def test_round_complete_false(self):
         bet = 10
