@@ -15,7 +15,7 @@ class Action:
 
     @type.setter
     def type(self, action_type):
-        if action_type.capitalize() not in PokerActions.list_values():
+        if action_type.capitalize() not in PokerActions.values():
             raise Exception('Invalid poker action type')
 
         self.__type = action_type.capitalize()

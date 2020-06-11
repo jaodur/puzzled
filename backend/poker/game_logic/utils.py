@@ -78,7 +78,7 @@ class PokerDeckTypes(CustomEnum):
     STANDARD_SINGLE = 'StandardSingle'
 
 
-class PokerRoundTypes(Enum):
+class PokerRoundTypes(CustomEnum):
     PRE_FLOP = 'PreFlop'
     FLOP = 'Flop'
     TURN = 'Turn'
