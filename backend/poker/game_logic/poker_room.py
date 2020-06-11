@@ -55,6 +55,13 @@ class CurrentHand:
         self.take_action(player_seat, action)
         self.update_hand_state()
 
+    def auto_blind_play(self):
+        """Auto place bets for the small_blind and big_blind players"""
+
+        if self.state.round == PokerRoundTypes.PRE_FLOP and not self.pot.size:
+            self.play_hand(self.state.current_player.seat, Action('raise', self.small_blind))
+            self.play_hand(self.state.current_player.seat, Action('raise', self.big_blind))
+
     def update_hand_state(self):
         active_players = [player for player in self.players if player.active]
         num_active_players = len(active_players)
@@ -191,6 +198,11 @@ class PokerRoom:
         self.deck_size = deck_size
         self.dealer = dealer
         self.current_hand = None
+
+    def start_new_hand(self):
+        if self.current_hand is None or self.current_hand.state.end:
+            self.new_hand()
+            self.current_hand.auto_blind_play()
 
     def new_hand(self):
         if self.current_hand is None or self.current_hand.state.end:
