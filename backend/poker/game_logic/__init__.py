@@ -2,7 +2,7 @@ from .card import Card
 from .hand import Hand
 from .deck import Deck
 from .poker_player import PokerPlayer, PokerPlayers
-from .poker_room import Action, HandState
+from .poker_room import Action, CurrentHand, HandState
 from .pot import Pot
 from .utils import (
     PokerHandName,

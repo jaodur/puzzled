@@ -157,15 +157,14 @@ class CurrentHand:
         if self.state.round == PokerRoundTypes.SHOWDOWN:
             return
 
-        raise NotImplementedError
+        raise NotImplementedError('Round type not implemented')
 
     def winners(self):
         winners = []
-        for player in self.players:
+        for player in self.players.get_active_players():
             player.get_best_hand(self.community_cards)
             if not winners:
-                if player.active:
-                    winners.append(player)
+                winners.append(player)
 
             elif player > winners[0]:
                 winners = [player]
