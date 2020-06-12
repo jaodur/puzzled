@@ -85,7 +85,7 @@ class PokerPlayers:
         for index in range(len(self._players)):
             player = self._players[index]
             if player.user == user_id:
-                self._players.remove(player)
+                del self._players[index]
                 return player
 
     def __len__(self):

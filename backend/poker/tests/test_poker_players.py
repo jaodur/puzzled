@@ -88,7 +88,8 @@ class TestPokerPlayer(TestCase):
 
 class TestPokerPlayers(TestCase):
 
-    def players(self):
+    @staticmethod
+    def players():
         player1 = PokerPlayer(1, 200, 0)
         player2 = PokerPlayer(2, 200, 1)
         player3 = PokerPlayer(3, 200, 2)
@@ -142,6 +143,32 @@ class TestPokerPlayers(TestCase):
     def test_next_succeeds(self):
         players = PokerPlayers(self.players())
         self.assertEquals(next(players), players[0])
+
+    def test_adding_player_succeeds(self):
+        new_player = PokerPlayer(5, 200, 4)
+        players = PokerPlayers(self.players())
+
+        players.add_player(player=new_player, index=3)
+
+        self.assertEquals(len(players), 5)
+        self.assertEquals(players[3], new_player)
+
+    def test_adding_existing_player_fails(self):
+        new_player = PokerPlayer(4, 200, 4)
+        players = PokerPlayers(self.players())
+
+        with self.assertRaises(Exception) as exc:
+            players.add_player(player=new_player, index=3)
+
+        self.assertEquals(str(exc.exception), 'Player already exists')
+
+    def test_remove_player_succeeds(self):
+        removed_id = 3
+        players = PokerPlayers(self.players())
+        players.remove_player(user_id=removed_id)
+
+        for player in players:
+            self.assertNotEquals(player.user, removed_id)
 
     def test_representation(self):
         players = PokerPlayers(self.players())
