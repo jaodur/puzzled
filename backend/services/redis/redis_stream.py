@@ -1,21 +1,25 @@
-from pickle import loads, dumps
 import rx
 from .redis import RedisConnection
+from ..utils import BaseEncoder, AbstractEncoder
 
 
 class RedisStream:
     """Class to work with redis stream data"""
 
-    def __init__(self, name_prefix, conn=RedisConnection()):
+    def __init__(self, name_prefix, conn=RedisConnection(), encoder=BaseEncoder()):
         """
         Args:
             name_prefix (str): prefix for redis stream names for easy differentiation
             conn: redis connection
+            encoder: class for encoding and decoding (serialization/de-serialization) objects
         """
+        if not isinstance(encoder, AbstractEncoder):
+            raise Exception(f'{encoder.__class__.__name__} must must inherit from {AbstractEncoder.__name__}')
         self.conn = conn
+        self.encoder = encoder
         self.name_prefix = name_prefix
 
-    def add(self, stream_name, fields, id='*', max_len=None, approximate=True, serializer=dumps):
+    def add(self, stream_name, fields, id='*', max_len=None, approximate=True):
         """ Method to add fields to a given stream
         Args:
             stream_name (str): the name of the targeted stream
@@ -23,9 +27,8 @@ class RedisStream:
             id (str): Location in the stream to insert this record. By default it is appended
             max_len (int): truncate old stream members beyond this size
             approximate (bool): actual stream length may be slightly more than max_len
-            serializer (func): function to serialise complex python objects before dumping to redis. pickle is default
         """
-        fields = {f'{key}': serializer(value) for key, value in fields.items()}
+        fields = {f'{key}': self.encoder.encode(value) for key, value in fields.items()}
         return self.conn.xadd(
             self.normalized_name(stream_name),
             fields,
@@ -34,13 +37,12 @@ class RedisStream:
             approximate=approximate
         )
 
-    def read(self, streams, count=None, block=None, deserializer=loads):
+    def read(self, streams, count=None, block=None):
         """ Method to add fields to a given stream
         Args:
             streams (dict): a dict of stream names to stream IDs, where IDs indicate the last ID already seen.
             count (int): if set, only return this many items, beginning with the earliest available
             block (int): number of milliseconds to wait, if nothing already present
-            deserializer (func): function to deserialize redis objects into python objects
         """
         streams = {f'{self.normalized_name(stream_name)}': id for stream_name, id in streams.items()}
         flat_streams_output = self.conn.xread(streams, count=count, block=block)
