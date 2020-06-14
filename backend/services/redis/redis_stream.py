@@ -47,17 +47,30 @@ class RedisStream:
         streams = {f'{self.normalized_name(stream_name)}': id for stream_name, id in streams.items()}
         flat_streams_output = self.conn.xread(streams, count=count, block=block)
 
-        # need to deserialize values before returning. there must be a better way!
-        return [
-            [
-                stream_name,
-                [
-                    (redis_key, {key: deserializer(value) for key, value in fields.items()})
-                    for redis_key, fields in fields
-                ]
-            ]
-            for stream_name, fields in flat_streams_output
-        ]
+        return self._deserialize(flat_streams_output)
+
+    def latest(self, name):
+        return self.range(name, count=1, reverse=True)
+
+    def range(self, name, start='-', end='+', count=None, reverse=False):
+        """Reads stream values within a given interval
+        Args:
+            name (str): name of the stream
+            start (str): first stream ID. defaults to ‘-‘, meaning the earliest available.
+            end (str): last stream ID. defaults to ‘+’, meaning the latest available.
+            count (int):  if set, only return this many items, beginning with the earliest available.
+            reverse (bool): reads stream values within an interval, in reverse order.
+        """
+        name = self.normalized_name(name)
+        if reverse:
+            return self._deserialize(
+                flat_redis_output=self.conn.xrevrange(name, min=start, max=end, count=count),
+                serialize_fields=True
+            )
+        return self._deserialize(
+            flat_redis_output=self.conn.xrange(name, min=start, max=end, count=count),
+            serialize_fields=True
+        )
 
     def normalized_name(self, name):
         return f'{self.name_prefix}:{name}'
