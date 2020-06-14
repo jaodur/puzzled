@@ -62,6 +62,42 @@ class RedisStream:
     def normalized_name(self, name):
         return f'{self.name_prefix}:{name}'
 
+    def _deserialize(self, flat_redis_output, serialize_fields=False):
+        """Method for loading deserialized redis stream outputs
+
+        Args:
+            flat_redis_output (list): redis flat outputs
+            serialize_fields (bool): flag to indicate whether fields or streams are being serialized
+        """
+        if serialize_fields:
+            return self._deserialize_fields(fields=flat_redis_output)
+        return self._deserialize_streams(streams_output=flat_redis_output)
+
+    def _deserialize_streams(self, streams_output):
+        """Method for converting redis fields into python objects
+        Args:
+            streams_output (list): a list of redis stream objects
+        """
+
+        # need to deserialize values before returning. there must be a better way!
+        return [
+            [
+                stream_name,
+                self._deserialize_fields(fields)
+            ]
+            for stream_name, fields in streams_output
+        ]
+
+    def _deserialize_fields(self, fields):
+        """Method for converting redis fields into python objects
+        Args:
+            fields (list): a tuple of redis field objects
+        """
+        return [
+            (redis_key, {key: self.encoder.decode(value) for key, value in fields.items()})
+            for redis_key, fields in fields
+        ]
+
     def poll_stream(self, stream_name, parse_stream_data):
         """Function to poll data from redis streams
         Args:
