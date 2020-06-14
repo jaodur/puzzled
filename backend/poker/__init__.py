@@ -11,6 +11,7 @@ from .game_logic import (
     PokerActions,
     PokerDeckTypes,
     PokerGameTypes,
+    PokerRoom,
     PokerRoundTypes,
     PokerPlayer,
     PokerPlayers,

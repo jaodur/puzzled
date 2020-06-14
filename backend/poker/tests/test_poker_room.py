@@ -6,6 +6,7 @@ from backend.poker import (
     HandState,
     PokerPlayer,
     PokerPlayers,
+    PokerRoom,
     PokerRoundTypes
 )
 
@@ -332,4 +333,83 @@ class TestCurrentHand(TestCase):
             'players=PokerPlayers(players=[PokerPlayer(user_id=0, amount=200, seat=0), '
             'PokerPlayer(user_id=1, amount=200, seat=1), PokerPlayer(user_id=2, amount=200, seat=2), '
             'PokerPlayer(user_id=3, amount=200, seat=3)]), from_deck=None, deck_size=1)'
+        )
+
+
+class TestPokerRoom(TestCase):
+
+    @staticmethod
+    def players():
+        return [PokerPlayer(0, 200, 0), PokerPlayer(1, 200, 1), PokerPlayer(2, 200, 2), PokerPlayer(3, 200, 3)]
+
+    @classmethod
+    def new_room(cls, poker_room='1', poker_type='texas_holdem', small_blind=1, big_blind=2, players=()):
+        return PokerRoom(poker_room, poker_type, small_blind, big_blind, players)
+
+    def test_creating_new_hand_succeeds(self):
+        room = self.new_room(players=self.players())
+        hand = room.new_hand()
+
+        self.assertEquals(room.dealer, 0)
+        self.assertEquals(room.current_hand, hand)
+        self.assertNotEquals(room.players, hand.players)
+
+    def test_creating_new_hand_with_current_hand_not_ended_fails(self):
+        room = self.new_room(players=self.players())
+        first_hand = room.new_hand()
+        second_hand = room.new_hand()
+
+        self.assertEquals(room.dealer, 0)
+        self.assertEquals(first_hand, second_hand)
+        self.assertNotEquals(room.players, second_hand.players)
+        self.assertEquals(first_hand.players, second_hand.players)
+
+    def test_dealer_increments_on_new_hand(self):
+        room = self.new_room(players=self.players())
+        first_hand = room.new_hand()
+        first_hand.state.end = True  # End the hand
+        self.assertEquals(room.dealer, 0)
+
+        second_hand = room.new_hand()
+        self.assertEquals(room.dealer, 1)
+        self.assertEquals(room.dealer, 1)
+        self.assertNotEquals(first_hand.players, second_hand.players)
+
+    def test_start_new_hand_succeeds(self):
+        players = self.players()
+        room = self.new_room(players=players)
+        room.start_new_hand()
+
+        self.assertEquals(room.dealer, 0)
+        self.assertNotEquals(room.current_hand, None)
+        self.assertEquals(room.current_hand.state.current_player,players[3])
+
+    def test_reomve_player_succeeds(self):
+        players = self.players()
+        original_len = len(players)
+        room = self.new_room(players=players)
+
+        room.remove_player(user_id=2)
+
+        self.assertEquals(len(players), original_len - 1)
+        for player in players:
+            self.assertNotEquals(player.user, 2)
+
+    def test_add_player_succeeds(self):
+        players = self.players()
+        original_len = len(players)
+        room = self.new_room(players=players)
+        new_player = PokerPlayer(5, 200, 5)
+        room.add_player(new_player=new_player)
+
+        self.assertEquals(len(room.players), original_len + 1)
+        self.assertEquals(room.players[3], new_player)
+
+    def test_room_representation(self):
+        room = self.new_room()
+
+        self.assertEquals(
+            repr(room),
+            'PokerRoom(poker_room=1, type=texas_holdem, small_blind=1, big_blind=2, players=PokerPlayers(players=()), '
+            'name=None, from_deck=None, deck_size=1, dealer=None)'
         )

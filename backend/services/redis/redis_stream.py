@@ -50,7 +50,15 @@ class RedisStream:
         return self._deserialize(flat_streams_output)
 
     def latest(self, name):
-        return self.range(name, count=1, reverse=True)
+        return self.values(self.range(name, count=1, reverse=True))
+
+    @classmethod
+    def values(cls, fields):
+        """Extracts actual field dict from the redis field
+        Args:
+            fields (list): a tuple of redis field objects
+        """
+        return [field for redis_key, field in fields]
 
     def range(self, name, start='-', end='+', count=None, reverse=False):
         """Reads stream values within a given interval

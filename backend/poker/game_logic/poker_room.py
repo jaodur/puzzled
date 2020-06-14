@@ -173,9 +173,6 @@ class CurrentHand:
                 winners.append(player)
         return winners
 
-    def redis_stringify(self):
-        pass
-
     def __repr__(self):
         return (
             f'{self.__class__.__name__}(poker_room={self.poker_room}, type={self.type}, '
@@ -235,7 +232,8 @@ class PokerRoom:
         Args:
             new_player (PokerPlayer): new player to added
         """
-        index = self.dealer + 3
+        udg_position = 3 # Under The Gun Position
+        index = self.dealer + udg_position if self.dealer is not None else udg_position
         if self.players.add_player(player=new_player, index=index):
             self.re_arrange_seats()
 
