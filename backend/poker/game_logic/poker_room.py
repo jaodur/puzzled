@@ -185,8 +185,22 @@ class CurrentHand:
 
 
 class PokerRoom:
+    """Class for creating a poker room(https://en.wikipedia.org/wiki/Cardroom). Of course this one is virtual :)"""
+
     def __init__(self, poker_room, poker_type, small_blind, big_blind, players=(),
                  name=None, from_deck=None, deck_size=1, dealer=None):
+        """
+        Args:
+            poker_room (str): unique id that represents the room
+            poker_type (str): string representing the type of hand --such as Omaha, being played in the room.
+            small_blind (int): forced bet placed by the player to the immediate left of the dealer
+            big_blind (int): forced bet placed by the player to the immediate left of the small blind
+            players (tuple): a tuple of poker players on the room
+            name (str): name of the room
+            from_deck (list): a nested list of cards and banned cards that can be used to recreate a card deck
+            deck_size (int): an integer representing the size of deck e.g 1 = single deck, 2 = double deck, etc.
+            dealer (int): if set, represents the position of the dealer
+        """
         self.poker_room = poker_room
         self.poker_type = poker_type
         self.small_blind = small_blind
