@@ -382,7 +382,7 @@ class TestPokerRoom(TestCase):
 
         self.assertEquals(room.dealer, 0)
         self.assertNotEquals(room.current_hand, None)
-        self.assertEquals(room.current_hand.state.current_player,players[3])
+        self.assertEquals(room.current_hand.state.current_player, players[3])
 
     def test_reomve_player_succeeds(self):
         players = self.players()

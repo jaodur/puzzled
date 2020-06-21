@@ -232,7 +232,7 @@ class PokerRoom:
         Args:
             new_player (PokerPlayer): new player to added
         """
-        udg_position = 3 # Under The Gun Position
+        udg_position = 3  # Under The Gun Position
         index = self.dealer + udg_position if self.dealer is not None else udg_position
         if self.players.add_player(player=new_player, index=index):
             self.re_arrange_seats()
