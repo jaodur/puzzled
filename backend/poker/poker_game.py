@@ -1,6 +1,6 @@
 from backend.services.redis import RedisStream
-from .persister import PokerGamePersist
-from .poker_room import PokerRoom
+from backend.poker.persister import PokerGamePersist
+from backend.poker.game_logic.poker_room import PokerRoom
 
 poker_room_streams = RedisStream(name_prefix='poker:room:')
 

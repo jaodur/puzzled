@@ -1,11 +1,10 @@
-from ..models import PokerRoom, PokerHand
-from .poker_game import PokerGame
+from .models import PokerHand, PokerRoom
 
 
 class PokerGamePersist:
 
     def __init__(self, poker_game):
-
+        from .poker_game import PokerGame
         if not isinstance(poker_game, PokerGame):
             raise Exception(f'Must be an instance of {PokerGame.__name__}')
 
@@ -33,17 +32,17 @@ class PokerGamePersist:
         current_hand = room.current_hand
         hand = PokerHand(
             poker_room=room,
-            deck=self._string_cards(current_hand.deck),
+            deck=self._stringify_cards(current_hand.deck),
             deck_size=current_hand.deck_size,
             last_round=current_hand.state.poker_round.value,
             pot_size=current_hand.pot.size,
-            community_cards=self._string_cards(current_hand.community_cards),
-            banned_cards=self._string_cards(current_hand.banned_cards),
+            community_cards=self._stringify_cards(current_hand.community_cards),
+            banned_cards=self._stringify_cards(current_hand.banned_cards),
             players=current_hand.players,
             dealer=room.dealer
         )
         hand.save()
 
     @staticmethod
-    def _string_cards(cards):
+    def _stringify_cards(cards):
         return [card.raw_value for card in cards]
