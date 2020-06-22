@@ -3,16 +3,18 @@ from .models import PokerHand, PokerRoom
 
 class PokerGamePersist:
 
-    def __init__(self, poker_game):
-        from .poker_game import PokerGame
-        if not isinstance(poker_game, PokerGame):
-            raise Exception(f'Must be an instance of {PokerGame.__name__}')
+    def __init__(self, poker_type, small_blind, big_blind, players=(), dealer=0, name=None, current_hand=None, id=None):
+        self.id = id
+        self.type = poker_type
+        self.small_blind = small_blind
+        self.big_blind = big_blind
+        self.players = players
+        self.name = name
+        self.dealer = dealer
+        self.current_hand = current_hand
 
-        self.room = poker_game.room
-        self.room_model_obj = None
-
-    @staticmethod
-    def new_room(poker_type, small_blind, big_blind, players=(), name=None):
+    @classmethod
+    def new_room(cls, poker_type, small_blind, big_blind, players=(), name=None, current_hand=None):
 
         """constructor for creating new room
          Args:
@@ -23,26 +25,36 @@ class PokerGamePersist:
             name (str): name of the room
         """
         player_ids = [player.user for player in players]
-        room = PokerRoom(name=name, type=poker_type, small_blind=small_blind, big_blind=big_blind, players=player_ids)
+        room = PokerRoom(name=name, type=poker_type, small_blind=small_blind, big_blind=big_blind)
         room.save()
-        return room
+        room.players.set(player_ids)
+        return cls(
+            poker_type,
+            small_blind,
+            big_blind,
+            players=players,
+            name=name,
+            current_hand=current_hand,
+            id=room.id
+        )
 
     def save(self):
-        room = self.room_model_obj or PokerRoom.objects.get(id=self.room.poker_room)
-        current_hand = room.current_hand
-        hand = PokerHand(
-            poker_room=room,
-            deck=self._stringify_cards(current_hand.deck),
-            deck_size=current_hand.deck_size,
-            last_round=current_hand.state.poker_round.value,
-            pot_size=current_hand.pot.size,
-            community_cards=self._stringify_cards(current_hand.community_cards),
-            banned_cards=self._stringify_cards(current_hand.banned_cards),
-            players=current_hand.players,
-            dealer=room.dealer
-        )
-        hand.save()
+        room = PokerRoom.objects.get(id=self.id)
+        if self.current_hand:
+            hand = PokerHand(
+                poker_room=room,
+                deck=self._stringify_cards(self.current_hand.deck),
+                deck_size=self.current_hand.deck_size,
+                last_round=self.current_hand.state.round.value,
+                pot_size=self.current_hand.pot.size,
+                community_cards=self._stringify_cards(self.current_hand.community_cards),
+                banned_cards=self._stringify_cards(self.current_hand.banned_cards),
+
+                dealer=self.dealer
+            )
+            hand.save()
+            hand.players.set(self.current_hand.players)
 
     @staticmethod
     def _stringify_cards(cards):
-        return [card.raw_value for card in cards]
+        return ' '.join(card.raw_value for card in cards)

@@ -48,7 +48,7 @@ class CurrentHand:
         self.small_blind = small_blind
         self.big_blind = big_blind
         self.players = players
-        self.seat_offset = players[0].seat
+        self.seat_offset = players[0].seat if players else 0
         self.state = HandState(current_player=self.get_next_player(), poker_round=PokerRoundTypes.PRE_FLOP)
 
     def play_hand(self, player_seat, action):
@@ -80,7 +80,7 @@ class CurrentHand:
     def get_next_player(self, new_round=True):
         active_players = self.players.get_active_players()
         if new_round:
-            return active_players[0]
+            return active_players[0] if active_players else None
 
         current_player_index = self.get_player_index(self.state.current_player.seat)
         num_active_players = len(active_players)

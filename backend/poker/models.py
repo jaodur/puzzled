@@ -41,11 +41,11 @@ class PokerRoom(AuditableBaseModel):
 
 class PokerHand(AuditableBaseModel):
     poker_room = models.ForeignKey(PokerRoom, on_delete=models.CASCADE)
-    deck = models.CharField(max_length=50, null=False, blank=False, choices=DECK_CHOICES, default=DECK_CHOICES[0][0])
+    deck = models.CharField(max_length=200, null=False, blank=False, choices=DECK_CHOICES, default=DECK_CHOICES[0][0])
     deck_size = models.IntegerField(null=False, blank=False)
     last_round = models.CharField(max_length=50, null=False, blank=False, choices=ROUND_CHOICES)
     pot_size = models.IntegerField(null=False, blank=False)
-    community_cards = models.CharField(max_length=50, null=True, blank=True)
-    banned_cards = models.CharField(max_length=50, null=True, blank=True)
+    community_cards = models.CharField(max_length=200, null=True, blank=True)
+    banned_cards = models.CharField(max_length=200, null=True, blank=True)
     players = models.ManyToManyField(PokerPlayer)
     dealer = models.IntegerField(null=False, blank=False)

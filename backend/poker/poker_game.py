@@ -10,7 +10,6 @@ class PokerGame:
         """
         Args:
             *args (tuple): a tuple with the following positional values;
-                poker_room (str): unique id that represents the room
                 poker_type (str): string representing the type of hand --such as Omaha, being played in the room.
                 small_blind (int): forced bet placed by the player to the immediate left of the dealer
                 big_blind (int): forced bet placed by the player to the immediate left of the small blind
