@@ -50,10 +50,11 @@ INSTALLED_APPS = [
 
     # my apps
     'backend.authentication.apps.AuthenticationConfig',
-    'backend.email.apps.EmailConfig',
-    'backend.sudoku.apps.SudokuConfig',
     'backend.chat.apps.ChatConfig',
+    'backend.email.apps.EmailConfig',
+    'backend.gem.apps.GemConfig',
     'backend.poker.apps.PokerConfig',
+    'backend.sudoku.apps.SudokuConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
