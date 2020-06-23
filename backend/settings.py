@@ -221,3 +221,6 @@ Q_CLUSTER = {
     'label': 'Puzzled Q',
     'redis': config('REDIS_URL', 'redis://localhost:6379/0'),
 }
+
+# Gems
+DEFAULT_GEMS = 0
