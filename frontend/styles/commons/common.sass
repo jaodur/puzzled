@@ -1,4 +1,4 @@
-@import "./colors"
+@import "../colors"
 
 $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 
@@ -8,7 +8,7 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
   min-height: $minContentHeight
   //border: 1px solid cyan
 
-@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 100px, $fontFamily: inherent, $fontWeight: inherent)
+@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 1.25em, $fontFamily: inherent, $fontWeight: inherent)
   font-size: $baseFontSize + $fontSize
   font-family: $fontFamily
   font-weight: $fontWeight
@@ -77,6 +77,7 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
       justify-content: $alignLI
       text-transform: capitalize
       flex: 8 1
+      min-width: 150px
 
       li
         margin: $marginLI
