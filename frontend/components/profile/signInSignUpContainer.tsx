@@ -153,7 +153,7 @@ function SignInSignUpContainer() {
         <Redirect to={links.HOME} />
     ) : (
         <React.Fragment>
-            <NavBarContainer styleClass={'default-navbar-container'} />
+            <NavBarContainer />
             <div className={'default-nav-strip'} />
             <div className={'content'}>
                 <Switch>

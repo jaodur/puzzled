@@ -14,7 +14,7 @@ function ProfileContainer() {
 
     return checkLogin._loginInfo.loggedIn ? (
         <>
-            <NavBarContainer styleClass={'default-navbar-container'} />
+            <NavBarContainer />
             <div className={'default-nav-strip'} />
             <div className={'content'}>
                 <Profile />
