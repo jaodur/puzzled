@@ -1,3 +1,7 @@
+interface ElementInterface {
+    className?: string;
+}
+
 interface FullPuzzleInterface {
     puzzle: number[][];
     mainPuzzleKey: number;
@@ -118,6 +122,12 @@ interface NavbarLinksInterface {
     links: LinkInterface[];
 }
 
+interface LinksInterface extends ElementInterface {
+    onTabClick?: (event: EventInterface) => any;
+    activeClass: string;
+    links: LinkInterface[];
+}
+
 interface SvgIconInterface {
     fillColor?: string;
     width?: string;
@@ -172,13 +182,13 @@ interface TimerInterface {
 }
 
 interface NavbarContainerInterface {
-    styleClass: string;
     showBanner?: boolean;
 }
 
 export {
     GridInterface,
     EventInterface,
+    ElementInterface,
     RouteLinkInterface,
     GridRowInterface,
     SudokuTableDataInterface,
@@ -187,6 +197,7 @@ export {
     FullPuzzleInterface,
     LogoInterface,
     LinkInterface,
+    LinksInterface,
     NavbarInterface,
     NavbarLinksInterface,
     TextLinkInterface,

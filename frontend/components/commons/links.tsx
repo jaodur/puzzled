@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { LinkInterface, RouteLinkInterface, TextLinkInterface } from '../interfaces/interfaces';
+import { LinkInterface, LinksInterface, RouteLinkInterface, TextLinkInterface } from '../interfaces/interfaces';
 
 function RouterLink({ link, component, styleClass }: RouteLinkInterface) {
     return (
@@ -25,4 +25,22 @@ function NavItemLink({ name, href, activeClassName, onTabClick }: LinkInterface)
         </NavLink>
     );
 }
-export { RouterLink, TextLink, NavItemLink };
+
+function ULItems({ onTabClick, activeClass, links }: LinksInterface) {
+    return (
+        <ul>
+            {links &&
+                links.map((link, key) => (
+                    <li key={`navBarLinks-${key}`}>
+                        <NavItemLink
+                            name={link.name}
+                            href={link.href}
+                            activeClassName={activeClass}
+                            onTabClick={onTabClick}
+                        />
+                    </li>
+                ))}
+        </ul>
+    );
+}
+export { RouterLink, TextLink, NavItemLink, ULItems };
