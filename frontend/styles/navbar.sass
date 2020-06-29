@@ -7,11 +7,35 @@
 
 nav
   display: flex
+  flex-wrap: wrap
   justify-content: space-between
   align-items: center
   padding: .4em .5em
   min-width: 250px
   font-size: 2rem
+
+.nav-ul
+  order: 5
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+  min-width: 100%
+  margin-top: 5%
+  background-color: $thickBlue
+
+.nav-img
+  object-fit: none
+  object-position: 90% 1%
+  object-position: 45% 35%
+  border: 1px solid #0099D2
+  border-radius: 5%
+  margin: 10px 10px
+  width: 40px
+
+  &:focus, &:hover
+    cursor: pointer
+    border: 2px solid #D7A31A
 
 .h-dropdown
   position: relative
@@ -73,3 +97,34 @@ nav
     padding: 0 1em
     max-width: 1500px
     margin: 0 auto
+
+  .nav-ul
+    order: 0
+    display: flex
+    flex-wrap: nowrap
+    justify-content: flex-start
+    align-items: center
+    background-color: unset
+    margin: 0
+    min-width: 200px
+
+  .nav-img
+    object-fit: none
+    object-position: 45% 35%
+    border: 1px solid $thickBlue
+    border-radius: 5%
+    margin: 0 10px
+    width: 40px
+
+    &:focus, &:hover
+      cursor: pointer
+      border: 2px solid #D7A31A
+
+  .app-slogan
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 2rem
+    color: #D7A31A
+    background-color: $thickBlue
+    height: 15vh
