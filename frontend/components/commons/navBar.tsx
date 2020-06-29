@@ -4,6 +4,19 @@ import { LinkInterface } from '../interfaces/interfaces';
 import { NavBarDropDown, NavDropDownMin } from './Dropdown';
 import { links as urlLinks } from './linkUrls';
 import { Logo } from './logo';
+const sudokuImage = require('../../images/sudoku-dark.jpg');
+
+function NavUL() {
+    return (
+        <div className={'nav-ul'}>
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+        </div>
+    );
+}
 
 function NavBar() {
     const signUpSignInLinks: LinkInterface[] = [
@@ -14,6 +27,7 @@ function NavBar() {
     return (
         <nav>
             <Logo />
+            <NavUL />
             <NavDropDownMin className={'min-dropdown h-dropdown'} />
             <NavBarDropDown
                 activeClass={''}
