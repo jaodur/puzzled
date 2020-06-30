@@ -138,6 +138,29 @@ nav
     margin: 0
     min-width: 200px
 
+  .nav-menu-li
+    display: flex
+    flex-wrap: wrap
+    width: 400px
+    list-style: none
+    font-size: 1.4rem
+    padding: 0
+
+    li
+      display: unset
+      margin: 0 2%
+      padding: .2em
+      border-bottom: 2px solid white
+      min-width: 1%
+
+      a
+        color: $thickBlue
+        padding: .2em
+        text-decoration: none
+
+  .nav-active
+    border-bottom: 2px solid $thickBlue
+
   .nav-img
     object-fit: none
     object-position: 45% 35%
