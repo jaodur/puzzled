@@ -1,13 +1,13 @@
 import * as React from 'react';
+
+import { NavbarContainerInterface } from '../interfaces/interfaces';
 import { AppSlogan } from './appSlogan';
 import { NavBar } from './navBar';
 
-import { NavbarContainerInterface } from '../interfaces/interfaces';
-
-function NavBarContainer({ showBanner }: NavbarContainerInterface): JSX.Element {
+function NavBarContainer({ className, activeClass, links, showBanner }: NavbarContainerInterface): JSX.Element {
     return (
         <div className={'nav-container'}>
-            <NavBar />
+            <NavBar className={className} activeClass={activeClass} links={links} />
             {!!showBanner && <AppSlogan />}
         </div>
     );

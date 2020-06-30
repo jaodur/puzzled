@@ -1,9 +1,11 @@
 import * as React from 'react';
 
-import { LinkInterface } from '../interfaces/interfaces';
+import { LinkInterface, LinksInterface } from '../interfaces/interfaces';
 import { NavBarDropDown, NavDropDownMin } from './Dropdown';
+import { ULItems } from './links';
 import { links as urlLinks } from './linkUrls';
 import { Logo } from './logo';
+
 const sudokuImage = require('../../images/sudoku-dark.jpg');
 
 function NavUL() {
@@ -18,7 +20,15 @@ function NavUL() {
     );
 }
 
-function NavBar() {
+function NavMenu({ className, activeClass, links }: LinksInterface) {
+    return (
+        <div className={'nav-ul'}>
+            <ULItems className={className || 'nav-menu-li'} activeClass={activeClass || 'nav-active'} links={links} />
+        </div>
+    );
+}
+
+function NavBar({ className, activeClass, links }: LinksInterface) {
     const signUpSignInLinks: LinkInterface[] = [
         { name: 'Sign In', href: urlLinks.USER.SIGN_IN },
         { name: 'Sign Up', href: urlLinks.USER.SIGN_UP },
@@ -27,7 +37,7 @@ function NavBar() {
     return (
         <nav>
             <Logo />
-            <NavUL />
+            {!!links ? <NavMenu className={className} activeClass={activeClass} links={links} /> : <NavUL />}
             <NavDropDownMin className={'min-dropdown h-dropdown'} />
             <NavBarDropDown
                 activeClass={''}
