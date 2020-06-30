@@ -26,9 +26,9 @@ function NavItemLink({ name, href, activeClassName, onTabClick }: LinkInterface)
     );
 }
 
-function ULItems({ onTabClick, activeClass, links }: LinksInterface) {
+function ULItems({ className, onTabClick, activeClass, links }: LinksInterface) {
     return (
-        <ul>
+        <ul className={className || ''}>
             {links &&
                 links.map((link, key) => (
                     <li key={`navBarLinks-${key}`}>

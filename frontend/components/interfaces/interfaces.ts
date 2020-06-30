@@ -124,8 +124,8 @@ interface NavbarLinksInterface {
 
 interface LinksInterface extends ElementInterface {
     onTabClick?: (event: EventInterface) => any;
-    activeClass: string;
-    links: LinkInterface[];
+    activeClass?: string;
+    links?: LinkInterface[];
 }
 
 interface SvgIconInterface {
@@ -181,7 +181,7 @@ interface TimerInterface {
     stopTimer: boolean;
 }
 
-interface NavbarContainerInterface {
+interface NavbarContainerInterface extends LinksInterface {
     showBanner?: boolean;
 }
 
