@@ -13,6 +13,13 @@ nav
   padding: .4em .5em
   min-width: 250px
   font-size: 2rem
+  color: $thickBlue
+
+  >div
+    span
+      margin: 5px
+      text-transform: lowercase
+      font-size: 1.5rem
 
 .nav-ul
   order: 5
@@ -24,9 +31,32 @@ nav
   margin-top: 5%
   background-color: $thickBlue
 
+.nav-menu-li
+  display: flex
+  flex-wrap: wrap
+  list-style: none
+  min-width: 100%
+  font-size: 1.4rem
+  padding: 2% 0
+
+  li
+    display: flex
+    justify-content: center
+    min-width: 100%
+    margin: 0 2%
+    padding: .2em
+    border-bottom: 2px solid $thickBlue
+
+    a
+      color: $gold
+      padding: .2em
+      text-decoration: none
+
+.nav-active
+  border-bottom: 2px solid $gold
+
 .nav-img
   object-fit: none
-  object-position: 90% 1%
   object-position: 45% 35%
   border: 1px solid #0099D2
   border-radius: 5%
@@ -35,7 +65,7 @@ nav
 
   &:focus, &:hover
     cursor: pointer
-    border: 2px solid #D7A31A
+    border: 2px solid $gold
 
 .h-dropdown
   position: relative
@@ -118,13 +148,13 @@ nav
 
     &:focus, &:hover
       cursor: pointer
-      border: 2px solid #D7A31A
+      border: 2px solid $gold
 
   .app-slogan
     display: flex
     justify-content: center
     align-items: center
     font-size: 2rem
-    color: #D7A31A
+    color: $gold
     background-color: $thickBlue
     height: 15vh

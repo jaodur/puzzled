@@ -1,19 +1,23 @@
 import * as React from 'react';
+
 import { Footer } from '../commons/footer';
-import { NavBar } from '../commons/navBar';
+import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
-// import { sudokuNavBarLinks } from '../commons/navbarLinks';
 import { SudokuGrid } from './sudokuGrid';
 
 const footerClass: string = 'footer-sudoku';
 
+const sudokuLinks = [
+    { name: 'Play', href: links.SUDOKU.PLAY },
+    { name: 'Solve', href: links.SUDOKU.SOLVE },
+    { name: 'Trainer', href: links.SUDOKU.TRAINER },
+    { name: 'Help', href: '#' },
+];
+
 function SudokuHome() {
     return (
         <React.Fragment>
-            <NavBarContainer />
-            <div className={'sudoku-nav'} key={'navbarContainer'}>
-                <NavBar />
-            </div>
+            <NavBarContainer links={sudokuLinks} />
             <div className={'content'}>
                 <SudokuGrid key={'sudokuGrid'} />
             </div>
