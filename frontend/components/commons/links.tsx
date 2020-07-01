@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { LinkInterface, LinksInterface, RouteLinkInterface, TextLinkInterface } from '../interfaces/interfaces';
 
-function RouterLink({ link, component, styleClass }: RouteLinkInterface) {
+function RouterLink({ link, className, children }: RouteLinkInterface) {
     return (
-        <Link to={link} className={styleClass}>
-            {component}
+        <Link to={link} className={className || 'link__no-style'}>
+            {children}
         </Link>
     );
 }

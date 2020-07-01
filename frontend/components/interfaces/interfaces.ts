@@ -36,10 +36,9 @@ interface EventInterface {
     [key: string]: any;
 }
 
-interface RouteLinkInterface {
+interface RouteLinkInterface extends ElementInterface {
     link: string;
-    component: JSX.Element;
-    styleClass: string;
+    children: JSX.Element;
 }
 
 interface TextLinkInterface {

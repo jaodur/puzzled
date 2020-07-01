@@ -3,7 +3,7 @@ set -e
 
 files="$@"
 if [ -z "$files" ]; then
-    files='frontend/**/*.{js,jsx,css,less,ts,tsx}'
+    files='frontend/**/*.{js,jsx,css,less,sass,ts,tsx}'
     tslint --fix "frontend/**/*.{,ts,tsx}"
 fi
 
