@@ -17,55 +17,6 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
   line-height: $lineHeight
   text-align: center
 
-@mixin game-container($fadeColor: #ffc63b, $thickColor: #f19b1a)
-  margin: 1%
-  display: flex
-  flex-wrap: wrap
-  justify-content: center
-  box-shadow: 4px 4px 15px 0 rgba(36,37,38,.08)
-  border-radius: .5rem
-  width: 475px
-  height: 258px
-  transition: background 2s
-
-  &:hover
-    background-image: linear-gradient($fadeColor, $thickColor)
-    color: white
-    cursor: pointer
-    h3, p
-      color: inherit
-
-@mixin game-image($fadeColor: #ffc63b, $thickColor: #f19b1a, $imageUrl: '../images/sudoku-dark.jpg', $imgBackgroundColor: white)
-  &__game-image
-    flex: 1 1
-    padding: 10px
-    border-radius: .5rem
-    background-image: linear-gradient($fadeColor, $thickColor)
-    div
-      height: 100%
-      border-radius: 100%
-
-      background: $imgBackgroundColor url($imageUrl) no-repeat center
-
-@mixin game-card
-  &__game-card
-    flex: 2 1
-    padding: 10px
-
-    h3
-      color: #3c4852
-      text-transform: capitalize
-      margin-bottom: 0
-      @include large-font($fontSize: 10, $letterSpacing: 0, $lineHeight: 30px)
-
-    p
-      text-align: justify
-      text-justify: inter-word
-      padding: 5px
-      color: #657480
-      font-size: 1rem
-      line-height: 1.4rem
-
 @mixin nav-bar-ul($color: black, $hoverColor: $thickBlue, $margin: 5%, $alignLI: center, $marginLI: 0 1%)
   >ul
       height: 100%

@@ -1,8 +1,27 @@
+@import 'commons/common'
 @import 'commons/constants'
+
+.main-content
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  justify-content: center
+  padding: .4em .5em
 
 .game-intro
   display: none
 
 @media (min-width: $mainBreakPoint)
   .game-intro
-    display: unset
+    display: block
+    margin: 2em
+
+    h1
+      padding: 0
+      @include large-font($fontSize: 40, $letterSpacing: -1px, $lineHeight: 100px)
+      text-transform: capitalize
+      transform: scale(1, 2)
+
+    >div
+      color: #7e7e7e
+      @include large-font($fontSize: 0, $letterSpacing: 0, $lineHeight: 30px)

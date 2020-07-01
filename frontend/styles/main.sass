@@ -21,24 +21,6 @@ body
   padding: 0
   margin: 0
 
-.navbar-container
-  background: $thickBlue url("../images/game_pad.webp") no-repeat left
-  //border-radius: 100% 0 100% 0 / 0 71% 29% 100%
-
-  @include navbar-container
-
-.default-navbar-container
-  background-color: $thickBlue
-
-  @include navbar-container($height: 2.8rem)
-
-.default-nav-strip
-  width: 100%
-  height: 2.8rem
-  background-color: $thickBlue
-
-.main-selected
-  color: $thickBlue !important
 
 .navbar-container-404
   @include navbar-container($height: 2.8rem)
@@ -61,64 +43,9 @@ body
   &__sub
     font-size: 1.5rem
 
-.main-content
-  display: flex
-  flex-wrap: wrap
-  align-items: center
-  justify-content: center
-  margin-top: 5%
-
-  &__game-intro-title
-    padding: 0
-    margin: 2% 0 0 0
-    @include large-font($fontSize: 40, $letterSpacing: -1px, $lineHeight: 100px)
-    text-transform: capitalize
-    transform: scale(1, 2)
-
-  &__game-intro-mini-title
-    color: #7e7e7e
-    @include large-font($fontSize: 0, $letterSpacing: 0, $lineHeight: 30px)
-
-.game-container-orange
-  @include game-container
-  @include game-image
-  @include game-card
-
-.game-container-blue
-  @include game-container(#21c8f7, #4194ff)
-  @include game-image($fadeColor: #21c8f7, $thickColor: #4194ff)
-  @include game-card
-
-.game-container-red
-  @include game-container(#f4497f, #ec4451)
-  @include game-image($fadeColor: #f4497f, $thickColor: #ec4451)
-  @include game-card
-
-.game-container-purple
-  @include game-container(#8c60ec, #b272c0)
-  @include game-image($fadeColor: #8c60ec, $thickColor: #b272c0)
-  @include game-card
-
-.game-container-charm
-  @include game-container(#08c6e4, #16d0b2)
-  @include game-image($fadeColor: #08c6e4, $thickColor: #16d0b2)
-  @include game-card
-
-.game-container-storm
-  @include game-container(#62026e, #d41393)
-  @include game-image($fadeColor: #62026e, $thickColor: #d41393)
-  @include game-card
 
 .main-footer
   @include footer
 
 .footer-404
   @include footer($bgColor: black, $marginTop: 0)
-
-@media (max-width: 490px)
-  .navbar-container
-    background: $thickBlue
-    @include navbar-container($height: 7rem)
-
-
-
