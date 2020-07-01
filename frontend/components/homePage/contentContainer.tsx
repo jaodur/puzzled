@@ -1,7 +1,8 @@
 import * as React from 'react';
+
 import { RouterLink } from '../commons/links';
 import { links } from '../commons/linkUrls';
-import { GameIntroInterface } from '../interfaces/interfaces';
+import { ElementInterface, GameIntroInterface } from '../interfaces/interfaces';
 
 const orangeGameContainer: string = 'game-container-orange';
 const blueGameContainer: string = 'game-container-blue';
@@ -13,14 +14,14 @@ const mainContent: string = 'main-content';
 
 const linkNoStyleCard: string = 'link__no-style__card';
 
-function GamesIntro() {
+function GamesIntro({ className }: ElementInterface) {
     return (
-        <React.Fragment>
+        <div className={className || ''}>
             <h1 className={`${mainContent}__game-intro-title`}>let&apos;s play.</h1>
             <div className={`${mainContent}__game-intro-mini-title`}>
                 play your favourite games right here at Puzzled
             </div>
-        </React.Fragment>
+        </div>
     );
 }
 
@@ -45,7 +46,7 @@ function Game({ gameClass }: GameIntroInterface) {
 function ContentContainer() {
     return (
         <React.Fragment>
-            <GamesIntro />
+            <GamesIntro className={'game-intro'} />
             <div className={`${mainContent}`}>
                 <RouterLink
                     link={links.SUDOKU.HOME}
