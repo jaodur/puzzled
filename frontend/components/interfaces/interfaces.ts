@@ -1,5 +1,6 @@
 interface ElementInterface {
     className?: string;
+    children?: any;
 }
 
 interface FullPuzzleInterface {
@@ -76,8 +77,11 @@ interface GridTableInterface {
     loader: boolean;
 }
 
-interface GameIntroInterface {
-    gameClass: string;
+interface GameIntroInterface extends ElementInterface {
+    name: string;
+    desc?: string;
+    link: string;
+    src: string;
 }
 
 interface FooterInterface {
