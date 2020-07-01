@@ -6,7 +6,7 @@ import { RouterLink } from './links';
 function GameCard({ name, src, link }: GameIntroInterface) {
     return (
         <RouterLink link={link}>
-            <div className={'card 1'}>
+            <div className={'card'}>
                 <div className="card_image">
                     <img src={src} />
                 </div>
