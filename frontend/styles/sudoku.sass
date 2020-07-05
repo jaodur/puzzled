@@ -207,8 +207,11 @@ $standardMargin: 5px
       justify-content: center
 
       &:nth-child(#{$type}n)
-        border-bottom: 0
+        border-bottom: none
         border-bottom: 2px solid #344861
+
+      &:nth-child(#{$type*$type}n)
+        border-bottom: none
 
       td
         margin: 0
@@ -230,8 +233,11 @@ $standardMargin: 5px
         cursor: pointer
 
         &:nth-child(#{$type}n)
-          border-right: 0
+          border-right: none
           border-right: 2px solid #344861
+
+        &:nth-child(#{$type*$type}n)
+          border-right: none
 
         &:hover
           background-color: #bbdefb
