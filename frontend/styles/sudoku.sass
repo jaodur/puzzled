@@ -1,5 +1,6 @@
 // ****************** imports *********************
 @import "commons/common"
+@import "commons/constants"
 
 //$mainColor: #ffc63b
 $mainNavBarColor: #2662ac
@@ -29,11 +30,12 @@ $standardMargin: 5px
   @include transform(rotate(#{$degree}deg))
 
 
-@mixin sudokuGrid($type: 3, $reduceHeight: 20)
+@mixin sudokuGrid($type: 3, $reduceHeight: 20, $tdHeight: 4rem, $maxTdHeight: 100px, $fontSize: 2em)
 
   &__grid_congrats_wrapper
     position: relative
     background-image: linear-gradient(#5d94de, #77c1ea)
+    height: 100%
 
   &__no_display
     display: none
@@ -48,7 +50,6 @@ $standardMargin: 5px
     position: absolute
     width: 100%
     height: 100%
-    z-index: 1000
 
     svg
       fill: $mainNavBarColor
@@ -76,17 +77,6 @@ $standardMargin: 5px
         background-color: white
 
   &__grid_wrapper
-    margin: 2rem 0
-    display: flex
-    flex-wrap: wrap
-    align-items: flex-start
-    min-height: 80vh
-
-    &__controller
-      display: flex
-      flex-wrap: wrap
-      width: $controllerWidth
-      margin: 0 10px 0 50px
 
     &__numpad
       margin: 0 1%
@@ -106,8 +96,6 @@ $standardMargin: 5px
 
       &_row
         display: flex
-        width: 100%
-        height: 100%
         justify-content: center
         cursor: pointer
 
@@ -171,18 +159,14 @@ $standardMargin: 5px
       margin: 0 1%
       cursor: pointer
 
-    > div
-      //width: (80px - $reduceHeight) * $type * $type
+    >div
       font-size: inherit
-      margin: 1% 0
-      margin-right: 10px
+      margin: 1% 10px 1% 0
       font-weight: 600
       color: #344861
-      //font-size: 16px
       line-height: 25px
       vertical-align: middle
       text-transform: capitalize
-      //background-color: yellow
 
       select
         font-size: 90%
@@ -207,7 +191,6 @@ $standardMargin: 5px
     -moz-user-select: none
     -webkit-user-select: none
     border: 2px solid #344861
-    font-size: 5rem - $type
     color: #354861
 
     &__congrats
@@ -220,8 +203,6 @@ $standardMargin: 5px
 
     &_row
       display: flex
-      width: 100%
-      height: 100%
       justify-content: center
 
       &:nth-child(#{$type}n)
@@ -235,8 +216,14 @@ $standardMargin: 5px
         display: flex
         justify-content: center
         align-items: center
-        height: 80px - $reduceHeight
-        width: 80px - $reduceHeight
+        height: $tdHeight
+        width: $tdHeight
+        font-size: $fontSize
+        min-width: 20px
+        min-height: 20px
+        max-width: $maxTdHeight
+        max-height: $maxTdHeight
+
         border-bottom: 1px solid #bec6d4
         border-right: 1px solid #bec6d4
         cursor: pointer
@@ -253,7 +240,15 @@ $standardMargin: 5px
           background-color: #bbdefb
 
 
-// ************************** style *******************************
+// ************************** styles *******************************
+
+.grid_container
+  margin: 2rem 0
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  min-height: 80vh
+  width: 100%
 
 .sudoku-controls
   padding: 0
@@ -345,22 +340,21 @@ table
   @include sudokuGrid($type: 1, $reduceHeight: 0)
 
 .sudoku-grid-2
-  @include sudokuGrid($type: 2, $reduceHeight: 10)
+  @include sudokuGrid($type: 2, $reduceHeight: 20, $tdHeight: 6vw, $fontSize: 4vw)
 
 .sudoku-grid-3
-  @include sudokuGrid
+  @include sudokuGrid($maxTdHeight: 70px)
 
 .sudoku-grid-4
-  @include sudokuGrid($type: 4, $reduceHeight: 40)
+  @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 2.8vw, $maxTdHeight: 50px, $fontSize: 1.5vw)
 
 .sudoku-grid-5
-  @include sudokuGrid($type: 5, $reduceHeight: 50)
+  @include sudokuGrid($type: 5, $reduceHeight: 20, $tdHeight: 2vw, $maxTdHeight: 35px, $fontSize: 1.2vw)
 
 .arrow-up
   @include arrow(45)
 
 .footer-sudoku
-  //@include footer($bgColor: $mainColor, $color: #160f01, $marginTop: 0)
   @include footer($bgColor: $mainNavBarColor, $color: #dadada, $marginTop: 0)
 
 .sudoku-selected
@@ -407,5 +401,19 @@ table
   &__no_display
     display: none
 
+@media (max-width: $mainBreakPoint)
+  .grid_container
+    margin: 2rem 0
+    display: flex
+    flex-wrap: wrap
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
 
+  .sudoku-grid-1
+    @include sudokuGrid($type: 1, $reduceHeight: 0)
+
+  .sudoku-grid-2
+    @include sudokuGrid($type: 2, $reduceHeight: 20, $tdHeight: 20vw, $fontSize: 14vw)
 

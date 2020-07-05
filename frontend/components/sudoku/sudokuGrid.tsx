@@ -726,8 +726,8 @@ function SudokuGrid() {
     }
 
     return (
-        <div className={`${sudokuGridClass}__grid_wrapper`}>
-            <div className={`${sudokuGridClass}__grid_wrapper__controller`}>
+        <div className={'grid_container'}>
+            <div className={'grid-control-container'}>
                 <Switch>
                     <Route
                         exact
