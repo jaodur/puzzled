@@ -3,9 +3,9 @@ import { PlaySudokuPadInterface, SolveSudokuPadInterface, TrainerSudokuInterface
 
 function SolveSudokuPad({ onTypeChange, solvePuzzle, clearPuzzle, type }: SolveSudokuPadInterface) {
     return (
-        <div className={'sudoku-controls'}>
-            <div className={'sudoku-controls__select_controls'}>
-                Type:
+        <div className={'controls-container'}>
+            <div className={'controls-select'}>
+                <span>Type:</span>
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
                     <option value={3}>3x3</option>
@@ -29,17 +29,17 @@ function PlaySudokuPad({
     difficulty,
 }: PlaySudokuPadInterface) {
     return (
-        <div className={'sudoku-controls'}>
-            <div className={'sudoku-controls__select_controls'}>
-                Type:
+        <div className={'controls-container'}>
+            <div className={'controls-select'}>
+                <span>Type:</span>
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
                     <option value={3}>3x3</option>
                     <option value={4}>4x4</option>
                 </select>
             </div>
-            <div className={'sudoku-controls__select_controls'}>
-                Difficulty:
+            <div className={'controls-select'}>
+                <span>Difficulty:</span>
                 <select onChange={onDifficultyChange} defaultValue={`${difficulty}`}>
                     <option value={'easy'}>Easy</option>
                     <option value={'medium'}>Medium</option>
@@ -67,9 +67,9 @@ function TrainerSudokuPad({
     onMarkClick,
 }: TrainerSudokuInterface) {
     return (
-        <div className={'sudoku-controls'}>
-            <div className={'sudoku-controls__select_controls'}>
-                Type:
+        <div className={'controls-container'}>
+            <div className={'controls-select'}>
+                <span>Type:</span>
                 <select onChange={onTypeChange} defaultValue={`${type}`}>
                     <option value={2}>2x2</option>
                     <option value={3}>3x3</option>
@@ -83,13 +83,13 @@ function TrainerSudokuPad({
 
             <button onClick={onMarkClick}>mark</button>
 
-            <div className={'sudoku-controls__swap_controls'}>
+            <div className={'controls-swap'}>
                 <input type="text" value={swapInputValues[1]} onChange={onSwapInputChange(1)} />
                 <input type="text" value={swapInputValues[2]} onChange={onSwapInputChange(2)} />
                 <button onClick={swapPuzzle}>Swap</button>
             </div>
 
-            <div className={'sudoku-controls__arrow_controls'}>
+            <div className={'controls-arrow'}>
                 <div />
                 <div>
                     <button onClick={swapRolCol(true, false)}>&#8593;</button>

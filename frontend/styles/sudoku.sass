@@ -8,7 +8,8 @@ $thickRed: #fb4547
 $lightRed: #f7cfd6
 $lightBlue: #4a90e2
 $controllerWidth: 7.5rem
-$controllerCompMinHeight: 30px
+$controllerCompHeight: 5vh
+$controllerCompMargin: .1em 0
 $standardMargin: 5px
 
 // ****************** mixins **********************
@@ -250,55 +251,63 @@ $standardMargin: 5px
   min-height: 80vh
   width: 100%
 
-.sudoku-controls
+.grid-control-container
+  display: flex
+  flex-wrap: wrap
+  width: $controllerWidth
+  margin: 0 10px 0 50px
+
+.controls-container
   padding: 0
-  >div
-    width: $controllerWidth
-    min-height: $controllerCompMinHeight
-    flex: 0 0 100%
-    margin-bottom: $standardMargin
 
   >button
     width: $controllerWidth
-    height: $controllerCompMinHeight
+    height: $controllerCompHeight
     margin-bottom: $standardMargin
 
-  &__swap_controls
-    display: flex
-    flex-wrap: wrap
+.controls-swap
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-evenly
+  margin: $controllerCompMargin
 
-    >button
-      flex: 1 2
-    >input
-      flex: 1 1
-      width: 20%
+  >button
+    width: 40%
+    padding: .2em
 
-  &__arrow_controls
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-wrap: wrap
+  >input
+    padding: .2em
+    width: 30%
 
-    >div
-      width: 35px
-      height: 35px
+.controls-arrow
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  margin: $controllerCompMargin
+  padding: .2em
 
-      button
-        width: 100%
-        height: 100%
+  >div
+    width: 35px
+    height: 35px
 
-  &__select_controls
-    display: flex
-    align-items: center
-    width: 100%
-    padding: 0
-    margin: 0
-
-    >select
-      height: 100%
+    button
       width: 100%
-      outline: none
-      border: none
+      height: 100%
+
+.controls-select
+  display: flex
+  align-items: center
+  width: 100%
+  padding: 0
+  margin: 0
+
+  >select
+    height: $controllerCompHeight
+    margin: .1em 0
+    width: 100%
+    outline: none
+    border: none
 
 table
   border-collapse: collapse
@@ -417,3 +426,46 @@ table
   .sudoku-grid-2
     @include sudokuGrid($type: 2, $reduceHeight: 20, $tdHeight: 20vw, $fontSize: 14vw)
 
+  .sudoku-grid-3
+    @include sudokuGrid($type: 3, $reduceHeight: 20, $tdHeight: 10vw, $fontSize: 7vw)
+
+  .sudoku-grid-4
+    @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 5vw, $fontSize: 4vw)
+
+  .sudoku-grid-5
+    @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 3vw, $fontSize: 2vw)
+
+  .grid-control-container
+    display: flex
+    flex-wrap: wrap
+    width: 95%
+    margin: 0px
+
+  .controls-container
+    display: flex
+    justify-content: space-evenly
+    flex-wrap: wrap
+    width: 100%
+    padding: .5em
+    margin: 0
+
+    >button
+      padding: .5em
+      margin: .2em 0
+      text-transform: capitalize
+
+  .controls-select
+    display: flex
+    justify-content: center
+    padding: 0
+    margin: 0
+    width: 15vw
+    font-size: .8em
+    min-width: 70px
+
+    span
+      display: none
+
+    >select
+      font-size: inherit
+      margin: .2em 0
