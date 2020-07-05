@@ -18,7 +18,7 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface
         return cells.map(cell => cell);
     }
 
-    return <tr className={`${gridClass}__grid_wrapper__numpad_row`}>{CreateNumPadData(type, startNum)}</tr>;
+    return <tr className={`numpad-row row-${type}`}>{CreateNumPadData(type, startNum)}</tr>;
 }
 
 function NumberPad({
@@ -51,9 +51,9 @@ function NumberPad({
     }
 
     return (
-        <table className={`${gridClass}__grid_wrapper__numpad`}>
+        <table className={'numpad-container'}>
             <tbody>
-                <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
+                <tr className={'numpad-row'}>
                     <div>
                         <Timer
                             stopTimer={stopTimer}
@@ -66,7 +66,7 @@ function NumberPad({
                     </div>
                 </tr>
                 {CreateNumPadRow(type, 1)}
-                <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
+                <tr className={'numpad-row'}>
                     <td onClick={onPadClick} data-value={0}>
                         <EraseIcon width={'30'} />
                         &nbsp;erase

@@ -31,7 +31,7 @@ $standardMargin: 5px
   @include transform(rotate(#{$degree}deg))
 
 
-@mixin sudokuGrid($type: 3, $reduceHeight: 20, $tdHeight: 4rem, $maxTdHeight: 100px, $fontSize: 2em)
+@mixin sudokuGrid($type: 3, $tdHeight: 4rem, $maxTdHeight: 100px, $fontSize: 2em)
 
   &__grid_congrats_wrapper
     position: relative
@@ -76,76 +76,6 @@ $standardMargin: 5px
       &:hover
         color: #77c1ea
         background-color: white
-
-  &__grid_wrapper
-
-    &__numpad
-      margin: 0 1%
-      padding: 0
-      background: #fff
-      user-select: none
-      -ms-user-select: none
-      -moz-user-select: none
-      -webkit-user-select: none
-      border: 2px solid #bec6d4
-      font-size: 5rem - $type
-      color: #354861
-
-      &tbody
-        margin: 0
-        padding: 0
-
-      &_row
-        display: flex
-        justify-content: center
-        cursor: pointer
-
-        >div
-          border: 1px solid #bec6d4
-          width: 100%
-          min-height: 30px
-          font-size: $baseFontSize
-          padding: 0
-
-        &:last-child
-          border-top: 1px solid #bec6d4
-          text-transform: capitalize
-          font-size: 20px
-          padding: 0
-          height: 50px
-
-          &:hover
-            background-color: lighten(red, 12)
-            color: white
-
-            svg
-              fill: white
-          td
-            border: none
-            height: 100%
-
-            &:hover
-              background-color: inherit
-
-        td
-          margin: 0
-          padding: 0
-          text-align: center
-          display: flex
-          justify-content: center
-          align-items: center
-          height: 100px - $reduceHeight
-          width: 100px - $reduceHeight
-          border-bottom: 1px solid #bec6d4
-          border-right: 1px solid #bec6d4
-
-          &:hover
-            background-color: #e2e7ed
-
-          &:focus
-            outline: none
-            background-color: #bbdefb
-
 
   &__grid_type
     margin-top: 40px
@@ -246,6 +176,15 @@ $standardMargin: 5px
           outline: none
           background-color: #bbdefb
 
+@mixin numpadRow($width: 33%, $tdWidth: 80px, $tdHeight: 50px, $fontSize: .7em)
+  width: $width
+
+  td
+    height: $tdHeight
+    width: $tdWidth
+    border: none
+    font-size: $fontSize
+
 
 // ************************** styles *******************************
 
@@ -315,6 +254,78 @@ $standardMargin: 5px
     outline: none
     border: none
 
+.numpad-container
+  position: relative
+  margin: 0 1%
+  padding: 0
+  background: #fff
+  user-select: none
+  -ms-user-select: none
+  -moz-user-select: none
+  -webkit-user-select: none
+  border: 2px solid #bec6d4
+  font-size: 3em
+  color: #354861
+
+
+.numpad-row
+  display: flex
+  justify-content: center
+  cursor: pointer
+
+  >div
+    width: 100%
+    min-height: 30px
+    font-size: $baseFontSize
+    padding: 0
+
+  &:first-child
+    position: absolute
+    bottom: 102%
+    right: 0
+
+  &:last-child
+    border-top: 1px solid #bec6d4
+    text-transform: capitalize
+    font-size: 20px
+    padding: 0
+    height: 50px
+
+    &:hover
+      background-color: lighten(red, 12)
+      color: white
+
+      svg
+        fill: white
+    td
+      border: none
+      height: 100%
+
+      &:hover
+        background-color: inherit
+
+  td
+    margin: 0
+    padding: 0
+    text-align: center
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 80px
+    width: 80px
+    border-bottom: 1px solid #bec6d4
+    border-right: 1px solid #bec6d4
+
+    &:last-child
+      border-right: none
+
+    &:hover
+      background-color: #e2e7ed
+
+    &:focus
+      outline: none
+      background-color: #bbdefb
+
 table
   border-collapse: collapse
   border-spacing: 0
@@ -352,19 +363,19 @@ table
     background-color: #eebbff
 
 .sudoku-grid-1
-  @include sudokuGrid($type: 1, $reduceHeight: 0)
+  @include sudokuGrid($type: 1)
 
 .sudoku-grid-2
-  @include sudokuGrid($type: 2, $reduceHeight: 20, $tdHeight: 6vw, $fontSize: 4vw)
+  @include sudokuGrid($type: 2, $tdHeight: 6vw, $fontSize: 4vw)
 
 .sudoku-grid-3
   @include sudokuGrid($maxTdHeight: 70px)
 
 .sudoku-grid-4
-  @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 2.8vw, $maxTdHeight: 50px, $fontSize: 1.5vw)
+  @include sudokuGrid($type: 4, $tdHeight: 2.8vw, $maxTdHeight: 50px, $fontSize: 1.5vw)
 
 .sudoku-grid-5
-  @include sudokuGrid($type: 5, $reduceHeight: 20, $tdHeight: 2vw, $maxTdHeight: 35px, $fontSize: 1.2vw)
+  @include sudokuGrid($type: 5, $tdHeight: 2vw, $maxTdHeight: 35px, $fontSize: 1.2vw)
 
 .arrow-up
   @include arrow(45)
@@ -427,19 +438,19 @@ table
     width: 100%
 
   .sudoku-grid-1
-    @include sudokuGrid($type: 1, $reduceHeight: 0)
+    @include sudokuGrid($type: 1)
 
   .sudoku-grid-2
-    @include sudokuGrid($type: 2, $reduceHeight: 20, $tdHeight: 20vw, $fontSize: 14vw)
+    @include sudokuGrid($type: 2, $tdHeight: 20vw, $fontSize: 14vw)
 
   .sudoku-grid-3
-    @include sudokuGrid($type: 3, $reduceHeight: 20, $tdHeight: 10vw, $fontSize: 7vw)
+    @include sudokuGrid($type: 3, $tdHeight: 10vw, $fontSize: 7vw)
 
   .sudoku-grid-4
-    @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 5vw, $fontSize: 4vw)
+    @include sudokuGrid($type: 4, $tdHeight: 5vw, $fontSize: 4vw)
 
   .sudoku-grid-5
-    @include sudokuGrid($type: 4, $reduceHeight: 20, $tdHeight: 3vw, $fontSize: 2vw)
+    @include sudokuGrid($type: 4, $tdHeight: 3vw, $fontSize: 2vw)
 
   .grid-control-container
     display: flex
@@ -475,3 +486,49 @@ table
     >select
       font-size: inherit
       margin: .2em 0
+
+  .numpad-container
+    display: flex
+    flex-wrap: wrap
+    width: 95%
+    margin: 40px 0 40px 0
+    border: none
+
+    tbody
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      width: 100%
+
+  .numpad-row
+    position: relative
+    display: flex
+    justify-content: center
+    cursor: pointer
+    margin: .5% 0
+
+    &:first-child
+      bottom: 92%
+      right: 0
+      width: 100px
+
+
+    &:last-child
+      position: absolute
+      border: 1px solid #bec6d4
+      top: 100%
+
+    >div
+      width: 100%
+      min-height: 30px
+      font-size: $baseFontSize
+      padding: 0
+
+  .row-2
+    @include numpadRow
+
+  .row-3
+    @include numpadRow
+
+  .row-4
+    @include numpadRow($width: 50%, $tdWidth: 90px, $fontSize: .6em)
