@@ -727,7 +727,7 @@ function SudokuGrid() {
 
     return (
         <div className={'grid_container'}>
-            <div className={'grid-control-container'}>
+            <div className={`grid-control-container ctrl-${gridState.type}`}>
                 <Switch>
                     <Route
                         exact

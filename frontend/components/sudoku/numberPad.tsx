@@ -69,7 +69,7 @@ function NumberPad({
                 <tr className={'numpad-row'}>
                     <td onClick={onPadClick} data-value={0}>
                         <EraseIcon width={'30'} />
-                        &nbsp;erase
+                        <span>&nbsp;erase</span>
                     </td>
                 </tr>
             </tbody>
