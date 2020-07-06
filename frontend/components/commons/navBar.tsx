@@ -1,59 +1,49 @@
 import * as React from 'react';
 
-import { LinkInterface, NavbarInterface } from '../interfaces/interfaces';
-import { NavBarProfileAvatar } from './avatar';
-import { NavItemLink } from './links';
+import { LinkInterface, LinksInterface } from '../interfaces/interfaces';
+import { NavBarDropDown, NavDropDownMin } from './Dropdown';
+import { ULItems } from './links';
 import { links as urlLinks } from './linkUrls';
 import { Logo } from './logo';
-import { useCheckLoginContext } from './puzzleContext';
 
-function NavBar({
-    onTabClick,
-    primaryLabel,
-    secLabel,
-    navbarClass,
-    links,
-    linkActiveClass,
-    showProfileContainer,
-}: NavbarInterface) {
-    const { checkLogin } = useCheckLoginContext();
+const sudokuImage = require('../../images/sudoku-dark.jpg');
 
+function NavUL() {
+    return (
+        <div className={'nav-ul'}>
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+            <img className={'nav-img'} src={sudokuImage} alt={'sudoku-nav-image'} />
+        </div>
+    );
+}
+
+function NavMenu({ className, activeClass, links }: LinksInterface) {
+    return (
+        <div className={'nav-ul'}>
+            <ULItems className={className || 'nav-menu-li'} activeClass={activeClass || 'nav-active'} links={links} />
+        </div>
+    );
+}
+
+function NavBar({ className, activeClass, links }: LinksInterface) {
     const signUpSignInLinks: LinkInterface[] = [
         { name: 'Sign In', href: urlLinks.USER.SIGN_IN },
         { name: 'Sign Up', href: urlLinks.USER.SIGN_UP },
     ];
 
-    function createNavLinks(links: LinkInterface[]) {
-        const linksComponent: any = [];
-
-        links.forEach(function(link, index) {
-            linksComponent.push(
-                <li key={`navBarLinks-${index}`}>
-                    <NavItemLink
-                        name={link.name}
-                        href={link.href}
-                        activeClassName={linkActiveClass}
-                        onTabClick={onTabClick}
-                    />
-                </li>
-            );
-        });
-
-        return linksComponent.map((link: any) => link);
-    }
     return (
-        <nav className={navbarClass}>
-            <Logo primaryLabel={primaryLabel} secLabel={secLabel} />
-            <ul>{createNavLinks(links)}</ul>
-            {showProfileContainer && (
-                <div className={'profile-navbar'}>
-                    {checkLogin._loginInfo.loggedIn ? (
-                        <NavBarProfileAvatar profileName={checkLogin._loginInfo.user.name} />
-                    ) : (
-                        <ul>{createNavLinks(signUpSignInLinks)}</ul>
-                    )}
-                </div>
-            )}
+        <nav>
+            <Logo />
+            {!!links ? <NavMenu className={className} activeClass={activeClass} links={links} /> : <NavUL />}
+            <NavDropDownMin className={'min-dropdown h-dropdown'} />
+            <NavBarDropDown
+                activeClass={''}
+                links={signUpSignInLinks}
+                className={'h-dropdown nav-profile full-dropdown'}
+            />
         </nav>
     );
 }

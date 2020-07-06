@@ -1,0 +1,184 @@
+@import "commons/navbar"
+@import "commons/constants"
+@import "colors"
+
+.nav-container
+  display: block
+
+nav
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  align-items: center
+  padding: .4em .5em
+  min-width: 250px
+  font-size: 2rem
+  color: $thickBlue
+
+  >div
+    span
+      margin: 5px
+      text-transform: lowercase
+      font-size: 1.5rem
+
+.nav-ul
+  order: 5
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+  min-width: 100%
+  margin-top: 5%
+  background-color: $thickBlue
+
+.nav-menu-li
+  display: flex
+  flex-wrap: wrap
+  list-style: none
+  min-width: 100%
+  font-size: 1.4rem
+  padding: 2% 0
+
+  li
+    display: flex
+    justify-content: center
+    min-width: 90%
+    margin: 0 auto
+    padding: .2em
+    border-bottom: 2px solid $thickBlue
+
+    a
+      color: $gold
+      padding: .2em
+      text-decoration: none
+
+.nav-active
+  border-bottom: 2px solid $gold
+
+.nav-img
+  object-fit: none
+  object-position: 45% 35%
+  border: 1px solid #0099D2
+  border-radius: 5%
+  margin: 10px 10px
+  width: 40px
+
+  &:focus, &:hover
+    cursor: pointer
+    border: 2px solid $gold
+
+.h-dropdown
+  position: relative
+
+.full-dropdown
+  display: none
+
+.c-dropdown
+  display: flex
+  flex-wrap: wrap
+  margin: 0
+  justify-content: flex-end
+  align-items: center
+  min-width: 150px
+  max-width: 180px
+  font-size: .9rem
+
+.dropdown
+  position: absolute
+  top: 110%
+  right: 10%
+
+  div
+    width: 100%
+    padding: 0
+    background-color: white
+    border: 1px solid $lightWhite
+
+    a
+      text-decoration: none
+
+    span
+      display: flex
+      align-items: center
+      height: 40px
+      text-transform: capitalize
+      border: 1px solid $lightWhite
+      font-size: .9rem
+
+      &:hover
+        background-color: $lightWhite
+
+      svg
+        margin: 0 10%
+
+.nav-profile
+  display: none
+
+.app-slogan
+  display: none
+
+@media (min-width: $mainBreakPoint)
+  .min-dropdown
+    display: None
+
+  .nav-profile
+    @include nav-profile
+
+  .nav-container
+    padding: 0 1em
+    max-width: 1500px
+    margin: 0 auto
+
+  .nav-ul
+    order: 0
+    display: flex
+    flex-wrap: nowrap
+    justify-content: flex-start
+    align-items: center
+    background-color: unset
+    margin: 0
+    min-width: 200px
+
+  .nav-menu-li
+    display: flex
+    flex-wrap: wrap
+    width: 400px
+    list-style: none
+    font-size: 1.4rem
+    padding: 0
+
+    li
+      display: unset
+      margin: 0 2%
+      padding: .2em
+      border-bottom: 2px solid white
+      min-width: 1%
+
+      a
+        color: $thickBlue
+        padding: .2em
+        text-decoration: none
+
+  .nav-active
+    border-bottom: 2px solid $thickBlue
+
+  .nav-img
+    object-fit: none
+    object-position: 45% 35%
+    border: 1px solid $thickBlue
+    border-radius: 5%
+    margin: 0 10px
+    width: 40px
+
+    &:focus, &:hover
+      cursor: pointer
+      border: 2px solid $gold
+
+  .app-slogan
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 2rem
+    color: $gold
+    background-color: $thickBlue
+    height: 15vh

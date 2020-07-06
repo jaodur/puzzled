@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { LogoInterface } from '../interfaces/interfaces';
 import { TextLink } from './links';
+import { links } from './linkUrls';
 
-function Logo({ primaryLabel, secLabel }: LogoInterface) {
+function Logo() {
     return (
         <div className="logo">
-            <TextLink text={primaryLabel.text} link={primaryLabel.href} styleClass={primaryLabel.style} />
-            <span>
-                <TextLink text={secLabel.text} link={secLabel.href} styleClass={secLabel.style} />
-            </span>
+            <TextLink text={'Puzzled'} link={links.HOME} styleClass={'link__no-style'} />
         </div>
     );
 }

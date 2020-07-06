@@ -1,3 +1,8 @@
+interface ElementInterface {
+    className?: string;
+    children?: any;
+}
+
 interface FullPuzzleInterface {
     puzzle: number[][];
     mainPuzzleKey: number;
@@ -10,7 +15,7 @@ interface GridInterface {
 
 interface NumPadRowInterface extends GridInterface {
     type: number;
-    gridClass: string;
+    className?: string;
     onPadClick: (event: EventInterface) => any;
     startNum?: number;
 }
@@ -32,10 +37,9 @@ interface EventInterface {
     [key: string]: any;
 }
 
-interface RouteLinkInterface {
+interface RouteLinkInterface extends ElementInterface {
     link: string;
-    component: JSX.Element;
-    styleClass: string;
+    children: JSX.Element;
 }
 
 interface TextLinkInterface {
@@ -73,8 +77,11 @@ interface GridTableInterface {
     loader: boolean;
 }
 
-interface GameIntroInterface {
-    gameClass: string;
+interface GameIntroInterface extends ElementInterface {
+    name: string;
+    desc?: string;
+    link: string;
+    src: string;
 }
 
 interface FooterInterface {
@@ -116,6 +123,12 @@ interface NavbarLinksInterface {
     secLabel?: LabelInterface;
     navbarClass?: string;
     links: LinkInterface[];
+}
+
+interface LinksInterface extends ElementInterface {
+    onTabClick?: (event: EventInterface) => any;
+    activeClass?: string;
+    links?: LinkInterface[];
 }
 
 interface SvgIconInterface {
@@ -171,14 +184,14 @@ interface TimerInterface {
     stopTimer: boolean;
 }
 
-interface NavbarContainerInterface {
-    styleClass: string;
+interface NavbarContainerInterface extends LinksInterface {
     showBanner?: boolean;
 }
 
 export {
     GridInterface,
     EventInterface,
+    ElementInterface,
     RouteLinkInterface,
     GridRowInterface,
     SudokuTableDataInterface,
@@ -187,6 +200,7 @@ export {
     FullPuzzleInterface,
     LogoInterface,
     LinkInterface,
+    LinksInterface,
     NavbarInterface,
     NavbarLinksInterface,
     TextLinkInterface,

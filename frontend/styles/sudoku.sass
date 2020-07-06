@@ -1,5 +1,6 @@
 // ****************** imports *********************
-@import "./common"
+@import "commons/common"
+@import "commons/constants"
 
 //$mainColor: #ffc63b
 $mainNavBarColor: #2662ac
@@ -7,7 +8,8 @@ $thickRed: #fb4547
 $lightRed: #f7cfd6
 $lightBlue: #4a90e2
 $controllerWidth: 7.5rem
-$controllerCompMinHeight: 30px
+$controllerCompHeight: 5vh
+$controllerCompMargin: .1em 0
 $standardMargin: 5px
 
 // ****************** mixins **********************
@@ -29,11 +31,12 @@ $standardMargin: 5px
   @include transform(rotate(#{$degree}deg))
 
 
-@mixin sudokuGrid($type: 3, $reduceHeight: 20)
+@mixin sudokuGrid($type: 3, $tdHeight: 4rem, $maxTdHeight: 100px, $fontSize: 2em)
 
   &__grid_congrats_wrapper
     position: relative
     background-image: linear-gradient(#5d94de, #77c1ea)
+    height: 100%
 
   &__no_display
     display: none
@@ -75,89 +78,6 @@ $standardMargin: 5px
         color: #77c1ea
         background-color: white
 
-  &__grid_wrapper
-    margin: 2rem 0
-    display: flex
-    flex-wrap: wrap
-    align-items: flex-start
-    min-height: 80vh
-
-    &__controller
-      display: flex
-      flex-wrap: wrap
-      width: $controllerWidth
-      margin: 0 10px 0 50px
-
-    &__numpad
-      margin: 0 1%
-      padding: 0
-      background: #fff
-      user-select: none
-      -ms-user-select: none
-      -moz-user-select: none
-      -webkit-user-select: none
-      border: 2px solid #bec6d4
-      font-size: 5rem - $type
-      color: #354861
-
-      &tbody
-        margin: 0
-        padding: 0
-
-      &_row
-        display: flex
-        width: 100%
-        height: 100%
-        justify-content: center
-        cursor: pointer
-
-        >div
-          border: 1px solid #bec6d4
-          width: 100%
-          min-height: 30px
-          font-size: $baseFontSize
-          padding: 0
-
-        &:last-child
-          border-top: 1px solid #bec6d4
-          text-transform: capitalize
-          font-size: 20px
-          padding: 0
-          height: 50px
-
-          &:hover
-            background-color: lighten(red, 12)
-            color: white
-
-            svg
-              fill: white
-          td
-            border: none
-            height: 100%
-
-            &:hover
-              background-color: inherit
-
-        td
-          margin: 0
-          padding: 0
-          text-align: center
-          display: flex
-          justify-content: center
-          align-items: center
-          height: 100px - $reduceHeight
-          width: 100px - $reduceHeight
-          border-bottom: 1px solid #bec6d4
-          border-right: 1px solid #bec6d4
-
-          &:hover
-            background-color: #e2e7ed
-
-          &:focus
-            outline: none
-            background-color: #bbdefb
-
-
   &__grid_type
     margin-top: 40px
     display: flex
@@ -171,18 +91,14 @@ $standardMargin: 5px
       margin: 0 1%
       cursor: pointer
 
-    > div
-      //width: (80px - $reduceHeight) * $type * $type
+    >div
       font-size: inherit
-      margin: 1% 0
-      margin-right: 10px
+      margin: 1% 10px 1% 0
       font-weight: 600
       color: #344861
-      //font-size: 16px
       line-height: 25px
       vertical-align: middle
       text-transform: capitalize
-      //background-color: yellow
 
       select
         font-size: 90%
@@ -207,7 +123,6 @@ $standardMargin: 5px
     -moz-user-select: none
     -webkit-user-select: none
     border: 2px solid #344861
-    font-size: 5rem - $type
     color: #354861
 
     &__congrats
@@ -220,13 +135,14 @@ $standardMargin: 5px
 
     &_row
       display: flex
-      width: 100%
-      height: 100%
       justify-content: center
 
       &:nth-child(#{$type}n)
-        border-bottom: 0
+        border-bottom: none
         border-bottom: 2px solid #344861
+
+      &:nth-child(#{$type*$type}n)
+        border-bottom: none
 
       td
         margin: 0
@@ -235,15 +151,24 @@ $standardMargin: 5px
         display: flex
         justify-content: center
         align-items: center
-        height: 80px - $reduceHeight
-        width: 80px - $reduceHeight
+        height: $tdHeight
+        width: $tdHeight
+        font-size: $fontSize
+        min-width: 20px
+        min-height: 20px
+        max-width: $maxTdHeight
+        max-height: $maxTdHeight
+
         border-bottom: 1px solid #bec6d4
         border-right: 1px solid #bec6d4
         cursor: pointer
 
         &:nth-child(#{$type}n)
-          border-right: 0
+          border-right: none
           border-right: 2px solid #344861
+
+        &:nth-child(#{$type*$type}n)
+          border-right: none
 
         &:hover
           background-color: #bbdefb
@@ -252,63 +177,155 @@ $standardMargin: 5px
           outline: none
           background-color: #bbdefb
 
+@mixin numpadRow($width: 33%, $tdWidth: 80px, $tdHeight: 50px, $fontSize: .7em)
+  width: $width
 
-// ************************** style *******************************
+  td
+    height: $tdHeight
+    width: $tdWidth
+    border: none
+    font-size: $fontSize
 
 
+// ************************** styles *******************************
 
-.sudoku-nav
-  @include nav-bar($bgColor: $mainNavBarColor,$color: #dadada,$hoverColor: white, $logoColor: white, $height: 50px)
+.grid_container
+  margin: 2rem 0
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  min-height: 80vh
+  width: 100%
 
-.sudoku-controls
+.grid-control-container
+  display: flex
+  flex-wrap: wrap
+  width: $controllerWidth
+  margin: 0 10px 0 50px
+
+.controls-container
   padding: 0
-  >div
-    width: $controllerWidth
-    min-height: $controllerCompMinHeight
-    flex: 0 0 100%
-    margin-bottom: $standardMargin
 
   >button
     width: $controllerWidth
-    height: $controllerCompMinHeight
+    height: $controllerCompHeight
     margin-bottom: $standardMargin
 
-  &__swap_controls
-    display: flex
-    flex-wrap: wrap
+.controls-swap
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-evenly
+  margin: $controllerCompMargin
 
-    >button
-      flex: 1 2
-    >input
-      flex: 1 1
-      width: 20%
+  >button
+    width: 40%
+    padding: .2em
 
-  &__arrow_controls
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-wrap: wrap
+  >input
+    padding: .2em
+    width: 30%
 
-    >div
-      width: 35px
-      height: 35px
+.controls-arrow
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-wrap: wrap
+  margin: $controllerCompMargin
+  padding: .2em
 
-      button
-        width: 100%
-        height: 100%
+  >div
+    width: 35px
+    height: 35px
 
-  &__select_controls
-    display: flex
-    align-items: center
-    width: 100%
-    padding: 0
-    margin: 0
-
-    >select
-      height: 100%
+    button
       width: 100%
-      outline: none
+      height: 100%
+
+.controls-select
+  display: flex
+  align-items: center
+  width: 100%
+  padding: 0
+  margin: 0
+
+  >select
+    height: $controllerCompHeight
+    margin: .1em 0
+    width: 100%
+    outline: none
+    border: none
+
+.numpad-container
+  position: relative
+  margin: 0 1%
+  padding: 0
+  background: #fff
+  user-select: none
+  -ms-user-select: none
+  -moz-user-select: none
+  -webkit-user-select: none
+  border: 2px solid #bec6d4
+  font-size: 3em
+  color: #354861
+
+
+.numpad-row
+  display: flex
+  justify-content: center
+  cursor: pointer
+
+  >div
+    width: 100%
+    min-height: 30px
+    font-size: $baseFontSize
+    padding: 0
+
+  &:first-child
+    position: absolute
+    bottom: 102%
+    right: 0
+
+  &:last-child
+    border-top: 1px solid #bec6d4
+    text-transform: capitalize
+    font-size: 20px
+    padding: 0
+    height: 50px
+
+    &:hover
+      background-color: lighten(red, 12)
+      color: white
+
+      svg
+        fill: white
+    td
       border: none
+      height: 100%
+
+      &:hover
+        background-color: inherit
+
+  td
+    margin: 0
+    padding: 0
+    text-align: center
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 80px
+    width: 80px
+    border-bottom: 1px solid #bec6d4
+    border-right: 1px solid #bec6d4
+
+    &:last-child
+      border-right: none
+
+    &:hover
+      background-color: #e2e7ed
+
+    &:focus
+      outline: none
+      background-color: #bbdefb
 
 table
   border-collapse: collapse
@@ -347,25 +364,24 @@ table
     background-color: #eebbff
 
 .sudoku-grid-1
-  @include sudokuGrid($type: 1, $reduceHeight: 0)
+  @include sudokuGrid($type: 1)
 
 .sudoku-grid-2
-  @include sudokuGrid($type: 2, $reduceHeight: 10)
+  @include sudokuGrid($type: 2, $tdHeight: 6vw, $fontSize: 4vw)
 
 .sudoku-grid-3
-  @include sudokuGrid
+  @include sudokuGrid($maxTdHeight: 70px)
 
 .sudoku-grid-4
-  @include sudokuGrid($type: 4, $reduceHeight: 40)
+  @include sudokuGrid($type: 4, $tdHeight: 2.8vw, $maxTdHeight: 50px, $fontSize: 1.5vw)
 
 .sudoku-grid-5
-  @include sudokuGrid($type: 5, $reduceHeight: 50)
+  @include sudokuGrid($type: 5, $tdHeight: 2vw, $maxTdHeight: 35px, $fontSize: 1.2vw)
 
 .arrow-up
   @include arrow(45)
 
 .footer-sudoku
-  //@include footer($bgColor: $mainColor, $color: #160f01, $marginTop: 0)
   @include footer($bgColor: $mainNavBarColor, $color: #dadada, $marginTop: 0)
 
 .sudoku-selected
@@ -412,5 +428,228 @@ table
   &__no_display
     display: none
 
+@media (max-width: $mainBreakPoint)
+  .grid_container
+    margin: 2rem 0
+    display: flex
+    flex-wrap: wrap
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+
+  .sudoku-grid-1
+    @include sudokuGrid($type: 1)
+
+  .sudoku-grid-2
+    @include sudokuGrid($type: 2, $tdHeight: 20vw, $fontSize: 14vw)
+
+  .sudoku-grid-3
+    @include sudokuGrid($type: 3, $tdHeight: 10vw, $fontSize: 7vw)
+
+  .sudoku-grid-4
+    @include sudokuGrid($type: 4, $tdHeight: 5vw, $fontSize: 4vw)
+
+  .sudoku-grid-5
+    @include sudokuGrid($type: 4, $tdHeight: 3vw, $fontSize: 2vw)
+
+  .grid-control-container
+    display: flex
+    flex-wrap: wrap
+    width: 95%
+    margin: 0px
+
+  .controls-container
+    display: flex
+    justify-content: space-evenly
+    flex-wrap: wrap
+    width: 100%
+    padding: .5em
+    margin: 0
+
+    >button
+      padding: .5em
+      margin: .2em 0
+      text-transform: capitalize
+      min-width: 80px
+      max-width: 90px
+
+  .controls-select
+    display: flex
+    justify-content: center
+    padding: 0
+    margin: 0
+    width: 15vw
+    font-size: .8em
+    min-width: 70px
+
+    span
+      display: none
+
+    >select
+      font-size: inherit
+      margin: .2em 0
+
+  .numpad-container
+    display: flex
+    flex-wrap: wrap
+    width: 95%
+    margin: 40px 0 40px 0
+    border: none
+
+    tbody
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      width: 100%
+
+  .numpad-row
+    position: relative
+    display: flex
+    justify-content: center
+    cursor: pointer
+    margin: .5% 0
+
+    &:first-child
+      bottom: 92%
+      right: 0
+      width: 100px
 
 
+    &:last-child
+      position: absolute
+      border: 1px solid #bec6d4
+      top: 100%
+
+    >div
+      width: 100%
+      min-height: 30px
+      font-size: $baseFontSize
+      padding: 0
+
+  .row-2
+    @include numpadRow
+
+  .row-3
+    @include numpadRow
+
+  .row-4
+    @include numpadRow($width: 50%, $tdWidth: 90px, $fontSize: .6em)
+
+@media (min-width: $mainBreakPoint) and (max-width: 1040px)
+  .grid_container
+    display: flex
+    justify-content: flex-start
+    min-width: 600px
+    max-width: 700px
+
+  .sudoku-grid-2
+    @include sudokuGrid($type: 2, $tdHeight: 100px, $fontSize: 3rem)
+
+  .sudoku-grid-3
+    @include sudokuGrid($type: 3, $tdHeight: 50.5px, $fontSize: 2rem)
+
+  .sudoku-grid-4
+    @include sudokuGrid($type: 4, $tdHeight: 30px, $fontSize: 1rem)
+
+  .grid-control-container
+    display: flex
+    flex-wrap: wrap
+    margin: 0px
+    padding: 0
+
+  .ctrl-2
+    width: 405px
+    min-height: 20px
+
+  .ctrl-3
+    width: 460px
+
+  .ctrl-4
+    width: 485px
+
+  .controls-container
+    display: flex
+    justify-content: space-evenly
+    align-items: center
+    flex-wrap: wrap
+    width: 100%
+    padding: 0
+    margin: 0
+
+    >button
+      padding: .5em
+      margin: .2em 0
+      text-transform: capitalize
+
+  .controls-select
+    display: flex
+    justify-content: center
+    padding: 0
+    margin: 0
+    width: 50px
+    font-size: .8em
+    min-width: 70px
+
+    span
+      display: none
+
+    >select
+      font-size: inherit
+      margin: .2em 0
+
+  .numpad-container
+    display: flex
+    flex-wrap: wrap
+    width: 10%
+    margin: 0 0 0 4%
+    padding: .1em
+    border: none
+
+    tbody
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      width: 100%
+
+  .numpad-row
+    position: relative
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    cursor: pointer
+    margin: 0
+    width: 100%
+
+
+    &:first-child
+      bottom: 105%
+      left: 45%
+      width: 100px
+
+
+    &:last-child
+      position: absolute
+      left: 110%
+      top: 0%
+      border: 1px solid #bec6d4
+      padding: .1em
+      width: 10vw
+
+      span
+        display: none
+
+    >div
+      width: 100%
+      min-height: 30px
+      font-size: $baseFontSize
+      padding: 0
+
+  .row-2
+    @include numpadRow($width: 100%, $tdWidth: 100%, $tdHeight: 15px, $fontSize: .8em)
+
+  .row-3
+    @include numpadRow($width: 100%, $tdWidth: 100%, $tdHeight: 15px, $fontSize: .6em)
+
+  .row-4
+    @include numpadRow($width: 100%, $tdWidth: 100%, $tdHeight: 15px, $fontSize: .6em)

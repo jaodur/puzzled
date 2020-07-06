@@ -1,28 +1,24 @@
 import * as React from 'react';
+
 import { Footer } from '../commons/footer';
-import { NavBar as SudokuNavBar } from '../commons/navBar';
+import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
-import { sudokuNavBarLinks } from '../commons/navbarLinks';
 import { SudokuGrid } from './sudokuGrid';
 
 const footerClass: string = 'footer-sudoku';
 
+const sudokuLinks = [
+    { name: 'Play', href: links.SUDOKU.PLAY },
+    { name: 'Solve', href: links.SUDOKU.SOLVE },
+    { name: 'Trainer', href: links.SUDOKU.TRAINER },
+    { name: 'Help', href: '#' },
+];
+
 function SudokuHome() {
     return (
         <React.Fragment>
-            <NavBarContainer styleClass={'default-navbar-container'} />
-            <div className={'sudoku-nav'} key={'navbarContainer'}>
-                <SudokuNavBar
-                    primaryLabel={sudokuNavBarLinks.primaryLabel}
-                    secLabel={sudokuNavBarLinks.secLabel}
-                    links={sudokuNavBarLinks.links}
-                    onTabClick={() => {}}
-                    linkActiveClass={'sudoku-selected'}
-                    key={'sudoku'}
-                    showProfileContainer={false}
-                />
-            </div>
-            <div className={'content'}>
+            <NavBarContainer links={sudokuLinks} />
+            <div className={'main-content'}>
                 <SudokuGrid key={'sudokuGrid'} />
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />

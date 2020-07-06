@@ -726,8 +726,8 @@ function SudokuGrid() {
     }
 
     return (
-        <div className={`${sudokuGridClass}__grid_wrapper`}>
-            <div className={`${sudokuGridClass}__grid_wrapper__controller`}>
+        <div className={'grid_container'}>
+            <div className={`grid-control-container ctrl-${gridState.type}`}>
                 <Switch>
                     <Route
                         exact
@@ -794,7 +794,6 @@ function SudokuGrid() {
 
             <NumberPad
                 onPadClick={onPadClick}
-                gridClass={sudokuGridClass}
                 type={gridState.type}
                 totalSeconds={playTime.totalSeconds}
                 playing={playTime.playing}

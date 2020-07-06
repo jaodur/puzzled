@@ -110,7 +110,6 @@ function NavBarProfileAvatar({ src, profileName }: AvatarInterface) {
 
     return (
         <div className={'navbar-avatar'}>
-            <span onClick={toggleShowDropdown}>{profileName}</span>
             <ProfileAvatar src={src} profileName={profileName} small onClick={toggleShowDropdown} />
             {showDropdown ? (
                 <ExpandLessIcon onClick={toggleShowDropdown} />

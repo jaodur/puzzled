@@ -3,7 +3,7 @@ import { Timer } from '../commons/timer';
 import { EraseIcon } from '../icons/sudoku';
 import { NumPadInterface, NumPadRowInterface } from '../interfaces/interfaces';
 
-function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface) {
+function NumPadRow({ type, startNum, onPadClick }: NumPadRowInterface) {
     function CreateNumPadData(num: number, fillValue: number) {
         const cells = [];
         for (let i = 0; i < num; i++) {
@@ -18,11 +18,10 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface
         return cells.map(cell => cell);
     }
 
-    return <tr className={`${gridClass}__grid_wrapper__numpad_row`}>{CreateNumPadData(type, startNum)}</tr>;
+    return <tr className={`numpad-row row-${type}`}>{CreateNumPadData(type, startNum)}</tr>;
 }
 
 function NumberPad({
-    gridClass,
     type,
     onPadClick,
     onTimerClick,
@@ -38,7 +37,6 @@ function NumberPad({
             cells.push(
                 <NumPadRow
                     onPadClick={onPadClick}
-                    gridClass={gridClass}
                     type={type}
                     startNum={startNum}
                     key={`sudoku-numpad-row-${startNum}`}
@@ -51,9 +49,9 @@ function NumberPad({
     }
 
     return (
-        <table className={`${gridClass}__grid_wrapper__numpad`}>
+        <table className={'numpad-container'}>
             <tbody>
-                <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
+                <tr className={'numpad-row'}>
                     <div>
                         <Timer
                             stopTimer={stopTimer}
@@ -66,10 +64,10 @@ function NumberPad({
                     </div>
                 </tr>
                 {CreateNumPadRow(type, 1)}
-                <tr className={`${gridClass}__grid_wrapper__numpad_row`}>
+                <tr className={'numpad-row'}>
                     <td onClick={onPadClick} data-value={0}>
                         <EraseIcon width={'30'} />
-                        &nbsp;erase
+                        <span>&nbsp;erase</span>
                     </td>
                 </tr>
             </tbody>
