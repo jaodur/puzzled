@@ -3,6 +3,7 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: ['plugin:react/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   rules: {
+        'react/prop-types': 0,
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/no-empty-function': 0,
         '@typescript-eslint/no-inferrable-types': 0,
