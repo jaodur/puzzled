@@ -15,7 +15,7 @@ interface GridInterface {
 
 interface NumPadRowInterface extends GridInterface {
     type: number;
-    gridClass: string;
+    className?: string;
     onPadClick: (event: EventInterface) => any;
     startNum?: number;
 }

@@ -794,7 +794,6 @@ function SudokuGrid() {
 
             <NumberPad
                 onPadClick={onPadClick}
-                gridClass={sudokuGridClass}
                 type={gridState.type}
                 totalSeconds={playTime.totalSeconds}
                 playing={playTime.playing}

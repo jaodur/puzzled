@@ -3,7 +3,7 @@ import { Timer } from '../commons/timer';
 import { EraseIcon } from '../icons/sudoku';
 import { NumPadInterface, NumPadRowInterface } from '../interfaces/interfaces';
 
-function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface) {
+function NumPadRow({ type, startNum, onPadClick }: NumPadRowInterface) {
     function CreateNumPadData(num: number, fillValue: number) {
         const cells = [];
         for (let i = 0; i < num; i++) {
@@ -22,7 +22,6 @@ function NumPadRow({ gridClass, type, startNum, onPadClick }: NumPadRowInterface
 }
 
 function NumberPad({
-    gridClass,
     type,
     onPadClick,
     onTimerClick,
@@ -38,7 +37,6 @@ function NumberPad({
             cells.push(
                 <NumPadRow
                     onPadClick={onPadClick}
-                    gridClass={gridClass}
                     type={type}
                     startNum={startNum}
                     key={`sudoku-numpad-row-${startNum}`}
