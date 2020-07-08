@@ -6,12 +6,10 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 
 .content
   min-height: $minContentHeight
-  //border: 1px solid cyan
 
-@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 1.25em, $fontFamily: inherent, $fontWeight: inherent)
+@mixin large-font($fontSize: 40, $letterSpacing: -2px, $lineHeight: 1.25em)
   font-size: $baseFontSize + $fontSize
-  font-family: $fontFamily
-  font-weight: $fontWeight
+  font-weight: 500
   font-style: normal
   letter-spacing: $letterSpacing
   line-height: $lineHeight

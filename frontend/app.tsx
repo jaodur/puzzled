@@ -1,7 +1,7 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { useDispatch } from 'react-redux';
 import { LastLocationProvider } from 'react-router-last-location';
 
 import { DraggableChat } from './components/chat/draggableChat';
