@@ -3,4 +3,9 @@ interface DropdownInterface {
     toggleDropdown: any;
 }
 
-export { DropdownInterface };
+interface ProfileDropdownInterface extends DropdownInterface {
+    value: string;
+    setDropdownHeader: (value: string) => () => void;
+}
+
+export { DropdownInterface, ProfileDropdownInterface };
