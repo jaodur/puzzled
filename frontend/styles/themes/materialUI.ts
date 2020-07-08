@@ -6,9 +6,9 @@ const materialUITheme = createMuiTheme({
     },
     palette: {
         primary: {
-            main: '#2662ac'
-        }
-    }
+            main: '#2662ac',
+        },
+    },
 });
 
 export { materialUITheme };
