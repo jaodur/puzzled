@@ -15,8 +15,7 @@ function ProfileContainer() {
     return checkLogin._loginInfo.loggedIn ? (
         <>
             <NavBarContainer />
-            <div className={'default-nav-strip'} />
-            <div className={'content'}>
+            <div className={'main-content'}>
                 <Profile />
             </div>
             <Footer footerClass={footerClass} key={'sudoku-footer'} />
