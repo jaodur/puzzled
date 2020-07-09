@@ -181,7 +181,7 @@ function SignInSignUpContainer() {
                     <Redirect to={links.USER.SIGN_IN} />
                 </Switch>
             </div>
-            <Footer/>
+            <Footer />
         </React.Fragment>
     );
 }
