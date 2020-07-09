@@ -1,0 +1,22 @@
+@import 'commons/common'
+
+.footer-404
+  @include footer($bgColor: black)
+
+.content-container-404
+  background: url("../images/astronaut-black.jpg") no-repeat center center fixed
+  background-size: cover
+  overflow: hidden
+  height: $screenHeight - ( 0.04 * $screenHeight)
+  color: white
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  &__main
+    font-size: 20rem
+    line-height: 15rem
+
+  &__sub
+    font-size: 1.5rem
