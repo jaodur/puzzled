@@ -18,7 +18,7 @@ function PageNotFound() {
                     <TextLink text={'Puzzled'} link={'/'} styleClass={'link__emphasized'} />
                 </div>
             </div>
-            <Footer footerClass={footerClass} />
+            <Footer className={footerClass} />
         </React.Fragment>
     );
 }

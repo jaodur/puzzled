@@ -5,8 +5,6 @@ import { links } from '../commons/linkUrls';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { SudokuGrid } from './sudokuGrid';
 
-const footerClass: string = 'footer-sudoku';
-
 const sudokuLinks = [
     { name: 'Play', href: links.SUDOKU.PLAY },
     { name: 'Solve', href: links.SUDOKU.SOLVE },
@@ -21,7 +19,7 @@ function SudokuHome() {
             <div className={'main-content'}>
                 <SudokuGrid key={'sudokuGrid'} />
             </div>
-            <Footer footerClass={footerClass} key={'sudoku-footer'} />
+            <Footer key={'sudoku-footer'} />
         </React.Fragment>
     );
 }
