@@ -152,7 +152,6 @@ function SignInSignUpContainer() {
     ) : (
         <React.Fragment>
             <NavBarContainer />
-            <div className={'default-nav-strip'} />
             <div className={'content'}>
                 <Switch>
                     <Route
@@ -182,7 +181,7 @@ function SignInSignUpContainer() {
                     <Redirect to={links.USER.SIGN_IN} />
                 </Switch>
             </div>
-            <Footer key={'sudoku-footer'} />
+            <Footer/>
         </React.Fragment>
     );
 }
