@@ -91,13 +91,13 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 
   @include nav-bar
 
-@mixin footer($bgColor: $thickBlue, $color: white)
+@mixin footer($bgColor: $thickBlue, $color: white, $marginTop: 50px)
   min-height: 400px
   display: flex
   flex-wrap: wrap
   justify-content: center
   background-color: $bgColor
-  margin-top: 50px
+  margin-top: $marginTop
   padding: 2.5em
 
   &__content
