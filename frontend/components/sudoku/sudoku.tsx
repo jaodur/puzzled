@@ -16,7 +16,7 @@ function SudokuHome() {
     return (
         <React.Fragment>
             <NavBarContainer links={sudokuLinks} />
-            <div className={'main-content'}>
+            <div className={'main-content flex-align-center'}>
                 <SudokuGrid key={'sudokuGrid'} />
             </div>
             <Footer key={'sudoku-footer'} />

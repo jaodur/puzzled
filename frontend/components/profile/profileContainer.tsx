@@ -13,10 +13,10 @@ function ProfileContainer() {
     return checkLogin._loginInfo.loggedIn ? (
         <>
             <NavBarContainer />
-            <div className={'main-content'}>
+            <div className={'main-content full-content'}>
                 <Profile />
             </div>
-            <Footer key={'sudoku-footer'} />
+            <Footer />
         </>
     ) : (
         <Redirect to={links.USER.SIGN_IN} />

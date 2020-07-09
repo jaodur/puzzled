@@ -1,7 +1,10 @@
 const path = require('path');
 const dotenv = require('dotenv');
 var webpack = require('webpack');
-var BundleTracker = require('webpack-bundle-tracker');
+
+function compact(items) {
+    return items.filter(item => item);
+}
 
 const config = () => {
 
@@ -54,7 +57,20 @@ const config = () => {
                     enforce: "pre",
                     test: /\.js$/,
                     loader: "source-map-loader"
-                }
+                },
+                // Fonts
+                {
+                    test: /\.(woff2|woff|ttf|eot|svg)$/,
+                    // include: [/frontend\/fonts/],
+                    use: compact([
+                        {
+                            loader: 'file-loader',
+                            options: {
+                                name: '[path][name].[ext]',
+                            },
+                        },
+                    ]),
+                },
             ]
         },
 
