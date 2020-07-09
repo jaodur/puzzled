@@ -27,31 +27,8 @@ button, .button, h2, .h2, input, .input, select, .select
 button, .button, select, .select
   text-transform: capitalize
 
+.full-content
+  min-height: 90vh
 
-.navbar-container-404
-  @include navbar-container($height: 2.8rem)
-
-.content-container-404
-  background: url("../images/astronaut-black.jpg") no-repeat center center fixed
-  background-size: cover
-  overflow: hidden
-  height: $screenHeight - ( 0.04 * $screenHeight)
-  color: white
-  display: flex
-  flex-direction: column
-  justify-content: center
+.flex-align-center
   align-items: center
-
-  &__main
-    font-size: 20rem
-    line-height: 15rem
-
-  &__sub
-    font-size: 1.5rem
-
-
-.main-footer
-  @include footer
-
-.footer-404
-  @include footer($bgColor: black, $marginTop: 0)

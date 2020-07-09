@@ -1,33 +1,36 @@
 import * as React from 'react';
 import { FooterInterface } from '../interfaces/interfaces';
 
-function Footer({ footerClass }: FooterInterface) {
+function Footer({ className }: FooterInterface) {
+    className = className ? className : 'footer-main';
     return (
-        <div className={footerClass}>
-            <div className={`${footerClass}__content`}>
-                <div className={`${footerClass}__content_about`}>
+        <footer className={className}>
+            <div className={'footer-content'}>
+                <div className={'footer-logo'}>
                     <h1>puzzled</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget malesuada nisi. Vivamus
-                        lacinia, urna ornare ornare convallis, enim nibh suscipit erat, eget vehicula nulla ligula sit
-                        amet enim. Donec fringilla lectus sit amet enim porta suscipit sit amet vel mauris. Ut pretium
-                    </p>
                 </div>
-                <div className={`${footerClass}__content_games`}>
+                <div className={'footer-card'}>
+                    <h1>puzzled</h1>
+                    <p>about</p>
+                    <p>blogs</p>
+                    <p>puzzled premium</p>
+                    <p>contact us</p>
+                </div>
+                <div className={'footer-card'}>
                     <h1>games</h1>
                     <p>Sudoku</p>
                     <p>Mine sweeper</p>
                     <p>Poker</p>
                     <p>2048</p>
                 </div>
-                <div className={`${footerClass}__content_leaderboard`}>
+                <div className={'footer-card'}>
                     <h1>leaderboards</h1>
                     <p>Sudoku</p>
                     <p>Mine sweeper</p>
                     <p>Poker</p>
                     <p>2048</p>
                 </div>
-                <div className={`${footerClass}__content_extras`}>
+                <div className={'footer-card'}>
                     <h1>extras</h1>
                     <p>Sudoku</p>
                     <p>Mine sweeper</p>
@@ -35,12 +38,13 @@ function Footer({ footerClass }: FooterInterface) {
                     <p>2048</p>
                 </div>
             </div>
-            <div className={`${footerClass}__copyright`}>
-                <p>
-                    © {new Date().getFullYear()} Copyright:<a> The Puzzled group. All rights reserved.</a>
-                </p>
+            <div className={'footer-copyright'}>
+                <p>© {new Date().getFullYear()} Puzzled</p>
+                <span>
+                    <a href="#">Terms</a>
+                </span>
             </div>
-        </div>
+        </footer>
     );
 }
 

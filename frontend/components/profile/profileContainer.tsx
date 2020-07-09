@@ -7,18 +7,16 @@ import { NavBarContainer } from '../commons/navbarContainer';
 import { useCheckLoginContext } from '../commons/puzzleContext';
 import Profile from './profile';
 
-const footerClass: string = 'main-footer';
-
 function ProfileContainer() {
     const { checkLogin } = useCheckLoginContext();
 
     return checkLogin._loginInfo.loggedIn ? (
         <>
             <NavBarContainer />
-            <div className={'main-content'}>
+            <div className={'main-content full-content'}>
                 <Profile />
             </div>
-            <Footer footerClass={footerClass} key={'sudoku-footer'} />
+            <Footer />
         </>
     ) : (
         <Redirect to={links.USER.SIGN_IN} />

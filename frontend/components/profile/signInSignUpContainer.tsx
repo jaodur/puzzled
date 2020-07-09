@@ -22,8 +22,6 @@ import { createUserConstraints, userLogInConstraints } from '../validators/authe
 import SignIn from './signin';
 import SignUp from './signup';
 
-const footerClass: string = 'main-footer';
-
 function SignInSignUpContainer() {
     const preventDefault = (event: any) => event.preventDefault();
     const dispatch = useDispatch();
@@ -154,7 +152,6 @@ function SignInSignUpContainer() {
     ) : (
         <React.Fragment>
             <NavBarContainer />
-            <div className={'default-nav-strip'} />
             <div className={'content'}>
                 <Switch>
                     <Route
@@ -184,7 +181,7 @@ function SignInSignUpContainer() {
                     <Redirect to={links.USER.SIGN_IN} />
                 </Switch>
             </div>
-            <Footer footerClass={footerClass} key={'sudoku-footer'} />
+            <Footer />
         </React.Fragment>
     );
 }

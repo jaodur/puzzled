@@ -91,58 +91,11 @@ $minContentHeight: calc(100vh - 400px - (2 * 2.8rem))
 
   @include nav-bar
 
-@mixin footer($bgColor: $thickBlue, $color: white, $marginTop: 5%)
-  height: 400px
+@mixin footer($bgColor: $thickBlue, $marginTop: 50px)
+  min-height: 400px
   display: flex
   flex-wrap: wrap
   justify-content: center
   background-color: $bgColor
-
-  &__content
-    height: 350px
-    width: 100%
-    font-size: 1.2rem
-    color: $color
-    display: flex
-    border-top: 1px solid $color
-    border-bottom: 1px solid $color
-    padding-bottom: 10px
-
-    h1
-      text-transform: capitalize
-      text-align: center
-
-    p
-      width: 80%
-      margin: 0 auto
-      line-height: 3rem
-      text-align: center
-
-    &_about
-      flex: 3 1
-      p
-        line-height: 2rem
-        text-align: justify
-
-    &_games
-      flex: 2 1
-
-    &_leaderboard
-      flex: 2 1
-
-    &_extras
-      flex: 2 1
-
-  &__copyright
-    height: 30px
-    margin: 0
-    padding: 0
-    display: flex
-    flex-direction: column
-    align-content: center
-    justify-content: center
-    color: $color
-
-    p
-      font-size: 0.8rem
-      color: inherit
+  margin-top: $marginTop
+  padding: 2.5em

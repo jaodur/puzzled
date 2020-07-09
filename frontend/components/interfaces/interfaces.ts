@@ -85,7 +85,7 @@ interface GameIntroInterface extends ElementInterface {
 }
 
 interface FooterInterface {
-    footerClass: string;
+    className?: string;
 }
 
 interface LabelInterface {
