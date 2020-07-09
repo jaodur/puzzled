@@ -1,4 +1,82 @@
 @import 'commons/common'
+@import 'commons/constants'
 
 .footer-main
   @include footer
+
+.footer-content
+  min-height: 300px
+  width: 100%
+  color: white
+  display: flex
+  padding-bottom: 10px
+
+  h1
+    text-transform: capitalize
+    font-weight: normal
+
+  p
+    margin: 0 auto
+    line-height: 3rem
+
+.footer-logo
+  width: 15%
+  p
+    line-height: 2rem
+    text-align: justify
+
+.footer-card
+  width: 20%
+  font-size: .7rem
+  padding: 1em
+
+  p
+    font-size: 1rem
+    text-transform: capitalize
+    color: #c3c3c3
+    transition: color .3s ease-out
+
+    &:focus, &:hover
+      cursor: pointer
+      color: white
+
+.footer-copyright
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  color: white
+  width: 90%
+  font-size: 0.8rem
+  padding: 0 2em
+
+  span
+    margin-left: 20px
+
+    a
+      text-decoration: none
+      color: white
+
+  p
+    color: inherit
+
+@media (max-width: $footerBreakPoint)
+  .footer-content
+    flex-wrap: wrap
+
+  .footer-logo
+    width: 100%
+    margin-bottom: 3%
+
+    h1
+      font-weight: bold
+
+  .footer-card
+    width: 45%
+    min-width: 140px
+    font-size: .7rem
+    padding: 0
+    margin: 20px 0
+
+  .footer-copyright
+    flex-wrap: wrap
+    justify-content: center
