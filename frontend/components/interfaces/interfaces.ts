@@ -3,6 +3,10 @@ interface ElementInterface {
     children?: any;
 }
 
+interface MainContentInterface extends ElementInterface {
+    children: any;
+}
+
 interface FullPuzzleInterface {
     puzzle: number[][];
     mainPuzzleKey: number;
@@ -216,4 +220,5 @@ export {
     PauseInterface,
     TrainerSudokuInterface,
     NavbarContainerInterface,
+    MainContentInterface,
 };
