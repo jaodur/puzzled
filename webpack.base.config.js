@@ -46,7 +46,7 @@ const config = () => {
                     use: ['style-loader', 'css-loader', 'sass-loader']
                 },
                 {
-                    test: /\.(png|je?pg|webp|svg)$/,
+                    test: /\.(png|je?pg|webp)$/,
                     use: ['url-loader']
                 },
                 {
