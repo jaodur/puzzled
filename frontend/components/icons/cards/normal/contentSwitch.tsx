@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Ace, Eight, Five, Four, Jack, Joker, King, Nine, Queen, Seven, Six, Ten, Three, Two } from './ranks';
+import { Ace, Cover, Eight, Five, Four, Jack, Joker, King, Nine, Queen, Seven, Six, Ten, Three, Two } from './ranks';
 
 function cardContent(value: string) {
     const contentMapper: any = {
@@ -18,6 +18,7 @@ function cardContent(value: string) {
         Q: <Queen value={value} />,
         K: <King value={value} />,
         V: <Joker value={value} />,
+        C: <Cover value={value} />,
     };
     value = value.toUpperCase();
     return contentMapper[value[0]];

@@ -12,3 +12,4 @@ export * from './jack';
 export * from './queen';
 export * from './king';
 export * from './joker';
+export * from './cover';
