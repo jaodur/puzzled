@@ -1,8 +1,9 @@
 import * as React from 'react';
 
+import { cardType } from '../../../interfaces/card';
 import { Ace, Cover, Eight, Five, Four, Jack, Joker, King, Nine, Queen, Seven, Six, Ten, Three, Two } from './ranks';
 
-function cardContent(value: string) {
+function cardContent(value: cardType) {
     const contentMapper: any = {
         A: <Ace value={value} />,
         2: <Two value={value} />,
@@ -20,7 +21,6 @@ function cardContent(value: string) {
         V: <Joker value={value} />,
         C: <Cover value={value} />,
     };
-    value = value.toUpperCase();
     return contentMapper[value[0]];
 }
 

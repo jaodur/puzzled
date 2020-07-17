@@ -7,9 +7,11 @@ type clubsType = 'AC' | '2C' | '3C' | '4C' | '5C' | '6C' | '7C' | '8C' | '9C' | 
 type jokersType = 'VR' | 'VB'; // Red and Black Jokers
 type coversType = 'CR' | 'CB'; // Red and Black card covers
 
+type cardType = heartsType | spadesType | diamondsType | clubsType | jokersType | coversType;
+
 interface CardInterface extends ElementInterface {
-    value: heartsType | spadesType | diamondsType | clubsType | jokersType | coversType;
+    value: cardType;
     size?: 'tiny' | 'small' | 'xSmall';
 }
 
-export { CardInterface };
+export { cardType, CardInterface };
