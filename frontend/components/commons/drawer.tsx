@@ -43,7 +43,7 @@ function TemporaryDrawer({ side, open, toggleDrawer }: TemporaryDrawerInterface)
         return (
             <div onClick={onRenderedSuggestionClick(suggestion)}>
                 <ProfileAvatar
-                    styleClass={'default-search-bar__avatar'}
+                    className={'default-search-bar__avatar'}
                     small
                     src={suggestion.pictureUrl}
                     profileName={suggestion.name}

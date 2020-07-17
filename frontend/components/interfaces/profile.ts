@@ -35,7 +35,7 @@ interface SIgnUpInterface extends SignCommonsInterface {
 interface AvatarInterface {
     src?: string;
     profileName: string;
-    styleClass?: string;
+    className?: string;
     small?: boolean;
     onClick?: (event: any) => any;
     maxLetters?: number;

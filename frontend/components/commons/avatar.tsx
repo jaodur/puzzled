@@ -54,6 +54,13 @@ const useStyles = makeStyles(theme => ({
         height: '40px',
         margin: '0',
     },
+    medium: {
+        width: theme.spacing(9),
+        height: theme.spacing(9),
+        fontSize: '2rem',
+        border: '5px solid #1E4F15',
+        boxShadow: '0 0 5px 2px rgba(0,0,0,0.25), 0 0 5px 2px rgba(0,0,0,0.22)',
+    },
     xlarge: {
         width: theme.spacing(20),
         height: theme.spacing(20),
@@ -61,7 +68,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function ProfileAvatar({ src, profileName, onClick, styleClass, small, maxLetters }: AvatarInterface) {
+function ProfileAvatar({ src, profileName, onClick, className, small, maxLetters }: AvatarInterface) {
     const classes: any = useStyles({});
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
@@ -73,7 +80,7 @@ function ProfileAvatar({ src, profileName, onClick, styleClass, small, maxLetter
     const sizeStyle = !!small ? classes.xsmall : classes.xlarge;
 
     return (
-        <div className={styleClass} onClick={onClick}>
+        <div className={className} onClick={onClick}>
             {!!src ? (
                 <Avatar alt={profileName} src={src} />
             ) : (

@@ -124,7 +124,7 @@ function Profile() {
                     setDropdownHeader={setDropHeader}
                 />
                 <div className={`${profileStyleClass}__card`}>
-                    <ProfileAvatar profileName={profile.name} styleClass={`${profileStyleClass}__avatar`} />
+                    <ProfileAvatar profileName={profile.name} className={`${profileStyleClass}__avatar`} />
                     <SidebarTab
                         href={links.USER.PROFILE.ACCOUNT_OVERVIEW}
                         icon={<HomeIcon />}
