@@ -1,6 +1,7 @@
 interface ElementInterface {
     className?: string;
     children?: any;
+    style?: object;
 }
 
 interface MainContentInterface extends ElementInterface {

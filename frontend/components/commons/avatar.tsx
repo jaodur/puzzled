@@ -148,4 +148,19 @@ function ChatProfileAvatar({ containerStyleClass, ...AvatarProps }: ChatProfileA
     );
 }
 
-export { ChatProfileAvatar, NavBarProfileAvatar, ProfileAvatar };
+function SimpleAvatar({ className, src, profileName }: AvatarInterface) {
+    const classes: any = useStyles({});
+
+    function getAvatarLetters(name: string, maxLetters: number = 2) {
+        const initials = (name.match(/\b\w/g) || []).slice(0, maxLetters);
+        return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+    }
+
+    return (
+        <Avatar className={`${className} ${classes.medium}`} src={src}>
+            {getAvatarLetters(profileName)}
+        </Avatar>
+    );
+}
+
+export { ChatProfileAvatar, NavBarProfileAvatar, ProfileAvatar, SimpleAvatar };
