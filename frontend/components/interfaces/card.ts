@@ -11,7 +11,7 @@ type cardType = heartsType | spadesType | diamondsType | clubsType | jokersType 
 
 interface CardInterface extends ElementInterface {
     value: cardType;
-    size?: 'tiny' | 'small' | 'xSmall';
+    size?: 'tiny' | 'small' | 'xSmall' | 'large';
 }
 
 export { cardType, CardInterface };

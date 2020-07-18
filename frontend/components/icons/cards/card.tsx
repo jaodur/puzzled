@@ -9,6 +9,7 @@ function Card({ value, className, size = 'small' }: CardInterface) {
         tiny: '30px',
         xSmall: '50px',
         small: '70px',
+        large: '100px',
     };
     return (
         <svg
