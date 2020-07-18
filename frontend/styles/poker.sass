@@ -18,7 +18,7 @@ $borderWidth: 20px
   height: $tableHeight
   border: $borderWidth solid transparent
   border-radius: $tableHeight / 2
-  background: linear-gradient(to right, #457637, #457637), $wood_pattern
+  background: linear-gradient(to right, $green, $green), $wood_pattern
   background-clip: padding-box, border-box
   background-origin: padding-box, border-box
   box-shadow: 0 0 5px 2px rgba(0,0,0,0.25), 0 0 5px 2px rgba(0,0,0,0.22), inset 0 0 10px 7px rgba(0,0,0,0.22)
@@ -31,7 +31,7 @@ $borderWidth: 20px
   width: $tableWidth - 3*$borderWidth
   height: $tableHeight - 3*$borderWidth
   border-radius: ($tableHeight - 3*$borderWidth) / 2
-  border: 2px solid #1E4F15
+  border: 2px solid $thickGreen
 
 .t-avatar
   position: absolute
@@ -46,7 +46,7 @@ $borderWidth: 20px
     &:last-child
       display: flex
       flex-wrap: wrap
-      background-color: #1E4F15
+      background-color: $thickGreen
       margin-top: 5px
       border-radius: 5px
       color: white
