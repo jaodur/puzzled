@@ -25,6 +25,7 @@ function PokerTable() {
                     tiltClass={'t-bnl'}
                     profileName={'ja-odur'}
                     src={'https://i.pravatar.cc/150?img=3'}
+                    dealer
                 />
                 <PokerAvatar
                     className={'t-avatar av-bt'}
