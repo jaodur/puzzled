@@ -1,7 +1,5 @@
-$baseTop: 0px
-$baseLeft: 5px
 
-.card-tilt
+@mixin tilt($baseTop: 0px, $baseLeft: 5px)
   position: relative
 
   svg
@@ -34,3 +32,18 @@ $baseLeft: 5px
     &:nth-child(7)
       top: $baseTop * 7
       left: $baseLeft * 7
+
+.horizontal-card-tilt
+  @include tilt
+
+.sliding-card-tilt
+  position: relative
+
+  svg
+    transition: .3s ease-out
+
+    &:nth-child(2)
+      left: 30px
+
+    &:focus, &:hover
+      transform: scale(1.1, 1.1)
