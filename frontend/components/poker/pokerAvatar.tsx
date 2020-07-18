@@ -7,7 +7,7 @@ import { PokerAvatarInterface } from '../interfaces/poker';
 function PokerAvatar({ className, profileName, src, tiltClass }: PokerAvatarInterface) {
     return (
         <div className={className}>
-            <Tilt className={tiltClass}>
+            <Tilt className={`horizontal-card-tilt ${tiltClass}`}>
                 <Card value={'CR'} size={'tiny'} />
                 <Card value={'CR'} size={'tiny'} />
             </Tilt>

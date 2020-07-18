@@ -1,19 +1,25 @@
 import * as React from 'react';
 
 import { Card } from '../icons/cards';
+import { ElementInterface } from '../interfaces/interfaces';
 import { PokerAvatar } from './pokerAvatar';
+import { PokerController } from './pokerController';
+
+function TableContent({ children, className }: ElementInterface) {
+    return <div className={className}>{children}</div>;
+}
 
 function PokerTable() {
     return (
-        <>
+        <div className={'c-poker-table'}>
             <div className={'poker-table'}>
-                <div className={'p-table-content'}>
+                <TableContent className={'p-table-content'}>
                     <Card value={'TH'} />
-                    <Card value={'JH'} />
+                    <Card value={'7C'} />
+                    <Card value={'2S'} />
                     <Card value={'QH'} />
-                    <Card value={'KH'} />
-                    <Card value={'AH'} />
-                </div>
+                    <Card value={'JH'} />
+                </TableContent>
                 <PokerAvatar
                     className={'t-avatar av-bnl'}
                     tiltClass={'t-bnl'}
@@ -58,7 +64,8 @@ function PokerTable() {
                 />
                 <PokerAvatar className={'t-avatar av-flb'} tiltClass={'t-flb'} profileName={'ja-odur'} src={''} />
             </div>
-        </>
+            <PokerController />
+        </div>
     );
 }
 
