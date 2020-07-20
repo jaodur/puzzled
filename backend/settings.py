@@ -50,10 +50,11 @@ INSTALLED_APPS = [
 
     # my apps
     'backend.authentication.apps.AuthenticationConfig',
-    'backend.email.apps.EmailConfig',
-    'backend.sudoku.apps.SudokuConfig',
     'backend.chat.apps.ChatConfig',
+    'backend.email.apps.EmailConfig',
+    'backend.gem.apps.GemConfig',
     'backend.poker.apps.PokerConfig',
+    'backend.sudoku.apps.SudokuConfig',
     'frontend.apps.PuzzledFrontConfig',
 
     # third party apps
@@ -220,3 +221,6 @@ Q_CLUSTER = {
     'label': 'Puzzled Q',
     'redis': config('REDIS_URL', 'redis://localhost:6379/0'),
 }
+
+# Gems
+DEFAULT_GEMS = 0
