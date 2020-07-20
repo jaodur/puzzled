@@ -148,7 +148,7 @@ function ChatProfileAvatar({ containerStyleClass, ...AvatarProps }: ChatProfileA
     );
 }
 
-function SimpleAvatar({ className, src, profileName }: AvatarInterface) {
+function SimpleAvatar({ className, src, profileName, children }: AvatarInterface) {
     const classes: any = useStyles({});
 
     function getAvatarLetters(name: string, maxLetters: number = 2) {
@@ -157,8 +157,8 @@ function SimpleAvatar({ className, src, profileName }: AvatarInterface) {
     }
 
     return (
-        <Avatar className={`${className} ${classes.medium}`} src={src}>
-            {getAvatarLetters(profileName)}
+        <Avatar className={`${className} ${classes.medium}`} src={src} alt={getAvatarLetters(profileName)}>
+            {children || getAvatarLetters(profileName)}
         </Avatar>
     );
 }
