@@ -63,7 +63,6 @@ function PokerTable() {
                 <PokerAvatar
                     className={'t-avatar av-frt'}
                     tiltClass={'t-frt'}
-                    profileName={'ja-odur'}
                     src={'https://i.pravatar.cc/150?img=3'}
                 />
                 <PokerAvatar className={'t-avatar av-flb'} tiltClass={'t-flb'} profileName={'ja-odur'} src={''} />
