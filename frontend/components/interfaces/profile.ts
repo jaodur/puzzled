@@ -1,3 +1,5 @@
+import { ElementInterface } from './interfaces';
+
 interface UserInfoInterface {
     email: string;
     firstName: string;
@@ -32,10 +34,10 @@ interface SIgnUpInterface extends SignCommonsInterface {
     createUser: (event: any) => any;
 }
 
-interface AvatarInterface {
+interface AvatarInterface extends ElementInterface {
     src?: string;
-    profileName: string;
-    styleClass?: string;
+    profileName?: string;
+    className?: string;
     small?: boolean;
     onClick?: (event: any) => any;
     maxLetters?: number;

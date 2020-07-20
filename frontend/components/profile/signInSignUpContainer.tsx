@@ -14,6 +14,7 @@ import { deepCopy, renderElement } from '../../utils/utils';
 import { validateUserInputs } from '../../utils/validation';
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
+import { MainContent } from '../commons/mainContent';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { useCheckLoginContext } from '../commons/puzzleContext';
 import { closeAction } from '../commons/snackBarActions';
@@ -152,7 +153,7 @@ function SignInSignUpContainer() {
     ) : (
         <React.Fragment>
             <NavBarContainer />
-            <div className={'content'}>
+            <MainContent>
                 <Switch>
                     <Route
                         exact
@@ -180,7 +181,7 @@ function SignInSignUpContainer() {
                     />
                     <Redirect to={links.USER.SIGN_IN} />
                 </Switch>
-            </div>
+            </MainContent>
             <Footer />
         </React.Fragment>
     );

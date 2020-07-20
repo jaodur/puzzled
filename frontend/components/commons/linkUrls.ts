@@ -20,10 +20,15 @@ const userLinks = {
     PROFILE: profileLinks,
 };
 
+const pokerLinks = {
+    HOME: '/poker/',
+};
+
 const links = {
     HOME: '/',
     SUDOKU: sudokuLinks,
     USER: userLinks,
+    POKER: pokerLinks,
 };
 
 export { links };

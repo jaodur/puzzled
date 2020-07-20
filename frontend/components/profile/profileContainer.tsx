@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { Footer } from '../commons/footer';
 import { links } from '../commons/linkUrls';
+import { MainContent } from '../commons/mainContent';
 import { NavBarContainer } from '../commons/navbarContainer';
 import { useCheckLoginContext } from '../commons/puzzleContext';
 import Profile from './profile';
@@ -13,9 +14,9 @@ function ProfileContainer() {
     return checkLogin._loginInfo.loggedIn ? (
         <>
             <NavBarContainer />
-            <div className={'main-content full-content'}>
+            <MainContent className={'main-content full-content'}>
                 <Profile />
-            </div>
+            </MainContent>
             <Footer />
         </>
     ) : (

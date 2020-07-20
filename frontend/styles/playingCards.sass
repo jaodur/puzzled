@@ -1,0 +1,49 @@
+
+@mixin tilt($baseTop: 0px, $baseLeft: 5px)
+  position: relative
+
+  svg
+    position: absolute
+
+    &:nth-child(1)
+      top: $baseTop
+      left: $baseLeft
+
+    &:nth-child(2)
+      top: $baseTop * 2
+      left: $baseLeft * 2
+
+    &:nth-child(3)
+      top: $baseTop * 3
+      left: $baseLeft * 3
+
+    &:nth-child(4)
+      top: $baseTop * 4
+      left: $baseLeft * 4
+
+    &:nth-child(5)
+      top: $baseTop * 5
+      left: $baseLeft * 5
+
+    &:nth-child(6)
+      top: $baseTop * 6
+      left: $baseLeft * 6
+
+    &:nth-child(7)
+      top: $baseTop * 7
+      left: $baseLeft * 7
+
+.horizontal-card-tilt
+  @include tilt
+
+.sliding-card-tilt
+  position: relative
+
+  svg
+    transition: .3s ease-out
+
+    &:nth-child(2)
+      left: 30px
+
+    &:focus, &:hover
+      transform: scale(1.1, 1.1)

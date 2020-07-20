@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { GameCard, GameCards } from '../commons/cards';
 import { links } from '../commons/linkUrls';
+import { MainContent } from '../commons/mainContent';
 import { ElementInterface } from '../interfaces/interfaces';
 
 const sd = require('../../images/sudoku-dark.jpg');
@@ -21,7 +22,7 @@ function ContentContainer() {
     return (
         <React.Fragment>
             <GamesIntro className={'game-intro'} />
-            <div className={'main-content'}>
+            <MainContent>
                 <GameCards>
                     <GameCard name={'sudoku'} desc={''} src={sd} link={links.SUDOKU.HOME} />
                     <GameCard name={'sudoku'} desc={''} src={sd} link={links.SUDOKU.HOME} />
@@ -36,7 +37,7 @@ function ContentContainer() {
                     <GameCard name={'sudoku'} desc={''} src={gif1} link={links.SUDOKU.HOME} />
                     <GameCard name={'sudoku'} desc={''} src={gif2} link={links.SUDOKU.HOME} />
                 </GameCards>
-            </div>
+            </MainContent>
         </React.Fragment>
     );
 }

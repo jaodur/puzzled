@@ -11,6 +11,7 @@ import { useCheckLoginContext } from './components/commons/puzzleContext';
 import { DrawerContainer } from './components/drawer/drawerContainer';
 import { Home } from './components/homePage/Home';
 import { BigAssLoaderIcon } from './components/icons/loaderIcon';
+import { PokerHome } from './components/poker/poker';
 import { ProfileContainer } from './components/profile/profileContainer';
 import signInSignUpContainer from './components/profile/signInSignUpContainer';
 import { SudokuHome } from './components/sudoku/sudoku';
@@ -37,6 +38,7 @@ function App() {
                 <Switch>
                     <Route exact path={links.HOME} component={Home} />
                     <Route path={links.SUDOKU.HOME} component={SudokuHome} />
+                    <Route path={links.POKER.HOME} component={PokerHome} />
                     <Route path={links.USER.PROFILE.HOME} component={ProfileContainer} />
                     <Route path={links.USER.HOME} component={signInSignUpContainer} />
                     <Route component={PageNotFound} />

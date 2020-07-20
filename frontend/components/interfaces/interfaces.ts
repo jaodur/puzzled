@@ -1,6 +1,11 @@
 interface ElementInterface {
     className?: string;
     children?: any;
+    style?: object;
+}
+
+interface MainContentInterface extends ElementInterface {
+    children: any;
 }
 
 interface FullPuzzleInterface {
@@ -216,4 +221,5 @@ export {
     PauseInterface,
     TrainerSudokuInterface,
     NavbarContainerInterface,
+    MainContentInterface,
 };
