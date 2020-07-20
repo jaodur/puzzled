@@ -31,12 +31,15 @@ function PokerTable() {
                     className={'t-avatar av-bt'}
                     tiltClass={'t-bt'}
                     profileName={'ja-odur'}
+                    currentPlayer
+                    // dealer
                     src={'https://i.pravatar.cc/150?img=3'}
                 />
                 <PokerAvatar
                     className={'t-avatar av-bnr'}
                     tiltClass={'t-bnr'}
                     profileName={'ja-odur'}
+                    dealer
                     src={'https://i.pravatar.cc/150?img=3'}
                 />
                 <PokerAvatar
