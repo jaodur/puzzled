@@ -2,10 +2,11 @@ import graphene
 from backend.authentication.schema import UserMutation, UserQuery
 from backend.chat.schema import ChatMutations, ChatSubscriptions
 from backend.gem.schema import GemQuery
+from backend.poker.schema import PokerMutations
 from backend.sudoku.schema import SudokuMutation, SudokuQuery
 
 
-class Mutation(UserMutation, SudokuMutation, ChatMutations, graphene.ObjectType):
+class Mutation(UserMutation, SudokuMutation, PokerMutations, ChatMutations, graphene.ObjectType):
     pass
 
 
