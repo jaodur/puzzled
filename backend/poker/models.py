@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from backend.gem.models import Gem
 from backend.lib.base import AuditableBaseModel
 from .game_logic import PokerActions, PokerDeckTypes, PokerGameTypes, PokerRoundTypes
 from .managers import PokerPlayerManager, PokerRoomManager
@@ -26,8 +27,9 @@ ROUND_CHOICES = (
 
 
 class PokerPlayer(AuditableBaseModel):
+    gem = models.ForeignKey(Gem, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    hold_cards = models.CharField(max_length=50, null=False, blank=False)
+    hold_cards = models.CharField(max_length=50, null=True, blank=True)
     bet = models.IntegerField(null=False, blank=False, default=0)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     objects = PokerPlayerManager()
@@ -35,7 +37,7 @@ class PokerPlayer(AuditableBaseModel):
 
 class PokerRoom(AuditableBaseModel):
     name = models.CharField(max_length=50, null=True, blank=True)
-    players = models.ManyToManyField(get_user_model())
+    players = models.ManyToManyField(PokerPlayer)
     type = models.CharField(max_length=50, null=False, blank=False, choices=TYPE_CHOICES)
     small_blind = models.IntegerField(null=False, blank=False)
     big_blind = models.IntegerField(null=False, blank=False)
