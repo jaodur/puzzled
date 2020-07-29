@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from backend.lib.base import AuditableBaseModel
 from .game_logic import PokerActions, PokerDeckTypes, PokerGameTypes, PokerRoundTypes
+from .managers import PokerPlayerManager, PokerRoomManager
 
 ACTION_CHOICES = (
     (PokerActions.FOLD.value, PokerActions.FOLD.value),
@@ -29,6 +30,7 @@ class PokerPlayer(AuditableBaseModel):
     hold_cards = models.CharField(max_length=50, null=False, blank=False)
     bet = models.IntegerField(null=False, blank=False, default=0)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
+    objects = PokerPlayerManager()
 
 
 class PokerRoom(AuditableBaseModel):
@@ -37,6 +39,7 @@ class PokerRoom(AuditableBaseModel):
     type = models.CharField(max_length=50, null=False, blank=False, choices=TYPE_CHOICES)
     small_blind = models.IntegerField(null=False, blank=False)
     big_blind = models.IntegerField(null=False, blank=False)
+    objects = PokerRoomManager()
 
 
 class PokerHand(AuditableBaseModel):
