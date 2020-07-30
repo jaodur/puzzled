@@ -8,7 +8,7 @@ from backend.lib import first
 LOCAL_CONFIG_FILE_NAME = '.config.json'
 
 
-class JsonConfigPathError(Exception):
+class JsonConfigParseError(Exception):
     pass
 
 
@@ -141,8 +141,8 @@ def load_json_settings():
             print(' * {}'.format(location))
         print('This error is most likely popping up because you don\'t have a local config file.')
 
-        # And exit out.
-        raise JsonConfigPathError('Unable to find a JSON settings file.')
+        # create an empty vector and exit out.
+        return SettingsVector()
 
     # Ok, we have a file location, lets see if we can load it and parse it.
     try:
@@ -152,7 +152,7 @@ def load_json_settings():
     except Exception as e:
         # Just re-raise this so that we have intelligent error information for
         # the developer that screwed up somewhere.
-        raise Exception(u'Unable to load and parse file at {}: {}'.format(file_location, e.message))
+        raise JsonConfigParseError('Unable to load and parse file at {}: {}'.format(file_location, e.message))
 
     return SettingsVector.make_vector(**output)
 

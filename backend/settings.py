@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'backend.authentication.apps.AuthenticationConfig',
     'backend.chat.apps.ChatConfig',
     'backend.email.apps.EmailConfig',
-    'backend.fan_out.apps.FanOutConfig',
     'backend.gem.apps.GemConfig',
     'backend.poker.apps.PokerConfig',
     'backend.sudoku.apps.SudokuConfig',
