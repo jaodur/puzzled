@@ -14,6 +14,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 import dj_database_url
 from decouple import config
+from backend.lib.settingstools import settings_vector
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,10 @@ SECRET_KEY = config('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(config('DEBUG'))
 
-ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
+if DEBUG:
+    ALLOWED_HOSTS = settings_vector.get_by_path('web.allowed_hosts.development', ['*', '127.0.0.1', 'localhost'])
+else:
+    ALLOWED_HOSTS = settings_vector.get_by_path('web.allowed_hosts.production')
 
 BASE_URL = config('BASE_URL', 'http://localhost:8000/')
 
